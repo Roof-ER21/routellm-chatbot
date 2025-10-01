@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { logChatMessage, getOrCreateRep } from '@/lib/db'
+import { sendRealTimeNotification } from '@/lib/email'
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,7 +15,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { messages } = body
+    const { messages, repName, sessionId } = body
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
@@ -83,6 +85,28 @@ export async function POST(req: NextRequest) {
       const assistantMessages = data.result.messages.filter((msg: any) => !msg.is_user)
       if (assistantMessages.length > 0) {
         message = assistantMessages[assistantMessages.length - 1].text
+      }
+    }
+
+    // Log messages to database if rep and session are provided
+    if (repName && sessionId) {
+      try {
+        const rep = await getOrCreateRep(repName)
+        const userMessage = messages[messages.length - 1]?.content || ''
+
+        // Log user message
+        await logChatMessage(sessionId, rep.id, repName, 'user', userMessage)
+
+        // Log assistant message
+        await logChatMessage(sessionId, rep.id, repName, 'assistant', message)
+
+        // Send real-time notification (non-blocking)
+        sendRealTimeNotification(repName, userMessage, message).catch(err => {
+          console.error('Failed to send notification:', err)
+        })
+      } catch (logError) {
+        console.error('Error logging chat:', logError)
+        // Don't fail the request if logging fails
       }
     }
 

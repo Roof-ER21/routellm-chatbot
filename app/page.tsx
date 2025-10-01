@@ -13,7 +13,21 @@ export default function ChatPage() {
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [showQuickLinks, setShowQuickLinks] = useState(true)
+  const [repName, setRepName] = useState('')
+  const [showRepEntry, setShowRepEntry] = useState(true)
+  const [repInputValue, setRepInputValue] = useState('')
+  const [sessionId, setSessionId] = useState<number | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  // Check for stored rep name on mount
+  useEffect(() => {
+    const storedName = localStorage.getItem('repName')
+    if (storedName) {
+      setRepName(storedName)
+      setShowRepEntry(false)
+      initializeSession(storedName)
+    }
+  }, [])
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -22,6 +36,40 @@ export default function ChatPage() {
   useEffect(() => {
     scrollToBottom()
   }, [messages])
+
+  const initializeSession = async (name: string) => {
+    try {
+      const response = await fetch('/api/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ repName: name })
+      })
+      const data = await response.json()
+      setSessionId(data.sessionId)
+    } catch (error) {
+      console.error('Failed to initialize session:', error)
+    }
+  }
+
+  const handleRepSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!repInputValue.trim()) return
+
+    const name = repInputValue.trim()
+    setRepName(name)
+    localStorage.setItem('repName', name)
+    setShowRepEntry(false)
+    initializeSession(name)
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('repName')
+    setRepName('')
+    setShowRepEntry(true)
+    setMessages([])
+    setSessionId(null)
+    setShowQuickLinks(true)
+  }
 
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -49,7 +97,9 @@ export default function ChatPage() {
           messages: [...messages, userMessage].map(m => ({
             role: m.role,
             content: m.content
-          }))
+          })),
+          repName: repName,
+          sessionId: sessionId
         }),
       })
 
@@ -89,6 +139,57 @@ export default function ChatPage() {
     setShowQuickLinks(true)
   }
 
+  // Rep Entry Screen
+  if (showRepEntry) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
+        <div className="max-w-md w-full mx-4">
+          <div className="bg-white rounded-2xl shadow-2xl p-8">
+            <div className="flex justify-center mb-6">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center shadow-lg">
+                <span className="text-4xl">👁️</span>
+              </div>
+            </div>
+            <h1 className="text-3xl font-bold text-center text-gray-900 mb-2">
+              SUSAN<span className="text-red-600">AI-21</span>
+            </h1>
+            <p className="text-center text-gray-600 mb-8">Roof-ER Roofing Assistant</p>
+
+            <form onSubmit={handleRepSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="repName" className="block text-sm font-semibold text-gray-700 mb-2">
+                  Enter Your Name to Continue
+                </label>
+                <input
+                  id="repName"
+                  type="text"
+                  value={repInputValue}
+                  onChange={(e) => setRepInputValue(e.target.value)}
+                  placeholder="e.g., John Smith"
+                  className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-300 focus:border-red-500 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-red-100 transition-all"
+                  required
+                  autoFocus
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={!repInputValue.trim()}
+                className="w-full bg-gradient-to-br from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed text-white font-bold py-4 rounded-lg transition-all shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+              >
+                Start Chat Session
+              </button>
+            </form>
+
+            <p className="text-center text-xs text-gray-500 mt-6">
+              Your name will be saved locally for future sessions
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Header */}
@@ -106,14 +207,26 @@ export default function ChatPage() {
                 <p className="text-xs text-gray-400 uppercase tracking-wider">Roof-ER Roofing Assistant</p>
               </div>
             </div>
-            {messages.length > 0 && (
+            <div className="flex items-center gap-3">
+              <div className="text-right mr-4">
+                <p className="text-xs text-gray-400 uppercase tracking-wider">Logged in as</p>
+                <p className="text-sm font-semibold text-white">{repName}</p>
+              </div>
+              {messages.length > 0 && (
+                <button
+                  onClick={clearChat}
+                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium text-sm"
+                >
+                  New Chat
+                </button>
+              )}
               <button
-                onClick={clearChat}
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium text-sm"
+                onClick={handleLogout}
+                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors font-medium text-sm"
               >
-                New Chat
+                Logout
               </button>
-            )}
+            </div>
           </div>
         </div>
       </header>
