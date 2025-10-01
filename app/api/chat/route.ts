@@ -25,7 +25,14 @@ export async function POST(req: NextRequest) {
     const deploymentToken = process.env.DEPLOYMENT_TOKEN
     const deploymentId = process.env.ABACUS_DEPLOYMENT_ID || '6a1d18f38' // Susan AI-21 by default
 
+    console.log('Environment check:', {
+      hasToken: !!deploymentToken,
+      deploymentId: deploymentId,
+      tokenLength: deploymentToken?.length
+    })
+
     if (!deploymentToken) {
+      console.error('Missing DEPLOYMENT_TOKEN environment variable')
       return NextResponse.json(
         { error: 'Deployment token not configured' },
         { status: 500 }
@@ -54,9 +61,13 @@ export async function POST(req: NextRequest) {
 
     if (!response.ok) {
       const errorData = await response.text()
-      console.error('Abacus.AI API Error:', errorData)
+      console.error('Abacus.AI API Error:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorData
+      })
       return NextResponse.json(
-        { error: 'Failed to get response from AI' },
+        { error: 'Failed to get response from AI', details: errorData },
         { status: response.status }
       )
     }

@@ -101,9 +101,9 @@ export default function ChatPage() {
               </div>
               <div>
                 <h1 className="text-2xl font-bold tracking-tight">
-                  ROOF<span className="text-red-600">ER</span>
+                  SUSAN<span className="text-red-600">AI-21</span>
                 </h1>
-                <p className="text-xs text-gray-400 uppercase tracking-wider">Susan AI - Roofing Assistant</p>
+                <p className="text-xs text-gray-400 uppercase tracking-wider">Roof-ER Roofing Assistant</p>
               </div>
             </div>
             {messages.length > 0 && (
@@ -179,7 +179,7 @@ export default function ChatPage() {
                   <span className="text-5xl">👁️</span>
                 </div>
                 <h2 className="text-3xl font-bold text-gray-800 mb-3">
-                  Welcome to Susan AI
+                  Welcome to SusanAI-21
                 </h2>
                 <p className="text-gray-600 mb-8 text-lg max-w-2xl">
                   I'm your specialized AI assistant for roofing professionals, equipped with:
