@@ -2,9 +2,5 @@
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "regions": ["iad1"],
-  "env": {
-    "DEPLOYMENT_TOKEN": "@deployment_token",
-    "ABACUS_DEPLOYMENT_ID": "@abacus_deployment_id"
-  }
+  "regions": ["iad1"]
 }
