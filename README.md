@@ -32,7 +32,7 @@ cp .env.example .env.local
 
 # Add your Abacus.AI credentials to .env.local
 # DEPLOYMENT_TOKEN=your_token_here
-# DEPLOYMENT_ID=6a1d18f38
+# ABACUS_DEPLOYMENT_ID=6a1d18f38
 
 # Run development server
 npm run dev
@@ -116,7 +116,7 @@ Required environment variables:
 
 ```bash
 DEPLOYMENT_TOKEN=your_abacus_ai_token
-DEPLOYMENT_ID=6a1d18f38  # Susan AI-21 deployment
+ABACUS_DEPLOYMENT_ID=6a1d18f38  # Susan AI-21 deployment
 ```
 
 ## API Endpoints

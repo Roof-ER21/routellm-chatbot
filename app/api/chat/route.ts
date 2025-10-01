@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     }
 
     const deploymentToken = process.env.DEPLOYMENT_TOKEN
-    const deploymentId = process.env.DEPLOYMENT_ID || '6a1d18f38' // Susan AI-21 by default
+    const deploymentId = process.env.ABACUS_DEPLOYMENT_ID || '6a1d18f38' // Susan AI-21 by default
 
     if (!deploymentToken) {
       return NextResponse.json(
