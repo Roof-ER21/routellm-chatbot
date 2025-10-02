@@ -9,7 +9,7 @@ export async function sendRealTimeNotification(
 ) {
   try {
     const { data, error } = await resend.emails.send({
-      from: 'SusanAI-21 <notifications@susanai-21.vercel.app>',
+      from: 'SusanAI-21 <onboarding@resend.dev>',
       to: ['ahmed.mahmoud@theroofdocs.com'],
       subject: `🔔 New Chat from ${repName}`,
       html: `
@@ -103,7 +103,7 @@ export async function sendNightlyReport(stats: any[], transcripts: any[]) {
     }).join('')
 
     const { data, error } = await resend.emails.send({
-      from: 'SusanAI-21 <reports@susanai-21.vercel.app>',
+      from: 'SusanAI-21 Reports <onboarding@resend.dev>',
       to: ['ahmed.mahmoud@theroofdocs.com'],
       subject: `📊 Daily Report - ${new Date().toLocaleDateString('en-US')} (${totalChats} Total Chats)`,
       html: `
