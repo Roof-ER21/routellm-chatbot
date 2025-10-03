@@ -423,3 +423,137 @@ export async function getHailEventStats() {
     return []
   }
 }
+
+// Storm data search by location
+export async function searchStormsByLocation(params: {
+  address?: string
+  city?: string
+  state?: string
+  zipCode?: string
+  latitude?: number
+  longitude?: number
+  radiusMiles?: number
+  startYear?: number
+  endYear?: number
+}) {
+  try {
+    let query = `
+      SELECT
+        id,
+        event_date,
+        state,
+        county,
+        city,
+        zip_code,
+        latitude,
+        longitude,
+        hail_size,
+        event_narrative,
+        begin_time,
+        end_time,
+        source
+      FROM hail_events
+      WHERE 1=1
+    `
+    const values: any[] = []
+    let paramCount = 1
+
+    // Filter by state
+    if (params.state) {
+      query += ` AND state = $${paramCount}`
+      values.push(params.state.toUpperCase())
+      paramCount++
+    }
+
+    // Filter by city
+    if (params.city) {
+      query += ` AND LOWER(city) LIKE LOWER($${paramCount})`
+      values.push(`%${params.city}%`)
+      paramCount++
+    }
+
+    // Filter by zip code
+    if (params.zipCode) {
+      query += ` AND zip_code = $${paramCount}`
+      values.push(params.zipCode)
+      paramCount++
+    }
+
+    // Filter by year range
+    if (params.startYear) {
+      query += ` AND EXTRACT(YEAR FROM event_date) >= $${paramCount}`
+      values.push(params.startYear)
+      paramCount++
+    }
+
+    if (params.endYear) {
+      query += ` AND EXTRACT(YEAR FROM event_date) <= $${paramCount}`
+      values.push(params.endYear)
+      paramCount++
+    }
+
+    // Filter by radius if coordinates provided
+    if (params.latitude && params.longitude && params.radiusMiles) {
+      query += ` AND (
+        3959 * acos(
+          cos(radians($${paramCount})) * cos(radians(latitude)) *
+          cos(radians(longitude) - radians($${paramCount + 1})) +
+          sin(radians($${paramCount})) * sin(radians(latitude))
+        )
+      ) <= $${paramCount + 2}`
+      values.push(params.latitude, params.longitude, params.radiusMiles)
+      paramCount += 3
+    }
+
+    query += ' ORDER BY event_date DESC LIMIT 100'
+
+    const { query: dbQuery } = await import('./railway-db')
+    const result = await dbQuery(query, values)
+    return result.rows
+  } catch (error) {
+    console.error('Error searching storms by location:', error)
+    return []
+  }
+}
+
+// Get storm summary for location
+export async function getStormSummary(params: {
+  latitude: number
+  longitude: number
+  radiusMiles: number
+  years?: number
+}) {
+  try {
+    const yearsBack = params.years || 2
+    const startDate = new Date()
+    startDate.setFullYear(startDate.getFullYear() - yearsBack)
+
+    const result = await sql`
+      SELECT
+        COUNT(*) as total_events,
+        COUNT(*) FILTER (WHERE hail_size >= 1.0) as severe_hail_events,
+        COUNT(*) FILTER (WHERE hail_size >= 2.0) as very_severe_hail_events,
+        MAX(hail_size) as max_hail_size,
+        AVG(hail_size) as avg_hail_size,
+        MIN(event_date) as earliest_event,
+        MAX(event_date) as most_recent_event,
+        array_agg(DISTINCT EXTRACT(YEAR FROM event_date)::int ORDER BY EXTRACT(YEAR FROM event_date)::int DESC) as years_with_events
+      FROM hail_events
+      WHERE event_date >= ${startDate.toISOString().split('T')[0]}
+        AND latitude IS NOT NULL
+        AND longitude IS NOT NULL
+        AND (
+          3959 * acos(
+            cos(radians(${params.latitude})) * cos(radians(latitude)) *
+            cos(radians(longitude) - radians(${params.longitude})) +
+            sin(radians(${params.latitude})) * sin(radians(latitude))
+          )
+        ) <= ${params.radiusMiles}
+    `
+
+    return result.rows[0] || null
+  } catch (error) {
+    console.error('Error getting storm summary:', error)
+    return null
+  }
+}
