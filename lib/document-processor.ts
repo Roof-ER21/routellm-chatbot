@@ -9,15 +9,9 @@
  * - Images (JPG, PNG, HEIC, etc.)
  */
 
-import * as pdfjsLib from 'pdfjs-dist';
 import * as mammoth from 'mammoth';
 import * as XLSX from 'xlsx';
-
-// Configure PDF.js worker
-if (typeof window === 'undefined') {
-  // Server-side configuration
-  pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
-}
+import { pdf as pdfParse } from 'pdf-parse';
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -222,32 +216,19 @@ export class DocumentProcessor {
 
   private async processPDF(buffer: Buffer, fileName: string, fileSize: number): Promise<ProcessedDocument> {
     try {
-      // Load the PDF document
-      const loadingTask = pdfjsLib.getDocument({
-        data: new Uint8Array(buffer),
-        useWorkerFetch: false,
-        isEvalSupported: false,
-        useSystemFonts: true
-      });
+      console.log('[DocumentProcessor] Processing PDF with pdf-parse...');
 
-      const pdfDocument = await loadingTask.promise;
-      const numPages = pdfDocument.numPages;
+      // Use pdf-parse which works better in serverless environments
+      const data = await pdfParse(buffer);
 
-      // Extract text from all pages
-      let extractedText = '';
+      const extractedText = data.text;
+      const numPages = data.total; // Use 'total' for page count
 
-      for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-        const page = await pdfDocument.getPage(pageNum);
-        const textContent = await page.getTextContent();
-        const pageText = textContent.items
-          .map((item: any) => item.str)
-          .join(' ');
-        extractedText += pageText + '\n\n';
-      }
+      console.log('[DocumentProcessor] PDF parsed successfully:');
+      console.log('[DocumentProcessor] - Pages:', numPages);
+      console.log('[DocumentProcessor] - Text length:', extractedText.length);
 
-      // Get metadata
-      const metadata = await pdfDocument.getMetadata();
-      const info = metadata.info as any;
+      const info = data.info as any; // Type assertion for info object
 
       return {
         fileName,
@@ -260,8 +241,6 @@ export class DocumentProcessor {
           author: info?.Author,
           subject: info?.Subject,
           creator: info?.Creator,
-          creationDate: info?.CreationDate,
-          modificationDate: info?.ModDate,
           wordCount: this.countWords(extractedText)
         },
         preview: this.generatePreview(extractedText),
@@ -269,6 +248,7 @@ export class DocumentProcessor {
         success: true
       };
     } catch (error: any) {
+      console.error('[DocumentProcessor] PDF processing error:', error.message);
       throw new Error(`PDF processing failed: ${error.message}`);
     }
   }
