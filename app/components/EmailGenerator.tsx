@@ -39,6 +39,10 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
   const [error, setError] = useState<string | null>(null)
   const [generatedEmail, setGeneratedEmail] = useState<GeneratedEmail | null>(null)
   const [copied, setCopied] = useState(false)
+  const [showChat, setShowChat] = useState(false)
+  const [chatMessages, setChatMessages] = useState<Array<{ role: 'assistant' | 'user'; content: string }>>([])
+  const [userInput, setUserInput] = useState('')
+  const [isSending, setIsSending] = useState(false)
 
   // Auto-open modal if autoOpen prop is true
   useEffect(() => {
@@ -251,17 +255,16 @@ ${generatedEmail.body}
 
 **YOUR TASK:**
 1. Review the email for completeness and effectiveness
-2. Identify any missing information that could strengthen the case
-3. Suggest 2-3 specific improvements or modifications
-4. Ask tailored questions about details that would make this email more compelling
+2. Identify 2-3 pieces of missing information that could strengthen the case
+3. Ask specific questions to gather these details from ${repName}
 
 **REQUIREMENTS:**
-- Be conversational and helpful (you're coaching ${repName})
-- Focus on insurance claim strategy (building codes, manufacturer guidelines, proper documentation)
-- Ask questions that uncover details the adjuster needs to approve the claim
-- Suggest modifications that align with Roof-ER best practices
+- Be brief and conversational (you're coaching ${repName})
+- Focus on actionable questions about: damage specifics, building codes, manufacturer guidelines, timelines, photo documentation
+- Ask ONE question at a time for ${repName} to answer
+- After they provide details, you'll regenerate the email with improvements
 
-Format your response naturally as a conversation. Start with a brief assessment, then ask your questions.`
+Keep it short - just a brief assessment and your first question.`
 
       const messages = [
         {
@@ -296,14 +299,10 @@ Format your response naturally as a conversation. Start with a brief assessment,
       console.log('[EmailGen] Susan review received')
 
       if (data.message) {
-        // Close the email generator modal
-        handleCloseModal()
-
-        // The Susan response will appear in the main chat below
-        // User can now continue the conversation to modify the email
-
-        // Show success message
-        alert(`💬 Susan AI has reviewed your email!\n\nCheck the chat below to see her suggestions and questions. You can continue the conversation to modify the email based on her feedback.`)
+        // Add Susan's response to chat
+        setChatMessages([{ role: 'assistant', content: data.message }])
+        // Show chat interface
+        setShowChat(true)
       } else {
         throw new Error('No response from Susan AI')
       }
@@ -313,6 +312,103 @@ Format your response naturally as a conversation. Start with a brief assessment,
       setError(`Failed to get Susan AI review: ${errorMessage}`)
     } finally {
       setIsTalking(false)
+    }
+  }
+
+  const handleSendChatMessage = async () => {
+    if (!userInput.trim()) return
+
+    const userMessage = userInput.trim()
+    setUserInput('')
+    setIsSending(true)
+
+    // Add user message to chat
+    setChatMessages(prev => [...prev, { role: 'user', content: userMessage }])
+
+    try {
+      // Build conversation context including the email
+      const conversationContext = `You are Susan AI helping ${repName} refine their insurance claim email.
+
+**CURRENT EMAIL:**
+Subject: ${generatedEmail?.subject}
+
+${generatedEmail?.body}
+
+**EMAIL CONTEXT:**
+- Email Type: ${emailType}
+- Recipient: ${recipientName}
+- Claim Number: ${claimNumber}
+
+**CONVERSATION SO FAR:**
+${chatMessages.map(msg => `${msg.role === 'user' ? repName : 'Susan'}: ${msg.content}`).join('\n')}
+
+**${repName}'s RESPONSE:**
+${userMessage}
+
+**YOUR TASK:**
+1. If ${repName} has provided useful details, acknowledge them
+2. Either ask a follow-up question OR offer to regenerate the email with the new details
+3. When ${repName} says they're ready, regenerate the email in the SAME JSON format as before:
+{
+  "subject": "Updated subject",
+  "body": "Updated email body with all new details incorporated",
+  "explanation": "Brief note on what was improved"
+}
+
+Be conversational and brief.`
+
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: [{ role: 'user', content: conversationContext }],
+          repName: repName,
+          sessionId: sessionId
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to get Susan response')
+      }
+
+      const data = await response.json()
+
+      if (data.message) {
+        // Check if Susan provided a regenerated email (JSON format)
+        const jsonMatch = data.message.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/) ||
+                         data.message.match(/(\{[\s\S]*"subject"[\s\S]*"body"[\s\S]*\})/)
+
+        if (jsonMatch) {
+          try {
+            const updatedEmail = JSON.parse(jsonMatch[1])
+            // Update the email with Susan's improvements
+            setGeneratedEmail({
+              subject: updatedEmail.subject || generatedEmail?.subject || '',
+              body: updatedEmail.body || generatedEmail?.body || '',
+              explanation: updatedEmail.explanation || 'Email updated with your details'
+            })
+            // Add message without the JSON
+            const cleanMessage = data.message.replace(/```(?:json)?\s*\{[\s\S]*?\}\s*```/, '✅ Email regenerated with your updates! Check the preview above.')
+            setChatMessages(prev => [...prev, { role: 'assistant', content: cleanMessage }])
+          } catch (e) {
+            // If JSON parsing fails, just add the message
+            setChatMessages(prev => [...prev, { role: 'assistant', content: data.message }])
+          }
+        } else {
+          // Regular conversation message
+          setChatMessages(prev => [...prev, { role: 'assistant', content: data.message }])
+        }
+      }
+    } catch (err) {
+      console.error('[EmailGen] Chat error:', err)
+      setChatMessages(prev => [...prev, {
+        role: 'assistant',
+        content: 'Sorry, I encountered an error. Please try again.'
+      }])
+    } finally {
+      setIsSending(false)
     }
   }
 
@@ -488,7 +584,7 @@ Format your response naturally as a conversation. Start with a brief assessment,
                     </button>
                   </div>
                 ) : (
-                  // Preview View
+                  // Preview View with Optional Chat
                   <div className="space-y-4">
                     {/* Email Preview */}
                     <div className="bg-gray-800 border-2 border-gray-600 rounded-lg p-6">
@@ -504,6 +600,62 @@ Format your response naturally as a conversation. Start with a brief assessment,
                       </div>
                     </div>
 
+                    {/* Chat Interface (shown when Let's Talk is clicked) */}
+                    {showChat && (
+                      <div className="bg-gray-800 border-2 border-purple-500 rounded-lg p-4">
+                        <div className="flex items-center gap-2 mb-3 pb-2 border-b border-gray-700">
+                          <span className="text-lg">💬</span>
+                          <h3 className="font-semibold text-purple-300">Chat with Susan AI</h3>
+                        </div>
+
+                        {/* Chat Messages */}
+                        <div className="space-y-3 mb-4 max-h-60 overflow-y-auto">
+                          {chatMessages.map((msg, idx) => (
+                            <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                              <div className={`max-w-[85%] px-4 py-2 rounded-lg ${
+                                msg.role === 'user'
+                                  ? 'bg-blue-600 text-white'
+                                  : 'bg-gray-700 text-gray-200'
+                              }`}>
+                                <p className="text-xs font-semibold mb-1 opacity-70">
+                                  {msg.role === 'user' ? repName : 'Susan AI'}
+                                </p>
+                                <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                              </div>
+                            </div>
+                          ))}
+                          {isSending && (
+                            <div className="flex justify-start">
+                              <div className="bg-gray-700 text-gray-200 px-4 py-2 rounded-lg">
+                                <p className="text-xs font-semibold mb-1 opacity-70">Susan AI</p>
+                                <p className="text-sm">Thinking...</p>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Chat Input */}
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={userInput}
+                            onChange={(e) => setUserInput(e.target.value)}
+                            onKeyPress={(e) => e.key === 'Enter' && !isSending && handleSendChatMessage()}
+                            placeholder="Type your answer or ask for changes..."
+                            className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm focus:outline-none focus:border-purple-500"
+                            disabled={isSending}
+                          />
+                          <button
+                            onClick={handleSendChatMessage}
+                            disabled={isSending || !userInput.trim()}
+                            className="px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 text-white rounded-lg text-sm font-medium transition-colors disabled:cursor-not-allowed"
+                          >
+                            Send
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
                     {/* AI Explanation */}
                     <div className="bg-blue-500/20 border-2 border-blue-400 rounded-lg p-4">
                       <div className="flex items-start gap-3">
@@ -517,54 +669,57 @@ Format your response naturally as a conversation. Start with a brief assessment,
                       </div>
                     </div>
 
-                    {/* Let's Talk with Susan */}
-                    <div className="bg-purple-500/20 border-2 border-purple-400 rounded-lg p-4">
-                      <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center flex-shrink-0">
-                          <span className="text-lg">🤖</span>
+                    {/* Let's Talk with Susan - Only show if chat not active */}
+                    {!showChat && (
+                      <>
+                        <div className="bg-purple-500/20 border-2 border-purple-400 rounded-lg p-4">
+                          <div className="flex items-start gap-3">
+                            <div className="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center flex-shrink-0">
+                              <span className="text-lg">🤖</span>
+                            </div>
+                            <div>
+                              <p className="text-purple-200 font-semibold text-sm mb-2">
+                                <strong>Want Susan to review this email?</strong>
+                              </p>
+                              <p className="text-purple-300 text-sm mb-2">
+                                Click "Let's Talk" and Susan will:
+                              </p>
+                              <ul className="text-purple-300 text-xs space-y-1 list-disc list-inside">
+                                <li>Review your email for completeness</li>
+                                <li>Ask questions to gather missing details</li>
+                                <li>Regenerate the email with your updates</li>
+                                <li>Help strengthen your case through conversation</li>
+                              </ul>
+                              <p className="text-purple-200 text-xs mt-2 italic">
+                                The conversation happens right here in the modal!
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <p className="text-purple-200 font-semibold text-sm mb-2">
-                            <strong>Want Susan to review this email?</strong>
-                          </p>
-                          <p className="text-purple-300 text-sm mb-2">
-                            Click "Let's Talk" below and Susan will:
-                          </p>
-                          <ul className="text-purple-300 text-xs space-y-1 list-disc list-inside">
-                            <li>Review your email for completeness and effectiveness</li>
-                            <li>Identify missing info that could strengthen your case</li>
-                            <li>Ask tailored questions about damage details, codes, or timelines</li>
-                            <li>Suggest specific improvements based on Roof-ER best practices</li>
-                            <li>Help you refine it through conversation in the main chat</li>
-                          </ul>
-                          <p className="text-purple-200 text-xs mt-2 italic">
-                            The conversation will continue in the chat below where you can make modifications together.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
 
-                    {/* Let's Talk Button */}
-                    <button
-                      onClick={handleLetsTalk}
-                      disabled={isTalking}
-                      className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 disabled:from-gray-600 disabled:to-gray-700 text-white rounded-lg transition-all font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl disabled:cursor-not-allowed"
-                    >
-                      {isTalking ? (
-                        <>
-                          <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          <span>Susan is reviewing...</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>💬</span>
-                          <span>Let's Talk - Get Susan's Review</span>
-                        </>
-                      )}
-                    </button>
+                        {/* Let's Talk Button */}
+                        <button
+                          onClick={handleLetsTalk}
+                          disabled={isTalking}
+                          className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 disabled:from-gray-600 disabled:to-gray-700 text-white rounded-lg transition-all font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl disabled:cursor-not-allowed"
+                        >
+                          {isTalking ? (
+                            <>
+                              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                              </svg>
+                              <span>Susan is reviewing...</span>
+                            </>
+                          ) : (
+                            <>
+                              <span>💬</span>
+                              <span>Let's Talk - Get Susan's Review</span>
+                            </>
+                          )}
+                        </button>
+                      </>
+                    )}
 
                     {/* Copy Button */}
                     <button
