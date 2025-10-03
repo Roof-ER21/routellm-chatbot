@@ -337,7 +337,7 @@ export default function ChatPage() {
           <div className="p-6 bg-white/50 backdrop-blur-sm border-b border-gray-200">
             <div className="max-w-5xl mx-auto">
               <h2 className="text-lg font-semibold text-gray-800 mb-4">Quick Access Tools</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 <button
                   onClick={() => setShowUnifiedAnalyzer(true)}
                   className="flex flex-col items-center gap-2 p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-orange-500 hover:shadow-lg transition-all group"
@@ -367,16 +367,6 @@ export default function ChatPage() {
                   </div>
                   <span className="text-sm font-semibold text-gray-700 group-hover:text-green-600 text-center">Insurance Companies</span>
                 </button>
-
-                <button
-                  onClick={() => handleQuickLink("Show me weather data and storm information for damage assessment")}
-                  className="flex flex-col items-center gap-2 p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-red-500 hover:shadow-lg transition-all group"
-                >
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center group-hover:from-purple-500 group-hover:to-purple-600 transition-all">
-                    <span className="text-2xl">⛈️</span>
-                  </div>
-                  <span className="text-sm font-semibold text-gray-700 group-hover:text-purple-600 text-center">Weather Data</span>
-                </button>
               </div>
             </div>
           </div>
@@ -396,7 +386,7 @@ export default function ChatPage() {
                 <p className="text-gray-600 mb-8 text-lg max-w-2xl">
                   I'm your specialized AI assistant for roofing professionals, equipped with:
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-4xl text-left">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-3xl text-left">
                   <div className="bg-white rounded-xl p-5 shadow-md border border-gray-200">
                     <div className="flex items-start gap-3">
                       <span className="text-2xl">📎</span>
@@ -430,15 +420,6 @@ export default function ChatPage() {
                       <div>
                         <h3 className="font-semibold text-gray-800 mb-1">Insurance Finder</h3>
                         <p className="text-sm text-gray-600">Company contact details and processes</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="bg-white rounded-xl p-5 shadow-md border border-gray-200">
-                    <div className="flex items-start gap-3">
-                      <span className="text-2xl">⛈️</span>
-                      <div>
-                        <h3 className="font-semibold text-gray-800 mb-1">Weather Data</h3>
-                        <p className="text-sm text-gray-600">Storm history and damage correlation</p>
                       </div>
                     </div>
                   </div>
