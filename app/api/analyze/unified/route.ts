@@ -85,8 +85,30 @@ export async function POST(request: NextRequest) {
     // Check if any files were successfully processed
     const successfulDocs = processedDocs.filter(doc => doc.success);
     if (successfulDocs.length === 0) {
+      const errors = processedDocs.map(d => `${d.fileName}: ${d.error}`).join('\n');
       return NextResponse.json(
-        { success: false, error: 'Failed to process any files' },
+        {
+          success: false,
+          error: 'Failed to process any files',
+          details: errors,
+          help: 'If uploading PDFs, try copying the text and pasting it directly, or upload as images instead.'
+        },
+        { status: 500 }
+      );
+    }
+
+    // Check if we extracted ANY text
+    const totalTextLength = successfulDocs.reduce((sum, doc) => sum + (doc.extractedText?.length || 0), 0);
+    if (totalTextLength === 0) {
+      console.log('[UnifiedAnalyzer] WARNING: No text extracted from any documents!');
+      const fileInfo = successfulDocs.map(d => `${d.fileName} (${d.fileType})`).join(', ');
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'No text could be extracted from the uploaded files',
+          details: `Processed files: ${fileInfo}`,
+          help: 'PDFs may not work in this environment. Try: 1) Copy/paste the PDF text directly, or 2) Upload as images/screenshots'
+        },
         { status: 500 }
       );
     }

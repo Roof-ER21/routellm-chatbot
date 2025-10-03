@@ -261,7 +261,7 @@ export class DocumentProcessor {
       console.error('[DocumentProcessor] Error stack:', error.stack);
       console.error('[DocumentProcessor] =====================================');
 
-      // Return partial result with error
+      // Return partial result with error and helpful message
       return {
         fileName,
         fileType: 'pdf',
@@ -274,7 +274,11 @@ export class DocumentProcessor {
         preview: '',
         processingTime: 0,
         success: false,
-        error: `PDF processing failed: ${error.message}. This may be due to serverless environment limitations.`
+        error: `PDF text extraction failed in serverless environment.
+
+WORKAROUND: Please copy the text from your PDF and paste it directly, or upload the PDF as images/screenshots instead.
+
+Technical details: ${error.message}`
       };
     }
   }
