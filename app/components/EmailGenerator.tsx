@@ -35,10 +35,9 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
   const [claimNumber, setClaimNumber] = useState('')
   const [additionalDetails, setAdditionalDetails] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
-  const [isSending, setIsSending] = useState(false)
+  const [isTalking, setIsTalking] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [generatedEmail, setGeneratedEmail] = useState<GeneratedEmail | null>(null)
-  const [recipientEmail, setRecipientEmail] = useState('')
   const [copied, setCopied] = useState(false)
 
   // Auto-open modal if autoOpen prop is true
@@ -55,7 +54,7 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
   }
 
   const handleCloseModal = () => {
-    if (!isGenerating && !isSending) {
+    if (!isGenerating && !isTalking) {
       setShowModal(false)
       // Notify parent component if onClose callback is provided
       if (onClose) {
@@ -67,7 +66,6 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
         setRecipientName('')
         setClaimNumber('')
         setAdditionalDetails('')
-        setRecipientEmail('')
         setGeneratedEmail(null)
         setError(null)
         setCopied(false)
@@ -228,60 +226,93 @@ Format your response as JSON:
     }
   }
 
-  const handleSendEmail = async () => {
+  const handleLetsTalk = async () => {
     if (!generatedEmail) return
 
-    // Validate recipient email
-    if (!recipientEmail.trim()) {
-      setError('Please enter recipient email address')
-      return
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(recipientEmail)) {
-      setError('Please enter a valid email address')
-      return
-    }
-
-    setIsSending(true)
+    setIsTalking(true)
     setError(null)
 
     try {
-      const response = await fetch('/api/email/send', {
+      console.log('[EmailGen] Starting Susan AI review...')
+
+      // Create prompt for Susan to review the email and ask questions
+      const reviewPrompt = `You are Susan AI, reviewing an email that ${repName} just generated for their insurance claim.
+
+**GENERATED EMAIL:**
+Subject: ${generatedEmail.subject}
+
+${generatedEmail.body}
+
+**EMAIL CONTEXT:**
+- Email Type: ${emailType}
+- Recipient: ${recipientName}
+- Claim Number: ${claimNumber}
+- Additional Details Provided: ${additionalDetails || 'None'}
+
+**YOUR TASK:**
+1. Review the email for completeness and effectiveness
+2. Identify any missing information that could strengthen the case
+3. Suggest 2-3 specific improvements or modifications
+4. Ask tailored questions about details that would make this email more compelling
+
+**REQUIREMENTS:**
+- Be conversational and helpful (you're coaching ${repName})
+- Focus on insurance claim strategy (building codes, manufacturer guidelines, proper documentation)
+- Ask questions that uncover details the adjuster needs to approve the claim
+- Suggest modifications that align with Roof-ER best practices
+
+Format your response naturally as a conversation. Start with a brief assessment, then ask your questions.`
+
+      const messages = [
+        {
+          role: 'user',
+          content: reviewPrompt
+        }
+      ]
+
+      const requestBody = {
+        messages: messages,
+        repName: repName,
+        sessionId: sessionId
+      }
+
+      console.log('[EmailGen] Calling /api/chat for Susan review...')
+
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          to: recipientEmail,
-          subject: generatedEmail.subject,
-          body: generatedEmail.body,
-          templateName: `AI Generated - ${emailType}`,
-          sessionId,
-          repName,
-          attachments: []
-        }),
+        body: JSON.stringify(requestBody),
       })
 
       if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || 'Failed to send email')
+        const errorText = await response.text()
+        console.error('[EmailGen] Susan review error:', errorText)
+        throw new Error('Failed to get Susan AI review')
       }
 
       const data = await response.json()
+      console.log('[EmailGen] Susan review received')
 
-      if (!data.success) {
-        throw new Error(data.error || 'Failed to send email')
+      if (data.message) {
+        // Close the email generator modal
+        handleCloseModal()
+
+        // The Susan response will appear in the main chat below
+        // User can now continue the conversation to modify the email
+
+        // Show success message
+        alert(`💬 Susan AI has reviewed your email!\n\nCheck the chat below to see her suggestions and questions. You can continue the conversation to modify the email based on her feedback.`)
+      } else {
+        throw new Error('No response from Susan AI')
       }
-
-      // Success - close modal
-      alert('Email sent successfully!')
-      handleCloseModal()
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to send email')
-      console.error('Email send error:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Failed to get Susan AI review'
+      console.error('[EmailGen] Let\'s Talk failed:', errorMessage)
+      setError(`Failed to get Susan AI review: ${errorMessage}`)
     } finally {
-      setIsSending(false)
+      setIsTalking(false)
     }
   }
 
@@ -342,7 +373,7 @@ Format your response as JSON:
                 <button
                   onClick={handleCloseModal}
                   className="text-white hover:bg-white/20 rounded-lg p-2 transition-colors"
-                  disabled={isGenerating || isSending}
+                  disabled={isGenerating || isTalking}
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -486,7 +517,7 @@ Format your response as JSON:
                       </div>
                     </div>
 
-                    {/* Susan AI Follow-up Help */}
+                    {/* Let's Talk with Susan */}
                     <div className="bg-purple-500/20 border-2 border-purple-400 rounded-lg p-4">
                       <div className="flex items-start gap-3">
                         <div className="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center flex-shrink-0">
@@ -494,24 +525,46 @@ Format your response as JSON:
                         </div>
                         <div>
                           <p className="text-purple-200 font-semibold text-sm mb-2">
-                            <strong>Need to personalize this more?</strong>
+                            <strong>Want Susan to review this email?</strong>
                           </p>
                           <p className="text-purple-300 text-sm mb-2">
-                            Close this window and ask Susan AI in the chat below to:
+                            Click "Let's Talk" below and Susan will:
                           </p>
                           <ul className="text-purple-300 text-xs space-y-1 list-disc list-inside">
-                            <li>Add specific damage details or photos you've noted</li>
-                            <li>Reference particular building codes or manufacturer guidelines</li>
-                            <li>Adjust tone (more urgent, more collaborative, etc.)</li>
-                            <li>Include pricing or timeline information</li>
-                            <li>Add follow-up scheduling language</li>
+                            <li>Review your email for completeness and effectiveness</li>
+                            <li>Identify missing info that could strengthen your case</li>
+                            <li>Ask tailored questions about damage details, codes, or timelines</li>
+                            <li>Suggest specific improvements based on Roof-ER best practices</li>
+                            <li>Help you refine it through conversation in the main chat</li>
                           </ul>
                           <p className="text-purple-200 text-xs mt-2 italic">
-                            Example: "Susan, regenerate this email but add details about hail damage we found and reference Virginia building code R908.3"
+                            The conversation will continue in the chat below where you can make modifications together.
                           </p>
                         </div>
                       </div>
                     </div>
+
+                    {/* Let's Talk Button */}
+                    <button
+                      onClick={handleLetsTalk}
+                      disabled={isTalking}
+                      className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 disabled:from-gray-600 disabled:to-gray-700 text-white rounded-lg transition-all font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl disabled:cursor-not-allowed"
+                    >
+                      {isTalking ? (
+                        <>
+                          <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          <span>Susan is reviewing...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>💬</span>
+                          <span>Let's Talk - Get Susan's Review</span>
+                        </>
+                      )}
+                    </button>
 
                     {/* Copy Button */}
                     <button
@@ -534,7 +587,7 @@ Format your response as JSON:
                     {/* Back Button */}
                     <button
                       onClick={() => setGeneratedEmail(null)}
-                      disabled={isSending}
+                      disabled={isTalking}
                       className="w-full px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-lg transition-colors font-medium"
                     >
                       ← Generate Different Email
