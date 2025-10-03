@@ -5,7 +5,6 @@ import InsuranceCompanySelector, { InsuranceCompany } from './components/Insuran
 import EmailGenerator from './components/EmailGenerator'
 import PhotoAnalysisModal from './components/PhotoAnalysisModal'
 import UnifiedAnalyzerModal from './components/UnifiedAnalyzerModal'
-import StormDataModal from './components/StormDataModal'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -601,10 +600,6 @@ export default function ChatPage() {
         />
       )}
 
-      {/* Storm Data Modal */}
-      <StormDataModal
-        repName={repName}
-      />
     </div>
   )
 }

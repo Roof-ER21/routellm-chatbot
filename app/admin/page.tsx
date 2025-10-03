@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import StormDataModal from '../components/StormDataModal'
 
 interface RepStat {
   name: string
@@ -182,6 +183,7 @@ export default function AdminDashboard() {
               </div>
             </div>
             <div className="flex items-center gap-3">
+              <StormDataModal repName="Admin" />
               <button
                 onClick={loadData}
                 className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium text-sm"
