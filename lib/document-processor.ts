@@ -238,19 +238,15 @@ export class DocumentProcessor {
       console.log('[DocumentProcessor] - Pages:', numPages);
       console.log('[DocumentProcessor] - Text length:', extractedText.length);
 
-      // If no text was extracted, it's likely a scanned PDF - try OCR
+      // If no text was extracted, it's likely a scanned PDF
       if (!extractedText || extractedText.trim().length < 50) {
-        console.log('[DocumentProcessor] PDF has minimal/no text - attempting OCR...');
-        try {
-          const ocrText = await this.extractTextWithOCR(buffer, 'pdf');
-          if (ocrText && ocrText.trim().length > extractedText.trim().length) {
-            console.log('[DocumentProcessor] ✓ OCR successful - extracted', ocrText.length, 'characters');
-            extractedText = ocrText;
-          }
-        } catch (ocrError: any) {
-          console.warn('[DocumentProcessor] OCR failed:', ocrError.message);
-          // Continue with original text (even if empty)
-        }
+        console.log('[DocumentProcessor] ⚠️ PDF has minimal/no text (', extractedText.trim().length, 'chars)');
+        console.log('[DocumentProcessor] This appears to be a scanned/image-based PDF');
+        console.log('[DocumentProcessor] OCR for PDFs currently disabled due to performance issues');
+        console.log('[DocumentProcessor] RECOMMENDATION: Convert PDF pages to images and upload those instead');
+
+        // Don't attempt OCR for PDFs - it causes timeouts
+        // User should upload as images instead
       }
 
       const info = data.info as any; // Type assertion for info object
@@ -280,30 +276,8 @@ export class DocumentProcessor {
       console.error('[DocumentProcessor] Error stack:', error.stack);
       console.error('[DocumentProcessor] =====================================');
 
-      // Try OCR as last resort
-      console.log('[DocumentProcessor] Attempting OCR as fallback...');
-      try {
-        const ocrText = await this.extractTextWithOCR(buffer, 'pdf');
-        if (ocrText && ocrText.trim().length > 50) {
-          console.log('[DocumentProcessor] ✓ OCR fallback successful');
-          return {
-            fileName,
-            fileType: 'pdf',
-            fileSize,
-            extractedText: ocrText.trim(),
-            metadata: {
-              pageCount: 1,
-              wordCount: this.countWords(ocrText),
-              ocrUsed: true
-            },
-            preview: this.generatePreview(ocrText),
-            processingTime: 0,
-            success: true
-          };
-        }
-      } catch (ocrError) {
-        console.error('[DocumentProcessor] OCR fallback also failed');
-      }
+      // Don't try OCR - it causes timeouts
+      console.error('[DocumentProcessor] PDF extraction failed completely');
 
       // Return partial result with error and helpful message
       return {
@@ -320,9 +294,17 @@ export class DocumentProcessor {
         success: false,
         error: `PDF text extraction failed.
 
-This PDF may be password-protected, corrupted, or use an unsupported format.
+This PDF may be:
+• Scanned/image-based (no selectable text)
+• Password-protected
+• Corrupted or unsupported format
 
-WORKAROUND: Try uploading the PDF as images (screenshots) or copy/paste the text directly.
+SOLUTION: Convert PDF to images and upload:
+1. Open PDF and take screenshots of each page
+2. Upload the screenshot images instead
+3. OCR will extract text from images automatically
+
+Or copy/paste the text directly if possible.
 
 Technical details: ${error.message}`
       };
@@ -464,25 +446,44 @@ Technical details: ${error.message}`
    */
   private async extractTextWithOCR(buffer: Buffer, fileType: 'pdf' | 'image'): Promise<string> {
     console.log('[DocumentProcessor] Starting OCR extraction for', fileType);
+    console.log('[DocumentProcessor] Buffer size:', buffer.length, 'bytes');
+
+    // Skip OCR for very large files (>5MB) to prevent timeouts
+    const MAX_OCR_SIZE = 5 * 1024 * 1024; // 5MB
+    if (buffer.length > MAX_OCR_SIZE) {
+      console.warn('[DocumentProcessor] File too large for OCR (', (buffer.length / 1024 / 1024).toFixed(2), 'MB) - skipping');
+      throw new Error('File too large for OCR processing');
+    }
+
+    // Disable OCR for PDFs temporarily - it's causing timeouts
+    if (fileType === 'pdf') {
+      console.log('[DocumentProcessor] OCR for scanned PDFs disabled (causing timeouts)');
+      console.log('[DocumentProcessor] Recommendation: Upload PDF pages as individual images instead');
+      throw new Error('OCR for scanned PDFs currently disabled - please upload as images');
+    }
 
     try {
-      // For PDFs, we need to convert to images first using pdf-lib
-      let imageBuffer = buffer;
+      // Create Tesseract worker with timeout
+      console.log('[DocumentProcessor] Creating Tesseract worker...');
+      const worker = await createWorker('eng', 1, {
+        logger: (m) => {
+          if (m.status === 'recognizing text') {
+            console.log(`[DocumentProcessor] OCR progress: ${(m.progress * 100).toFixed(0)}%`);
+          }
+        }
+      });
 
-      if (fileType === 'pdf') {
-        // For now, use the buffer directly
-        // TODO: Convert PDF pages to images for multi-page OCR
-        console.log('[DocumentProcessor] OCR for scanned PDFs requires PDF-to-image conversion');
-        console.log('[DocumentProcessor] Using direct buffer (may not work for all PDFs)');
-      }
+      console.log('[DocumentProcessor] Worker created, processing image...');
 
-      // Create Tesseract worker
-      const worker = await createWorker('eng');
+      // Add timeout wrapper for OCR
+      const OCR_TIMEOUT = 30000; // 30 seconds max
+      const ocrPromise = worker.recognize(buffer);
 
-      console.log('[DocumentProcessor] Tesseract worker created, processing...');
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error('OCR timeout after 30 seconds')), OCR_TIMEOUT);
+      });
 
-      // Perform OCR
-      const { data: { text } } = await worker.recognize(imageBuffer);
+      const { data: { text } } = await Promise.race([ocrPromise, timeoutPromise]);
 
       console.log('[DocumentProcessor] OCR complete - extracted', text.length, 'characters');
 
