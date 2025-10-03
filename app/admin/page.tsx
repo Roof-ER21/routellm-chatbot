@@ -30,7 +30,9 @@ export default function AdminDashboard() {
   const [todaysChats, setTodaysChats] = useState<any[]>([])
   const [transcripts, setTranscripts] = useState<ChatTranscript[]>([])
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState<'overview' | 'today' | 'transcripts'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'today' | 'transcripts' | 'database'>('overview')
+  const [dbLoading, setDbLoading] = useState(false)
+  const [dbMessage, setDbMessage] = useState('')
 
   // Check if already authenticated (session storage)
   useEffect(() => {
@@ -87,6 +89,42 @@ export default function AdminDashboard() {
       console.error('Error loading data:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const runMigrations = async () => {
+    setDbLoading(true)
+    setDbMessage('Running database migrations...')
+    try {
+      const response = await fetch('/api/admin/run-migrations', { method: 'POST' })
+      const data = await response.json()
+      if (data.success) {
+        setDbMessage('✅ Migrations completed successfully!')
+      } else {
+        setDbMessage(`❌ Migration failed: ${data.error}`)
+      }
+    } catch (error: any) {
+      setDbMessage(`❌ Error: ${error.message}`)
+    } finally {
+      setDbLoading(false)
+    }
+  }
+
+  const populateIntelligence = async () => {
+    setDbLoading(true)
+    setDbMessage('Populating insurance intelligence data...')
+    try {
+      const response = await fetch('/api/admin/populate-intelligence', { method: 'POST' })
+      const data = await response.json()
+      if (data.success) {
+        setDbMessage(`✅ Intelligence data populated! Updated ${data.updated} companies, ${data.errors} errors`)
+      } else {
+        setDbMessage(`❌ Population failed: ${data.error}`)
+      }
+    } catch (error: any) {
+      setDbMessage(`❌ Error: ${error.message}`)
+    } finally {
+      setDbLoading(false)
     }
   }
 
@@ -235,6 +273,16 @@ export default function AdminDashboard() {
           >
             💬 Chat Transcripts
           </button>
+          <button
+            onClick={() => setActiveTab('database')}
+            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+              activeTab === 'database'
+                ? 'bg-red-600 text-white shadow-lg'
+                : 'bg-white text-gray-700 hover:bg-gray-50'
+            }`}
+          >
+            🗄️ Database Utils
+          </button>
         </div>
 
         {/* All-Time Stats */}
@@ -362,6 +410,73 @@ export default function AdminDashboard() {
                   No transcripts available for today
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* Database Utilities */}
+        {activeTab === 'database' && (
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Database Management</h2>
+            <div className="space-y-6">
+              {/* Run Migrations */}
+              <div className="bg-white rounded-lg shadow-lg p-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-3">1. Run Database Migrations</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Adds new fields to insurance_companies table: app_name, client_login_url, best_call_times,
+                  responsiveness_score, and intelligence fields.
+                </p>
+                <button
+                  onClick={runMigrations}
+                  disabled={dbLoading}
+                  className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold px-6 py-3 rounded-lg transition-all"
+                >
+                  {dbLoading ? 'Running...' : '▶️ Run Migrations'}
+                </button>
+              </div>
+
+              {/* Populate Intelligence */}
+              <div className="bg-white rounded-lg shadow-lg p-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-3">2. Populate Insurance Intelligence</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Updates all insurance companies with digital platform info (apps, websites, login URLs)
+                  and strategic intelligence (best call times, workarounds, responsiveness scores).
+                </p>
+                <button
+                  onClick={populateIntelligence}
+                  disabled={dbLoading}
+                  className="bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-semibold px-6 py-3 rounded-lg transition-all"
+                >
+                  {dbLoading ? 'Populating...' : '▶️ Populate Intelligence Data'}
+                </button>
+              </div>
+
+              {/* Status Message */}
+              {dbMessage && (
+                <div className={`p-4 rounded-lg ${
+                  dbMessage.includes('✅') ? 'bg-green-50 border border-green-200 text-green-800' :
+                  dbMessage.includes('❌') ? 'bg-red-50 border border-red-200 text-red-800' :
+                  'bg-blue-50 border border-blue-200 text-blue-800'
+                }`}>
+                  <p className="font-semibold">{dbMessage}</p>
+                </div>
+              )}
+
+              {/* Instructions */}
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+                <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider mb-3">📋 Instructions</h3>
+                <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                  <li>First, click "Run Migrations" to add new database fields</li>
+                  <li>Then, click "Populate Intelligence Data" to fill in the research data for all 64 insurance companies</li>
+                  <li>Check the status messages to verify successful completion</li>
+                </ol>
+                <div className="mt-4 pt-4 border-t border-gray-300">
+                  <p className="text-xs text-gray-600">
+                    <strong>Note:</strong> These operations are safe to run multiple times. The migration uses "ALTER TABLE IF NOT EXISTS"
+                    and the population uses UPDATE statements, so re-running won't cause duplicates.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         )}

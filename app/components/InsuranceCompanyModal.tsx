@@ -17,6 +17,12 @@ interface Company {
   fax?: string;
   address?: string;
   notes?: string;
+  phone_instructions?: string;
+  app_name?: string;
+  client_login_url?: string;
+  guest_login_url?: string;
+  best_call_times?: string;
+  responsiveness_score?: number;
 }
 
 interface InsuranceCompanyModalProps {
@@ -125,26 +131,89 @@ export default function InsuranceCompanyModal({
                 <div
                   key={company.id}
                   onClick={() => handleSelect(company.id)}
-                  className="border-2 border-gray-200 hover:border-indigo-500 rounded-xl p-4 cursor-pointer transition-all hover:shadow-md bg-white"
+                  className="border-2 border-gray-200 hover:border-indigo-500 rounded-xl p-4 cursor-pointer transition-all hover:shadow-md bg-white relative"
                 >
+                  {/* Responsiveness Score Badge */}
+                  {company.responsiveness_score && (
+                    <div className="absolute top-3 right-3">
+                      <div className={`px-2 py-1 rounded-full text-xs font-bold ${
+                        company.responsiveness_score >= 9 ? 'bg-green-100 text-green-800' :
+                        company.responsiveness_score >= 7 ? 'bg-blue-100 text-blue-800' :
+                        company.responsiveness_score >= 5 ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        Score: {company.responsiveness_score}/10
+                      </div>
+                    </div>
+                  )}
+
                   <div className="flex justify-between items-start">
-                    <div className="flex-1">
+                    <div className="flex-1 pr-20">
                       <h3 className="font-semibold text-gray-900 text-lg mb-2">
                         {company.name}
                       </h3>
-                      <div className="text-sm text-gray-600 space-y-1">
+
+                      <div className="text-sm text-gray-600 space-y-1.5">
+                        {/* Phone with Shortcut */}
+                        {company.phone && (
+                          <div className="space-y-0.5">
+                            <div className="flex items-center gap-2">
+                              <span className="text-indigo-600">📞</span>
+                              <span className="font-medium">{company.phone}</span>
+                            </div>
+                            {company.phone_instructions && (
+                              <div className="ml-6 text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-200">
+                                <span className="font-semibold">Shortcut:</span> {company.phone_instructions}
+                              </div>
+                            )}
+                            {company.best_call_times && (
+                              <div className="ml-6 text-xs text-green-700">
+                                ⏰ Best times: {company.best_call_times}
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Email */}
                         {company.contact_email && (
                           <div className="flex items-center gap-2">
                             <span className="text-indigo-600">✉️</span>
                             <span>{company.contact_email}</span>
                           </div>
                         )}
-                        {company.phone && (
+
+                        {/* App Name or Website */}
+                        {company.app_name ? (
                           <div className="flex items-center gap-2">
-                            <span className="text-indigo-600">📞</span>
-                            <span>{company.phone}</span>
+                            <span className="text-indigo-600">📱</span>
+                            <span className="font-medium">{company.app_name}</span>
+                            {company.client_login_url && (
+                              <a
+                                href={company.client_login_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="text-blue-600 hover:text-blue-800 text-xs underline"
+                              >
+                                Login
+                              </a>
+                            )}
                           </div>
-                        )}
+                        ) : company.client_login_url ? (
+                          <div className="flex items-center gap-2">
+                            <span className="text-indigo-600">🌐</span>
+                            <a
+                              href={company.client_login_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="text-blue-600 hover:text-blue-800 text-xs underline"
+                            >
+                              {company.client_login_url.replace(/^https?:\/\//, '').split('/')[0]}
+                            </a>
+                          </div>
+                        ) : null}
+
                         {company.fax && (
                           <div className="flex items-center gap-2">
                             <span className="text-indigo-600">📠</span>
@@ -164,9 +233,9 @@ export default function InsuranceCompanyModal({
                         </div>
                       )}
                     </div>
-                    <div className="ml-4">
-                      <div className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-semibold">
-                        Select
+                    <div className="absolute bottom-3 right-3">
+                      <div className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md">
+                        View Details →
                       </div>
                     </div>
                   </div>

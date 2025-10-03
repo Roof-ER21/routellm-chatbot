@@ -5,6 +5,7 @@ import InsuranceCompanySelector, { InsuranceCompany } from './components/Insuran
 import EmailGenerator from './components/EmailGenerator'
 import PhotoAnalysisModal from './components/PhotoAnalysisModal'
 import UnifiedAnalyzerModal from './components/UnifiedAnalyzerModal'
+import InsuranceDetailPopup from './components/InsuranceDetailPopup'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -24,6 +25,7 @@ export default function ChatPage() {
   const [repId, setRepId] = useState<number | null>(null)
   const [showInsuranceSelector, setShowInsuranceSelector] = useState(false)
   const [selectedCompany, setSelectedCompany] = useState<InsuranceCompany | null>(null)
+  const [showInsuranceDetail, setShowInsuranceDetail] = useState(false)
   const [showPhotoModal, setShowPhotoModal] = useState(false)
   const [showEmailGenerator, setShowEmailGenerator] = useState(false)
   const [showUnifiedAnalyzer, setShowUnifiedAnalyzer] = useState(false)
@@ -64,9 +66,8 @@ export default function ChatPage() {
 
   const handleInsuranceSelect = (company: InsuranceCompany) => {
     setSelectedCompany(company)
-    // Add company info to the chat
-    const companyInfo = `Selected Insurance Company: ${company.name}\nPhone: ${company.phone}${company.phone_instructions ? `\nInstructions: ${company.phone_instructions}` : ''}${company.email ? `\nEmail: ${company.email}` : ''}`
-    setInput(companyInfo)
+    setShowInsuranceSelector(false)
+    setShowInsuranceDetail(true)
   }
 
   const handlePhotoAnalyzed = (result: any) => {
@@ -599,6 +600,15 @@ export default function ChatPage() {
           onClose={() => setShowEmailGenerator(false)}
         />
       )}
+
+      {/* Insurance Detail Popup - Shows comprehensive company info with Susan chat */}
+      <InsuranceDetailPopup
+        isOpen={showInsuranceDetail}
+        onClose={() => setShowInsuranceDetail(false)}
+        company={selectedCompany}
+        repName={repName}
+        sessionId={sessionId || undefined}
+      />
 
     </div>
   )
