@@ -6,9 +6,14 @@ const nextConfig = {
     config.resolve.alias.canvas = false;
     config.resolve.alias.encoding = false;
 
-    // Fix for pdf-parse pdfjs-dist worker issue
+    // Allow pdf-parse to work in serverless
     if (isServer) {
-      config.resolve.alias['pdfjs-dist'] = false;
+      // Externalize problematic dependencies for serverless
+      config.externals = config.externals || [];
+      if (!Array.isArray(config.externals)) {
+        config.externals = [config.externals];
+      }
+      config.externals.push('canvas', 'pdf-parse');
     }
 
     return config;

@@ -11,7 +11,9 @@
 
 import * as mammoth from 'mammoth';
 import * as XLSX from 'xlsx';
-import { pdf as pdfParse } from 'pdf-parse';
+
+// Use dynamic require for pdf-parse to avoid webpack issues
+const pdfParse = typeof window === 'undefined' ? require('pdf-parse') : null;
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -217,12 +219,17 @@ export class DocumentProcessor {
   private async processPDF(buffer: Buffer, fileName: string, fileSize: number): Promise<ProcessedDocument> {
     try {
       console.log('[DocumentProcessor] Processing PDF with pdf-parse...');
+      console.log('[DocumentProcessor] - pdfParse available:', typeof pdfParse);
+
+      if (!pdfParse) {
+        throw new Error('pdf-parse library not available in this environment');
+      }
 
       // Use pdf-parse which works better in serverless environments
       const data = await pdfParse(buffer);
 
       const extractedText = data.text;
-      const numPages = data.total; // Use 'total' for page count
+      const numPages = data.numpages; // pdf-parse v1 uses 'numpages'
 
       console.log('[DocumentProcessor] PDF parsed successfully:');
       console.log('[DocumentProcessor] - Pages:', numPages);
@@ -248,8 +255,27 @@ export class DocumentProcessor {
         success: true
       };
     } catch (error: any) {
-      console.error('[DocumentProcessor] PDF processing error:', error.message);
-      throw new Error(`PDF processing failed: ${error.message}`);
+      console.error('[DocumentProcessor] ============ PDF ERROR ============');
+      console.error('[DocumentProcessor] Error type:', error.constructor.name);
+      console.error('[DocumentProcessor] Error message:', error.message);
+      console.error('[DocumentProcessor] Error stack:', error.stack);
+      console.error('[DocumentProcessor] =====================================');
+
+      // Return partial result with error
+      return {
+        fileName,
+        fileType: 'pdf',
+        fileSize,
+        extractedText: '',
+        metadata: {
+          pageCount: 0,
+          wordCount: 0
+        },
+        preview: '',
+        processingTime: 0,
+        success: false,
+        error: `PDF processing failed: ${error.message}. This may be due to serverless environment limitations.`
+      };
     }
   }
 
