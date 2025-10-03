@@ -188,28 +188,27 @@ export default function UnifiedAnalyzerModal({ isOpen, onClose, onAnalyzed }: Un
               const conversion = await convertPDFToImages(uf.file, {
                 scale: 2.0,
                 maxPages: 10,
-                onProgress: (page, total) => {
-                  setConversionProgress(`Converting page ${page}/${total} of ${uf.file.name}...`);
+                enableOCR: true, // Enable client-side OCR
+                onProgress: (page, total, status) => {
+                  const msg = status || `Converting page ${page}/${total}`;
+                  setConversionProgress(`${msg} of ${uf.file.name}...`);
                 }
               });
 
-              if (conversion.success && conversion.images.length > 0) {
+              if (conversion.success && conversion.combinedText && conversion.combinedText.length > 50) {
                 pdfConvertedCount++;
-                console.log(`[UnifiedAnalyzer] ✓ Converted to ${conversion.images.length} images`);
+                console.log(`[UnifiedAnalyzer] ✓ Converted and OCR'd: ${conversion.combinedText.length} chars`);
 
-                // Upload each page as a separate image (will be OCR'd on server)
-                for (const img of conversion.images) {
-                  const imgFile = dataUrlToFile(
-                    img.dataUrl,
-                    `${uf.file.name.replace('.pdf', '')}_page${img.pageNumber}.jpg`
-                  );
-                  formData.append('files', imgFile);
-                }
+                // Upload the extracted text as a text file (much faster!)
+                const textBlob = new Blob([conversion.combinedText], { type: 'text/plain' });
+                const textFile = new File([textBlob], uf.file.name.replace('.pdf', '_extracted.txt'), { type: 'text/plain' });
+                formData.append('files', textFile);
 
                 setConversionProgress('');
               } else {
-                console.warn('[UnifiedAnalyzer] Conversion failed, uploading original PDF');
+                console.warn('[UnifiedAnalyzer] OCR returned minimal text, uploading original PDF');
                 formData.append('files', uf.file);
+                setConversionProgress('');
               }
 
             } else {

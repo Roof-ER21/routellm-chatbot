@@ -407,28 +407,25 @@ Technical details: ${error.message}`
       const base64 = buffer.toString('base64');
       const mimeType = this.getImageMimeType(fileName);
 
-      // Try OCR on the image to extract any text
-      let extractedText = '';
-      try {
-        console.log('[DocumentProcessor] Attempting OCR on image:', fileName);
-        extractedText = await this.extractTextWithOCR(buffer, 'image');
-        console.log('[DocumentProcessor] OCR extracted', extractedText.length, 'characters from image');
-      } catch (ocrError: any) {
-        console.warn('[DocumentProcessor] OCR on image failed:', ocrError.message);
-        // Continue without text - image will still be sent for AI analysis
-      }
+      console.log('[DocumentProcessor] Processing image:', fileName);
+
+      // SKIP server-side OCR - it's slow and causes timeouts
+      // Images from converted PDFs don't need OCR since they're just for display
+      // Abacus AI can analyze images directly with vision capabilities
+      console.log('[DocumentProcessor] Skipping OCR for images (causes timeouts)');
+      console.log('[DocumentProcessor] Image will be sent to Abacus AI for visual analysis');
 
       return {
         fileName,
         fileType: 'image',
         fileSize,
-        extractedText: extractedText.trim(),
+        extractedText: '', // No OCR - Abacus AI will analyze visually
         metadata: {
-          hasOCRText: extractedText.trim().length > 0,
-          wordCount: this.countWords(extractedText)
+          hasOCRText: false,
+          wordCount: 0
         },
         base64: `data:${mimeType};base64,${base64}`,
-        preview: extractedText.trim() || '[Image file - will be analyzed by AI]',
+        preview: '[Image file - will be analyzed by AI vision]',
         processingTime: 0,
         success: true
       };

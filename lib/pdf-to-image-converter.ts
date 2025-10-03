@@ -6,6 +6,7 @@
  */
 
 import * as pdfjsLib from 'pdfjs-dist';
+import { createWorker } from 'tesseract.js';
 
 // Configure PDF.js worker for browser environment
 if (typeof window !== 'undefined') {
@@ -19,8 +20,10 @@ export interface PDFToImageResult {
     dataUrl: string; // Base64 data URL
     width: number;
     height: number;
+    text?: string; // OCR extracted text
   }>;
   totalPages: number;
+  combinedText?: string; // All pages text combined
   error?: string;
 }
 
@@ -33,10 +36,11 @@ export async function convertPDFToImages(
   options: {
     scale?: number; // Default 2.0 for good quality
     maxPages?: number; // Limit pages to prevent memory issues
-    onProgress?: (page: number, total: number) => void;
+    enableOCR?: boolean; // Enable client-side OCR (default true)
+    onProgress?: (page: number, total: number, status?: string) => void;
   } = {}
 ): Promise<PDFToImageResult> {
-  const { scale = 2.0, maxPages = 10, onProgress } = options;
+  const { scale = 2.0, maxPages = 10, enableOCR = true, onProgress } = options;
 
   console.log('[PDFToImage] Starting PDF to image conversion');
   console.log('[PDFToImage] File:', file.name, 'Size:', file.size);
@@ -114,10 +118,55 @@ export async function convertPDFToImages(
 
     console.log(`[PDFToImage] ✓ Conversion complete: ${images.length}/${pagesToProcess} pages`);
 
+    // Perform OCR on converted images if enabled
+    let combinedText = '';
+    if (enableOCR && images.length > 0) {
+      console.log('[PDFToImage] Starting OCR on converted images...');
+
+      try {
+        // Create Tesseract worker once for all pages
+        const worker = await createWorker('eng');
+
+        for (let i = 0; i < images.length; i++) {
+          const img = images[i];
+
+          if (onProgress) {
+            onProgress(img.pageNumber, pagesToProcess, `OCR page ${img.pageNumber}...`);
+          }
+
+          console.log(`[PDFToImage] OCR processing page ${img.pageNumber}...`);
+
+          try {
+            // OCR the data URL
+            const { data: { text } } = await worker.recognize(img.dataUrl);
+
+            img.text = text.trim();
+            combinedText += text.trim() + '\n\n';
+
+            console.log(`[PDFToImage] ✓ OCR page ${img.pageNumber}: ${text.length} chars`);
+
+          } catch (ocrError: any) {
+            console.error(`[PDFToImage] OCR failed for page ${img.pageNumber}:`, ocrError.message);
+            img.text = '';
+          }
+        }
+
+        // Terminate worker
+        await worker.terminate();
+
+        console.log('[PDFToImage] ✓ OCR complete, total text:', combinedText.length, 'chars');
+
+      } catch (ocrError: any) {
+        console.error('[PDFToImage] OCR initialization failed:', ocrError.message);
+        // Continue without OCR
+      }
+    }
+
     return {
       success: true,
       images,
       totalPages,
+      combinedText: combinedText.trim(),
     };
 
   } catch (error: any) {
