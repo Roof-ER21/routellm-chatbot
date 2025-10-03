@@ -21,6 +21,7 @@
     "@types/react-dom": "^19.1.11",
     "@vercel/postgres": "^0.10.0",
     "autoprefixer": "^10.4.21",
+    "canvas": "^3.2.0",
     "jspdf": "^3.0.3",
     "mammoth": "^1.11.0",
     "next": "^15.5.4",

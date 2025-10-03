@@ -18,6 +18,7 @@
 
 import { useState, useRef, DragEvent } from 'react';
 import { extractPDFText, isPDF } from '@/lib/client-pdf-extractor';
+import { convertPDFToImages, isPDFScanned, dataUrlToFile } from '@/lib/pdf-to-image-converter';
 
 interface UnifiedAnalyzerModalProps {
   isOpen: boolean;
@@ -37,6 +38,7 @@ export default function UnifiedAnalyzerModal({ isOpen, onClose, onAnalyzed }: Un
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [isDragging, setIsDragging] = useState(false);
+  const [conversionProgress, setConversionProgress] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // File type detection
@@ -162,36 +164,82 @@ export default function UnifiedAnalyzerModal({ isOpen, onClose, onAnalyzed }: Un
     try {
       const formData = new FormData();
 
-      // Process PDFs client-side before uploading
+      // Process PDFs with smart detection
       console.log('[UnifiedAnalyzer] Processing files...');
       let pdfCount = 0;
       let pdfExtractedCount = 0;
+      let pdfConvertedCount = 0;
 
       for (const uf of uploadedFiles) {
         if (isPDF(uf.file)) {
           pdfCount++;
-          console.log('[UnifiedAnalyzer] Extracting PDF text client-side:', uf.file.name);
+          console.log('[UnifiedAnalyzer] Processing PDF:', uf.file.name);
 
           try {
-            const extracted = await extractPDFText(uf.file);
+            // First, check if PDF is scanned (no text)
+            setConversionProgress(`Analyzing ${uf.file.name}...`);
+            const isScanned = await isPDFScanned(uf.file);
 
-            if (extracted.success && extracted.text.length > 0) {
-              pdfExtractedCount++;
-              console.log('[UnifiedAnalyzer] ✓ PDF extracted:', extracted.text.length, 'chars');
+            if (isScanned) {
+              // PDF is scanned - convert to images and OCR
+              console.log('[UnifiedAnalyzer] 📷 Scanned PDF detected - converting to images...');
+              setConversionProgress(`Converting ${uf.file.name} to images...`);
 
-              // Create a text file with the extracted content
-              const textBlob = new Blob([extracted.text], { type: 'text/plain' });
-              const textFile = new File([textBlob], uf.file.name.replace('.pdf', '.txt'), { type: 'text/plain' });
-              formData.append('files', textFile);
+              const conversion = await convertPDFToImages(uf.file, {
+                scale: 2.0,
+                maxPages: 10,
+                onProgress: (page, total) => {
+                  setConversionProgress(`Converting page ${page}/${total} of ${uf.file.name}...`);
+                }
+              });
+
+              if (conversion.success && conversion.images.length > 0) {
+                pdfConvertedCount++;
+                console.log(`[UnifiedAnalyzer] ✓ Converted to ${conversion.images.length} images`);
+
+                // Upload each page as a separate image (will be OCR'd on server)
+                for (const img of conversion.images) {
+                  const imgFile = dataUrlToFile(
+                    img.dataUrl,
+                    `${uf.file.name.replace('.pdf', '')}_page${img.pageNumber}.jpg`
+                  );
+                  formData.append('files', imgFile);
+                }
+
+                setConversionProgress('');
+              } else {
+                console.warn('[UnifiedAnalyzer] Conversion failed, uploading original PDF');
+                formData.append('files', uf.file);
+              }
+
             } else {
-              console.warn('[UnifiedAnalyzer] PDF extraction failed:', extracted.error);
-              // Still upload the PDF, let server handle it
-              formData.append('files', uf.file);
+              // PDF has text - try extracting it
+              console.log('[UnifiedAnalyzer] Text-based PDF - extracting...');
+              setConversionProgress(`Extracting text from ${uf.file.name}...`);
+
+              const extracted = await extractPDFText(uf.file);
+
+              if (extracted.success && extracted.text.length > 50) {
+                pdfExtractedCount++;
+                console.log('[UnifiedAnalyzer] ✓ PDF text extracted:', extracted.text.length, 'chars');
+
+                // Create a text file with the extracted content
+                const textBlob = new Blob([extracted.text], { type: 'text/plain' });
+                const textFile = new File([textBlob], uf.file.name.replace('.pdf', '.txt'), { type: 'text/plain' });
+                formData.append('files', textFile);
+              } else {
+                console.warn('[UnifiedAnalyzer] Text extraction returned minimal content');
+                formData.append('files', uf.file);
+              }
+
+              setConversionProgress('');
             }
+
           } catch (pdfError: any) {
-            console.error('[UnifiedAnalyzer] PDF extraction error:', pdfError);
+            console.error('[UnifiedAnalyzer] PDF processing error:', pdfError);
             // Fallback: upload original PDF
             formData.append('files', uf.file);
+            setConversionProgress('');
           }
         } else {
           // Non-PDF files go through as-is
@@ -496,7 +544,7 @@ export default function UnifiedAnalyzerModal({ isOpen, onClose, onAnalyzed }: Un
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                <span>Analyzing...</span>
+                <span>{conversionProgress || 'Analyzing...'}</span>
               </>
             ) : (
               `Analyze ${uploadedFiles.length} File${uploadedFiles.length !== 1 ? 's' : ''}`
