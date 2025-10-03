@@ -2,7 +2,10 @@ import { Resend } from 'resend'
 import { convertToHTMLEmail, extractRecipientName } from './email-templates'
 import { logSentEmail, EmailLog } from './db'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Initialize Resend only if API key is available (optional feature)
+const resend = process.env.RESEND_API_KEY
+  ? new Resend(process.env.RESEND_API_KEY)
+  : null
 
 // Email configuration
 const FROM_EMAIL = process.env.FROM_EMAIL || 'Roof-ER Claims <noreply@susanai-21.vercel.app>'
@@ -14,6 +17,11 @@ export async function sendRealTimeNotification(
   aiResponse: string
 ) {
   try {
+    if (!resend) {
+      console.log('Email notifications disabled - RESEND_API_KEY not configured')
+      return { success: false, error: 'Email service not configured' }
+    }
+
     const { data, error } = await resend.emails.send({
       from: 'SusanAI-21 <onboarding@resend.dev>',
       to: ['ahmed.mahmoud@theroofdocs.com'],
@@ -68,6 +76,11 @@ export async function sendRealTimeNotification(
 
 export async function sendNightlyReport(stats: any[], transcripts: any[]) {
   try {
+    if (!resend) {
+      console.log('Email reports disabled - RESEND_API_KEY not configured')
+      return { success: false, error: 'Email service not configured' }
+    }
+
     const totalChats = stats.reduce((sum, rep) => sum + (rep.message_count || 0), 0)
     const totalSessions = stats.reduce((sum, rep) => sum + (rep.session_count || 0), 0)
 
@@ -208,6 +221,11 @@ export interface SendEmailOptions {
 
 export async function sendClaimEmail(options: SendEmailOptions) {
   try {
+    if (!resend) {
+      console.log('Email service disabled - RESEND_API_KEY not configured')
+      return { success: false, error: 'Email service not configured' }
+    }
+
     // Convert plain text to HTML email with branding
     const recipientName = extractRecipientName(options.body)
     const emailTemplate = convertToHTMLEmail(
