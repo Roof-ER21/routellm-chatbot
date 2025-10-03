@@ -1,4 +1,5 @@
-import { sql } from '@vercel/postgres'
+// Use Railway PostgreSQL instead of Vercel
+import sql from './railway-db'
 
 export async function ensureTablesExist() {
   try {

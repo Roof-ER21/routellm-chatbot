@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sql } from '@vercel/postgres';
+import sql from '@/lib/railway-db';
 
 // GET /api/insurance/companies - List all companies with optional search
 export async function GET(request: NextRequest) {

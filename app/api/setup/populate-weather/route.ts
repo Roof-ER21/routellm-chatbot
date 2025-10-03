@@ -7,7 +7,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { sql } from '@vercel/postgres';
+import sql from '@/lib/railway-db';
 
 const COMPREHENSIVE_STORM_DATA = [
   // VIRGINIA - 2024

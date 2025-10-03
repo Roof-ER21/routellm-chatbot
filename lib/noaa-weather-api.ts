@@ -7,7 +7,7 @@
  * API Documentation: https://www.ncei.noaa.gov/access/services/data/v1
  */
 
-import { sql } from '@vercel/postgres'
+import sql, { query as dbQuery } from './railway-db'
 
 // Types
 export interface HailEvent {
@@ -297,7 +297,7 @@ export async function queryHailEvents(params: WeatherQueryParams): Promise<HailE
 
   query += ' ORDER BY event_date DESC LIMIT 100'
 
-  const result = await sql.query(query, values)
+  const result = await dbQuery(query, values)
 
   return result.rows.map(row => ({
     id: row.id,

@@ -7,7 +7,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { sql } from '@vercel/postgres';
+import sql from '@/lib/railway-db';
 
 const INSURANCE_COMPANIES = [
   { name: 'AAA', handler: 'Team', phone: '(800) 922-8228', ext_instructions: 'use also (888) 335 - 2722', email: 'myclaims@csaa.com' },
