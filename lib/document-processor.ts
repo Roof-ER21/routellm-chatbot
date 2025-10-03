@@ -46,6 +46,8 @@ export interface DocumentMetadata {
   columnCount?: number; // For Excel
   wordCount?: number;
   extractedData?: Record<string, any>;
+  ocrUsed?: boolean; // True if OCR was used for text extraction
+  hasOCRText?: boolean; // True if image had extractable text
   visionAnalysis?: {
     confidence: number;
     is_roof: boolean;
