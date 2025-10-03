@@ -577,7 +577,13 @@ export class AbacusDocumentAnalyzer {
         .join('\n\n');
 
       console.log('[AbacusAnalyzer] Combined text length:', combinedText.length);
+      console.log('[AbacusAnalyzer] Combined text preview:', combinedText.substring(0, 500));
       console.log('[AbacusAnalyzer] Documents with extracted text:', documents.filter(doc => doc.success && doc.extractedText).length);
+
+      // Log each document's extraction status
+      documents.forEach(doc => {
+        console.log(`[AbacusAnalyzer] ${doc.fileName}: success=${doc.success}, textLength=${doc.extractedText?.length || 0}, error=${doc.error || 'none'}`);
+      });
 
       // Extract insurance data from combined text
       const processor = new DocumentProcessor();
@@ -613,8 +619,15 @@ export class AbacusDocumentAnalyzer {
       // Add text documents
       if (combinedText.trim()) {
         analysisPrompt += `DOCUMENT CONTENTS:\n${combinedText}\n\n`;
+        console.log('[AbacusAnalyzer] ✓ Document text added to prompt (length:', combinedText.length, ')');
       } else {
-        console.log('[AbacusAnalyzer] WARNING: No extracted text from documents - may be images only');
+        console.log('[AbacusAnalyzer] ⚠️ WARNING: No extracted text from documents - may be images only or extraction failed');
+        console.log('[AbacusAnalyzer] Document processing statuses:', documents.map(d => ({
+          name: d.fileName,
+          success: d.success,
+          textLength: d.extractedText?.length || 0,
+          error: d.error
+        })));
       }
 
       analysisPrompt += `Please provide:\n`;
