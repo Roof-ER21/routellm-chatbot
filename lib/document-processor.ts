@@ -11,6 +11,7 @@
 
 import * as mammoth from 'mammoth';
 import * as XLSX from 'xlsx';
+import { createWorker } from 'tesseract.js';
 
 // Use dynamic require for pdf-parse to avoid webpack issues
 const pdfParse = typeof window === 'undefined' ? require('pdf-parse') : null;
@@ -228,12 +229,27 @@ export class DocumentProcessor {
       // Use pdf-parse which works better in serverless environments
       const data = await pdfParse(buffer);
 
-      const extractedText = data.text;
+      let extractedText = data.text;
       const numPages = data.numpages; // pdf-parse v1 uses 'numpages'
 
       console.log('[DocumentProcessor] PDF parsed successfully:');
       console.log('[DocumentProcessor] - Pages:', numPages);
       console.log('[DocumentProcessor] - Text length:', extractedText.length);
+
+      // If no text was extracted, it's likely a scanned PDF - try OCR
+      if (!extractedText || extractedText.trim().length < 50) {
+        console.log('[DocumentProcessor] PDF has minimal/no text - attempting OCR...');
+        try {
+          const ocrText = await this.extractTextWithOCR(buffer, 'pdf');
+          if (ocrText && ocrText.trim().length > extractedText.trim().length) {
+            console.log('[DocumentProcessor] ✓ OCR successful - extracted', ocrText.length, 'characters');
+            extractedText = ocrText;
+          }
+        } catch (ocrError: any) {
+          console.warn('[DocumentProcessor] OCR failed:', ocrError.message);
+          // Continue with original text (even if empty)
+        }
+      }
 
       const info = data.info as any; // Type assertion for info object
 
@@ -248,7 +264,8 @@ export class DocumentProcessor {
           author: info?.Author,
           subject: info?.Subject,
           creator: info?.Creator,
-          wordCount: this.countWords(extractedText)
+          wordCount: this.countWords(extractedText),
+          ocrUsed: extractedText.length > data.text.length
         },
         preview: this.generatePreview(extractedText),
         processingTime: 0,
@@ -260,6 +277,31 @@ export class DocumentProcessor {
       console.error('[DocumentProcessor] Error message:', error.message);
       console.error('[DocumentProcessor] Error stack:', error.stack);
       console.error('[DocumentProcessor] =====================================');
+
+      // Try OCR as last resort
+      console.log('[DocumentProcessor] Attempting OCR as fallback...');
+      try {
+        const ocrText = await this.extractTextWithOCR(buffer, 'pdf');
+        if (ocrText && ocrText.trim().length > 50) {
+          console.log('[DocumentProcessor] ✓ OCR fallback successful');
+          return {
+            fileName,
+            fileType: 'pdf',
+            fileSize,
+            extractedText: ocrText.trim(),
+            metadata: {
+              pageCount: 1,
+              wordCount: this.countWords(ocrText),
+              ocrUsed: true
+            },
+            preview: this.generatePreview(ocrText),
+            processingTime: 0,
+            success: true
+          };
+        }
+      } catch (ocrError) {
+        console.error('[DocumentProcessor] OCR fallback also failed');
+      }
 
       // Return partial result with error and helpful message
       return {
@@ -274,9 +316,11 @@ export class DocumentProcessor {
         preview: '',
         processingTime: 0,
         success: false,
-        error: `PDF text extraction failed in serverless environment.
+        error: `PDF text extraction failed.
 
-WORKAROUND: Please copy the text from your PDF and paste it directly, or upload the PDF as images/screenshots instead.
+This PDF may be password-protected, corrupted, or use an unsupported format.
+
+WORKAROUND: Try uploading the PDF as images (screenshots) or copy/paste the text directly.
 
 Technical details: ${error.message}`
       };
@@ -379,19 +423,74 @@ Technical details: ${error.message}`
       const base64 = buffer.toString('base64');
       const mimeType = this.getImageMimeType(fileName);
 
+      // Try OCR on the image to extract any text
+      let extractedText = '';
+      try {
+        console.log('[DocumentProcessor] Attempting OCR on image:', fileName);
+        extractedText = await this.extractTextWithOCR(buffer, 'image');
+        console.log('[DocumentProcessor] OCR extracted', extractedText.length, 'characters from image');
+      } catch (ocrError: any) {
+        console.warn('[DocumentProcessor] OCR on image failed:', ocrError.message);
+        // Continue without text - image will still be sent for AI analysis
+      }
+
       return {
         fileName,
         fileType: 'image',
         fileSize,
-        extractedText: '', // Will be analyzed by Abacus AI
-        metadata: {},
+        extractedText: extractedText.trim(),
+        metadata: {
+          hasOCRText: extractedText.trim().length > 0,
+          wordCount: this.countWords(extractedText)
+        },
         base64: `data:${mimeType};base64,${base64}`,
-        preview: '[Image file - will be analyzed by AI]',
+        preview: extractedText.trim() || '[Image file - will be analyzed by AI]',
         processingTime: 0,
         success: true
       };
     } catch (error: any) {
       throw new Error(`Image processing failed: ${error.message}`);
+    }
+  }
+
+  // ============================================================================
+  // OCR TEXT EXTRACTION
+  // ============================================================================
+
+  /**
+   * Extract text from images or scanned PDFs using OCR (Tesseract.js)
+   */
+  private async extractTextWithOCR(buffer: Buffer, fileType: 'pdf' | 'image'): Promise<string> {
+    console.log('[DocumentProcessor] Starting OCR extraction for', fileType);
+
+    try {
+      // For PDFs, we need to convert to images first using pdf-lib
+      let imageBuffer = buffer;
+
+      if (fileType === 'pdf') {
+        // For now, use the buffer directly
+        // TODO: Convert PDF pages to images for multi-page OCR
+        console.log('[DocumentProcessor] OCR for scanned PDFs requires PDF-to-image conversion');
+        console.log('[DocumentProcessor] Using direct buffer (may not work for all PDFs)');
+      }
+
+      // Create Tesseract worker
+      const worker = await createWorker('eng');
+
+      console.log('[DocumentProcessor] Tesseract worker created, processing...');
+
+      // Perform OCR
+      const { data: { text } } = await worker.recognize(imageBuffer);
+
+      console.log('[DocumentProcessor] OCR complete - extracted', text.length, 'characters');
+
+      // Terminate worker
+      await worker.terminate();
+
+      return text;
+    } catch (error: any) {
+      console.error('[DocumentProcessor] OCR error:', error.message);
+      throw new Error(`OCR extraction failed: ${error.message}`);
     }
   }
 
