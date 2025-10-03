@@ -1,0 +1,631 @@
+/**
+ * Voice Command System - Usage Examples
+ *
+ * This file contains complete examples of how to integrate the voice command system
+ * into your Next.js application, React Native app, or any JavaScript frontend.
+ */
+
+// ============================================================================
+// Example 1: Simple Voice Command Button (Next.js / React)
+// ============================================================================
+
+'use client'
+
+import { useState } from 'react'
+
+export function SimpleVoiceButton() {
+  const [isListening, setIsListening] = useState(false)
+  const [transcript, setTranscript] = useState('')
+  const [response, setResponse] = useState<string | null>(null)
+
+  const startListening = () => {
+    if (!('webkitSpeechRecognition' in window)) {
+      alert('Voice recognition is not supported in this browser')
+      return
+    }
+
+    const recognition = new (window as any).webkitSpeechRecognition()
+    recognition.continuous = false
+    recognition.interimResults = false
+    recognition.lang = 'en-US'
+
+    recognition.onstart = () => {
+      setIsListening(true)
+      setTranscript('')
+      setResponse(null)
+    }
+
+    recognition.onend = () => {
+      setIsListening(false)
+    }
+
+    recognition.onresult = async (event: any) => {
+      const voiceTranscript = event.results[0][0].transcript
+      setTranscript(voiceTranscript)
+
+      // Send to API
+      try {
+        const res = await fetch('/api/voice/command', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            transcript: voiceTranscript,
+          }),
+        })
+
+        const data = await res.json()
+
+        if (data.success && data.result?.voiceResponse) {
+          setResponse(data.result.voiceResponse)
+
+          // Speak the response
+          const utterance = new SpeechSynthesisUtterance(data.result.voiceResponse)
+          utterance.rate = 0.9
+          utterance.pitch = 1.0
+          speechSynthesis.speak(utterance)
+        }
+      } catch (error) {
+        console.error('Voice command error:', error)
+        setResponse('Sorry, I encountered an error.')
+      }
+    }
+
+    recognition.onerror = (event: any) => {
+      console.error('Speech recognition error:', event.error)
+      setIsListening(false)
+    }
+
+    recognition.start()
+  }
+
+  return (
+    <div className="p-4 space-y-4">
+      <button
+        onClick={startListening}
+        disabled={isListening}
+        className={`px-6 py-3 rounded-lg font-semibold ${
+          isListening
+            ? 'bg-red-500 text-white animate-pulse'
+            : 'bg-blue-600 text-white hover:bg-blue-700'
+        }`}
+      >
+        {isListening ? '🎤 Listening...' : '🎤 Voice Command'}
+      </button>
+
+      {transcript && (
+        <div className="p-4 bg-blue-50 rounded-lg">
+          <p className="text-sm text-gray-600">You said:</p>
+          <p className="text-lg font-medium">{transcript}</p>
+        </div>
+      )}
+
+      {response && (
+        <div className="p-4 bg-green-50 rounded-lg">
+          <p className="text-sm text-gray-600">Susan AI:</p>
+          <p className="text-lg">{response}</p>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ============================================================================
+// Example 2: Advanced Voice Command with Context (Next.js / React)
+// ============================================================================
+
+'use client'
+
+import { useState, useEffect } from 'react'
+
+interface VoiceResult {
+  success: boolean
+  command: {
+    type: string
+    confidence: number
+    parameters: any
+  }
+  result: {
+    action: string
+    voiceResponse: string
+    [key: string]: any
+  }
+}
+
+export function AdvancedVoiceCommand() {
+  const [isListening, setIsListening] = useState(false)
+  const [result, setResult] = useState<VoiceResult | null>(null)
+  const [repName, setRepName] = useState('John Doe')
+  const [sessionId, setSessionId] = useState('')
+
+  useEffect(() => {
+    // Generate session ID on mount
+    setSessionId(`session_${Date.now()}_${Math.random().toString(36).substring(7)}`)
+  }, [])
+
+  const processVoiceCommand = async (transcript: string, location?: GeolocationPosition) => {
+    try {
+      const context: any = {}
+
+      // Add location if available
+      if (location) {
+        context.location = {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+        }
+      }
+
+      const res = await fetch('/api/voice/command', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          transcript,
+          repName,
+          sessionId,
+          context,
+        }),
+      })
+
+      const data = await res.json()
+      setResult(data)
+
+      // Speak response
+      if (data.result?.voiceResponse) {
+        const utterance = new SpeechSynthesisUtterance(data.result.voiceResponse)
+        utterance.rate = 0.9
+        speechSynthesis.speak(utterance)
+      }
+
+      // Handle specific actions
+      if (data.result?.action === 'photo_requested') {
+        // Trigger photo capture
+        triggerPhotoCapture()
+      } else if (data.result?.action === 'emergency_activated') {
+        // Show emergency dialog
+        showEmergencyDialog(data.result.contacts)
+      } else if (data.result?.action === 'citation_provided') {
+        // Send citation to phone/email
+        sendToPhone(data.result.citation)
+      }
+    } catch (error) {
+      console.error('Voice command error:', error)
+    }
+  }
+
+  const startListening = () => {
+    if (!('webkitSpeechRecognition' in window)) {
+      alert('Voice recognition not supported')
+      return
+    }
+
+    const recognition = new (window as any).webkitSpeechRecognition()
+    recognition.continuous = false
+    recognition.interimResults = false
+    recognition.lang = 'en-US'
+
+    recognition.onstart = () => setIsListening(true)
+    recognition.onend = () => setIsListening(false)
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0][0].transcript
+
+      // Get location if available
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (location) => processVoiceCommand(transcript, location),
+          () => processVoiceCommand(transcript)
+        )
+      } else {
+        processVoiceCommand(transcript)
+      }
+    }
+
+    recognition.start()
+  }
+
+  const triggerPhotoCapture = () => {
+    console.log('Triggering photo capture...')
+    // Implement photo capture logic
+  }
+
+  const showEmergencyDialog = (contacts: any) => {
+    console.log('Emergency contacts:', contacts)
+    // Implement emergency dialog
+  }
+
+  const sendToPhone = (citation: string) => {
+    console.log('Sending to phone:', citation)
+    // Implement send to phone logic
+  }
+
+  return (
+    <div className="max-w-2xl mx-auto p-6 space-y-6">
+      <div className="flex items-center gap-4">
+        <input
+          type="text"
+          value={repName}
+          onChange={(e) => setRepName(e.target.value)}
+          placeholder="Rep Name"
+          className="flex-1 px-4 py-2 border rounded-lg"
+        />
+        <button
+          onClick={startListening}
+          disabled={isListening}
+          className={`px-8 py-3 rounded-lg font-semibold text-white ${
+            isListening
+              ? 'bg-red-600 animate-pulse'
+              : 'bg-blue-600 hover:bg-blue-700'
+          }`}
+        >
+          {isListening ? '🎤 Listening...' : '🎤 Start Voice Command'}
+        </button>
+      </div>
+
+      {result && (
+        <div className="space-y-4">
+          <div className="p-4 bg-blue-50 rounded-lg">
+            <h3 className="font-semibold text-blue-900">Command Detected</h3>
+            <p className="text-sm text-blue-700">
+              Type: {result.command.type} | Confidence: {(result.command.confidence * 100).toFixed(0)}%
+            </p>
+          </div>
+
+          <div className="p-4 bg-green-50 rounded-lg">
+            <h3 className="font-semibold text-green-900">Action Taken</h3>
+            <p className="text-sm text-green-700">
+              {result.result.action}
+            </p>
+            <p className="mt-2 text-green-900">
+              {result.result.voiceResponse}
+            </p>
+          </div>
+
+          {result.result.template && (
+            <div className="p-4 bg-purple-50 rounded-lg">
+              <h3 className="font-semibold text-purple-900">Generated Template</h3>
+              <pre className="mt-2 text-sm text-purple-800 whitespace-pre-wrap">
+                {result.result.template}
+              </pre>
+            </div>
+          )}
+
+          {result.result.citation && (
+            <div className="p-4 bg-yellow-50 rounded-lg">
+              <h3 className="font-semibold text-yellow-900">Building Code Citation</h3>
+              <p className="mt-2 text-yellow-800">
+                {result.result.citation}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ============================================================================
+// Example 3: Voice Command Hook (Reusable)
+// ============================================================================
+
+import { useState, useCallback } from 'react'
+
+export function useVoiceCommand() {
+  const [isListening, setIsListening] = useState(false)
+  const [transcript, setTranscript] = useState('')
+  const [result, setResult] = useState<any>(null)
+  const [error, setError] = useState<string | null>(null)
+
+  const processCommand = useCallback(async (text: string, context?: any) => {
+    try {
+      const res = await fetch('/api/voice/command', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          transcript: text,
+          ...context,
+        }),
+      })
+
+      const data = await res.json()
+      setResult(data)
+
+      // Speak response
+      if (data.result?.voiceResponse) {
+        const utterance = new SpeechSynthesisUtterance(data.result.voiceResponse)
+        utterance.rate = 0.9
+        speechSynthesis.speak(utterance)
+      }
+
+      return data
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error')
+      return null
+    }
+  }, [])
+
+  const startListening = useCallback((context?: any) => {
+    if (!('webkitSpeechRecognition' in window)) {
+      setError('Voice recognition not supported')
+      return
+    }
+
+    const recognition = new (window as any).webkitSpeechRecognition()
+    recognition.continuous = false
+    recognition.interimResults = false
+    recognition.lang = 'en-US'
+
+    recognition.onstart = () => {
+      setIsListening(true)
+      setError(null)
+    }
+
+    recognition.onend = () => {
+      setIsListening(false)
+    }
+
+    recognition.onresult = (event: any) => {
+      const text = event.results[0][0].transcript
+      setTranscript(text)
+      processCommand(text, context)
+    }
+
+    recognition.onerror = (event: any) => {
+      setError(`Speech recognition error: ${event.error}`)
+      setIsListening(false)
+    }
+
+    recognition.start()
+  }, [processCommand])
+
+  const stopListening = useCallback(() => {
+    speechSynthesis.cancel()
+    setIsListening(false)
+  }, [])
+
+  return {
+    isListening,
+    transcript,
+    result,
+    error,
+    startListening,
+    stopListening,
+    processCommand,
+  }
+}
+
+// Usage of the hook:
+export function VoiceHookExample() {
+  const { isListening, transcript, result, error, startListening } = useVoiceCommand()
+
+  return (
+    <div>
+      <button onClick={() => startListening({ repName: 'Jane Doe' })}>
+        {isListening ? 'Listening...' : 'Start Voice Command'}
+      </button>
+      {transcript && <p>You said: {transcript}</p>}
+      {result && <p>Response: {result.result?.voiceResponse}</p>}
+      {error && <p className="text-red-600">Error: {error}</p>}
+    </div>
+  )
+}
+
+// ============================================================================
+// Example 4: React Native Integration
+// ============================================================================
+
+/*
+import React, { useState, useEffect } from 'react'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import Voice from '@react-native-voice/voice'
+import Tts from 'react-native-tts'
+import Geolocation from '@react-native-community/geolocation'
+
+export function VoiceCommandMobile() {
+  const [isListening, setIsListening] = useState(false)
+  const [transcript, setTranscript] = useState('')
+  const [response, setResponse] = useState('')
+
+  useEffect(() => {
+    Voice.onSpeechStart = () => setIsListening(true)
+    Voice.onSpeechEnd = () => setIsListening(false)
+    Voice.onSpeechResults = (e) => {
+      const text = e.value[0]
+      setTranscript(text)
+      processCommand(text)
+    }
+
+    return () => {
+      Voice.destroy().then(Voice.removeAllListeners)
+    }
+  }, [])
+
+  const processCommand = async (text: string) => {
+    try {
+      // Get location
+      const location = await new Promise((resolve) => {
+        Geolocation.getCurrentPosition(
+          (pos) => resolve({
+            latitude: pos.coords.latitude,
+            longitude: pos.coords.longitude,
+          }),
+          () => resolve(null)
+        )
+      })
+
+      // Send to API
+      const res = await fetch('https://your-domain.vercel.app/api/voice/command', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          transcript: text,
+          repName: 'Mobile User',
+          context: { location },
+        }),
+      })
+
+      const data = await res.json()
+
+      if (data.result?.voiceResponse) {
+        setResponse(data.result.voiceResponse)
+        Tts.speak(data.result.voiceResponse)
+      }
+
+      // Handle specific actions
+      if (data.result?.action === 'photo_requested') {
+        // Open camera
+        openCamera()
+      }
+    } catch (error) {
+      console.error('Voice command error:', error)
+    }
+  }
+
+  const startListening = async () => {
+    try {
+      await Voice.start('en-US')
+    } catch (error) {
+      console.error('Failed to start voice recognition:', error)
+    }
+  }
+
+  const openCamera = () => {
+    // Implement camera opening logic
+  }
+
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={[styles.button, isListening && styles.buttonListening]}
+        onPress={startListening}
+        disabled={isListening}
+      >
+        <Text style={styles.buttonText}>
+          {isListening ? '🎤 Listening...' : '🎤 Voice Command'}
+        </Text>
+      </TouchableOpacity>
+
+      {transcript && (
+        <View style={styles.card}>
+          <Text style={styles.label}>You said:</Text>
+          <Text style={styles.text}>{transcript}</Text>
+        </View>
+      )}
+
+      {response && (
+        <View style={styles.card}>
+          <Text style={styles.label}>Susan AI:</Text>
+          <Text style={styles.text}>{response}</Text>
+        </View>
+      )}
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f5f5f5',
+  },
+  button: {
+    backgroundColor: '#3b82f6',
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  buttonListening: {
+    backgroundColor: '#dc2626',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  card: {
+    marginTop: 16,
+    padding: 16,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  label: {
+    fontSize: 12,
+    color: '#6b7280',
+    marginBottom: 4,
+  },
+  text: {
+    fontSize: 16,
+    color: '#111827',
+  },
+})
+*/
+
+// ============================================================================
+// Example 5: Testing Voice Commands
+// ============================================================================
+
+// Test function for development
+export async function testVoiceCommand(transcript: string) {
+  const response = await fetch('/api/voice/command', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      transcript,
+      repName: 'Test User',
+      sessionId: `test_${Date.now()}`,
+    }),
+  })
+
+  const data = await response.json()
+  console.log('Command Type:', data.command?.type)
+  console.log('Action:', data.result?.action)
+  console.log('Response:', data.result?.voiceResponse)
+
+  return data
+}
+
+// Example test calls:
+// testVoiceCommand('Susan, document hail damage')
+// testVoiceCommand('Susan, cite IRC flashing code')
+// testVoiceCommand('Susan, draft State Farm appeal letter')
+// testVoiceCommand('Susan, analyze photo')
+// testVoiceCommand('Susan, help with roof measurements')
+// testVoiceCommand('Susan, emergency')
+// testVoiceCommand('What are common hail damage indicators')
+
+// ============================================================================
+// Example 6: Get Command Suggestions
+// ============================================================================
+
+export async function getVoiceSuggestions() {
+  const response = await fetch('/api/voice/suggestions')
+  const data = await response.json()
+
+  console.log('Available commands:', data.suggestions)
+  console.log('Command types:', data.commandTypes)
+  console.log('Categories:', data.categories)
+
+  return data
+}
+
+// ============================================================================
+// Example 7: Check System Status
+// ============================================================================
+
+export async function checkVoiceSystemStatus() {
+  const response = await fetch('/api/voice/command')
+  const data = await response.json()
+
+  console.log('System status:', data.status)
+  console.log('Supported commands:', data.supportedCommands)
+  console.log('Components:', {
+    parser: data.parser,
+    router: data.router,
+    responseGenerator: data.responseGenerator,
+  })
+
+  return data
+}

@@ -1,0 +1,733 @@
+{
+  "metadata": {
+    "title": "Susan AI-21 Complete Knowledge Base for Abacus AI",
+    "version": "1.0",
+    "date_created": "2025-10-02",
+    "source": "susan-ai-21-v2-hf training data",
+    "total_documents": 8,
+    "total_qa_entries": "1000+",
+    "purpose": "Insurance claim automation and sales rep training for Roof-ER",
+    "coverage_states": ["Virginia", "Maryland", "Pennsylvania", "DC", "Delaware", "West Virginia"],
+    "optimization": "Structured for RAG (Retrieval Augmented Generation) in Abacus AI",
+    "chunking_strategy": "Semantic sections with Q&A preservation",
+    "total_size_bytes": 407516
+  },
+  "knowledge_domains": [
+    {
+      "domain_id": "qa_database",
+      "domain_name": "Q&A Knowledge Database",
+      "description": "1000+ insurance claim scenarios with responses",
+      "sections": [
+        {
+          "section_id": "insurance_pushback",
+          "section_name": "Insurance Pushback & Arguments",
+          "qa_range": "Q1-Q100",
+          "source": "Pushback.docx",
+          "key_topics": [
+            "Damage assessment denials",
+            "Hail damage classification",
+            "Discontinued materials",
+            "Storm event verification",
+            "Functionality vs coverage",
+            "Code compliance"
+          ]
+        },
+        {
+          "section_id": "documentation_templates",
+          "section_name": "Documentation & Templates",
+          "qa_range": "Q101-Q200",
+          "source": "docs_temps.docx",
+          "key_topics": [
+            "Repair attempt templates",
+            "Photo report requirements",
+            "iTel report usage",
+            "Template selection logic"
+          ]
+        },
+        {
+          "section_id": "gaf_manufacturer",
+          "section_name": "GAF Manufacturer Guidelines & Storm Standards",
+          "qa_range": "Q201-Q300",
+          "source": "GAF_Storm.docx",
+          "key_topics": [
+            "Shingle creasing",
+            "Sealant bond failures",
+            "Granule loss",
+            "Bruising and mat fractures",
+            "Slope replacement requirements"
+          ]
+        },
+        {
+          "section_id": "building_codes",
+          "section_name": "Building Code Requirements",
+          "qa_range": "Q301-Q400",
+          "source": "susan_ai.docx",
+          "key_topics": [
+            "Virginia codes (R908.3, R905.2.2, R703)",
+            "Maryland codes (R703, R908.3, Bulletin 18-23)",
+            "Pennsylvania codes (R908.3)",
+            "Low slope requirements",
+            "Double layer requirements"
+          ],
+          "state_specific_codes": {
+            "virginia": ["R908.3 Roof Replacement", "R905.2.2 Slope Requirements", "R703 Wall Covering"],
+            "maryland": ["R703 Exterior Wrap", "R908.3 Roof Replacement", "MD Bulletin 18-23 Matching", "MD Title 27 Subtitle 3 Unfair Claims"],
+            "pennsylvania": ["R908.3 Roof Replacement - Complete tear-off required"]
+          }
+        },
+        {
+          "section_id": "arbitration_escalation",
+          "section_name": "Arbitration, Complaints & Escalation",
+          "qa_range": "Q401-Q500",
+          "source": "Escal.docx",
+          "key_topics": [
+            "Arbitration procedures",
+            "State complaint forms",
+            "Escalation pathways",
+            "Dispute resolution"
+          ]
+        },
+        {
+          "section_id": "training_best_practices",
+          "section_name": "Training, Sales & Field Best Practices",
+          "qa_range": "Q501-Q600",
+          "source": "Training.docx",
+          "key_topics": [
+            "Team leader involvement",
+            "Field procedures",
+            "Sales techniques",
+            "Documentation standards"
+          ]
+        },
+        {
+          "section_id": "knowledge_guidance",
+          "section_name": "Knowledge Base with Guidance",
+          "qa_range": "Q601-Q750",
+          "source": "Knowledge.docx",
+          "key_topics": [
+            "GAF patching guidelines",
+            "Source document application",
+            "Template usage guidance",
+            "Code citation methods"
+          ]
+        },
+        {
+          "section_id": "troubleshooting",
+          "section_name": "Stuck → Do This (Troubleshooting)",
+          "qa_range": "Q751-Q1000+",
+          "source": "Stuck_do.docx",
+          "key_topics": [
+            "Denial responses",
+            "Partial approval strategies",
+            "Escalation triggers",
+            "Problem resolution"
+          ]
+        }
+      ]
+    },
+    {
+      "domain_id": "email_templates",
+      "domain_name": "Email Templates",
+      "description": "13 professional email templates for insurance negotiations",
+      "total_templates": 13,
+      "templates": [
+        {
+          "template_id": "photo_report",
+          "template_name": "Photo Report Template",
+          "use_case": "Additional damage documentation for partial approvals or denials",
+          "key_variables": ["CLAIM_NUMBER", "HOMEOWNER_NAME"],
+          "success_rate": "65%"
+        },
+        {
+          "template_id": "repair_attempt",
+          "template_name": "Repair Attempt Template",
+          "use_case": "Failed brittle test proving irreparability",
+          "key_variables": ["CLAIM_NUMBER", "HOMEOWNER_NAME", "VIDEO_LINK"],
+          "success_rate": "85% (with video)"
+        },
+        {
+          "template_id": "itel",
+          "template_name": "iTel Template",
+          "use_case": "Discontinued shingles requiring full replacement",
+          "key_variables": ["CLAIM_NUMBER", "HOMEOWNER_NAME", "REP_NAME"],
+          "success_rate": "75%"
+        },
+        {
+          "template_id": "customer_to_insurance",
+          "template_name": "Customer to Insurance Template",
+          "use_case": "Customer perspective email for escalation",
+          "key_variables": ["INSURANCE_COMPANY", "CLAIM_NUMBER"],
+          "success_rate": "60% (when used as escalation)"
+        },
+        {
+          "template_id": "generic_partial",
+          "template_name": "Generic Partial Template",
+          "use_case": "Flexible framework for custom arguments",
+          "key_variables": ["REP_NAME", "CUSTOMER_NAME", "CLAIM_NUMBER"]
+        },
+        {
+          "template_id": "siding_argument",
+          "template_name": "Siding Argument Template",
+          "use_case": "Siding damage, discontinued siding, code compliance",
+          "key_variables": ["REP_NAME", "CUSTOMER_NAME", "CLAIM_NUMBER"]
+        },
+        {
+          "template_id": "estimate_request",
+          "template_name": "Estimate Request Template",
+          "use_case": "Requesting estimate after inspection",
+          "key_variables": ["REP_NAME", "CUSTOMER_NAME", "DATE_OF_INSPECTION"]
+        },
+        {
+          "template_id": "gaf_guidelines",
+          "template_name": "GAF Guidelines Template",
+          "use_case": "Manufacturer guideline violations (2-3 shingle max)",
+          "key_variables": ["REP_NAME", "CUSTOMER_NAME", "CLAIM_NUMBER"],
+          "success_rate": "70%"
+        },
+        {
+          "template_id": "post_am",
+          "template_name": "Post Adjuster Meeting Template",
+          "use_case": "Same-day documentation after adjuster inspection",
+          "key_variables": ["REP_NAME", "CUSTOMER_NAME", "CLAIM_NUMBER", "PHOTO_NUMBERS"]
+        },
+        {
+          "template_id": "repair_attempt_video",
+          "template_name": "Danny's Repair Attempt Video Template",
+          "use_case": "Comprehensive video documentation of failed repair",
+          "key_variables": ["CLAIM_NUMBER", "HOMEOWNER_NAME", "YOUTUBE_LINK"],
+          "success_rate": "85%"
+        }
+      ],
+      "template_selection_logic": {
+        "initial_documentation": "photo_report",
+        "failed_repair": "repair_attempt or repair_attempt_video",
+        "denial_response": "customer_to_insurance",
+        "partial_approval": "generic_partial",
+        "siding_issues": "siding_argument",
+        "no_estimate": "estimate_request",
+        "discontinued_materials": "itel",
+        "code_requirements": "building_code_docs",
+        "storm_damage": "gaf_guidelines",
+        "deadlock": "arbitration_complaint"
+      }
+    },
+    {
+      "domain_id": "sales_scripts",
+      "domain_name": "Sales Scripts",
+      "description": "7 complete sales scripts for customer conversations",
+      "total_scripts": 7,
+      "scripts": [
+        {
+          "script_id": "initial_pitch",
+          "script_name": "Initial Pitch Script",
+          "phase": "Phase 1: Initial Contact",
+          "purpose": "First contact, secure inspection agreement",
+          "key_elements": [
+            "5 non-negotiables: who you are, who we are, make it relatable, inspection offer, close",
+            "Generic approach vs specific storm approach",
+            "Free inspection positioning",
+            "Peace of mind guarantee"
+          ]
+        },
+        {
+          "script_id": "inspection_post",
+          "script_name": "Inspection and Post-Inspection Script",
+          "phase": "Phase 2: Inspection & Presentation",
+          "purpose": "Document damage, present findings to homeowner",
+          "key_elements": [
+            "15-20 minute inspection protocol",
+            "Photo progression sequence",
+            "Collateral damage presentation",
+            "Shingle damage explanation",
+            "Insurance context framing"
+          ]
+        },
+        {
+          "script_id": "contingency_authorization",
+          "script_name": "Contingency and Claim Authorization Script",
+          "phase": "Phase 3: Claim Filing & Authorization",
+          "purpose": "Get signatures, set expectations",
+          "key_elements": [
+            "Contingency agreement explanation",
+            "Deductible-only guarantee",
+            "Null and void protection",
+            "Claim authorization benefits",
+            "Adjuster meeting importance"
+          ]
+        },
+        {
+          "script_id": "post_adjuster_meeting",
+          "script_name": "Post Adjuster Meeting Script",
+          "phase": "Phase 4: After Adjuster Visit",
+          "purpose": "Explain next steps based on adjuster decision",
+          "scenarios": ["estimate_pending", "decision_pending"],
+          "key_elements": [
+            "ACV payment explanation",
+            "Depreciation clarification",
+            "Supplement process",
+            "Project coordinator handoff",
+            "4-6 week timeline"
+          ]
+        },
+        {
+          "script_id": "full_approval_call",
+          "script_name": "Full Approval Estimate Phone Call",
+          "phase": "Phase 5A: Full Approval",
+          "purpose": "Congratulate, explain process, get referrals",
+          "key_elements": [
+            "Congratulations messaging",
+            "Payment process breakdown",
+            "Supplement guarantee",
+            "Referral request",
+            "Yard sign placement"
+          ]
+        },
+        {
+          "script_id": "partial_denial_call",
+          "script_name": "Partial Estimate/Denial Phone Call",
+          "phase": "Phase 5B: Partial/Denial",
+          "purpose": "Turn around partial or denial decisions",
+          "key_elements": [
+            "Photo report submission",
+            "Reinspection request",
+            "iTel explanation",
+            "Repair attempt video",
+            "Zero-cost reassurance"
+          ]
+        },
+        {
+          "script_id": "claim_filing_info",
+          "script_name": "Claim Filing Information Sheet",
+          "phase": "Phase 3: Claim Filing Prep",
+          "purpose": "Prepare homeowner for insurance claim call",
+          "key_elements": [
+            "Opening line: 'hail and wind damage' (never only wind)",
+            "Information insurance will request",
+            "Claim number acquisition",
+            "Adjuster info collection"
+          ]
+        }
+      ],
+      "sales_process_flow": [
+        "Phase 1: Initial Contact → Script 1",
+        "Phase 2: Inspection → Script 2",
+        "Phase 3: Claim Filing → Script 7 + Script 3",
+        "Phase 4: Adjuster Meeting → Script 4",
+        "Phase 5A: Full Approval → Script 5",
+        "Phase 5B: Partial/Denial → Script 6 → Fight → Return to Phase 5"
+      ]
+    },
+    {
+      "domain_id": "insurance_arguments",
+      "domain_name": "Insurance Legal Weapons",
+      "description": "20+ legal arguments and building code citations",
+      "total_weapons": 20,
+      "categories": {
+        "building_codes": {
+          "virginia": {
+            "R908.3": "Roof replacement requires removal of ALL existing layers down to deck",
+            "R905.2.2": "Asphalt shingles only on slopes 2/12 or greater (17% slope minimum)",
+            "R703": "Weather-resistant barrier and flashing requirements",
+            "flashing_codes": "908.5 - Damaged flashings must be replaced during reroofing"
+          },
+          "maryland": {
+            "R703": "Exterior wrap code - water-resistive barrier requirements, 6\" overlap at corners",
+            "R908.3": "Roof replacement - complete tear-off to deck required",
+            "bulletin_18_23": "Mismatch claims - settlement options include full replacement",
+            "title_27_subtitle_3": "Unfair claim settlement practices - MD insurance law"
+          },
+          "pennsylvania": {
+            "R908.3": "Roof replacement mandates complete removal of all layers to deck - no exceptions"
+          },
+          "double_layer_prohibition": {
+            "section_1511.3.1.1": "CANNOT recover (add third layer) on double-layer roofs",
+            "section_1511.3": "Must remove ALL existing layers during replacement",
+            "legal_weapon": "Double-layer roofs CANNOT be partially repaired - full replacement only"
+          }
+        },
+        "gaf_manufacturer": {
+          "storm_damage_guidelines": {
+            "creased_shingles": "Lose sealant, cannot be repaired per GAF",
+            "resealing": "NOT manufacturer-approved - replacement required",
+            "granule_loss": "Exposes asphalt mat, accelerates failure",
+            "bruising": "Cracks asphalt mat, weakens waterproofing",
+            "sealant_failure": "Latent functional damage recognized by GAF"
+          },
+          "slope_replacement": {
+            "tab_r_164": "When replacing single roof plane, must extend underlayment 4-6\" over hip/ridge",
+            "discontinued_shingles": "Full slope replacement required when shingles discontinued",
+            "mixing_prohibition": "Cannot mix discontinued with new shingles - voids warranty",
+            "ridge_cap": "Must replace hip/ridge caps when slopes replaced"
+          },
+          "warranty_requirements": {
+            "starter_shingles": "Required at eaves/rakes for wind warranty",
+            "underlayment": "Must replace during reroofing to maintain warranty",
+            "ventilation": "Balanced ventilation required for warranty coverage",
+            "ice_water_barrier": "Required by code and manufacturer in dam regions"
+          }
+        },
+        "maryland_specific": {
+          "bulletin_18_23": {
+            "mismatch_coverage": "Settlement options include full replacement if mismatch occurs",
+            "siding_aluminum": "Color shade, texture, or dimension mismatches covered",
+            "roof_application": "Bulletin applies to roofing as well as siding"
+          },
+          "title_27_subtitle_3": {
+            "section_27_303": "Unfair practices include misrepresenting facts, refusing to pay arbitrary claims",
+            "section_27_304": "Systematic violations subject to administrative action",
+            "section_27_305": "Penalties up to $2,500 per violation + restitution",
+            "restitution": "Commissioner can require restitution for actual economic damages"
+          }
+        },
+        "discontinued_shingles": {
+          "gaf_list": [
+            "Sentinel (discontinued 8/24/2015)",
+            "Timberline HD (discontinued 7/1/2020)",
+            "Timberline UHD (discontinued 3/6/2023)",
+            "Elk Prestique series",
+            "Camelot, Country Mansion, Grand Slate, Monaco, Sienna",
+            "Glenwood, Slateline colors, Grand Sequoia variants"
+          ],
+          "legal_argument": "iTel report + Discontinued Shingle List proves no comparable replacements exist"
+        },
+        "arbitration_appraisal": {
+          "binding_arbitration": "Legally enforceable like court decision, no appeal",
+          "non_binding_arbitration": "Recommendation only, either party can reject",
+          "state_availability": "Virginia and Maryland allow with mutual agreement",
+          "policy_clauses": "Rare in standard homeowners policies - most prefer appraisal"
+        },
+        "complaint_escalation": {
+          "state_complaint_forms": "Each carrier has specific complaint submission process",
+          "escalation_levels": [
+            "Level 1: Template response (70%)",
+            "Level 2: Template + docs (20%)",
+            "Level 3: State complaint (8%)",
+            "Level 4: Arbitration/legal (2%)"
+          ]
+        }
+      }
+    },
+    {
+      "domain_id": "customer_resources",
+      "domain_name": "Customer Resources & Products",
+      "description": "11 products, warranties, and customer education materials",
+      "resources": {
+        "standard_materials": {
+          "shingles": "GAF Timberline HDZ, UHDZ, Designer series",
+          "underlayment": "Synthetic underlayment, ice & water barrier",
+          "ventilation": "Ridge vent, soffit vents for balanced system",
+          "flashing": "Aluminum or copper drip edge, step flashing, valley metal"
+        },
+        "warranties": {
+          "gaf_standard": {
+            "coverage": "Manufacturer defect warranty",
+            "duration": "Lifetime limited for original owner",
+            "transferability": "Limited transferability to subsequent owners"
+          },
+          "gaf_system_plus": {
+            "coverage": "Enhanced system warranty with GAF accessories",
+            "duration": "10-year non-prorated coverage",
+            "requirements": "Must use GAF underlayment, starter, ridge cap"
+          },
+          "gaf_silver_pledge": {
+            "coverage": "Contractor installation + manufacturer coverage",
+            "duration": "10-year workmanship, 50-year material",
+            "installation": "Certified GAF Master Elite contractor required"
+          },
+          "gaf_golden_pledge": {
+            "coverage": "Premium warranty - 25-year workmanship + lifetime material",
+            "wind_coverage": "WindProven limited wind warranty up to 130 mph",
+            "tear_off": "Includes tear-off coverage",
+            "requirements": "GAF Master Elite, full GAF system, proper ventilation"
+          },
+          "workmanship_warranty": {
+            "roof_er_guarantee": "5-year workmanship warranty on all installations",
+            "coverage": "Labor and installation defects",
+            "exclusions": "Act of God, negligence, improper maintenance"
+          }
+        },
+        "deductible_education": {
+          "explanation": "Amount homeowner pays before insurance coverage applies",
+          "typical_amounts": ["$500", "$1000", "$2500", "$5000", "1% of dwelling coverage"],
+          "payment_timing": "Due upon completion of work",
+          "roof_er_guarantee": "Deductible only if fully approved - null and void otherwise"
+        },
+        "project_timeline": {
+          "inspection_to_claim": "Same day",
+          "claim_to_adjuster_inspection": "24-48 hours for adjuster contact, 3-7 days for inspection",
+          "adjuster_to_estimate": "Few days to 2 weeks",
+          "estimate_to_project_meeting": "2-3 business days for job review",
+          "project_meeting_to_install": "4-6 weeks typical",
+          "total_timeline": "6-10 weeks average from inspection to completion"
+        }
+      }
+    },
+    {
+      "domain_id": "agreements_forms",
+      "domain_name": "Legal Agreements & Forms",
+      "description": "11 legal documents for claim authorization and project agreements",
+      "forms": {
+        "contingency_agreements": {
+          "dmv_contingency": "DC/Maryland/Virginia contingency - deductible only if fully approved",
+          "pa_contingency": "Pennsylvania specific contingency agreement",
+          "null_void_clause": "Agreement null and void if not fully approved - no cost to homeowner",
+          "commitment": "Homeowner commits to using Roof-ER if full approval achieved"
+        },
+        "project_agreements": {
+          "md_project_agreement": "Maryland project contract",
+          "va_project_agreement": "Virginia project contract",
+          "scope_details": "Line-by-line scope from insurance estimate",
+          "payment_schedule": "ACV down payment, depreciation upon completion",
+          "change_orders": "Additional work pricing and approval process"
+        },
+        "authorization_forms": {
+          "claim_authorization": "Allows Roof-ER to communicate with insurance on behalf of homeowner",
+          "benefits": "No middle-man, rep handles all insurance communication",
+          "cc_protocol": "Customer always CC'd on all emails for transparency"
+        },
+        "testing_agreements": {
+          "itel_agreement": "Authorization for shingle discontinuation testing",
+          "cost_disclosure": "Cost shown but homeowner never responsible",
+          "repair_attempt_agreement": "Authorization for documented repair attempt (brittle test)",
+          "video_permission": "Permission to video document repair attempt"
+        },
+        "operational_forms": {
+          "emergency_tarp": "Emergency tarp service agreement",
+          "coi_request": "Certificate of insurance for mortgage companies",
+          "mortgage_endorsements": "Dual payee endorsement handling with lenders",
+          "lien_waivers": "Conditional and unconditional lien waiver forms"
+        }
+      }
+    },
+    {
+      "domain_id": "operations_procedures",
+      "domain_name": "Operations & Procedures",
+      "description": "8 operational guides for CRM, procedures, and team coordination",
+      "procedures": {
+        "sales_operations": {
+          "crm_updates": "Real-time job status updates required",
+          "documentation_upload": "All photos, reports, emails uploaded to job file",
+          "communication_logging": "Every adjuster interaction logged in CRM",
+          "file_stages": ["Lead", "Inspection Complete", "Claim Filed", "Estimate Pending", "Approved", "Production", "Complete"]
+        },
+        "repair_attempt_procedure": {
+          "when_required": "Partial approval with some shingles approved for repair",
+          "documentation": "Before, during, after photos + video",
+          "brittle_test": "Remove and replace shingles to demonstrate brittleness",
+          "outcome": "Failed test proves irreparability, supports full replacement",
+          "upload": "Video to YouTube, link in template email"
+        },
+        "hover_upload": {
+          "purpose": "3D roof measurement and photo documentation",
+          "process": "Take exterior photos, upload to Hover app",
+          "output": "Accurate square footage, slope measurements, property diagram",
+          "estimate_use": "Basis for accurate material calculations and estimates"
+        },
+        "role_definitions": {
+          "sales_rep": "Lead generation, inspection, claim filing, insurance negotiation",
+          "brandon_pernot": "Operations manager, iTel/RA coordination, job file management",
+          "danny": "Repair estimates, after-hours support",
+          "ford": "Production scheduling, QuickBooks payments",
+          "reese": "Strategic reviews, escalations, complex claims",
+          "amber": "Estimate review, project assignment to coordinators",
+          "project_coordinators": "Project meetings, down payment collection, customer liaison",
+          "field_techs": "Repair attempts, installations, quality control"
+        },
+        "mission_values": {
+          "mission": "Help homeowners restore their property through insurance claims",
+          "values": [
+            "Integrity in all interactions",
+            "Customer advocacy against insurance denials",
+            "Professional documentation and communication",
+            "Team collaboration for claim success"
+          ]
+        },
+        "top_10_cheat_sheet": {
+          "quick_reference": [
+            "1. Always file for hail + wind (never wind only)",
+            "2. Photo report must show collateral damage + shingle damage",
+            "3. Be at adjuster meeting - most critical step",
+            "4. Use correct template for situation",
+            "5. State-specific codes: VA R908.3, MD R703 & Bulletin 18-23, PA R908.3",
+            "6. GAF max 2-3 shingle repairs guideline",
+            "7. iTel for discontinued shingles",
+            "8. Repair attempt with video for brittleness",
+            "9. Customer email as escalation tactic",
+            "10. Escalate to Team Leader after proper documentation + rebuttal fail"
+          ]
+        },
+        "five_day_training": {
+          "day_1": "Company overview, mission, claim process fundamentals",
+          "day_2": "Inspection techniques, photo documentation, damage identification",
+          "day_3": "Sales scripts, objection handling, closing techniques",
+          "day_4": "Insurance arguments, templates, building codes, GAF guidelines",
+          "day_5": "CRM systems, shadowing, role play, certification"
+        },
+        "crm_integrations": {
+          "job_nimbus": "Primary CRM for job management and workflow",
+          "hover": "Measurement and photo documentation",
+          "quickbooks": "Financial management and invoicing",
+          "yelp_google": "Review management and lead generation",
+          "email_sync": "All templates sync to CRM automatically"
+        }
+      }
+    },
+    {
+      "domain_id": "visual_reference",
+      "domain_name": "Visual Reference & Image Analysis",
+      "description": "24 images analyzed for damage identification and training",
+      "categories": {
+        "roof_anatomy": {
+          "total_images": 9,
+          "diagrams": [
+            "Complete roof component diagram",
+            "Shingle layering and exposure",
+            "Flashing types and locations",
+            "Ventilation system layout",
+            "Valley configurations",
+            "Ridge and hip cap details",
+            "Underlayment and ice barrier placement",
+            "Drip edge installation",
+            "Soffit and fascia components"
+          ]
+        },
+        "damage_examples": {
+          "total_images": 3,
+          "forensic_photos": [
+            "Hail damage - circular divots, granule displacement, mat exposure",
+            "Wind damage - creasing, lifting, missing shingles, sealant failure",
+            "Collateral damage - gutters, downspouts, soft metals, window screens"
+          ],
+          "identification_keys": [
+            "Hail: circular/oval impacts, random distribution, granule loss in divot",
+            "Wind: linear creasing, edge lifting, directional pattern, missing tabs",
+            "Age deterioration: uniform granule loss, curling, brittleness"
+          ]
+        },
+        "territory_maps": {
+          "total_images": 4,
+          "coverage_areas": [
+            "Richmond Metro VA - primary service area",
+            "DMV Metro - DC/MD/VA combined market",
+            "Philadelphia Suburbs PA - expansion territory",
+            "Baltimore Metro MD - secondary market"
+          ]
+        },
+        "reference_images": {
+          "total_images": 2,
+          "templates": [
+            "Photo report layout template",
+            "Estimate comparison worksheet"
+          ]
+        },
+        "building_code_images": {
+          "total_images": 6,
+          "legal_citations": [
+            "Virginia R908.3 screenshot - double layer removal required",
+            "Maryland R703 diagram - housewrap overlap requirements",
+            "Pennsylvania R908.3 highlight - tear-off mandate",
+            "IRC Section 1511.3.1.1 - double layer prohibition",
+            "GAF TAB-R-164 bulletin - slope replacement requirements",
+            "MD Bulletin 18-23 - mismatch settlement options"
+          ]
+        }
+      }
+    }
+  ],
+  "critical_workflows": {
+    "template_selection_logic": {
+      "initial_documentation": "Photo Report Template",
+      "failed_repair": "Repair Attempt Template or Danny's Video Template",
+      "insurance_denial": "Customer to Insurance Template",
+      "partial_approval": "Generic Partial Template",
+      "siding_issue": "Siding Argument Template",
+      "no_estimate": "Estimate Request Template",
+      "discontinued_shingles": "iTel Template",
+      "code_requirement": "Building Code Docs + Flashing Codes",
+      "storm_damage": "GAF Storm Damage Guidelines Template",
+      "single_plane": "GAF Slope Replacement Template",
+      "deadlock": "Arbitration Info + Complaint Forms"
+    },
+    "escalation_pathways": {
+      "level_1": "Template Response (70% success)",
+      "level_2": "Template + Docs (20% success)",
+      "level_3": "State Complaint (8% success)",
+      "level_4": "Arbitration/Legal (2% success)"
+    },
+    "state_detection_rules": {
+      "virginia": {
+        "keywords": ["Virginia", "VA", "Richmond", "Northern Virginia", "NoVA"],
+        "codes": ["R908.3", "R905.2.2", "R703", "Virginia Building Code", "IRC 2018"]
+      },
+      "maryland": {
+        "keywords": ["Maryland", "MD", "Baltimore", "DMV"],
+        "codes": ["R703", "R908.3", "Bulletin 18-23", "Title 27 Subtitle 3", "MD Insurance Administration"]
+      },
+      "pennsylvania": {
+        "keywords": ["Pennsylvania", "PA", "Philadelphia", "Philly"],
+        "codes": ["R908.3", "Pennsylvania Building Code"]
+      }
+    }
+  },
+  "response_priorities": [
+    "1. Q&A Database - First check if scenario matches Q1-Q1000+",
+    "2. Insurance Arguments - Use exact code citations from building codes",
+    "3. Email Templates - Generate from templates with proper variables",
+    "4. Sales Scripts - Reference scripts for customer conversations",
+    "5. Operations - Follow procedures exactly from operational guides",
+    "6. Visual Reference - Describe damage using visual examples"
+  ],
+  "critical_rules": [
+    "ALWAYS cite specific Q# when answering insurance questions",
+    "ALWAYS use exact code section numbers (R908.3, R905.2.2, R703, etc.)",
+    "ALWAYS reference GAF guidelines by bulletin number (TAB-R-164, Storm Damage Guidelines)",
+    "ALWAYS use state-specific codes (VA vs MD vs PA - never mix)",
+    "ALWAYS recommend correct template based on situation",
+    "ALWAYS follow CRM procedures for documentation",
+    "NEVER use only 'wind damage' when filing claims - always 'hail and wind'",
+    "NEVER mix shingles from different manufacturers or discontinued products",
+    "NEVER promise outcomes - use 'we will fight to get you fully approved'",
+    "NEVER skip documentation - photo report, claim auth, CRM updates required"
+  ],
+  "team_structure": {
+    "leadership": {
+      "reese": "Strategic reviews, escalations, complex negotiations",
+      "amber": "Estimate review, project coordinator assignment"
+    },
+    "operations": {
+      "brandon_pernot": "iTel/RA coordination, job file management, operations oversight",
+      "ford": "Production scheduling, QuickBooks, payment processing"
+    },
+    "field": {
+      "sales_reps": "Inspection, claim filing, insurance negotiation, customer relationship",
+      "danny": "Repair estimates, after-hours support, technical expertise",
+      "project_coordinators": "Project meetings, material selection, down payment collection",
+      "field_techs": "Repair attempts, installations, quality control"
+    }
+  },
+  "key_metrics": {
+    "approval_rates": {
+      "video_repair_attempt": "85%",
+      "itel_discontinued": "75%",
+      "gaf_guidelines": "70%",
+      "photo_report": "65%",
+      "customer_escalation": "60%"
+    },
+    "timeline_benchmarks": {
+      "inspection_to_claim_filed": "Same day",
+      "claim_to_adjuster_contact": "24-48 hours",
+      "adjuster_contact_to_inspection": "3-7 days",
+      "inspection_to_estimate": "Few days to 2 weeks",
+      "estimate_to_project_meeting": "2-3 business days",
+      "meeting_to_install": "4-6 weeks"
+    }
+  },
+  "abacus_ai_optimization": {
+    "chunking_strategy": "Semantic sections preserved, Q&A entries kept intact with IDs",
+    "rag_enhancement": "Each domain tagged with keywords for optimal retrieval",
+    "state_routing": "Building codes separated by state for accurate responses",
+    "template_matching": "Use case scenarios linked to specific templates",
+    "citation_format": "All legal citations include exact section numbers and source documents",
+    "cross_references": "Workflows link multiple knowledge domains (Q&A + Templates + Codes)"
+  }
+}

@@ -1,38 +1,36 @@
-# RouteLLM Chatbot - Roofing Assistant
+# Susan AI-21 Insurance Claims Assistant
 
-A specialized AI chatbot for roofing professionals, powered by Abacus.AI's Susan AI-21 model. Designed for field teams to access on mobile devices for damage assessment, insurance claims, and professional communication.
+Intelligent roofing insurance claims assistant powered by Abacus.AI.
 
 ## Features
 
-- 📸 **Photo Analyzer**: Analyze roof damage from photos
-- ✉️ **Email Generator**: Create professional emails for insurance claims
-- 🏢 **Insurance Finder**: Access insurance company details and processes
-- ⛈️ **Weather Data**: Get storm history and damage correlation
-- 📱 **Mobile-First Design**: Optimized for field team usage
-- 🚀 **Progressive Web App**: Can be installed on phone home screens
-- 💬 **Real-time Chat Interface**: Instant AI responses
-- 🎨 **Professional UI**: Clean, modern design for roofing teams
+- 💬 **AI Chat Assistant** - Roofing insurance expertise via Abacus.AI
+- 📄 **Document Analysis** - PDF, Word, Excel analysis with native text extraction
+- 📧 **Email Generator** - Smart email composition for claims
+- 🏢 **Insurance Company Database** - Comprehensive company information
+- 🌤️ **Weather Verification** - NOAA storm data validation
+- 📸 **Photo Analysis** - Damage assessment from images
+- 🎙️ **Voice Commands** - Hands-free operation
+- 📋 **Templates** - Pre-built response templates
 
-## Tech Stack
+## Quick Start
 
-- **Frontend**: Next.js 15 with React 19
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS 4.1
-- **AI Backend**: Abacus.AI (Susan AI-21)
-- **Deployment**: Vercel (recommended)
+### Prerequisites
 
-## Quick Start (Development)
+- Node.js 18+
+- PostgreSQL database
+- Abacus.AI account ([sign up here](https://api.abacus.ai))
+- Hugging Face API key (optional, for vision features)
+
+### Installation
 
 ```bash
 # Install dependencies
 npm install
 
-# Create environment file
+# Set up environment variables
 cp .env.example .env.local
-
-# Add your Abacus.AI credentials to .env.local
-# DEPLOYMENT_TOKEN=your_token_here
-# ABACUS_DEPLOYMENT_ID=6a1d18f38
+# Edit .env.local with your credentials
 
 # Run development server
 npm run dev
@@ -40,118 +38,96 @@ npm run dev
 # Open http://localhost:4000
 ```
 
-## Deployment
+### Environment Variables
 
-### Recommended: Vercel (Free)
-
-**Quick Deploy:**
-```bash
-# Make script executable
-chmod +x deploy.sh
-
-# Run deployment script
-./deploy.sh
+```env
+DEPLOYMENT_TOKEN=your_abacus_deployment_token
+ABACUS_DEPLOYMENT_ID=6a1d18f38
+HUGGINGFACE_API_KEY=your_hf_api_key
 ```
 
-**Manual Deploy:**
-See [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) for detailed step-by-step instructions.
+## Deployment
 
-### Cost-Effective Options:
+### Railway (Recommended)
 
-1. **Vercel** (Recommended) - $0/month
-   - Native Next.js support
-   - Automatic HTTPS
-   - Global CDN
-   - Perfect for 5-10 users
+Railway supports native PDF processing libraries:
 
-2. **Railway** - $5/month
-   - Simple deployment
-   - Good for teams
-   - PostgreSQL included
+```bash
+# Install Railway CLI
+npm install -g railway
 
-3. **Netlify** - $0/month
-   - Good free tier
-   - CDN included
+# Login and deploy
+railway login
+railway link
+railway up
+```
+
+Environment variables are automatically synced from your `.env.local`.
+
+### Vercel (Limited PDF Support)
+
+Note: PDF extraction may not work in Vercel's serverless environment.
+
+```bash
+vercel --prod
+```
 
 ## Project Structure
 
 ```
-routellm-chatbot/
-├── app/
-│   ├── api/
-│   │   └── chat/
-│   │       └── route.ts       # Chat API endpoint
-│   ├── layout.tsx             # Root layout
-│   └── page.tsx               # Main chat interface
-├── public/                     # Static assets
-├── .env.example               # Environment template
-├── .env.local                 # Local environment (not committed)
-├── next.config.js             # Next.js configuration
-├── package.json               # Dependencies
-├── tailwind.config.js         # Tailwind configuration
-├── tsconfig.json              # TypeScript configuration
-├── vercel.json                # Vercel deployment config
-├── deploy.sh                  # Quick deployment script
-├── DEPLOYMENT_GUIDE.md        # Detailed deployment instructions
-└── README.md                  # This file
+/app
+  /api              - API routes
+    /chat           - Main chat endpoint
+    /analyze        - Document analysis
+    /email          - Email generation
+    /weather        - NOAA weather data
+    /vision         - Image analysis
+  /components       - React components
+
+/lib
+  document-processor.ts      - PDF/Word/Excel processing
+  client-pdf-extractor.ts    - Browser-based PDF extraction
+  document-intelligence.ts   - AI document analysis
+  noaa-weather-api.ts       - Weather verification
+  vision-service.ts          - Image analysis
+
+/db
+  schema.sql                 - Database schema
+  insurance_companies.sql    - Insurance company data
 ```
 
-## Mobile Access
+## Key Features Explained
 
-### Add to iPhone Home Screen:
-1. Open Safari and navigate to your deployed URL
-2. Tap Share button
-3. Select "Add to Home Screen"
-4. Name it "Roofer AI"
+### Document Analysis
+- **Server-side**: Uses `pdf-parse` for PDFs (requires Railway/Docker)
+- **Client-side**: Fallback browser-based extraction using PDF.js
+- **Supported formats**: PDF, DOCX, XLSX, images
 
-### Add to Android Home Screen:
-1. Open Chrome and navigate to your deployed URL
-2. Tap menu (three dots)
-3. Select "Add to Home Screen"
-4. Name it "Roofer AI"
+### Weather Verification
+- Integrates with NOAA API for storm data
+- Validates claim dates against historical weather events
+- Location-based storm verification
 
-## Environment Variables
+### Insurance Companies
+- Pre-loaded database of major insurers
+- Contact information, claim processes
+- Company-specific requirements
 
-Required environment variables:
+## Tech Stack
 
-```bash
-DEPLOYMENT_TOKEN=your_abacus_ai_token
-ABACUS_DEPLOYMENT_ID=6a1d18f38  # Susan AI-21 deployment
-```
-
-## API Endpoints
-
-### POST /api/chat
-
-Chat with the AI assistant.
-
-**Request:**
-```json
-{
-  "messages": [
-    {
-      "role": "user",
-      "content": "How do I assess hail damage?"
-    }
-  ]
-}
-```
-
-**Response:**
-```json
-{
-  "message": "AI response here...",
-  "model": "Susan AI-21",
-  "usage": {...}
-}
-```
+- **Framework**: Next.js 15.5.4
+- **AI**: Abacus.AI
+- **Database**: PostgreSQL (@vercel/postgres)
+- **PDF Processing**: pdf-parse, pdfjs-dist, pdf-lib
+- **Document Processing**: mammoth, xlsx
+- **Image Processing**: sharp
+- **Email**: Resend
+- **Styling**: Tailwind CSS 4
 
 ## Development
 
-### Available Scripts:
-
 ```bash
-# Start development server on port 4000
+# Development mode
 npm run dev
 
 # Build for production
@@ -160,56 +136,14 @@ npm run build
 # Start production server
 npm start
 
-# Run linting
+# Lint code
 npm run lint
 ```
 
-### Adding New Features:
+## License
 
-1. **New Quick Link**: Edit `/app/page.tsx` and add button to quick links section
-2. **New API Route**: Create file in `/app/api/`
-3. **Styling Changes**: Modify Tailwind classes in components
-
-## Security
-
-- API keys stored securely as environment variables
-- Server-side API calls only (client never sees tokens)
-- HTTPS enforced on deployment
-- No sensitive data stored locally
-
-## Troubleshooting
-
-### Build Fails:
-```bash
-# Clear cache and rebuild
-rm -rf .next
-npm run build
-```
-
-### Environment Variables Not Working:
-```bash
-# Check .env.local exists and has correct format
-cat .env.local
-
-# Restart dev server
-npm run dev
-```
-
-### API Errors:
-- Verify Abacus.AI token is valid
-- Check deployment ID is correct
-- Review server logs in Vercel dashboard
+ISC
 
 ## Support
 
-For deployment issues, see [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)
-
-For feature requests or bugs, contact your development team.
-
-## License
-
-Proprietary - Internal use only
-
----
-
-**Built for roofing professionals, optimized for field team usage.**
+For issues or questions, check the docs_archive folder for detailed guides.

@@ -22,15 +22,47 @@ interface ChatTranscript {
 }
 
 export default function AdminDashboard() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [passcode, setPasscode] = useState('')
+  const [error, setError] = useState('')
   const [stats, setStats] = useState<RepStat[]>([])
   const [todaysChats, setTodaysChats] = useState<any[]>([])
   const [transcripts, setTranscripts] = useState<ChatTranscript[]>([])
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'overview' | 'today' | 'transcripts'>('overview')
 
+  // Check if already authenticated (session storage)
   useEffect(() => {
-    loadData()
+    const authenticated = sessionStorage.getItem('admin_authenticated')
+    if (authenticated === 'true') {
+      setIsAuthenticated(true)
+    }
   }, [])
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadData()
+    }
+  }, [isAuthenticated])
+
+  const handlePasscodeSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (passcode === '2110') {
+      setIsAuthenticated(true)
+      sessionStorage.setItem('admin_authenticated', 'true')
+      setError('')
+    } else {
+      setError('Incorrect passcode. Please try again.')
+      setPasscode('')
+    }
+  }
+
+  const handleLogout = () => {
+    setIsAuthenticated(false)
+    sessionStorage.removeItem('admin_authenticated')
+    setPasscode('')
+  }
 
   const loadData = async () => {
     try {
@@ -55,6 +87,70 @@ export default function AdminDashboard() {
     } finally {
       setLoading(false)
     }
+  }
+
+  // Show login screen if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center p-4">
+        <div className="max-w-md w-full">
+          {/* Login Card */}
+          <div className="bg-gray-800 rounded-2xl shadow-2xl border border-gray-700 p-8">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center mx-auto mb-4">
+                <span className="text-4xl">🔒</span>
+              </div>
+              <h1 className="text-3xl font-bold text-white mb-2">
+                SUSAN<span className="text-red-600">AI-21</span>
+              </h1>
+              <p className="text-gray-400 text-sm">Admin Dashboard Access</p>
+            </div>
+
+            {/* Login Form */}
+            <form onSubmit={handlePasscodeSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="passcode" className="block text-sm font-semibold text-gray-300 mb-2">
+                  Enter Passcode
+                </label>
+                <input
+                  id="passcode"
+                  type="password"
+                  value={passcode}
+                  onChange={(e) => setPasscode(e.target.value)}
+                  placeholder="••••"
+                  maxLength={4}
+                  className="w-full px-4 py-3 bg-gray-900 border-2 border-gray-600 focus:border-red-500 rounded-lg focus:outline-none focus:ring-4 focus:ring-red-500/20 transition-all text-white text-center text-2xl tracking-widest"
+                  autoFocus
+                />
+              </div>
+
+              {error && (
+                <div className="bg-red-500/20 border-2 border-red-500 rounded-lg p-3 flex items-center gap-3">
+                  <span className="text-red-400 text-xl">⚠️</span>
+                  <p className="text-red-300 text-sm">{error}</p>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                className="w-full px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+              >
+                <span>🔓</span>
+                <span>Unlock Dashboard</span>
+              </button>
+            </form>
+
+            {/* Footer */}
+            <div className="mt-6 text-center">
+              <p className="text-gray-500 text-xs">
+                Powered by <span className="font-semibold text-gray-400">Susan AI</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   if (loading) {
@@ -85,12 +181,21 @@ export default function AdminDashboard() {
                 <p className="text-xs text-gray-400 uppercase tracking-wider">Analytics Dashboard</p>
               </div>
             </div>
-            <button
-              onClick={loadData}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium text-sm"
-            >
-              Refresh Data
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={loadData}
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium text-sm"
+              >
+                Refresh Data
+              </button>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors font-medium text-sm flex items-center gap-2"
+              >
+                <span>🔒</span>
+                <span>Logout</span>
+              </button>
+            </div>
           </div>
         </div>
       </header>

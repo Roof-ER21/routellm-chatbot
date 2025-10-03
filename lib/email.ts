@@ -1,6 +1,12 @@
 import { Resend } from 'resend'
+import { convertToHTMLEmail, extractRecipientName } from './email-templates'
+import { logSentEmail, EmailLog } from './db'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
+
+// Email configuration
+const FROM_EMAIL = process.env.FROM_EMAIL || 'Roof-ER Claims <noreply@susanai-21.vercel.app>'
+const ADMIN_EMAIL = 'ahmed.mahmoud@theroofdocs.com'
 
 export async function sendRealTimeNotification(
   repName: string,
@@ -104,7 +110,7 @@ export async function sendNightlyReport(stats: any[], transcripts: any[]) {
 
     const { data, error } = await resend.emails.send({
       from: 'SusanAI-21 Reports <onboarding@resend.dev>',
-      to: ['ahmed.mahmoud@theroofdocs.com'],
+      to: [ADMIN_EMAIL],
       subject: `📊 Daily Report - ${new Date().toLocaleDateString('en-US')} (${totalChats} Total Chats)`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; background: #f9fafb;">
@@ -180,4 +186,102 @@ export async function sendNightlyReport(stats: any[], transcripts: any[]) {
     console.error('Nightly report exception:', error)
     return { success: false, error }
   }
+}
+
+/**
+ * Send insurance claim email
+ * Main function for sending emails with templates
+ */
+export interface SendEmailOptions {
+  to: string
+  subject?: string
+  body: string
+  templateName?: string
+  sessionId?: number
+  repName: string
+  attachments?: Array<{
+    filename: string
+    content: Buffer | string
+    type?: string
+  }>
+}
+
+export async function sendClaimEmail(options: SendEmailOptions) {
+  try {
+    // Convert plain text to HTML email with branding
+    const recipientName = extractRecipientName(options.body)
+    const emailTemplate = convertToHTMLEmail(
+      options.body,
+      options.templateName || 'Insurance Claim',
+      recipientName
+    )
+
+    // Validate email
+    if (!options.to || !isValidEmail(options.to)) {
+      throw new Error('Invalid recipient email address')
+    }
+
+    // Prepare email data
+    const emailData: any = {
+      from: FROM_EMAIL,
+      to: [options.to],
+      subject: options.subject || emailTemplate.subject,
+      html: emailTemplate.html,
+      text: emailTemplate.plainText,
+    }
+
+    // Add attachments if provided
+    if (options.attachments && options.attachments.length > 0) {
+      emailData.attachments = options.attachments.map(att => ({
+        filename: att.filename,
+        content: att.content,
+      }))
+    }
+
+    // Send via Resend
+    const { data, error } = await resend.emails.send(emailData)
+
+    if (error) {
+      console.error('Email send error:', error)
+      throw new Error(`Failed to send email: ${error.message || 'Unknown error'}`)
+    }
+
+    // Log to database
+    const emailLog: EmailLog = {
+      sessionId: options.sessionId,
+      repName: options.repName,
+      toEmail: options.to,
+      fromEmail: FROM_EMAIL,
+      subject: emailData.subject,
+      body: emailTemplate.plainText,
+      htmlBody: emailTemplate.html,
+      templateUsed: options.templateName,
+      attachments: options.attachments,
+      resendId: data?.id,
+    }
+
+    const dbRecord = await logSentEmail(emailLog)
+
+    return {
+      success: true,
+      emailId: dbRecord.id,
+      resendId: data?.id,
+      message: 'Email sent successfully',
+      data
+    }
+  } catch (error) {
+    console.error('Send claim email exception:', error)
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    }
+  }
+}
+
+/**
+ * Validate email address
+ */
+function isValidEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
 }

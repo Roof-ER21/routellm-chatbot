@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { logChatMessage, getOrCreateRep } from '@/lib/db'
 import { sendRealTimeNotification } from '@/lib/email'
+import { VoiceCommandParser } from '@/lib/voice-command-handler'
+import { TemplateEngine } from '@/lib/template-engine'
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,7 +17,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { messages, repName, sessionId } = body
+    const { messages, repName, sessionId, mode } = body
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
@@ -25,13 +27,7 @@ export async function POST(req: NextRequest) {
     }
 
     const deploymentToken = process.env.DEPLOYMENT_TOKEN
-    const deploymentId = process.env.ABACUS_DEPLOYMENT_ID || '6a1d18f38' // Susan AI-21 by default
-
-    console.log('Environment check:', {
-      hasToken: !!deploymentToken,
-      deploymentId: deploymentId,
-      tokenLength: deploymentToken?.length
-    })
+    const deploymentId = process.env.ABACUS_DEPLOYMENT_ID || '6a1d18f38'
 
     if (!deploymentToken) {
       console.error('Missing DEPLOYMENT_TOKEN environment variable')
@@ -41,13 +37,115 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Convert OpenAI format to Abacus.AI format
-    const abacusMessages = messages.map((msg: any) => ({
-      is_user: msg.role === 'user',
-      text: msg.content
-    }))
+    const userMessage = messages[messages.length - 1]?.content || ''
 
-    // Call Abacus.AI getChatResponse endpoint
+    // Check if it's a voice command
+    if (mode === 'voice') {
+      try {
+        // Route to voice command API
+        const voiceResponse = await fetch(`${req.nextUrl.origin}/api/voice/command`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            transcript: userMessage,
+            repName,
+            sessionId,
+          })
+        })
+
+        const voiceData = await voiceResponse.json()
+
+        // Log to database
+        if (repName && sessionId) {
+          try {
+            const rep = await getOrCreateRep(repName)
+            await logChatMessage(sessionId, rep.id, repName, 'user', userMessage)
+            await logChatMessage(sessionId, rep.id, repName, 'assistant', voiceData.response)
+          } catch (logError) {
+            console.error('Error logging voice command:', logError)
+          }
+        }
+
+        return NextResponse.json({
+          message: voiceData.response,
+          model: 'Susan AI-21 Voice',
+          commandType: voiceData.type,
+          actions: voiceData.actions,
+        })
+      } catch (voiceError) {
+        console.error('Voice command error:', voiceError)
+        // Fall through to regular chat
+      }
+    }
+
+    // Check if it's a template request
+    const templateKeywords = [
+      'appeal', 'letter', 'template', 'draft', 'email', 'denial',
+      'supplemental', 'reinspection', 'escalation', 'claim'
+    ]
+    const isTemplateRequest = templateKeywords.some(keyword =>
+      userMessage.toLowerCase().includes(keyword)
+    )
+
+    if (isTemplateRequest && userMessage.split(' ').length < 20) {
+      try {
+        // Try auto-select template generation
+        const templateResponse = await fetch(`${req.nextUrl.origin}/api/templates/generate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            mode: 'auto-select',
+            input: userMessage,
+          })
+        })
+
+        if (templateResponse.ok) {
+          const templateData = await templateResponse.json()
+
+          // Log to database
+          if (repName && sessionId) {
+            try {
+              const rep = await getOrCreateRep(repName)
+              await logChatMessage(sessionId, rep.id, repName, 'user', userMessage)
+              await logChatMessage(sessionId, rep.id, repName, 'assistant', templateData.content)
+            } catch (logError) {
+              console.error('Error logging template:', logError)
+            }
+          }
+
+          return NextResponse.json({
+            message: templateData.content,
+            model: 'Susan AI-21 Templates',
+            template: templateData.template,
+            quality: templateData.quality,
+          })
+        }
+      } catch (templateError) {
+        console.error('Template generation error:', templateError)
+        // Fall through to regular chat
+      }
+    }
+
+    // Enhanced context with training data reference
+    const enhancedMessages = [
+      {
+        is_user: false,
+        text: `You are Susan AI-21, an expert roofing insurance claim assistant. You have access to comprehensive knowledge including:
+- 1000+ Q&A scenarios for insurance claims
+- Building codes for VA, MD, PA
+- GAF manufacturer guidelines
+- Professional email templates
+- Sales scripts and legal arguments
+
+Always provide accurate, professional responses with specific code citations when relevant. For building codes, always specify the state (Virginia, Maryland, or Pennsylvania) and exact code section (e.g., "Per Virginia Building Code R908.3...").`
+      },
+      ...messages.map((msg: any) => ({
+        is_user: msg.role === 'user',
+        text: msg.content
+      }))
+    ]
+
+    // Call Abacus.AI getChatResponse endpoint with enhanced context
     const response = await fetch(`https://api.abacus.ai/api/v0/getChatResponse`, {
       method: 'POST',
       headers: {
@@ -56,7 +154,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         deploymentToken: deploymentToken,
         deploymentId: deploymentId,
-        messages: abacusMessages,
+        messages: enhancedMessages,
         temperature: 0.7,
       }),
     })
@@ -76,23 +174,20 @@ export async function POST(req: NextRequest) {
 
     const data = await response.json()
 
-    // Handle Abacus.AI getChatResponse format
-    // Extract the last assistant message from the messages array
+    // Extract the last assistant message
     let message = 'No response'
 
     if (data.result && data.result.messages && Array.isArray(data.result.messages)) {
-      // Find the last message where is_user is false (assistant response)
       const assistantMessages = data.result.messages.filter((msg: any) => !msg.is_user)
       if (assistantMessages.length > 0) {
         message = assistantMessages[assistantMessages.length - 1].text
       }
     }
 
-    // Log messages to database if rep and session are provided
+    // Log messages to database
     if (repName && sessionId) {
       try {
         const rep = await getOrCreateRep(repName)
-        const userMessage = messages[messages.length - 1]?.content || ''
 
         // Log user message
         await logChatMessage(sessionId, rep.id, repName, 'user', userMessage)
@@ -106,7 +201,6 @@ export async function POST(req: NextRequest) {
         })
       } catch (logError) {
         console.error('Error logging chat:', logError)
-        // Don't fail the request if logging fails
       }
     }
 

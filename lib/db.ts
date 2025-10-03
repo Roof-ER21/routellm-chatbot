@@ -38,6 +38,26 @@ export async function ensureTablesExist() {
       )
     `
 
+    // Create sent_emails table
+    await sql`
+      CREATE TABLE IF NOT EXISTS sent_emails (
+        id SERIAL PRIMARY KEY,
+        session_id INTEGER REFERENCES chat_sessions(id),
+        rep_name VARCHAR(255) NOT NULL,
+        to_email TEXT NOT NULL,
+        from_email TEXT NOT NULL,
+        subject TEXT NOT NULL,
+        body TEXT NOT NULL,
+        html_body TEXT,
+        template_used TEXT,
+        attachments JSONB,
+        delivery_status TEXT DEFAULT 'sent',
+        resend_id TEXT,
+        sent_at TIMESTAMP DEFAULT NOW(),
+        delivered_at TIMESTAMP
+      )
+    `
+
     console.log('Database tables ensured')
   } catch (error) {
     console.error('Error ensuring tables:', error)
@@ -192,6 +212,213 @@ export async function getAllRepsStats() {
     return result.rows
   } catch (error) {
     console.error('Error getting reps stats:', error)
+    return []
+  }
+}
+
+// Email logging functions
+export interface EmailLog {
+  sessionId?: number
+  repName: string
+  toEmail: string
+  fromEmail: string
+  subject: string
+  body: string
+  htmlBody?: string
+  templateUsed?: string
+  attachments?: any[]
+  resendId?: string
+}
+
+export async function logSentEmail(emailData: EmailLog) {
+  try {
+    const result = await sql`
+      INSERT INTO sent_emails (
+        session_id,
+        rep_name,
+        to_email,
+        from_email,
+        subject,
+        body,
+        html_body,
+        template_used,
+        attachments,
+        resend_id,
+        sent_at
+      )
+      VALUES (
+        ${emailData.sessionId || null},
+        ${emailData.repName},
+        ${emailData.toEmail},
+        ${emailData.fromEmail},
+        ${emailData.subject},
+        ${emailData.body},
+        ${emailData.htmlBody || null},
+        ${emailData.templateUsed || null},
+        ${JSON.stringify(emailData.attachments || [])},
+        ${emailData.resendId || null},
+        NOW()
+      )
+      RETURNING *
+    `
+    return result.rows[0]
+  } catch (error) {
+    console.error('Error logging sent email:', error)
+    throw error
+  }
+}
+
+export async function updateEmailDeliveryStatus(
+  emailId: number,
+  status: string,
+  deliveredAt?: Date
+) {
+  try {
+    await sql`
+      UPDATE sent_emails
+      SET delivery_status = ${status},
+          delivered_at = ${deliveredAt ? deliveredAt.toISOString() : null}
+      WHERE id = ${emailId}
+    `
+  } catch (error) {
+    console.error('Error updating email delivery status:', error)
+    throw error
+  }
+}
+
+export async function getEmailHistory(sessionId?: number, limit = 50) {
+  try {
+    if (sessionId) {
+      const result = await sql`
+        SELECT * FROM sent_emails
+        WHERE session_id = ${sessionId}
+        ORDER BY sent_at DESC
+        LIMIT ${limit}
+      `
+      return result.rows
+    } else {
+      const result = await sql`
+        SELECT * FROM sent_emails
+        ORDER BY sent_at DESC
+        LIMIT ${limit}
+      `
+      return result.rows
+    }
+  } catch (error) {
+    console.error('Error getting email history:', error)
+    return []
+  }
+}
+
+export async function getEmailById(emailId: number) {
+  try {
+    const result = await sql`
+      SELECT * FROM sent_emails
+      WHERE id = ${emailId}
+    `
+    return result.rows[0] || null
+  } catch (error) {
+    console.error('Error getting email by ID:', error)
+    return null
+  }
+}
+
+// NOAA Weather Data Helper Functions
+export async function ensureWeatherTablesExist() {
+  try {
+    // Create hail_events table
+    await sql`
+      CREATE TABLE IF NOT EXISTS hail_events (
+        id SERIAL PRIMARY KEY,
+        event_id TEXT UNIQUE NOT NULL,
+        event_date DATE NOT NULL,
+        state VARCHAR(2) NOT NULL,
+        county VARCHAR(100),
+        city VARCHAR(100),
+        zip_code VARCHAR(10),
+        latitude DECIMAL(10, 7),
+        longitude DECIMAL(10, 7),
+        hail_size DECIMAL(5, 2),
+        magnitude VARCHAR(50),
+        event_narrative TEXT,
+        episode_narrative TEXT,
+        begin_time TIMESTAMP,
+        end_time TIMESTAMP,
+        source VARCHAR(50) DEFAULT 'NOAA',
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      )
+    `
+
+    // Create weather_sync_log table
+    await sql`
+      CREATE TABLE IF NOT EXISTS weather_sync_log (
+        id SERIAL PRIMARY KEY,
+        sync_date DATE NOT NULL,
+        state VARCHAR(2) NOT NULL,
+        events_added INTEGER DEFAULT 0,
+        events_updated INTEGER DEFAULT 0,
+        sync_status VARCHAR(20) DEFAULT 'pending',
+        error_message TEXT,
+        started_at TIMESTAMP DEFAULT NOW(),
+        completed_at TIMESTAMP,
+        UNIQUE(sync_date, state)
+      )
+    `
+
+    // Create indexes
+    await sql`CREATE INDEX IF NOT EXISTS idx_hail_date_state ON hail_events(event_date, state)`
+    await sql`CREATE INDEX IF NOT EXISTS idx_hail_location ON hail_events(state, county, city)`
+    await sql`CREATE INDEX IF NOT EXISTS idx_hail_zip ON hail_events(zip_code)`
+    await sql`CREATE INDEX IF NOT EXISTS idx_hail_coordinates ON hail_events(latitude, longitude)`
+    await sql`CREATE INDEX IF NOT EXISTS idx_hail_event_id ON hail_events(event_id)`
+    await sql`CREATE INDEX IF NOT EXISTS idx_sync_log_date ON weather_sync_log(sync_date)`
+    await sql`CREATE INDEX IF NOT EXISTS idx_sync_log_status ON weather_sync_log(sync_status)`
+
+    console.log('Weather data tables ensured')
+  } catch (error) {
+    console.error('Error ensuring weather tables:', error)
+  }
+}
+
+export async function getWeatherSyncStatus() {
+  try {
+    const result = await sql`
+      SELECT
+        state,
+        sync_date,
+        events_added,
+        events_updated,
+        sync_status,
+        completed_at
+      FROM weather_sync_log
+      WHERE sync_date >= CURRENT_DATE - INTERVAL '7 days'
+      ORDER BY sync_date DESC, state
+    `
+    return result.rows
+  } catch (error) {
+    console.error('Error getting weather sync status:', error)
+    return []
+  }
+}
+
+export async function getHailEventStats() {
+  try {
+    const result = await sql`
+      SELECT
+        state,
+        COUNT(*) as total_events,
+        MIN(event_date) as earliest_event,
+        MAX(event_date) as latest_event,
+        AVG(hail_size) as avg_hail_size,
+        MAX(hail_size) as max_hail_size
+      FROM hail_events
+      GROUP BY state
+      ORDER BY state
+    `
+    return result.rows
+  } catch (error) {
+    console.error('Error getting hail event stats:', error)
     return []
   }
 }

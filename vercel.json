@@ -7,6 +7,10 @@
     {
       "path": "/api/cron/nightly-report",
       "schedule": "50 23 * * *"
+    },
+    {
+      "path": "/api/cron/sync-weather-data",
+      "schedule": "0 2 * * *"
     }
   ]
 }
