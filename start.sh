@@ -1,3 +1,4 @@
 #!/bin/bash
-# Start Next.js on port 4000 for Railway
-next start -p 4000
+# Use Railway's PORT if set, otherwise 4000
+PORT=${PORT:-4000}
+next start -p $PORT
