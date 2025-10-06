@@ -3,7 +3,6 @@
  * Controls Susan's operational modes and theme
  *
  * Features:
- * - Deep Dive Mode: Detailed answers with follow-up questions and resources
  * - Education Mode: Teaching/mentoring persona for learning
  * - Theme Toggle: Light/Dark mode switcher
  */
@@ -13,43 +12,20 @@
 import React from 'react';
 
 export interface ModeToggleProps {
-  deepDiveMode: boolean;
   educationMode: boolean;
   isDarkMode: boolean;
-  onDeepDiveChange: (enabled: boolean) => void;
   onEducationChange: (enabled: boolean) => void;
   onThemeChange: (isDark: boolean) => void;
 }
 
 export default function ModeToggle({
-  deepDiveMode,
   educationMode,
   isDarkMode,
-  onDeepDiveChange,
   onEducationChange,
   onThemeChange,
 }: ModeToggleProps) {
   return (
     <div className="flex items-center gap-2 flex-wrap">
-      {/* Deep Dive Mode */}
-      <button
-        onClick={() => onDeepDiveChange(!deepDiveMode)}
-        className={`
-          flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold
-          transition-all duration-200 border-2
-          ${deepDiveMode
-            ? 'bg-blue-600 text-white border-blue-700 shadow-lg'
-            : isDarkMode
-            ? 'bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700'
-            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-          }
-        `}
-        title="Deep Dive Mode: Get detailed answers with follow-up questions and resources"
-      >
-        <span className="text-sm">🔍</span>
-        <span className="hidden sm:inline">Deep Dive</span>
-      </button>
-
       {/* Education Mode */}
       <button
         onClick={() => onEducationChange(!educationMode)}

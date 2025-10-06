@@ -45,16 +45,14 @@ export default function ChatPage() {
   const [showEmailGenerator, setShowEmailGenerator] = useState(false)
   const [showUnifiedAnalyzer, setShowUnifiedAnalyzer] = useState(false)
   const [voiceEnabled, setVoiceEnabled] = useState(false)
-  const [deepDiveMode, setDeepDiveMode] = useState(false)
   const [educationMode, setEducationMode] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [currentConversationId, setCurrentConversationId] = useState<string>('')
-  const [handsFreeMode, setHandsFreeMode] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const latestAssistantMessageRef = useRef<string>('')
 
   // Text-to-speech for auto-reading responses
-  const { speak, isSupported: isTtsSupported } = useTextToSpeech()
+  const { speak, stop: stopSpeaking, isSpeaking, isSupported: isTtsSupported } = useTextToSpeech()
 
   // Rotating placeholder hook
   const { placeholder, pause, resume } = useRotatingPlaceholder()
@@ -232,7 +230,6 @@ export default function ChatPage() {
           repName: repName,
           sessionId: sessionId,
           handsFreeMode: voiceEnabled, // Enable conversational mode when voice is active
-          deepDiveMode: deepDiveMode, // Enable deep dive with follow-up questions
           educationMode: educationMode // Enable teaching/mentoring persona
         }),
       })
@@ -301,6 +298,18 @@ export default function ChatPage() {
   const clearChat = () => {
     setMessages([])
     setShowQuickLinks(true)
+  }
+
+  // Clean markdown formatting from text for display
+  const cleanMarkdown = (text: string): string => {
+    return text
+      // Remove bold (**text** or __text__)
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/__([^_]+)__/g, '$1')
+      // Remove headers (### text or ## text)
+      .replace(/^#{1,6}\s+(.+)$/gm, '$1')
+      // Keep the text readable
+      .trim()
   }
 
   // Rep Entry Screen
@@ -389,13 +398,9 @@ export default function ChatPage() {
             {/* Center: Active Mode Indicators */}
             <div className="flex-1 flex justify-center">
               <ActiveModeIndicator
-                deepDiveMode={deepDiveMode}
                 educationMode={educationMode}
-                handsFreeMode={handsFreeMode}
                 isDarkMode={isDarkMode}
-                onDeepDiveToggle={() => setDeepDiveMode(!deepDiveMode)}
                 onEducationToggle={() => setEducationMode(!educationMode)}
-                onHandsFreeToggle={() => setHandsFreeMode(!handsFreeMode)}
               />
             </div>
 
@@ -437,11 +442,9 @@ export default function ChatPage() {
 
               <SettingsPanel
                 isDarkMode={isDarkMode}
-                deepDiveMode={deepDiveMode}
                 educationMode={educationMode}
                 voiceEnabled={voiceEnabled}
                 onThemeChange={handleThemeChange}
-                onDeepDiveChange={setDeepDiveMode}
                 onEducationChange={setEducationMode}
                 onVoiceEnabledChange={setVoiceEnabled}
                 onClearHistory={() => {
@@ -451,10 +454,8 @@ export default function ChatPage() {
               />
 
               <ModeToggle
-                deepDiveMode={deepDiveMode}
                 educationMode={educationMode}
                 isDarkMode={isDarkMode}
-                onDeepDiveChange={setDeepDiveMode}
                 onEducationChange={setEducationMode}
                 onThemeChange={handleThemeChange}
               />
@@ -597,7 +598,9 @@ export default function ChatPage() {
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="whitespace-pre-wrap break-words leading-relaxed">{message.content}</p>
+                          <p className="whitespace-pre-wrap break-words leading-relaxed">
+                            {message.role === 'assistant' ? cleanMarkdown(message.content) : message.content}
+                          </p>
                           <div className="flex items-center justify-between mt-2">
                             <p className={`text-xs ${message.role === 'user' ? 'text-red-100' : 'text-gray-500'}`}>
                               {message.timestamp.toLocaleTimeString()}
@@ -639,20 +642,45 @@ export default function ChatPage() {
         {/* Input Form */}
         <div className="bg-white border-t-2 border-gray-200 p-4 shadow-2xl">
           <div className="max-w-5xl mx-auto space-y-3">
-            {/* Voice Controls */}
-            <VoiceControls
-              onTranscript={handleVoiceTranscript}
-              autoReadResponses={voiceEnabled}
-              disabled={isLoading}
-              onVoiceEnabledChange={setVoiceEnabled}
-            />
+            {/* Voice Controls with Stop Speaking Button */}
+            <div className="flex gap-3">
+              <div className="flex-1">
+                <VoiceControls
+                  onTranscript={handleVoiceTranscript}
+                  autoReadResponses={voiceEnabled}
+                  disabled={isLoading}
+                  onVoiceEnabledChange={setVoiceEnabled}
+                />
+              </div>
+
+              {/* Stop Speaking Button - appears when TTS is active */}
+              {isSpeaking && (
+                <button
+                  onClick={stopSpeaking}
+                  className="
+                    flex items-center justify-center gap-2
+                    px-6 py-3 rounded-xl
+                    bg-gradient-to-br from-red-600 to-red-700
+                    text-white font-semibold
+                    hover:from-red-700 hover:to-red-800
+                    transition-all duration-300
+                    shadow-lg hover:shadow-xl
+                    border-2 border-red-800
+                    animate-fadeIn
+                  "
+                  title="Stop Speaking"
+                  aria-label="Stop Speaking"
+                >
+                  <span className="text-xl">⏹️</span>
+                  <span className="hidden sm:inline text-sm">Stop Speaking</span>
+                </button>
+              )}
+            </div>
 
             {/* Smart Mode Suggestion */}
             <SmartModeSuggestion
               userMessage={input}
-              deepDiveMode={deepDiveMode}
               educationMode={educationMode}
-              onEnableDeepDive={() => setDeepDiveMode(true)}
               onEnableEducation={() => setEducationMode(true)}
               isDarkMode={isDarkMode}
             />

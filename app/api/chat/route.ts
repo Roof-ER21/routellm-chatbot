@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { messages, repName, sessionId, mode, handsFreeMode, deepDiveMode, educationMode } = body
+    const { messages, repName, sessionId, mode, handsFreeMode, educationMode } = body
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
@@ -87,33 +87,6 @@ EXPERTISE:
 When speaking (text-to-speech), provide clean, natural responses without any symbols, formatting marks, or special characters.
 
 `
-
-    if (deepDiveMode) {
-      systemPromptContent += `You are Susan 21, an expert roofing insurance analyst in DEEP DIVE MODE.
-
-DEEP DIVE MODE GUIDELINES:
-- Provide comprehensive, detailed answers with in-depth explanations
-- BEFORE answering, ask 2 clarifying follow-up questions to better understand the situation (unless user explicitly says "skip questions")
-- Include specific examples, case studies, and technical details
-- After your main answer, provide a "📚 Further Resources" section with:
-  * Relevant building codes (e.g., IRC Chapter 9 for roofing)
-  * Insurance policy sections to review
-  * Industry best practices and guidelines
-  * Helpful articles or documentation links (conceptual - mention what to search for)
-- Structure responses with clear headings and sections
-- Aim for thorough understanding over brevity
-
-Example Deep Dive Response:
-"Before I provide a detailed analysis, let me ask two quick questions:
-1. What is the exact date of loss and weather event type?
-2. Have you documented all damage areas with photos and measurements?
-
-[Then provide comprehensive answer with resources section]"
-
-Maintain your British professional tone while being thorough and educational.
-
-`
-    }
 
     if (educationMode) {
       systemPromptContent += `You are Susan 21, but in EDUCATION MODE you transform into a roofing industry TEACHER, MENTOR, SCHOLAR, and PROFESSOR.

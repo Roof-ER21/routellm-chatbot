@@ -16,11 +16,9 @@ import React, { useState } from 'react';
 
 export interface SettingsPanelProps {
   isDarkMode: boolean;
-  deepDiveMode: boolean;
   educationMode: boolean;
   voiceEnabled: boolean;
   onThemeChange: (isDark: boolean) => void;
-  onDeepDiveChange: (enabled: boolean) => void;
   onEducationChange: (enabled: boolean) => void;
   onVoiceEnabledChange: (enabled: boolean) => void;
   onClearHistory?: () => void;
@@ -28,11 +26,9 @@ export interface SettingsPanelProps {
 
 export default function SettingsPanel({
   isDarkMode,
-  deepDiveMode,
   educationMode,
   voiceEnabled,
   onThemeChange,
-  onDeepDiveChange,
   onEducationChange,
   onVoiceEnabledChange,
   onClearHistory,
@@ -117,25 +113,6 @@ export default function SettingsPanel({
                   className="sr-only peer"
                 />
                 <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
-              </label>
-            </div>
-
-            {/* Default Deep Dive Mode */}
-            <div className="flex items-center justify-between">
-              <div>
-                <h4 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                  Deep Dive Mode
-                </h4>
-                <p className="text-xs text-gray-500">Detailed answers by default</p>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={deepDiveMode}
-                  onChange={(e) => onDeepDiveChange(e.target.checked)}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
               </label>
             </div>
 
