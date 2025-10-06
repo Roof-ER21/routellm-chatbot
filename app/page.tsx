@@ -6,6 +6,18 @@ import EmailGenerator from './components/EmailGenerator'
 import PhotoAnalysisModal from './components/PhotoAnalysisModal'
 import UnifiedAnalyzerModal from './components/UnifiedAnalyzerModal'
 import InsuranceDetailPopup from './components/InsuranceDetailPopup'
+import VoiceControls from './components/VoiceControls'
+import ModeToggle from './components/ModeToggle'
+import OnboardingTooltip from './components/OnboardingTooltip'
+import ActiveModeIndicator from './components/ActiveModeIndicator'
+import CopyButton from './components/CopyButton'
+import ConversationHistory from './components/ConversationHistory'
+import SmartModeSuggestion from './components/SmartModeSuggestion'
+import SettingsPanel from './components/SettingsPanel'
+import ExportButton from './components/ExportButton'
+import { useTextToSpeech } from '@/hooks/useTextToSpeech'
+import { useRotatingPlaceholder } from '@/hooks/useRotatingPlaceholder'
+import { cleanTextForSpeech } from '@/lib/text-cleanup'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -29,7 +41,33 @@ export default function ChatPage() {
   const [showPhotoModal, setShowPhotoModal] = useState(false)
   const [showEmailGenerator, setShowEmailGenerator] = useState(false)
   const [showUnifiedAnalyzer, setShowUnifiedAnalyzer] = useState(false)
+  const [voiceEnabled, setVoiceEnabled] = useState(false)
+  const [deepDiveMode, setDeepDiveMode] = useState(false)
+  const [educationMode, setEducationMode] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(false)
+  const [currentConversationId, setCurrentConversationId] = useState<string>('')
+  const [handsFreeMode, setHandsFreeMode] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const latestAssistantMessageRef = useRef<string>('')
+
+  // Text-to-speech for auto-reading responses
+  const { speak, isSupported: isTtsSupported } = useTextToSpeech()
+
+  // Rotating placeholder hook
+  const { placeholder, pause, resume } = useRotatingPlaceholder()
+
+  // Theme management
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'light'
+    setIsDarkMode(savedTheme === 'dark')
+  }, [])
+
+  const handleThemeChange = (isDark: boolean) => {
+    setIsDarkMode(isDark)
+    localStorage.setItem('theme', isDark ? 'dark' : 'light')
+    document.body.classList.remove('light-mode', 'dark-mode')
+    document.body.classList.add(isDark ? 'dark-mode' : 'light-mode')
+  }
 
   // Check for stored rep name on mount
   useEffect(() => {
@@ -160,14 +198,15 @@ export default function ChatPage() {
     setShowQuickLinks(true)
   }
 
-  const sendMessage = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const sendMessage = async (e?: React.FormEvent, messageText?: string) => {
+    if (e) e.preventDefault()
 
-    if (!input.trim() || isLoading) return
+    const textToSend = messageText || input.trim()
+    if (!textToSend || isLoading) return
 
     const userMessage: Message = {
       role: 'user',
-      content: input.trim(),
+      content: textToSend,
       timestamp: new Date()
     }
 
@@ -188,7 +227,10 @@ export default function ChatPage() {
             content: m.content
           })),
           repName: repName,
-          sessionId: sessionId
+          sessionId: sessionId,
+          handsFreeMode: voiceEnabled, // Enable conversational mode when voice is active
+          deepDiveMode: deepDiveMode, // Enable deep dive with follow-up questions
+          educationMode: educationMode // Enable teaching/mentoring persona
         }),
       })
 
@@ -205,6 +247,15 @@ export default function ChatPage() {
       }
 
       setMessages(prev => [...prev, assistantMessage])
+      latestAssistantMessageRef.current = data.message
+
+      // Auto-speak response if voice is enabled
+      if (voiceEnabled && isTtsSupported) {
+        // Small delay to let the UI update
+        setTimeout(() => {
+          speak(cleanTextForSpeech(data.message))
+        }, 300)
+      }
     } catch (error) {
       console.error('Error:', error)
       const errorMessage: Message = {
@@ -216,6 +267,15 @@ export default function ChatPage() {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  // Handle voice transcript
+  const handleVoiceTranscript = (transcript: string) => {
+    if (!transcript.trim()) return
+
+    // Set input and send immediately
+    setInput(transcript)
+    sendMessage(undefined, transcript)
   }
 
   const handleQuickLink = (prompt: string) => {
@@ -231,22 +291,33 @@ export default function ChatPage() {
   // Rep Entry Screen
   if (showRepEntry) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <div className="max-w-md w-full mx-4">
-          <div className="bg-white rounded-2xl shadow-2xl p-8">
+          <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-200">
+            {/* Large S21 Circle Logo - Classy Red & Black */}
             <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center shadow-lg">
-                <span className="text-4xl">👁️</span>
+              <div className="relative w-40 h-40 flex items-center justify-center rounded-full bg-gradient-to-br from-[var(--color-susan-red)] to-[var(--color-susan-red-dark)] border-4 border-white shadow-2xl">
+                {/* Simple inner ring */}
+                <div className="absolute inset-3 rounded-full border border-white opacity-20"></div>
+                {/* Center S21 text */}
+                <div className="relative z-10 text-center">
+                  <div className="text-6xl font-black tracking-tight text-white">
+                    S21
+                  </div>
+                  <div className="text-xs uppercase tracking-widest mt-1 text-white opacity-80">
+                    SUSAN AI
+                  </div>
+                </div>
               </div>
             </div>
-            <h1 className="text-3xl font-bold text-center text-gray-900 mb-2">
-              SUSAN<span className="text-red-600">AI-21</span>
+            <h1 className="text-4xl font-bold text-center mb-2">
+              SUSAN<span className="text-red-600">21</span>
             </h1>
-            <p className="text-center text-gray-600 mb-8">Roof-ER Roofing Assistant</p>
+            <p className="text-center mb-8 text-gray-600">Ancient Wisdom, Modern Protection</p>
 
             <form onSubmit={handleRepSubmit} className="space-y-6">
               <div>
-                <label htmlFor="repName" className="block text-sm font-semibold text-gray-700 mb-2">
+                <label htmlFor="repName" className="block text-sm font-semibold mb-2 text-gray-700">
                   Enter Your Name to Continue
                 </label>
                 <input
@@ -255,7 +326,7 @@ export default function ChatPage() {
                   value={repInputValue}
                   onChange={(e) => setRepInputValue(e.target.value)}
                   placeholder="e.g., John Smith"
-                  className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-300 focus:border-red-500 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-red-100 transition-all"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-red-600 focus:ring-2 focus:ring-red-600 focus:ring-opacity-20 transition-all"
                   required
                   autoFocus
                 />
@@ -264,14 +335,14 @@ export default function ChatPage() {
               <button
                 type="submit"
                 disabled={!repInputValue.trim()}
-                className="w-full bg-gradient-to-br from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed text-white font-bold py-4 rounded-lg transition-all shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                className="w-full px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg font-semibold hover:from-red-700 hover:to-red-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg"
               >
-                Start Chat Session
+                Enter the Platform
               </button>
             </form>
 
-            <p className="text-center text-xs text-gray-500 mt-6">
-              Your name will be saved locally for future sessions
+            <p className="text-center text-xs mt-6 text-gray-500">
+              Your name will be saved for future sessions
             </p>
           </div>
         </div>
@@ -280,29 +351,64 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Header */}
-      <header className="bg-[#1a1a1a] text-white shadow-xl border-b-4 border-red-600">
+    <div className="flex flex-col h-screen">
+      {/* Header - Classy Red & Black */}
+      <header className="status-bar-safe bg-gradient-to-r from-gray-900 to-black border-b-2 border-red-600">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
-                <span className="text-2xl">👁️</span>
+              {/* Header S21 Logo - Simplified */}
+              <div className="relative w-14 h-14 flex items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-700 border-2 border-white shadow-lg">
+                <div className="text-xl font-black text-white">
+                  S21
+                </div>
               </div>
               <div>
-                <h1 className="text-2xl font-bold tracking-tight">
-                  SUSAN<span className="text-red-600">AI-21</span>
+                <h1 className="text-3xl font-bold tracking-tight text-white">
+                  SUSAN<span className="text-red-500">21</span>
                 </h1>
-                <p className="text-xs text-gray-400 uppercase tracking-wider">Roof-ER Roofing Assistant</p>
+                <p className="text-xs uppercase tracking-wider text-gray-400">Ancient Wisdom, Modern Protection</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="text-right mr-4">
+
+            {/* Center: Active Mode Indicators */}
+            <div className="flex-1 flex justify-center">
+              <ActiveModeIndicator
+                deepDiveMode={deepDiveMode}
+                educationMode={educationMode}
+                handsFreeMode={handsFreeMode}
+                isDarkMode={isDarkMode}
+                onDeepDiveToggle={() => setDeepDiveMode(!deepDiveMode)}
+                onEducationToggle={() => setEducationMode(!educationMode)}
+                onHandsFreeToggle={() => setHandsFreeMode(!handsFreeMode)}
+              />
+            </div>
+
+            {/* Right: Controls */}
+            <div className="flex items-center gap-2">
+              <div className="text-right mr-3">
                 <p className="text-xs text-gray-400 uppercase tracking-wider">Logged in as</p>
                 <p className="text-sm font-semibold text-white">{repName}</p>
               </div>
+
               {messages.length > 0 && (
                 <>
+                  <ConversationHistory
+                    onLoadConversation={(id) => {
+                      setCurrentConversationId(id)
+                    }}
+                    onNewConversation={() => {
+                      setMessages([])
+                      setCurrentConversationId(Date.now().toString())
+                    }}
+                    currentConversationId={currentConversationId}
+                    isDarkMode={isDarkMode}
+                  />
+                  <ExportButton
+                    messages={messages}
+                    repName={repName}
+                    isDarkMode={isDarkMode}
+                  />
                   <EmailGenerator
                     repName={repName}
                     sessionId={sessionId || undefined}
@@ -311,14 +417,33 @@ export default function ChatPage() {
                       content: m.content
                     }))}
                   />
-                  <button
-                    onClick={clearChat}
-                    className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium text-sm"
-                  >
-                    New Chat
-                  </button>
                 </>
               )}
+
+              <SettingsPanel
+                isDarkMode={isDarkMode}
+                deepDiveMode={deepDiveMode}
+                educationMode={educationMode}
+                voiceEnabled={voiceEnabled}
+                onThemeChange={handleThemeChange}
+                onDeepDiveChange={setDeepDiveMode}
+                onEducationChange={setEducationMode}
+                onVoiceEnabledChange={setVoiceEnabled}
+                onClearHistory={() => {
+                  setMessages([])
+                  localStorage.removeItem('susan21_conversation_history')
+                }}
+              />
+
+              <ModeToggle
+                deepDiveMode={deepDiveMode}
+                educationMode={educationMode}
+                isDarkMode={isDarkMode}
+                onDeepDiveChange={setDeepDiveMode}
+                onEducationChange={setEducationMode}
+                onThemeChange={handleThemeChange}
+              />
+
               <button
                 onClick={handleLogout}
                 className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors font-medium text-sm"
@@ -331,10 +456,10 @@ export default function ChatPage() {
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-hidden flex flex-col max-w-7xl mx-auto w-full">
+      <div className="flex-1 overflow-hidden flex flex-col w-full">
         {/* Quick Links - Show when no messages */}
         {showQuickLinks && messages.length === 0 && (
-          <div className="p-6 bg-white/50 backdrop-blur-sm border-b border-gray-200">
+          <div className="p-6 bg-white/50 backdrop-blur-sm border-b border-gray-200 max-w-7xl mx-auto w-full">
             <div className="max-w-5xl mx-auto">
               <h2 className="text-lg font-semibold text-gray-800 mb-4">Quick Access Tools</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -373,12 +498,16 @@ export default function ChatPage() {
         )}
 
         {/* Messages Container */}
-        <div className="flex-1 overflow-y-auto p-6">
-          <div className="max-w-5xl mx-auto">
+        <div className="flex-1 overflow-y-auto p-6 pb-24">
+          <div className="max-w-5xl mx-auto w-full">
             {messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center py-12">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center mb-6 shadow-2xl">
-                  <span className="text-5xl">👁️</span>
+                {/* Welcome S21 Logo - Classy & Simple */}
+                <div className="relative w-32 h-32 flex items-center justify-center mb-6 rounded-full bg-gradient-to-br from-red-600 to-red-700 border-4 border-gray-300 shadow-2xl">
+                  <div className="absolute inset-3 rounded-full border border-white opacity-20"></div>
+                  <div className="text-5xl font-black text-white">
+                    S21
+                  </div>
                 </div>
                 <h2 className="text-3xl font-bold text-gray-800 mb-3">
                   Welcome to SusanAI-21
@@ -445,16 +574,24 @@ export default function ChatPage() {
                       <div className="flex items-start gap-3">
                         <div className="text-2xl flex-shrink-0 mt-1">
                           {message.role === 'user' ? '👤' : (
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center text-base">
-                              👁️
+                            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-700 border border-white">
+                              <div className="text-xs font-black text-white">
+                                S21
+                              </div>
                             </div>
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="whitespace-pre-wrap break-words leading-relaxed">{message.content}</p>
-                          <p className={`text-xs mt-2 ${message.role === 'user' ? 'text-red-100' : 'text-gray-500'}`}>
-                            {message.timestamp.toLocaleTimeString()}
-                          </p>
+                          <div className="flex items-center justify-between mt-2">
+                            <p className={`text-xs ${message.role === 'user' ? 'text-red-100' : 'text-gray-500'}`}>
+                              {message.timestamp.toLocaleTimeString()}
+                            </p>
+                            <CopyButton
+                              text={message.content}
+                              variant={message.role === 'user' ? 'dark' : 'light'}
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -464,8 +601,10 @@ export default function ChatPage() {
                   <div className="flex justify-start">
                     <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-md">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center text-base">
-                          👁️
+                        <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-700 border border-white">
+                          <div className="text-xs font-black text-white">
+                            S21
+                          </div>
                         </div>
                         <div className="flex gap-1.5">
                           <div className="w-2.5 h-2.5 bg-red-600 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
@@ -484,9 +623,28 @@ export default function ChatPage() {
 
         {/* Input Form */}
         <div className="bg-white border-t-2 border-gray-200 p-4 shadow-2xl">
-          <form onSubmit={sendMessage} className="max-w-5xl mx-auto">
-            {/* Selected Company Display */}
-            {selectedCompany && (
+          <div className="max-w-5xl mx-auto space-y-3">
+            {/* Voice Controls */}
+            <VoiceControls
+              onTranscript={handleVoiceTranscript}
+              autoReadResponses={voiceEnabled}
+              disabled={isLoading}
+              onVoiceEnabledChange={setVoiceEnabled}
+            />
+
+            {/* Smart Mode Suggestion */}
+            <SmartModeSuggestion
+              userMessage={input}
+              deepDiveMode={deepDiveMode}
+              educationMode={educationMode}
+              onEnableDeepDive={() => setDeepDiveMode(true)}
+              onEnableEducation={() => setEducationMode(true)}
+              isDarkMode={isDarkMode}
+            />
+
+            <form onSubmit={sendMessage}>
+              {/* Selected Company Display */}
+              {selectedCompany && (
               <div className="mb-3 p-3 bg-green-50 border border-green-200 rounded-lg flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <span className="text-xl">🏢</span>
@@ -531,7 +689,9 @@ export default function ChatPage() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask about damage assessment, insurance claims, or use the roofing tools..."
+                onFocus={pause}
+                onBlur={resume}
+                placeholder={placeholder}
                 className="flex-1 bg-gray-50 border-2 border-gray-300 focus:border-red-500 rounded-xl px-5 py-4 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-red-100 transition-all"
                 disabled={isLoading}
               />
@@ -552,16 +712,17 @@ export default function ChatPage() {
                 )}
               </button>
             </div>
-            {!showQuickLinks && messages.length > 0 && (
-              <button
-                type="button"
-                onClick={() => setShowQuickLinks(!showQuickLinks)}
-                className="mt-3 text-sm text-gray-600 hover:text-red-600 transition-colors"
-              >
-                {showQuickLinks ? 'Hide' : 'Show'} Quick Access Tools
-              </button>
-            )}
-          </form>
+              {!showQuickLinks && messages.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setShowQuickLinks(!showQuickLinks)}
+                  className="mt-3 text-sm text-gray-600 hover:text-red-600 transition-colors"
+                >
+                  {showQuickLinks ? 'Hide' : 'Show'} Quick Access Tools
+                </button>
+              )}
+            </form>
+          </div>
         </div>
       </div>
 
@@ -609,6 +770,9 @@ export default function ChatPage() {
         repName={repName}
         sessionId={sessionId || undefined}
       />
+
+      {/* Onboarding Tooltip - Shows on first visit */}
+      <OnboardingTooltip />
 
     </div>
   )

@@ -154,35 +154,7 @@ export default function InsuranceCompanyModal({
                       </h3>
 
                       <div className="text-sm text-gray-600 space-y-1.5">
-                        {/* Phone with Shortcut */}
-                        {company.phone && (
-                          <div className="space-y-0.5">
-                            <div className="flex items-center gap-2">
-                              <span className="text-indigo-600">📞</span>
-                              <span className="font-medium">{company.phone}</span>
-                            </div>
-                            {company.phone_instructions && (
-                              <div className="ml-6 text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-200">
-                                <span className="font-semibold">Shortcut:</span> {company.phone_instructions}
-                              </div>
-                            )}
-                            {company.best_call_times && (
-                              <div className="ml-6 text-xs text-green-700">
-                                ⏰ Best times: {company.best_call_times}
-                              </div>
-                            )}
-                          </div>
-                        )}
-
-                        {/* Email */}
-                        {company.contact_email && (
-                          <div className="flex items-center gap-2">
-                            <span className="text-indigo-600">✉️</span>
-                            <span>{company.contact_email}</span>
-                          </div>
-                        )}
-
-                        {/* App Name or Website */}
+                        {/* App Name or Website FIRST */}
                         {company.app_name ? (
                           <div className="flex items-center gap-2">
                             <span className="text-indigo-600">📱</span>
@@ -213,6 +185,34 @@ export default function InsuranceCompanyModal({
                             </a>
                           </div>
                         ) : null}
+
+                        {/* Email SECOND */}
+                        {company.contact_email && (
+                          <div className="flex items-center gap-2">
+                            <span className="text-indigo-600">✉️</span>
+                            <span>{company.contact_email}</span>
+                          </div>
+                        )}
+
+                        {/* Phone THIRD */}
+                        {company.phone && (
+                          <div className="space-y-0.5">
+                            <div className="flex items-center gap-2">
+                              <span className="text-indigo-600">📞</span>
+                              <span className="font-medium">{company.phone}</span>
+                            </div>
+                            {company.phone_instructions && (
+                              <div className="ml-6 text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-200">
+                                <span className="font-semibold">Shortcut:</span> {company.phone_instructions}
+                              </div>
+                            )}
+                            {company.best_call_times && (
+                              <div className="ml-6 text-xs text-green-700">
+                                ⏰ Best times: {company.best_call_times}
+                              </div>
+                            )}
+                          </div>
+                        )}
 
                         {company.fax && (
                           <div className="flex items-center gap-2">

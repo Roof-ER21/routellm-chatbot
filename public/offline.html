@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Susan AI - Offline</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    .icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      color: #4f46e5;
+      margin-bottom: 15px;
+      font-size: 28px;
+    }
+
+    p {
+      color: #666;
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+
+    .capabilities {
+      background: #f3f4f6;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 25px 0;
+      text-align: left;
+    }
+
+    .capabilities h2 {
+      color: #4f46e5;
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    .capabilities ul {
+      list-style: none;
+    }
+
+    .capabilities li {
+      padding: 8px 0;
+      color: #333;
+    }
+
+    .capabilities li::before {
+      content: "✅ ";
+      margin-right: 8px;
+    }
+
+    .retry-btn {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .retry-btn:hover {
+      background: #4338ca;
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .status.offline {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .status.online {
+      background: #d1fae5;
+      color: #059669;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">📡</div>
+    <h1>You're Offline</h1>
+    <p>Susan AI requires an internet connection for full AI capabilities, but you can still access offline features.</p>
+
+    <div class="capabilities">
+      <h2>Available Offline:</h2>
+      <ul>
+        <li>Building code references (VA, MD, PA)</li>
+        <li>GAF manufacturer requirements</li>
+        <li>Maryland matching law (Bulletin 18-23)</li>
+        <li>Storm damage assessment guides</li>
+        <li>Insurance company contact info</li>
+        <li>Common legal arguments & rebuttals</li>
+      </ul>
+    </div>
+
+    <button class="retry-btn" onclick="retryConnection()">Retry Connection</button>
+
+    <div id="status" class="status offline">
+      Status: Offline
+    </div>
+  </div>
+
+  <script>
+    function retryConnection() {
+      const status = document.getElementById('status');
+      status.textContent = 'Checking connection...';
+      status.className = 'status';
+
+      fetch('/api/health')
+        .then(response => {
+          if (response.ok) {
+            status.textContent = 'Status: Online ✓';
+            status.className = 'status online';
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 1000);
+          } else {
+            throw new Error('Still offline');
+          }
+        })
+        .catch(() => {
+          status.textContent = 'Status: Still Offline';
+          status.className = 'status offline';
+        });
+    }
+
+    // Auto-check connection every 10 seconds
+    setInterval(() => {
+      if (navigator.onLine) {
+        retryConnection();
+      }
+    }, 10000);
+
+    // Listen for online/offline events
+    window.addEventListener('online', retryConnection);
+    window.addEventListener('offline', () => {
+      const status = document.getElementById('status');
+      status.textContent = 'Status: Offline';
+      status.className = 'status offline';
+    });
+  </script>
+</body>
+</html>

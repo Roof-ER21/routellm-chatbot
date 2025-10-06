@@ -33,10 +33,12 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "resend": "^6.1.2",
-    "sharp": "^0.34.4",
     "tailwindcss": "^4.1.14",
     "tesseract.js": "^6.0.1",
     "typescript": "^5.9.3",
     "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.4"
   }
 }
