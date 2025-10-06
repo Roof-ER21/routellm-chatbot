@@ -51,7 +51,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* iOS Safari Specific Meta Tags */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
