@@ -1,6 +1,9 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+
+// Force dynamic rendering - no static generation
+export const dynamic = 'force-dynamic'
 import InsuranceCompanySelector, { InsuranceCompany } from './components/InsuranceCompanySelector'
 import EmailGenerator from './components/EmailGenerator'
 import PhotoAnalysisModal from './components/PhotoAnalysisModal'
