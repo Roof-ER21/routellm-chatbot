@@ -42,6 +42,8 @@ export function useVoiceRecognition(
   const recognitionRef = useRef<any>(null);
   const isListeningRef = useRef(false);
   const autoRestartRef = useRef(options.autoRestart ?? false);
+  const lastInterimTranscriptRef = useRef('');
+  const hasReceivedFinalRef = useRef(false);
 
   // Update autoRestart ref when option changes
   useEffect(() => {
@@ -82,6 +84,7 @@ export function useVoiceRecognition(
         if (result.isFinal) {
           finalTranscript += transcriptPiece;
           lastConfidence = result[0].confidence;
+          hasReceivedFinalRef.current = true;
 
           // Call onResult callback
           if (options.onResult) {
@@ -109,13 +112,16 @@ export function useVoiceRecognition(
         setTranscript(prev => prev + finalTranscript);
         setConfidence(lastConfidence);
         setInterimTranscript('');
+        lastInterimTranscriptRef.current = ''; // Clear interim since we got final
 
         // Call onFinalResult callback
         if (options.onFinalResult) {
+          console.log('[useVoiceRecognition] Calling onFinalResult with final transcript:', finalTranscript);
           options.onFinalResult(finalTranscript, lastConfidence);
         }
       } else {
         setInterimTranscript(currentInterim);
+        lastInterimTranscriptRef.current = currentInterim; // Store for fallback
       }
     };
 
@@ -124,6 +130,8 @@ export function useVoiceRecognition(
       setIsListening(true);
       isListeningRef.current = true;
       setError(null);
+      hasReceivedFinalRef.current = false; // Reset flag on new session
+      lastInterimTranscriptRef.current = ''; // Reset interim transcript
 
       if (options.onStart) {
         options.onStart();
@@ -132,8 +140,25 @@ export function useVoiceRecognition(
 
     // Handle recognition end
     recognition.onend = () => {
+      console.log('[useVoiceRecognition] Recognition ended. hasReceivedFinal:', hasReceivedFinalRef.current, 'lastInterim:', lastInterimTranscriptRef.current);
+
+      // CRITICAL FIX: If we have interim transcript but no final result, use interim as final
+      if (!hasReceivedFinalRef.current && lastInterimTranscriptRef.current && options.onFinalResult) {
+        console.log('[useVoiceRecognition] No final result received, using interim transcript as final:', lastInterimTranscriptRef.current);
+
+        // Use interim transcript as final result with default confidence
+        const fallbackTranscript = lastInterimTranscriptRef.current;
+        setTranscript(prev => prev + fallbackTranscript);
+        setConfidence(0.8); // Default confidence for interim-as-final
+
+        // Call onFinalResult with the interim transcript
+        options.onFinalResult(fallbackTranscript, 0.8);
+      }
+
       setIsListening(false);
       setInterimTranscript('');
+      lastInterimTranscriptRef.current = ''; // Clear after use
+      hasReceivedFinalRef.current = false; // Reset for next session
 
       if (options.onEnd) {
         options.onEnd();
