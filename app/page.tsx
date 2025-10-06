@@ -18,9 +18,11 @@ import ConversationHistory from './components/ConversationHistory'
 import SmartModeSuggestion from './components/SmartModeSuggestion'
 import SettingsPanel from './components/SettingsPanel'
 import ExportButton from './components/ExportButton'
+import SimpleAuth from './components/SimpleAuth'
 import { useTextToSpeech } from '@/hooks/useTextToSpeech'
 import { useRotatingPlaceholder } from '@/hooks/useRotatingPlaceholder'
 import { cleanTextForSpeech } from '@/lib/text-cleanup'
+import { getCurrentUser, getUserDisplayName, logout as authLogout, isRemembered, saveConversation } from '@/lib/simple-auth'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -34,8 +36,7 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [showQuickLinks, setShowQuickLinks] = useState(true)
   const [repName, setRepName] = useState('')
-  const [showRepEntry, setShowRepEntry] = useState(true)
-  const [repInputValue, setRepInputValue] = useState('')
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [sessionId, setSessionId] = useState<number | null>(null)
   const [repId, setRepId] = useState<number | null>(null)
   const [showInsuranceSelector, setShowInsuranceSelector] = useState(false)
@@ -70,13 +71,16 @@ export default function ChatPage() {
     document.body.classList.add(isDark ? 'dark-mode' : 'light-mode')
   }
 
-  // Check for stored rep name on mount
+  // Check for authentication on mount
   useEffect(() => {
-    const storedName = localStorage.getItem('repName')
-    if (storedName) {
-      setRepName(storedName)
-      setShowRepEntry(false)
-      initializeSession(storedName)
+    const currentUser = getCurrentUser()
+    if (currentUser && isRemembered()) {
+      const displayName = getUserDisplayName()
+      if (displayName) {
+        setRepName(displayName)
+        setIsAuthenticated(true)
+        initializeSession(displayName)
+      }
     }
   }, [])
 
@@ -179,24 +183,23 @@ export default function ChatPage() {
     setShowQuickLinks(false)
   }
 
-  const handleRepSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!repInputValue.trim()) return
-
-    const name = repInputValue.trim()
-    setRepName(name)
-    localStorage.setItem('repName', name)
-    setShowRepEntry(false)
-    initializeSession(name)
+  const handleAuthenticated = () => {
+    const displayName = getUserDisplayName()
+    if (displayName) {
+      setRepName(displayName)
+      setIsAuthenticated(true)
+      initializeSession(displayName)
+    }
   }
 
   const handleLogout = () => {
-    localStorage.removeItem('repName')
+    authLogout()
     setRepName('')
-    setShowRepEntry(true)
+    setIsAuthenticated(false)
     setMessages([])
     setSessionId(null)
     setShowQuickLinks(true)
+    setCurrentConversationId('')
   }
 
   const sendMessage = async (e?: React.FormEvent, messageText?: string) => {
@@ -298,7 +301,39 @@ export default function ChatPage() {
   const clearChat = () => {
     setMessages([])
     setShowQuickLinks(true)
+    setCurrentConversationId('')
   }
+
+  const handleLoadConversation = (loadedMessages: any[]) => {
+    // Convert timestamps back to Date objects
+    const messagesWithDates = loadedMessages.map(m => ({
+      ...m,
+      timestamp: m.timestamp instanceof Date ? m.timestamp : new Date(m.timestamp)
+    }))
+    setMessages(messagesWithDates)
+    setShowQuickLinks(false)
+  }
+
+  const handleNewConversation = () => {
+    // Save current conversation before creating new one
+    if (messages.length > 0) {
+      saveConversation(messages)
+    }
+    setMessages([])
+    setShowQuickLinks(true)
+    setCurrentConversationId(Date.now().toString())
+  }
+
+  // Auto-save conversation when messages change (debounced)
+  useEffect(() => {
+    if (messages.length > 0 && isAuthenticated) {
+      const timeoutId = setTimeout(() => {
+        saveConversation(messages)
+      }, 2000) // Save 2 seconds after last message
+
+      return () => clearTimeout(timeoutId)
+    }
+  }, [messages, isAuthenticated])
 
   // Clean markdown formatting from text for display
   const cleanMarkdown = (text: string): string => {
@@ -312,66 +347,9 @@ export default function ChatPage() {
       .trim()
   }
 
-  // Rep Entry Screen
-  if (showRepEntry) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
-        <div className="max-w-md w-full mx-4">
-          <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-200">
-            {/* Large S21 Circle Logo - Classy Red & Black */}
-            <div className="flex justify-center mb-6">
-              <div className="relative w-40 h-40 flex items-center justify-center rounded-full bg-gradient-to-br from-[var(--color-susan-red)] to-[var(--color-susan-red-dark)] border-4 border-white shadow-2xl">
-                {/* Simple inner ring */}
-                <div className="absolute inset-3 rounded-full border border-white opacity-20"></div>
-                {/* Center S21 text */}
-                <div className="relative z-10 text-center">
-                  <div className="text-6xl font-black tracking-tight text-white">
-                    S21
-                  </div>
-                  <div className="text-xs uppercase tracking-widest mt-1 text-white opacity-80">
-                    SUSAN AI
-                  </div>
-                </div>
-              </div>
-            </div>
-            <h1 className="text-4xl font-bold text-center mb-2">
-              SUSAN<span className="text-red-600">21</span>
-            </h1>
-            <p className="text-center mb-8 text-gray-600">Ancient Wisdom, Modern Protection</p>
-
-            <form onSubmit={handleRepSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="repName" className="block text-sm font-semibold mb-2 text-gray-700">
-                  Enter Your Name to Continue
-                </label>
-                <input
-                  id="repName"
-                  type="text"
-                  value={repInputValue}
-                  onChange={(e) => setRepInputValue(e.target.value)}
-                  placeholder="e.g., John Smith"
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-red-600 focus:ring-2 focus:ring-red-600 focus:ring-opacity-20 transition-all"
-                  required
-                  autoFocus
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={!repInputValue.trim()}
-                className="w-full px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg font-semibold hover:from-red-700 hover:to-red-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg"
-              >
-                Enter the Platform
-              </button>
-            </form>
-
-            <p className="text-center text-xs mt-6 text-gray-500">
-              Your name will be saved for future sessions
-            </p>
-          </div>
-        </div>
-      </div>
-    )
+  // Show authentication screen if not logged in
+  if (!isAuthenticated) {
+    return <SimpleAuth onAuthenticated={handleAuthenticated} isDarkMode={isDarkMode} />
   }
 
   return (
@@ -414,13 +392,8 @@ export default function ChatPage() {
               {messages.length > 0 && (
                 <>
                   <ConversationHistory
-                    onLoadConversation={(id) => {
-                      setCurrentConversationId(id)
-                    }}
-                    onNewConversation={() => {
-                      setMessages([])
-                      setCurrentConversationId(Date.now().toString())
-                    }}
+                    onLoadConversation={handleLoadConversation}
+                    onNewConversation={handleNewConversation}
                     currentConversationId={currentConversationId}
                     isDarkMode={isDarkMode}
                   />
