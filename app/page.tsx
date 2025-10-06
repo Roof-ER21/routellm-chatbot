@@ -37,6 +37,7 @@ export default function ChatPage() {
   const [showQuickLinks, setShowQuickLinks] = useState(true)
   const [repName, setRepName] = useState('')
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const [sessionId, setSessionId] = useState<number | null>(null)
   const [repId, setRepId] = useState<number | null>(null)
   const [showInsuranceSelector, setShowInsuranceSelector] = useState(false)
@@ -71,8 +72,15 @@ export default function ChatPage() {
     document.body.classList.add(isDark ? 'dark-mode' : 'light-mode')
   }
 
-  // Check for authentication on mount
+  // Mark component as mounted (prevents hydration mismatch)
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Check for authentication after mount
+  useEffect(() => {
+    if (!mounted) return
+
     const currentUser = getCurrentUser()
     if (currentUser && isRemembered()) {
       const displayName = getUserDisplayName()
@@ -82,7 +90,7 @@ export default function ChatPage() {
         initializeSession(displayName)
       }
     }
-  }, [])
+  }, [mounted])
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -345,6 +353,11 @@ export default function ChatPage() {
       .replace(/^#{1,6}\s+(.+)$/gm, '$1')
       // Keep the text readable
       .trim()
+  }
+
+  // Show nothing until mounted (prevents hydration mismatch)
+  if (!mounted) {
+    return null
   }
 
   // Show authentication screen if not logged in
