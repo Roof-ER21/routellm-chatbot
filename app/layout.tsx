@@ -59,20 +59,15 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Susan 21" />
 
-        {/* Light mode initialization script */}
+        {/* Theme initialization - runs client-side only to avoid hydration mismatch */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 try {
                   const theme = localStorage.getItem('theme') || 'light';
-                  if (document.body) {
-                    document.body.classList.add(theme === 'dark' ? 'dark-mode' : 'light-mode');
-                  } else {
-                    document.addEventListener('DOMContentLoaded', function() {
-                      document.body.classList.add(theme === 'dark' ? 'dark-mode' : 'light-mode');
-                    });
-                  }
+                  const className = theme === 'dark' ? 'dark-mode' : 'light-mode';
+                  document.documentElement.classList.add(className);
                 } catch (e) {
                   console.error('Theme initialization error:', e);
                 }
