@@ -4,9 +4,34 @@
 
 All critical bugs have been fixed and the application has been rebuilt successfully.
 
+**Latest Update**: Fixed SSR build error - Railway deployment now working!
+
 ---
 
 ## Issues Fixed
+
+### 0. ✅ SSR Build Error (FIXED) - Railway Deployment
+**Error**: `ReferenceError: window is not defined` during Next.js build
+
+**Root Cause**: `voiceService.isSynthesisAvailable()` was being called during SSR initialization in useState
+
+**Fix Applied**: `/hooks/useTextToSpeech.ts:45-58`
+- Changed from `useState(() => voiceService.isSynthesisAvailable())` to `useState(false)`
+- Added useEffect to check support only on client-side
+- This prevents window access during server-side rendering
+
+```typescript
+// Before (caused SSR error):
+const [isSupported] = useState(() => voiceService.isSynthesisAvailable());
+
+// After (SSR-safe):
+const [isSupported, setIsSupported] = useState(false);
+useEffect(() => {
+  setIsSupported(voiceService.isSynthesisAvailable());
+}, []);
+```
+
+---
 
 ### 1. ✅ classList Error (FIXED)
 **Error**: `Uncaught TypeError: Cannot read properties of null (reading 'classList')`
