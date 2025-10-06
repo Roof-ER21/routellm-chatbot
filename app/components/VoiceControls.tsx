@@ -125,6 +125,24 @@ export default function VoiceControls({
     }
   };
 
+  // Handle microphone button click - enables voice and starts listening
+  const handleMicClick = () => {
+    if (isListening) {
+      // If already listening, stop
+      stopListening();
+    } else {
+      // Enable voice responses when mic is clicked
+      if (!voiceEnabled) {
+        setVoiceEnabled(true);
+        if (onVoiceEnabledChange) {
+          onVoiceEnabledChange(true);
+        }
+      }
+      // Start listening
+      startListening();
+    }
+  };
+
   // Handle voice toggle
   const toggleVoice = () => {
     const newVoiceEnabled = !voiceEnabled;
@@ -167,7 +185,7 @@ export default function VoiceControls({
         {/* Microphone Button (Stargate Style) */}
         {isRecognitionSupported && (
           <button
-            onClick={toggleListening}
+            onClick={handleMicClick}
             disabled={disabled}
             className={`
               voice-mic-button
