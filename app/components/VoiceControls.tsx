@@ -117,7 +117,11 @@ export default function VoiceControls({
     setHandsFreeMode(newHandsFreeMode);
 
     if (newHandsFreeMode) {
+      // Enable voice and notify parent
       setVoiceEnabled(true);
+      if (onVoiceEnabledChange) {
+        onVoiceEnabledChange(true);
+      }
       startListening();
     } else {
       stopListening();

@@ -242,6 +242,7 @@ export default function ChatPage() {
       }
 
       const data = await response.json()
+      console.log('[Page] Received response from API:', data)
 
       const assistantMessage: Message = {
         role: 'assistant',
@@ -249,15 +250,20 @@ export default function ChatPage() {
         timestamp: new Date()
       }
 
+      console.log('[Page] Adding assistant message to state')
       setMessages(prev => [...prev, assistantMessage])
       latestAssistantMessageRef.current = data.message
 
       // Auto-speak response if voice is enabled
+      console.log('[Page] voiceEnabled:', voiceEnabled, 'isTtsSupported:', isTtsSupported)
       if (voiceEnabled && isTtsSupported) {
+        console.log('[Page] Speaking response:', cleanTextForSpeech(data.message))
         // Small delay to let the UI update
         setTimeout(() => {
           speak(cleanTextForSpeech(data.message))
         }, 300)
+      } else {
+        console.log('[Page] NOT speaking - voiceEnabled:', voiceEnabled, 'isTtsSupported:', isTtsSupported)
       }
     } catch (error) {
       console.error('Error:', error)
