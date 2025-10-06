@@ -274,8 +274,14 @@ export default function ChatPage() {
 
   // Handle voice transcript
   const handleVoiceTranscript = (transcript: string) => {
-    if (!transcript.trim()) return
+    console.log('[Page] Voice transcript received:', transcript)
 
+    if (!transcript.trim()) {
+      console.log('[Page] Transcript is empty, ignoring')
+      return
+    }
+
+    console.log('[Page] Setting input and sending message')
     // Set input and send immediately
     setInput(transcript)
     sendMessage(undefined, transcript)

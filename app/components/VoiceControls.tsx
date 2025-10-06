@@ -53,21 +53,27 @@ export default function VoiceControls({
     continuous: false,
     interimResults: true,
     onFinalResult: (finalTranscript, confidence) => {
-      if (onTranscript) {
-        onTranscript(finalTranscript);
+      console.log('[VoiceControls] Final transcript received:', finalTranscript);
+
+      // Send transcript to parent
+      if (onTranscript && finalTranscript.trim()) {
+        console.log('[VoiceControls] Calling onTranscript with:', finalTranscript);
+        onTranscript(finalTranscript.trim());
       }
 
-      // Auto-restart in hands-free mode
+      // Reset local transcript
+      resetTranscript();
+
+      // Auto-restart in hands-free mode after a delay
       if (handsFreeMode) {
         setTimeout(() => {
+          console.log('[VoiceControls] Restarting listening in hands-free mode');
           startListening();
-        }, 1000);
+        }, 2000); // Increased delay to allow response to be spoken
       }
-
-      resetTranscript();
     },
     onError: (error) => {
-      console.error('Voice recognition error:', error);
+      console.error('[VoiceControls] Voice recognition error:', error);
     },
   });
 
@@ -87,17 +93,20 @@ export default function VoiceControls({
     pitch: 1.05, // Slightly higher for warm feminine British tone
     volume: 1.0,
     onStart: () => {
+      console.log('[VoiceControls] TTS started - stopping microphone');
       // Stop listening while speaking
       if (isListening) {
         stopListening();
       }
     },
     onEnd: () => {
-      // Resume listening in hands-free mode
+      console.log('[VoiceControls] TTS ended - resuming listening in hands-free mode');
+      // Resume listening in hands-free mode after TTS finishes
       if (handsFreeMode && voiceEnabled) {
         setTimeout(() => {
+          console.log('[VoiceControls] Restarting microphone after TTS');
           startListening();
-        }, 500);
+        }, 1000); // Delay to ensure clean transition
       }
     },
   });
