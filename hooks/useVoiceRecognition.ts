@@ -277,55 +277,57 @@ export function useVoiceRecognition(
       console.log('[Voice] ========== onerror END ==========');
     };
 
-    // Additional event handlers for debugging
+    // Additional event handlers for debugging (cast to any to avoid TypeScript errors)
+    const recognitionAny = recognition as any;
+
     if ('onspeechstart' in recognition) {
-      recognition.onspeechstart = () => {
+      recognitionAny.onspeechstart = () => {
         console.log('[Voice] ========== onspeechstart FIRED ==========');
         console.log('[Voice] Speech has been detected (user is speaking)');
       };
     }
 
     if ('onspeechend' in recognition) {
-      recognition.onspeechend = () => {
+      recognitionAny.onspeechend = () => {
         console.log('[Voice] ========== onspeechend FIRED ==========');
         console.log('[Voice] Speech has ended (user stopped speaking)');
       };
     }
 
     if ('onaudiostart' in recognition) {
-      recognition.onaudiostart = () => {
+      recognitionAny.onaudiostart = () => {
         console.log('[Voice] ========== onaudiostart FIRED ==========');
         console.log('[Voice] Audio capturing has started');
       };
     }
 
     if ('onaudioend' in recognition) {
-      recognition.onaudioend = () => {
+      recognitionAny.onaudioend = () => {
         console.log('[Voice] ========== onaudioend FIRED ==========');
         console.log('[Voice] Audio capturing has ended');
       };
     }
 
     if ('onsoundstart' in recognition) {
-      recognition.onsoundstart = () => {
+      recognitionAny.onsoundstart = () => {
         console.log('[Voice] ========== onsoundstart FIRED ==========');
         console.log('[Voice] Sound has been detected (any sound, not just speech)');
       };
     }
 
     if ('onsoundend' in recognition) {
-      recognition.onsoundend = () => {
+      recognitionAny.onsoundend = () => {
         console.log('[Voice] ========== onsoundend FIRED ==========');
         console.log('[Voice] Sound has stopped');
       };
     }
 
     if ('onnomatch' in recognition) {
-      recognition.onnomatch = () => {
+      recognitionAny.onnomatch = () => {
         console.log('[Voice] ========== onnomatch FIRED ==========');
         console.log('[Voice] Speech was recognized but no match found');
       };
-    };
+    }
 
     // Log all attached handlers
     console.log('[Voice] Event handlers attached:');
@@ -333,13 +335,13 @@ export function useVoiceRecognition(
     console.log('[Voice] - onstart:', typeof recognition.onstart);
     console.log('[Voice] - onend:', typeof recognition.onend);
     console.log('[Voice] - onerror:', typeof recognition.onerror);
-    console.log('[Voice] - onspeechstart:', typeof recognition.onspeechstart);
-    console.log('[Voice] - onspeechend:', typeof recognition.onspeechend);
-    console.log('[Voice] - onaudiostart:', typeof recognition.onaudiostart);
-    console.log('[Voice] - onaudioend:', typeof recognition.onaudioend);
-    console.log('[Voice] - onsoundstart:', typeof recognition.onsoundstart);
-    console.log('[Voice] - onsoundend:', typeof recognition.onsoundend);
-    console.log('[Voice] - onnomatch:', typeof recognition.onnomatch);
+    console.log('[Voice] - onspeechstart:', typeof recognitionAny.onspeechstart);
+    console.log('[Voice] - onspeechend:', typeof recognitionAny.onspeechend);
+    console.log('[Voice] - onaudiostart:', typeof recognitionAny.onaudiostart);
+    console.log('[Voice] - onaudioend:', typeof recognitionAny.onaudioend);
+    console.log('[Voice] - onsoundstart:', typeof recognitionAny.onsoundstart);
+    console.log('[Voice] - onsoundend:', typeof recognitionAny.onsoundend);
+    console.log('[Voice] - onnomatch:', typeof recognitionAny.onnomatch);
     console.log('[Voice] ========== INITIALIZATION COMPLETE ==========');
 
     // Cleanup
