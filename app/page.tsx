@@ -22,6 +22,7 @@ import { useTextToSpeech } from '@/hooks/useTextToSpeech'
 import { useRotatingPlaceholder } from '@/hooks/useRotatingPlaceholder'
 import { cleanTextForSpeech } from '@/lib/text-cleanup'
 import { getCurrentUser, getUserDisplayName, logout as authLogout, isRemembered, saveConversation, getCurrentConversation, cleanupOldConversations } from '@/lib/simple-auth'
+import { analyzeAndFlagConversation } from '@/lib/client-threat-detection'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -343,6 +344,8 @@ export default function ChatPage() {
     // Save current conversation before creating new one
     if (messages.length > 0 && currentConversationId) {
       saveConversation(messages, currentConversationId)
+      // Run threat detection on final conversation
+      analyzeAndFlagConversation(currentConversationId, messages)
     }
     // Reset to new conversation
     setMessages([])
@@ -360,6 +363,11 @@ export default function ChatPage() {
         // Update conversation ID if it was just created
         if (result.success && result.conversationId && !currentConversationId) {
           setCurrentConversationId(result.conversationId)
+        }
+
+        // Run threat detection analysis (silent - user won't see this)
+        if (result.success && result.conversationId) {
+          analyzeAndFlagConversation(result.conversationId, messages)
         }
       }, 2000) // Save 2 seconds after last message
 

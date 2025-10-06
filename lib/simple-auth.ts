@@ -9,12 +9,25 @@ export interface Message {
   timestamp: Date
 }
 
+export interface ThreatAlert {
+  pattern: string
+  severity: 'critical' | 'high' | 'medium' | 'low'
+  category: string
+  timestamp: number
+  messageIndex: number
+  highlightedText: string
+  riskScore: number
+}
+
 export interface Conversation {
   id: string
   date: number
   messages: Message[]
   title: string
   preview: string
+  alerts?: ThreatAlert[]
+  isFlagged?: boolean
+  highestSeverity?: 'critical' | 'high' | 'medium' | 'low'
 }
 
 export interface User {
@@ -110,10 +123,14 @@ export function login(name: string, code: string, rememberMe: boolean = false): 
 }
 
 // Logout user
-export function logout(): void {
+// By default, preserves the rememberMe setting so user doesn't need to re-check on next login
+// Pass clearRememberMe=true to fully clear the remember setting
+export function logout(clearRememberMe: boolean = false): void {
   const data = getAuthData()
   data.currentUser = null
-  data.rememberMe = false
+  if (clearRememberMe) {
+    data.rememberMe = false
+  }
   saveAuthData(data)
 }
 
@@ -282,4 +299,228 @@ export function cleanupOldConversations(): { success: boolean; deleted: number }
 // Clear all auth data (for testing)
 export function clearAllAuthData(): void {
   localStorage.removeItem(STORAGE_KEY)
+}
+
+// Admin-only: Get all users with their data
+export function getAllUsers(): Array<{ username: string; user: User }> {
+  const data = getAuthData()
+  return Object.entries(data.users).map(([username, user]) => ({
+    username,
+    user
+  }))
+}
+
+// Admin-only: Get all conversations from all users
+export interface UserConversation extends Conversation {
+  username: string
+  displayName: string
+}
+
+export function getAllConversations(): UserConversation[] {
+  const data = getAuthData()
+  const allConversations: UserConversation[] = []
+
+  Object.entries(data.users).forEach(([username, user]) => {
+    const displayName = username
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ')
+
+    user.conversations.forEach(conversation => {
+      allConversations.push({
+        ...conversation,
+        username,
+        displayName
+      })
+    })
+  })
+
+  // Sort by date descending (newest first)
+  allConversations.sort((a, b) => b.date - a.date)
+
+  return allConversations
+}
+
+// Admin-only: Get conversation statistics
+export interface ConversationStats {
+  totalUsers: number
+  totalConversations: number
+  totalMessages: number
+  totalAlerts: number
+  criticalAlerts: number
+  highAlerts: number
+  userStats: Array<{
+    username: string
+    displayName: string
+    conversationCount: number
+    messageCount: number
+    lastActive: number
+    alertCount: number
+  }>
+}
+
+export function getConversationStats(): ConversationStats {
+  const data = getAuthData()
+  const users = Object.entries(data.users)
+
+  let totalAlerts = 0
+  let criticalAlerts = 0
+  let highAlerts = 0
+
+  const userStats = users.map(([username, user]) => {
+    const displayName = username
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ')
+
+    const messageCount = user.conversations.reduce(
+      (sum, conv) => sum + conv.messages.length,
+      0
+    )
+
+    const alertCount = user.conversations.reduce(
+      (sum, conv) => sum + (conv.alerts?.length || 0),
+      0
+    )
+
+    // Count severity levels
+    user.conversations.forEach(conv => {
+      if (conv.alerts) {
+        conv.alerts.forEach(alert => {
+          totalAlerts++
+          if (alert.severity === 'critical') criticalAlerts++
+          if (alert.severity === 'high') highAlerts++
+        })
+      }
+    })
+
+    const lastActive = user.conversations.length > 0
+      ? Math.max(...user.conversations.map(c => c.date))
+      : user.createdAt
+
+    return {
+      username,
+      displayName,
+      conversationCount: user.conversations.length,
+      messageCount,
+      lastActive,
+      alertCount
+    }
+  })
+
+  const totalConversations = userStats.reduce((sum, u) => sum + u.conversationCount, 0)
+  const totalMessages = userStats.reduce((sum, u) => sum + u.messageCount, 0)
+
+  return {
+    totalUsers: users.length,
+    totalConversations,
+    totalMessages,
+    totalAlerts,
+    criticalAlerts,
+    highAlerts,
+    userStats: userStats.sort((a, b) => b.lastActive - a.lastActive)
+  }
+}
+
+// Add alert to a conversation
+export function addAlertToConversation(
+  conversationId: string,
+  alert: ThreatAlert
+): { success: boolean; error?: string } {
+  const data = getAuthData()
+
+  if (!data.currentUser || !data.users[data.currentUser]) {
+    return { success: false, error: 'No user logged in' }
+  }
+
+  const conversation = data.users[data.currentUser].conversations.find(c => c.id === conversationId)
+
+  if (!conversation) {
+    return { success: false, error: 'Conversation not found' }
+  }
+
+  // Initialize alerts array if it doesn't exist
+  if (!conversation.alerts) {
+    conversation.alerts = []
+  }
+
+  // Add the alert
+  conversation.alerts.push(alert)
+
+  // Mark conversation as flagged
+  conversation.isFlagged = true
+
+  // Update highest severity
+  const severityOrder = { critical: 4, high: 3, medium: 2, low: 1 }
+  const currentHighest = conversation.highestSeverity || 'low'
+
+  if (severityOrder[alert.severity] > severityOrder[currentHighest]) {
+    conversation.highestSeverity = alert.severity
+  }
+
+  saveAuthData(data)
+  return { success: true }
+}
+
+// Get all flagged conversations across all users (admin only)
+export function getAllFlaggedConversations(): UserConversation[] {
+  const data = getAuthData()
+  const flaggedConversations: UserConversation[] = []
+
+  Object.entries(data.users).forEach(([username, user]) => {
+    const displayName = username
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ')
+
+    user.conversations.forEach(conversation => {
+      if (conversation.isFlagged && conversation.alerts && conversation.alerts.length > 0) {
+        flaggedConversations.push({
+          ...conversation,
+          username,
+          displayName
+        })
+      }
+    })
+  })
+
+  // Sort by severity (critical first) then by date
+  const severityOrder = { critical: 4, high: 3, medium: 2, low: 1 }
+  flaggedConversations.sort((a, b) => {
+    const aSeverity = a.highestSeverity || 'low'
+    const bSeverity = b.highestSeverity || 'low'
+
+    if (severityOrder[aSeverity] !== severityOrder[bSeverity]) {
+      return severityOrder[bSeverity] - severityOrder[aSeverity]
+    }
+
+    return b.date - a.date
+  })
+
+  return flaggedConversations
+}
+
+// Clear alerts from a conversation (admin action)
+export function clearConversationAlerts(
+  username: string,
+  conversationId: string
+): { success: boolean; error?: string } {
+  const data = getAuthData()
+
+  if (!data.users[username]) {
+    return { success: false, error: 'User not found' }
+  }
+
+  const conversation = data.users[username].conversations.find(c => c.id === conversationId)
+
+  if (!conversation) {
+    return { success: false, error: 'Conversation not found' }
+  }
+
+  conversation.alerts = []
+  conversation.isFlagged = false
+  conversation.highestSeverity = undefined
+
+  saveAuthData(data)
+  return { success: true }
 }
