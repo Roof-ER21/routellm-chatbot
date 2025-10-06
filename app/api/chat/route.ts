@@ -27,8 +27,21 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const deploymentToken = process.env.DEPLOYMENT_TOKEN
-    const deploymentId = process.env.ABACUS_DEPLOYMENT_ID || '6a1d18f38'
+    // Select deployment and token based on Education Mode
+    const defaultToken = process.env.DEPLOYMENT_TOKEN
+    const defaultDeploymentId = process.env.ABACUS_DEPLOYMENT_ID || '6a1d18f38'
+
+    const educationToken = process.env.EDUCATION_DEPLOYMENT_TOKEN
+    const educationDeploymentId = process.env.EDUCATION_DEPLOYMENT_ID
+
+    // Use Education Susan deployment if Education Mode is active and configured
+    const deploymentToken = educationMode && educationToken
+      ? educationToken
+      : defaultToken
+
+    const deploymentId = educationMode && educationDeploymentId
+      ? educationDeploymentId
+      : defaultDeploymentId
 
     if (!deploymentToken) {
       console.error('Missing DEPLOYMENT_TOKEN environment variable')
@@ -37,6 +50,10 @@ export async function POST(req: NextRequest) {
         { status: 500 }
       )
     }
+
+    // Log which deployment is being used
+    const activeSusan = educationMode && educationToken ? 'Education Susan' : 'Susan 21'
+    console.log(`[Chat API] Using deployment: ${activeSusan} (${deploymentId})`)
 
     const userMessage = messages[messages.length - 1]?.content || ''
 
