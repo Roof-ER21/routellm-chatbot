@@ -247,8 +247,6 @@ export default function VoiceControls({
                 ? 'Listening...'
                 : isSpeaking
                 ? 'Speaking...'
-                : handsFreeMode
-                ? 'Hands-Free Mode Active'
                 : 'Voice Ready'
               }
             </span>
@@ -269,32 +267,6 @@ export default function VoiceControls({
             </div>
           )}
         </div>
-
-        {/* Hands-Free Mode Toggle - Voice automatically enabled when active */}
-        {isRecognitionSupported && isSpeechSupported && (
-          <button
-            onClick={toggleHandsFree}
-            disabled={disabled}
-            className={`
-              flex flex-col items-center justify-center
-              px-4 py-2 rounded-lg
-              transition-all duration-300
-              ${handsFreeMode
-                ? 'bg-gradient-to-br from-[var(--color-egyptian-red-light)] to-[var(--color-egyptian-red)] text-white egyptian-red-glow'
-                : 'bg-[var(--color-egyptian-stone)] text-[var(--color-papyrus-dark)]'
-              }
-              ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:scale-105'}
-              border-2 border-[var(--color-egyptian-gold-dark)]
-            `}
-            aria-label={handsFreeMode ? 'Disable hands-free' : 'Enable hands-free'}
-            title="Hands-Free Mode"
-          >
-            <span className="text-xl mb-1">{handsFreeMode ? '🤚' : '✋'}</span>
-            <span className="text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap">
-              Hands-Free
-            </span>
-          </button>
-        )}
       </div>
     </div>
   );
