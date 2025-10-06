@@ -144,12 +144,12 @@ export function saveConversation(messages: Message[], conversationId?: string): 
 
   // Create conversation object
   const firstUserMessage = messages.find(m => m.role === 'user')
-  const preview = firstUserMessage
-    ? firstUserMessage.content.substring(0, 100)
-    : 'New conversation'
-
   const title = firstUserMessage
     ? firstUserMessage.content.substring(0, 50) + (firstUserMessage.content.length > 50 ? '...' : '')
+    : 'New conversation'
+
+  const preview = firstUserMessage
+    ? firstUserMessage.content.substring(0, 100) + (firstUserMessage.content.length > 100 ? '...' : '')
     : 'New conversation'
 
   // Use existing ID if provided, otherwise create new

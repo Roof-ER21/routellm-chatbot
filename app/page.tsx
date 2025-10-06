@@ -14,7 +14,6 @@ import ModeToggle from './components/ModeToggle'
 import OnboardingTooltip from './components/OnboardingTooltip'
 import ActiveModeIndicator from './components/ActiveModeIndicator'
 import CopyButton from './components/CopyButton'
-import ConversationHistory from './components/ConversationHistory'
 import SmartModeSuggestion from './components/SmartModeSuggestion'
 import SettingsPanel from './components/SettingsPanel'
 import ExportButton from './components/ExportButton'
@@ -336,6 +335,8 @@ export default function ChatPage() {
     setMessages(messagesWithDates)
     setCurrentConversationId(conversationId)
     setShowQuickLinks(false)
+    // Scroll to bottom to show loaded conversation
+    setTimeout(() => scrollToBottom(), 100)
   }
 
   const handleNewConversation = () => {
@@ -427,12 +428,6 @@ export default function ChatPage() {
 
               {messages.length > 0 && (
                 <>
-                  <ConversationHistory
-                    onLoadConversation={handleLoadConversation}
-                    onNewConversation={handleNewConversation}
-                    currentConversationId={currentConversationId}
-                    isDarkMode={isDarkMode}
-                  />
                   <ExportButton
                     messages={messages}
                     repName={repName}
@@ -456,6 +451,9 @@ export default function ChatPage() {
                 onThemeChange={handleThemeChange}
                 onEducationChange={setEducationMode}
                 onVoiceEnabledChange={setVoiceEnabled}
+                onLoadConversation={handleLoadConversation}
+                onNewConversation={handleNewConversation}
+                currentConversationId={currentConversationId}
               />
 
               <ModeToggle
