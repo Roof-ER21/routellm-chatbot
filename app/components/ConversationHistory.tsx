@@ -27,7 +27,7 @@ export interface Conversation {
 }
 
 export interface ConversationHistoryProps {
-  onLoadConversation: (messages: any[]) => void;
+  onLoadConversation: (messages: any[], conversationId: string) => void;
   onNewConversation: () => void;
   currentConversationId?: string;
   isDarkMode?: boolean;
@@ -50,7 +50,12 @@ export default function ConversationHistory({
   const loadConversations = () => {
     try {
       const convs = getConversations();
-      const formatted = convs.map(conv => ({
+
+      // Filter conversations to only show those from last 60 days
+      const sixtyDaysAgo = Date.now() - (60 * 24 * 60 * 60 * 1000);
+      const recentConvs = convs.filter(conv => conv.date >= sixtyDaysAgo);
+
+      const formatted = recentConvs.map(conv => ({
         id: conv.id,
         title: conv.title,
         timestamp: new Date(conv.date),
@@ -78,7 +83,7 @@ export default function ConversationHistory({
     try {
       const conv = getConversation(id);
       if (conv && conv.messages) {
-        onLoadConversation(conv.messages);
+        onLoadConversation(conv.messages, id);
       }
       setIsOpen(false);
     } catch (error) {

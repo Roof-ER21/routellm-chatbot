@@ -21,7 +21,6 @@ export interface SettingsPanelProps {
   onThemeChange: (isDark: boolean) => void;
   onEducationChange: (enabled: boolean) => void;
   onVoiceEnabledChange: (enabled: boolean) => void;
-  onClearHistory?: () => void;
 }
 
 export default function SettingsPanel({
@@ -31,24 +30,8 @@ export default function SettingsPanel({
   onThemeChange,
   onEducationChange,
   onVoiceEnabledChange,
-  onClearHistory,
 }: SettingsPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleClearHistory = () => {
-    if (confirm('Are you sure you want to clear all conversation history? This cannot be undone.')) {
-      if (onClearHistory) {
-        onClearHistory();
-      }
-      localStorage.removeItem('susan21_conversation_history');
-      alert('Conversation history cleared!');
-    }
-  };
-
-  const handleResetOnboarding = () => {
-    localStorage.removeItem('susan21_onboarding_seen');
-    alert('Onboarding reset! Reload the page to see it again.');
-  };
 
   return (
     <div className="relative">
@@ -156,29 +139,6 @@ export default function SettingsPanel({
 
             {/* Divider */}
             <div className={`border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`} />
-
-            {/* Reset Onboarding */}
-            <button
-              onClick={handleResetOnboarding}
-              className={`
-                w-full px-4 py-2 rounded-lg text-sm font-semibold
-                transition-all
-                ${isDarkMode
-                  ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }
-              `}
-            >
-              Reset Onboarding
-            </button>
-
-            {/* Clear History */}
-            <button
-              onClick={handleClearHistory}
-              className="w-full px-4 py-2 rounded-lg bg-red-600 text-white text-sm font-semibold hover:bg-red-700 transition-all"
-            >
-              Clear All History
-            </button>
 
             {/* Version Info */}
             <div className="text-center">

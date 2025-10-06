@@ -22,7 +22,7 @@ import SimpleAuth from './components/SimpleAuth'
 import { useTextToSpeech } from '@/hooks/useTextToSpeech'
 import { useRotatingPlaceholder } from '@/hooks/useRotatingPlaceholder'
 import { cleanTextForSpeech } from '@/lib/text-cleanup'
-import { getCurrentUser, getUserDisplayName, logout as authLogout, isRemembered, saveConversation } from '@/lib/simple-auth'
+import { getCurrentUser, getUserDisplayName, logout as authLogout, isRemembered, saveConversation, getCurrentConversation, cleanupOldConversations } from '@/lib/simple-auth'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -88,6 +88,21 @@ export default function ChatPage() {
         setRepName(displayName)
         setIsAuthenticated(true)
         initializeSession(displayName)
+
+        // Load current conversation
+        const currentConv = getCurrentConversation()
+        if (currentConv && currentConv.messages && currentConv.messages.length > 0) {
+          const messagesWithDates = currentConv.messages.map(m => ({
+            ...m,
+            timestamp: m.timestamp instanceof Date ? m.timestamp : new Date(m.timestamp)
+          }))
+          setMessages(messagesWithDates)
+          setCurrentConversationId(currentConv.id)
+          setShowQuickLinks(false)
+        }
+
+        // Cleanup old conversations (60+ days)
+        cleanupOldConversations()
       }
     }
   }, [mounted])
@@ -312,36 +327,44 @@ export default function ChatPage() {
     setCurrentConversationId('')
   }
 
-  const handleLoadConversation = (loadedMessages: any[]) => {
+  const handleLoadConversation = (loadedMessages: any[], conversationId: string) => {
     // Convert timestamps back to Date objects
     const messagesWithDates = loadedMessages.map(m => ({
       ...m,
       timestamp: m.timestamp instanceof Date ? m.timestamp : new Date(m.timestamp)
     }))
     setMessages(messagesWithDates)
+    setCurrentConversationId(conversationId)
     setShowQuickLinks(false)
   }
 
   const handleNewConversation = () => {
     // Save current conversation before creating new one
-    if (messages.length > 0) {
-      saveConversation(messages)
+    if (messages.length > 0 && currentConversationId) {
+      saveConversation(messages, currentConversationId)
     }
+    // Reset to new conversation
     setMessages([])
     setShowQuickLinks(true)
-    setCurrentConversationId(Date.now().toString())
+    const newConvId = Date.now().toString()
+    setCurrentConversationId(newConvId)
   }
 
   // Auto-save conversation when messages change (debounced)
   useEffect(() => {
     if (messages.length > 0 && isAuthenticated) {
       const timeoutId = setTimeout(() => {
-        saveConversation(messages)
+        // Use currentConversationId to update the same conversation
+        const result = saveConversation(messages, currentConversationId || undefined)
+        // Update conversation ID if it was just created
+        if (result.success && result.conversationId && !currentConversationId) {
+          setCurrentConversationId(result.conversationId)
+        }
       }, 2000) // Save 2 seconds after last message
 
       return () => clearTimeout(timeoutId)
     }
-  }, [messages, isAuthenticated])
+  }, [messages, isAuthenticated, currentConversationId])
 
   // Clean markdown formatting from text for display
   const cleanMarkdown = (text: string): string => {
@@ -433,10 +456,6 @@ export default function ChatPage() {
                 onThemeChange={handleThemeChange}
                 onEducationChange={setEducationMode}
                 onVoiceEnabledChange={setVoiceEnabled}
-                onClearHistory={() => {
-                  setMessages([])
-                  localStorage.removeItem('susan21_conversation_history')
-                }}
               />
 
               <ModeToggle

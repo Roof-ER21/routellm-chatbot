@@ -130,7 +130,8 @@ export function isRemembered(): boolean {
 }
 
 // Save conversation for current user
-export function saveConversation(messages: Message[]): { success: boolean; error?: string } {
+// conversationId: optional, if provided updates existing, otherwise creates new
+export function saveConversation(messages: Message[], conversationId?: string): { success: boolean; error?: string; conversationId?: string } {
   const data = getAuthData()
 
   if (!data.currentUser) {
@@ -151,8 +152,11 @@ export function saveConversation(messages: Message[]): { success: boolean; error
     ? firstUserMessage.content.substring(0, 50) + (firstUserMessage.content.length > 50 ? '...' : '')
     : 'New conversation'
 
+  // Use existing ID if provided, otherwise create new
+  const id = conversationId || Date.now().toString()
+
   const conversation: Conversation = {
-    id: Date.now().toString(),
+    id,
     date: Date.now(),
     messages: messages.map(m => ({
       ...m,
@@ -162,14 +166,21 @@ export function saveConversation(messages: Message[]): { success: boolean; error
     preview
   }
 
-  // Add to user's conversations (keep latest 20)
-  data.users[data.currentUser].conversations = [
-    conversation,
-    ...data.users[data.currentUser].conversations.filter(c => c.id !== conversation.id)
-  ].slice(0, 20)
+  // Update existing or add new conversation
+  const existingIndex = data.users[data.currentUser].conversations.findIndex(c => c.id === id)
+  if (existingIndex !== -1) {
+    // Update existing conversation
+    data.users[data.currentUser].conversations[existingIndex] = conversation
+  } else {
+    // Add new conversation (keep latest 20)
+    data.users[data.currentUser].conversations = [
+      conversation,
+      ...data.users[data.currentUser].conversations
+    ].slice(0, 20)
+  }
 
   saveAuthData(data)
-  return { success: true }
+  return { success: true, conversationId: id }
 }
 
 // Get all conversations for current user
@@ -224,6 +235,48 @@ export function getUserDisplayName(): string | null {
     .split(' ')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')
+}
+
+// Get current conversation (most recent)
+export function getCurrentConversation(): Conversation | null {
+  const data = getAuthData()
+
+  if (!data.currentUser || !data.users[data.currentUser]) {
+    return null
+  }
+
+  const conversations = data.users[data.currentUser].conversations
+  if (conversations.length === 0) {
+    return null
+  }
+
+  // Return the most recent conversation (first in array)
+  return conversations[0]
+}
+
+// Cleanup conversations older than 60 days
+export function cleanupOldConversations(): { success: boolean; deleted: number } {
+  const data = getAuthData()
+
+  if (!data.currentUser || !data.users[data.currentUser]) {
+    return { success: false, deleted: 0 }
+  }
+
+  const sixtyDaysAgo = Date.now() - (60 * 24 * 60 * 60 * 1000)
+  const initialCount = data.users[data.currentUser].conversations.length
+
+  // Filter out conversations older than 60 days
+  data.users[data.currentUser].conversations = data.users[data.currentUser].conversations.filter(
+    c => c.date >= sixtyDaysAgo
+  )
+
+  const deletedCount = initialCount - data.users[data.currentUser].conversations.length
+
+  if (deletedCount > 0) {
+    saveAuthData(data)
+  }
+
+  return { success: true, deleted: deletedCount }
 }
 
 // Clear all auth data (for testing)
