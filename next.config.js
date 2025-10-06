@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  output: 'standalone', // Optimized for Railway deployment
   webpack: (config, { isServer }) => {
     // Fix for pdfjs-dist canvas dependency
     config.resolve.alias.canvas = false;
