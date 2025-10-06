@@ -1,167 +1,160 @@
-# 🚀 Deploy to Railway (5 Minutes) - NO CLI NEEDED
+# Deploy RouteLLM Chatbot to Railway - Quick Guide
 
-Your code is **100% ready**. Follow these simple steps:
+## Immediate Deployment (Option 1 - Recommended)
 
-## Method 1: Deploy from Local (Easiest - No GitHub Needed)
+### Run the Deployment Script
 
-### Step 1: Create GitHub Repo (1 minute)
+Open your terminal and run:
+
 ```bash
-# In your terminal, run:
-cd /Users/a21/routellm-chatbot
-
-# Option A: If you have gh CLI authenticated
-gh repo create routellm-chatbot --public --source=. --remote=origin --push
-
-# Option B: Manual
-# 1. Go to: https://github.com/new
-# 2. Name: routellm-chatbot
-# 3. Public
-# 4. Don't initialize with anything
-# 5. Click "Create repository"
-# 6. Then run:
-git remote add origin https://github.com/YOUR_USERNAME/routellm-chatbot.git
-git push -u origin main
+cd /Users/a21/routellm-chatbot-railway
+./quick-deploy.sh
 ```
 
-### Step 2: Deploy on Railway (2 minutes)
-
-1. **Go to Railway Dashboard**
-   - Open: https://railway.app/dashboard
-
-2. **Create New Project**
-   - Click **"New Project"**
-   - Select **"Deploy from GitHub repo"**
-   - Choose **"routellm-chatbot"**
-   - Click **"Deploy Now"**
-
-3. **Railway Auto-Detects Everything!**
-   - ✅ Finds `railway.json`
-   - ✅ Runs `npm install`
-   - ✅ Runs `npm run build`
-   - ✅ Starts with `npm start`
-
-### Step 3: Add Environment Variables (1 minute)
-
-In Railway Dashboard:
-1. Click on your deployed service
-2. Go to **"Variables"** tab
-3. Click **"Add Variable"** for each:
-
-```
-DEPLOYMENT_TOKEN = 2670ce30456644ddad56a334786a3a1a
-ABACUS_DEPLOYMENT_ID = 6a1d18f38
-```
-
-4. Click **"Deploy"** to restart with new variables
-
-### Step 4: Get Your URL & Test
-
-1. In Railway Dashboard, click **"Settings"** tab
-2. Find **"Domains"** section
-3. Click **"Generate Domain"**
-4. Copy the URL (e.g., `susan-ai-21.up.railway.app`)
-5. **Test PDF upload!**
+This script will:
+1. Check Railway CLI installation
+2. Login to Railway (browser authentication)
+3. Create/link Railway project
+4. Set environment variables automatically
+5. Deploy your application
+6. Provide the production URL
 
 ---
 
-## Method 2: Deploy WITHOUT GitHub (Alternative)
+## Manual Deployment (Option 2)
 
-If you can't get GitHub working, Railway supports direct uploads:
+If you prefer to run commands manually:
 
-### Using Railway CLI (requires browser login once)
-
+### Step 1: Login to Railway
 ```bash
-cd /Users/a21/routellm-chatbot
-
-# Login (opens browser once)
+cd /Users/a21/routellm-chatbot-railway
 railway login
+```
 
-# Create project
+### Step 2: Initialize Project
+```bash
 railway init
+```
 
-# Set variables
-railway variables set DEPLOYMENT_TOKEN="2670ce30456644ddad56a334786a3a1a"
-railway variables set ABACUS_DEPLOYMENT_ID="6a1d18f38"
+### Step 3: Set Environment Variables
+```bash
+railway variables set DEPLOYMENT_TOKEN=2670ce30456644ddad56a334786a3a1a
+railway variables set ABACUS_DEPLOYMENT_ID=6a1d18f38
+railway variables set NODE_ENV=production
+```
 
-# Deploy
+### Step 4: Deploy
+```bash
 railway up
 ```
 
----
-
-## ✅ What Makes This Work (vs Vercel)
-
-| Feature | Railway | Vercel |
-|---------|---------|--------|
-| **Server Type** | Real server | Serverless functions |
-| **PDF Libraries** | ✅ Works (pdf-parse) | ❌ Fails (no native deps) |
-| **Build** | Node.js environment | Edge runtime |
-| **Cost** | $5-10/month | Free (but PDFs don't work) |
-
----
-
-## 🎯 Expected Result
-
-**Before (Vercel):**
-```
-[ClientPDFExtractor] Page 1/2 extracted, length: 0
-[ClientPDFExtractor] Page 2/2 extracted, length: 0
-❌ No text extracted - generic AI response
-```
-
-**After (Railway):**
-```
-[DocumentProcessor] Processing PDF with pdf-parse...
-[DocumentProcessor] Extracted 1,847 characters
-✅ Full document analysis with specific details
+### Step 5: Get Your URL
+```bash
+railway status
+railway open
 ```
 
 ---
 
-## 🐛 Troubleshooting
+## Alternative: Deploy via Railway Dashboard
 
-### Build Fails
-- Check Railway logs (click "View Logs")
-- Verify `railway.json` exists
-- Ensure Node.js 18+ is used
-
-### PDF Still Not Working
-- Check environment variables are set
-- Look for `[DocumentProcessor]` logs
-- Verify pdf-parse@1.1.1 installed
-
-### App Won't Start
-- Check `npm start` command exists in package.json
-- Verify port binding (Railway sets PORT env var)
-- Look for startup errors in logs
+1. Go to https://railway.app
+2. Click "New Project"
+3. Choose "Deploy from GitHub repo" or "Empty Project"
+4. If empty project:
+   - Connect your GitHub account
+   - Select repository: routellm-chatbot-railway
+   - Or use "Deploy from CLI"
+5. Add environment variables in Railway dashboard:
+   - DEPLOYMENT_TOKEN: 2670ce30456644ddad56a334786a3a1a
+   - ABACUS_DEPLOYMENT_ID: 6a1d18f38
+   - NODE_ENV: production
+6. Railway will auto-detect Next.js and deploy
 
 ---
 
-## 💰 Free Trial Info
+## Environment Variables Reference
 
-- **$5 credit** for 30 days
-- Small app uses **~$0.10-0.30/day**
-- Free trial covers **16-50 days** of testing
-- After trial: Hobby plan ($5/month includes $5 credit)
+### Required Variables
+```
+DEPLOYMENT_TOKEN=2670ce30456644ddad56a334786a3a1a
+ABACUS_DEPLOYMENT_ID=6a1d18f38
+NODE_ENV=production
+```
+
+### Optional Variables (Set if needed)
+```
+HUGGINGFACE_API_KEY=<your-key>
+RESEND_API_KEY=<your-key>
+DATABASE_URL=<auto-set-by-railway-postgres>
+```
 
 ---
 
-## 🚀 Quick Start (TL;DR)
+## After Deployment
+
+### Check Deployment Status
+```bash
+railway status
+```
+
+### View Logs
+```bash
+railway logs
+railway logs --follow  # Real-time
+```
+
+### Open Dashboard
+```bash
+railway open
+```
+
+### Add Custom Domain
+```bash
+railway domain
+```
+
+---
+
+## Quick Commands Reference
 
 ```bash
-# 1. Push to GitHub
-gh repo create routellm-chatbot --public --source=. --remote=origin --push
-
-# 2. Go to Railway Dashboard
-open https://railway.app/new
-
-# 3. Deploy from GitHub
-# 4. Add environment variables
-# 5. Test PDF upload
-
-Done! 🎉
+railway login          # Login to Railway
+railway whoami         # Check who's logged in
+railway init           # Create new project
+railway up             # Deploy
+railway status         # Check status
+railway logs           # View logs
+railway open           # Open dashboard
+railway variables      # List env vars
+railway domain         # Add domain
 ```
 
 ---
 
-**Everything is ready. Your code is committed, configured, and optimized for Railway. Just follow Steps 1-4 above!**
+## Expected Deployment Time
+
+- Build time: 3-5 minutes
+- Start time: 30 seconds
+- Total: ~5-6 minutes
+
+---
+
+## Production URL
+
+After deployment, your URL will be:
+- Format: https://your-project-name.up.railway.app
+- Get it from: railway status or railway open
+
+---
+
+**Ready to Deploy?**
+
+Just run:
+```bash
+cd /Users/a21/routellm-chatbot-railway
+./quick-deploy.sh
+```
+
+Or open your terminal and follow the manual steps above.
+# Railway Deployment: Mon Oct  6 15:55:16 EDT 2025
