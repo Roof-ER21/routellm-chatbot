@@ -2,6 +2,13 @@
 const nextConfig = {
   reactStrictMode: true,
   output: 'standalone', // Optimized for Railway deployment
+  experimental: {
+    optimizePackageImports: ['@/components', '@/hooks', '@/lib'],
+  },
+  // Disable static page generation for routes that use client-side features
+  generateBuildId: async () => {
+    return 'susan-21-build'
+  },
   webpack: (config, { isServer }) => {
     // Fix for pdfjs-dist canvas dependency
     config.resolve.alias.canvas = false;

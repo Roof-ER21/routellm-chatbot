@@ -51,7 +51,7 @@ export function useTextToSpeech(options: TextToSpeechOptions = {}): TextToSpeech
 
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [isSupported] = useState(() => 'speechSynthesis' in window);
+  const [isSupported, setIsSupported] = useState(false);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [selectedVoice, setSelectedVoice] = useState<SpeechSynthesisVoice | null>(initialVoice);
   const [rate, setRate] = useState(initialRate);
@@ -60,6 +60,11 @@ export function useTextToSpeech(options: TextToSpeechOptions = {}): TextToSpeech
 
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
   const queueRef = useRef<string[]>([]);
+
+  // Check support on client-side only
+  useEffect(() => {
+    setIsSupported(typeof window !== 'undefined' && 'speechSynthesis' in window);
+  }, []);
 
   // Load available voices
   useEffect(() => {
