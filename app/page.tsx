@@ -212,16 +212,7 @@ export default function ChatPage() {
       setRepName(displayName)
       setIsAuthenticated(true)
       initializeSession(displayName)
-
-      // Add welcome message for first-time login
-      const welcomeMessage: Message = {
-        role: 'assistant',
-        content: `Welcome to Susan 21, ${displayName}. Your specialist built to help you climb the ladder—not just to roofs, but to success. Let's go, Roof ER.`,
-        timestamp: new Date()
-      }
-      setMessages([welcomeMessage])
-      // Keep quick links visible so user can access home page features
-      setShowQuickLinks(true)
+      // Don't add any messages - let them see the home page
     }
   }
 
@@ -634,10 +625,13 @@ export default function ChatPage() {
                   </div>
                 </div>
                 <h2 className="text-3xl font-bold text-gray-800 mb-3">
-                  Welcome to SusanAI-21
+                  Welcome to Susan 21, {repName}
                 </h2>
-                <p className="text-gray-600 mb-8 text-lg max-w-2xl">
-                  I'm your specialized AI assistant for roofing professionals, equipped with:
+                <p className="text-gray-600 mb-4 text-lg max-w-2xl font-semibold">
+                  Your specialist built to help you climb the ladder—not just to roofs, but to success. Let's go, Roof ER.
+                </p>
+                <p className="text-gray-500 mb-8 text-base max-w-2xl">
+                  I'm equipped with specialized tools for roofing professionals:
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-3xl text-left">
                   <div className="bg-white rounded-xl p-5 shadow-md border border-gray-200">
