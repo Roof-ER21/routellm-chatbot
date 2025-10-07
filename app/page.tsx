@@ -474,7 +474,7 @@ export default function ChatPage() {
                 currentConversationId={currentConversationId}
                 messages={messages}
                 repName={repName}
-                sessionId={sessionId}
+                sessionId={sessionId?.toString() || null}
                 onExport={() => {
                   // Export logic will be handled by ExportButton component
                   const exportBtn = document.querySelector('[data-export-trigger]') as HTMLButtonElement
@@ -543,7 +543,7 @@ export default function ChatPage() {
                 currentConversationId={currentConversationId}
                 messages={messages}
                 repName={repName}
-                sessionId={sessionId}
+                sessionId={sessionId?.toString() || null}
                 onExport={() => {
                   const exportBtn = document.querySelector('[data-export-trigger]') as HTMLButtonElement
                   exportBtn?.click()
