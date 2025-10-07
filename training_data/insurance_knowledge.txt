@@ -1,0 +1,262 @@
+================================================================================
+ROOFING INSURANCE KNOWLEDGE BASE
+Legal Arguments & Technical Standards for Insurance Claims
+================================================================================
+
+This knowledge base contains roofing codes, manufacturer requirements, and
+insurance law references to help answer questions about roofing claims,
+building codes, and insurance disputes.
+
+================================================================================
+SECTION 1: BUILDING CODES
+================================================================================
+
+--- DOUBLE LAYER CODES BY STATE ---
+
+PENNSYLVANIA - R908.3 Roof Replacement:
+"Roof replacement shall include the removal of existing layers of roof coverings down to the roof deck."
+LEGAL WEAPON: Pennsylvania mandates complete removal of ALL existing roof layers. No exceptions for partial replacement.
+
+VIRGINIA - R908.3 Roof Replacement (IRC 2018):
+"Roof replacement shall include the removal of existing layers of roof coverings down to the roof deck."
+Exception: Ice barrier membranes adhered to deck may remain.
+LEGAL WEAPON: Virginia explicitly requires removal of ALL layers except ice barriers.
+
+MARYLAND - R908.3 Roof Replacement (IRC 2021):
+"Roof replacement shall include the removal of existing layers of roof coverings down to the roof deck."
+Exception: Ice barrier membranes adhered to deck may remain.
+LEGAL WEAPON: Maryland mandates complete removal. Double-layer roofs CANNOT be partially replaced.
+
+--- ROOF RECOVER VS REPLACEMENT ---
+
+BUILDING CODE DEFINITION (Section 1511.4):
+"ROOF RECOVER: The process of installing an additional roof covering over a prepared existing roof covering without removing the existing roof covering."
+LEGAL WEAPON: "Recover" means overlay WITHOUT removal. This is NOT the same as replacement.
+
+SECTION 1511.3.1.1 - Exceptions to Roof Recover:
+"A roof recover shall not be permitted where any of the following conditions occur:
+1. Existing roof is water soaked or deteriorated
+2. Existing roof is slate, clay, cement or asbestos-cement tile
+3. Existing roof has TWO OR MORE applications of any type of roof covering"
+
+CRITICAL LEGAL WEAPON: Condition #3 PROHIBITS roof recover when there are already two or more layers. This means:
+- Double-layer roofs CANNOT be recovered
+- Double-layer roofs CANNOT be repaired by overlay
+- The ONLY legal option is FULL REPLACEMENT with complete tear-off
+
+--- LOW SLOPE / FLAT ROOF CODE ---
+
+Virginia Residential Code R905.2.2:
+"Asphalt shingles shall be used only on roof slopes of two units vertical in 12 units horizontal (17-percent slope) or greater."
+
+If slope is 1/12 or less: Flat/Rubber/TPO roofing must be installed to comply with code.
+
+--- FLASHING CODES ---
+
+IRC Section 908.5:
+"Existing slate, clay or cement tile shall be permitted for reinstallation, except that damaged, cracked or broken slate or tile shall not be reinstalled. Any existing flashings, edgings, outlets, vents or similar devices that are a part of the assembly shall be replaced where rusted, damaged or deteriorated."
+
+Maryland Exterior Wrap Code R703:
+R703.4 Flashing: "Approved corrosion-resistant flashing shall be applied shingle-fashion in a manner to prevent the entry of water into the wall cavity. Flashing shall extend to the surface of the exterior wall finish."
+
+R703.2 Water-Resistive Barrier: "One layer of No. 15 asphalt felt or other approved water-resistive barrier shall be applied over studs or sheathing. Felt shall be applied horizontally, with upper layer lapped over lower layer not less than 2 inches. Joints shall be lapped not less than 6 inches."
+
+================================================================================
+SECTION 2: GAF MANUFACTURER REQUIREMENTS
+================================================================================
+
+KEY GAF PRINCIPLES:
+
+1. CREASED SHINGLES LOSE SEALANT AND CANNOT BE REPAIRED
+2. RESEALING IS NOT MANUFACTURER-APPROVED - REPLACEMENT REQUIRED
+3. GRANULE LOSS EXPOSES ASPHALT MAT AND ACCELERATES FAILURE
+4. BRUISING CRACKS ASPHALT MAT AND WEAKENS WATERPROOFING
+5. DISCONTINUED SHINGLES REQUIRE FULL SLOPE REPLACEMENT
+6. SEALANT FAILURE IS LATENT FUNCTIONAL DAMAGE
+7. WIND LIFT BREAKS SEALANT AND WEAKENS SHINGLE BOND
+8. RIDGE CAPS MUST BE REPLACED WHEN REMOVED
+9. STARTER SHINGLES REQUIRED AT EAVES/RAKES FOR WIND WARRANTY
+10. UNDERLAYMENT MUST BE REPLACED DURING REROOFING
+11. BALANCED VENTILATION REQUIRED FOR WARRANTY
+12. HIP/RIDGE SHINGLES MUST BE REPLACED WHEN SLOPES REPLACED
+13. ICE/WATER BARRIER REQUIRED BY CODE AND MANUFACTURER
+14. MIXING PRODUCTS VOIDS WARRANTY
+
+--- GAF STORM DAMAGE GUIDELINES ---
+
+Q: "Shingle creases aren't functional damage."
+A: GAF confirms creased shingles lose sealant and can't be repaired. Creasing causes sealant strip failure, reducing wind resistance. Repairs are impossible - replacement required.
+
+Q: "Sealant strips can be resealed."
+A: Resealing isn't manufacturer-approved. Once sealant strip fails, replacement is required to maintain warranty.
+
+Q: "Granule loss is cosmetic only."
+A: GAF confirms granule loss exposes asphalt mat, accelerating failure. Granules protect from UV and weather. Loss voids warranty - replacement required.
+
+Q: "Bruises don't affect roof function."
+A: Bruising cracks asphalt mat, weakening waterproofing. Hail bruising fractures the mat and loosens granules - functional damage requiring replacement.
+
+Q: "Missing shingles can be spot repaired."
+A: GAF requires full slope replacement if shingles are discontinued. Repairs with mismatched shingles are not permitted.
+
+Q: "Wind lift without missing shingles isn't damage."
+A: Wind lift breaks sealant and weakens shingle bond. Uplift reduces resistance to future storms - replacement required.
+
+Q: "Ridge cap can be reused."
+A: Ridge caps must be replaced when removed. Reusing voids warranty and fails manufacturer standards.
+
+Q: "Starter shingles aren't required."
+A: GAF requires starter strips at eaves/rakes for wind warranty. Cannot be omitted from scope.
+
+Q: "We don't owe for underlayment replacement."
+A: GAF requires new underlayment during reroofing. Reusing voids warranty and leaves roof noncompliant.
+
+--- GAF SLOPE REPLACEMENT REQUIREMENTS (TAB-R-164) ---
+
+When replacing a single roof plane:
+• Remove field shingles and underlayment from roof plane
+• Carefully remove hip/ridge cap shingles and ventilation products
+• Slice/cut underlayment along hip/ridge for clean edge
+• At hip locations:
+  - Remove nails from adjacent shingles to insert new underlayment
+  - New underlayment must overlap 4"-6" on both planes
+  - Any nails removed must be replaced in new locations
+  - Broken sealant bonds must be resealed by hand
+• At ridge locations:
+  - New underlayment must extend 4"-6" over ridge
+  - If top course shingles interfere, they must be removed
+  - Once fully removed, shingles should NOT be reinstalled
+• Install new hip/ridge cap shingles per instructions
+
+WARRANTY NOTE: Reusing existing materials won't void warranty, but damage from reused materials is NOT covered. GAF warranty covers manufacturing defects only.
+
+--- DISCONTINUED SHINGLES LIST ---
+
+3-Tab Shingles:
+- Sentinel® (Discontinued: Aug 24, 2015) → Royal Sovereign, Marquis Weathermax
+
+Timberline Shingles:
+- Timberline HD® (Discontinued: July 1, 2020) → Timberline HDZ®
+- Timberline UHD® (Discontinued: March 6, 2023) → Timberline® UHDZ™
+- Elk Prestique® (Discontinued: July 21, 2011) → Timberline HDZ®
+
+Designer Shingles:
+- Camelot® (Discontinued: Dec 2, 2014) → Grand Canyon®, Camelot® II
+- Grand Slate™ (Discontinued: March 25, 2013) → Grand Canyon®, Grand Sequoia®
+- Glenwood® (Discontinued: April 13, 2021) → Grand Canyon®
+
+Specialty Shingles:
+- TruSlate® (Discontinued: March 15, 2021) → Slateline™
+
+================================================================================
+SECTION 3: MARYLAND INSURANCE ADMINISTRATION MATCHING REQUIREMENTS
+================================================================================
+
+BULLETIN 18-23 (October 30, 2018):
+Clarification of Coverage for Aluminum Siding and Mismatch Claims
+
+Summary:
+- Replacement of damaged siding with new may result in mismatch (color shade, texture, dimension)
+- Settlement options include:
+  • Moving undamaged siding from less visible areas
+  • Replacement of damaged and undamaged siding on one or more sides
+  • Replacement of all siding
+  • Monetary allowance for diminution in value
+
+- Most policies now contain mismatch exclusions
+- Some insurers offer optional mismatch coverage (additional cost)
+- Mismatch exclusions may apply to roofing and other exterior materials
+
+BULLETIN 97-1 (August 4, 1997):
+Aluminum Siding Claims - Original Policy
+
+"The MIA interprets Section 230A in the following manner: The replacement of damaged siding with new siding may result in mismatched siding. Settlement options include moving undamaged siding, replacement of one or more sides, replacement of all siding, and/or an allowance for diminution in value."
+
+"While the MIA does not interpret a replacement cost policy to require in every instance, replacement of all siding including undamaged siding, insurers whose settlement practices fail to take into account major differences in color shades, textures, or siding dimensions may be subject to action under Section 230A."
+
+MARYLAND UNFAIR CLAIM SETTLEMENT PRACTICES (Title 27, Subtitle 3):
+
+§ 27-303. Unfair Claim Settlement Practices:
+It is a violation to:
+1. Misrepresent pertinent facts or policy provisions
+2. Refuse to pay a claim for an arbitrary or capricious reason
+3. Fail to provide reasonable explanation for denial
+4. Fail to settle promptly when liability is clear
+
+§ 27-304. General Business Practice Violations:
+When committed with frequency indicating general practice:
+1. Fail to conduct reasonable investigation
+2. Fail to make prompt, fair, equitable good faith settlement attempt
+3. Compel insureds to litigate by offering substantially less than ultimately recovered
+4. Fail to provide reasonable explanation for denial or compromise offer
+5. Refuse to pay for arbitrary or capricious reason
+
+PENALTIES (§ 27-305):
+- Up to $2,500 per violation of § 27-303
+- Commissioner may require restitution for actual economic damage
+- Restitution limited to actual economic damage and policy limits
+
+================================================================================
+SECTION 4: LEGAL ARGUMENTS & REBUTTALS
+================================================================================
+
+ARGUMENT: "We only pay for damaged shingles, not the whole roof"
+REBUTTAL: Per building codes R908.3 (VA/MD/PA), roof replacement requires removal of ALL existing layers down to deck. Partial replacement violates code and manufacturer warranty requirements.
+
+ARGUMENT: "Double layer can be repaired"
+REBUTTAL: Per IRC Section 1511.3.1.1, roof recover is PROHIBITED when two or more layers exist. Code requires complete tear-off and replacement.
+
+ARGUMENT: "Discontinued shingles don't matter"
+REBUTTAL: Per GAF slope replacement requirements, when shingles are discontinued, full slope replacement is required. Mixing products voids warranty.
+
+ARGUMENT: "Granule loss is cosmetic"
+REBUTTAL: Per GAF Storm Damage Guidelines, granule loss exposes asphalt mat, accelerates aging, and constitutes functional damage requiring replacement.
+
+ARGUMENT: "We don't cover underlayment"
+REBUTTAL: Per GAF requirements and building codes, underlayment must be replaced during reroofing. Reusing voids warranty and violates installation standards.
+
+ARGUMENT: "Matching requirements don't apply"
+REBUTTAL: Per Maryland Insurance Administration Bulletin 97-1 and 18-23, insurers must address mismatch through various options including full replacement or diminution allowance.
+
+ARGUMENT: "Manufacturer guidelines are just recommendations"
+REBUTTAL: Manufacturer requirements are enforceable warranty conditions. Ignoring them voids warranty and fails to restore pre-loss condition per policy obligations.
+
+================================================================================
+SECTION 5: QUICK REFERENCE FACTS
+================================================================================
+
+DOUBLE LAYER FACTS:
+✓ All three states (PA, VA, MD) require complete removal during replacement
+✓ Building code prohibits overlay repair on double layers
+✓ Only exception: ice barrier membranes may remain
+✓ Partial replacement violates code and manufacturer requirements
+
+DISCONTINUED SHINGLE FACTS:
+✓ GAF requires full slope replacement for discontinued products
+✓ Mixing old and new shingles voids warranty
+✓ Spot repairs not permitted per manufacturer guidelines
+✓ Alternative products are for reference only, not repairs
+
+STORM DAMAGE FACTS:
+✓ Creasing = sealant failure = functional damage
+✓ Granule loss = UV exposure = accelerated failure
+✓ Wind lift = broken seal = reduced wind resistance
+✓ Bruising = mat fracture = waterproofing compromise
+
+WARRANTY REQUIREMENTS:
+✓ New underlayment required during reroofing
+✓ Ridge caps must be replaced when removed
+✓ Starter shingles required at eaves and rakes
+✓ Proper ventilation required for warranty validity
+✓ Ice/water barrier required in applicable regions
+
+MARYLAND INSURANCE LAW:
+✓ Mismatch must be addressed in replacement cost policies
+✓ Options include full replacement or value adjustment
+✓ Unfair practices subject to $2,500+ penalties
+✓ Commissioner can order restitution for economic damage
+✓ Arbitrary denial or low-ball offers violate state law
+
+================================================================================
+END OF INSURANCE KNOWLEDGE BASE
+================================================================================
