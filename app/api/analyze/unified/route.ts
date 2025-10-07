@@ -213,11 +213,67 @@ export async function POST(request: NextRequest) {
 
     console.log('[UnifiedAnalyzer] AI response length:', aiResponse.length);
 
+    // Extract metadata from documents (needed for full approval detection)
+    const combinedText = extractedTexts.join('\n\n');
+
+    // Detect full approval in AI response
+    const fullApprovalKeywords = [
+      'full approval', 'fully approved', 'total approval', 'complete approval',
+      'approved the whole', 'approved everything', 'approved full', 'everything was approved',
+      'claim approved in full', 'approved in its entirety'
+    ];
+
+    const isFullApproval = fullApprovalKeywords.some(keyword =>
+      aiResponse.toLowerCase().includes(keyword) || combinedText.toLowerCase().includes(keyword)
+    );
+
     // Format response for chat
-    const formattedResponse = DocumentIntelligence.formatForChat(analysisType, aiResponse);
+    let formattedResponse = DocumentIntelligence.formatForChat(analysisType, aiResponse);
+
+    // Add full approval phone script if detected
+    if (isFullApproval) {
+      formattedResponse += `\n\n${'='.repeat(60)}\n`;
+      formattedResponse += `🎉 FULL APPROVAL DETECTED - PHONE CALL SCRIPT\n`;
+      formattedResponse += `${'='.repeat(60)}\n\n`;
+      formattedResponse += `This claim has been FULLY APPROVED! Use this script to close the deal:\n\n`;
+      formattedResponse += `📞 STEP 1: CONGRATULATE & CONFIRM\n`;
+      formattedResponse += `"Great news! [Insurance Company] fully approved your claim for $[AMOUNT]."\n`;
+      formattedResponse += `Confirm this matches their expectations.\n\n`;
+
+      formattedResponse += `💰 STEP 2: EXPLAIN PAYMENT STRUCTURE\n`;
+      formattedResponse += `"You'll receive $[ACV] (Actual Cash Value) to start, then $[DEPRECIATION]\n`;
+      formattedResponse += `after completion. Your $[DEDUCTIBLE] deductible is subtracted from first check."\n\n`;
+
+      formattedResponse += `📅 STEP 3: SCHEDULE IMMEDIATELY\n`;
+      formattedResponse += `"Let me get you on our schedule. Next available: [DATE].\n`;
+      formattedResponse += `Project takes approximately [DURATION] to complete."\n\n`;
+
+      formattedResponse += `📝 STEP 4: CONTRACT & DEPOSIT (CRITICAL!)\n`;
+      formattedResponse += `"I'll send the contract today. We need $[DEPOSIT] to secure your spot.\n`;
+      formattedResponse += `Payment via check, credit card, or bank transfer."\n\n`;
+
+      formattedResponse += `📄 STEP 5: DOCUMENTS NEEDED\n`;
+      formattedResponse += `"Please send: (1) Signed contract, (2) Copy of insurance check (both sides),\n`;
+      formattedResponse += `(3) Proof of homeownership. Deadline: [DATE]"\n\n`;
+
+      formattedResponse += `✅ STEP 6: SET EXPECTATIONS\n`;
+      formattedResponse += `Walk through: installation process, material selections, HOA requirements,\n`;
+      formattedResponse += `timeline, and completion date.\n\n`;
+
+      formattedResponse += `🤝 STEP 7: CLOSE & COMMIT\n`;
+      formattedResponse += `"Any questions? Can I count on you moving forward with The Roof Docs?"\n`;
+      formattedResponse += `Get verbal commitment. Confirm next steps.\n\n`;
+
+      formattedResponse += `🎯 KEY GOALS:\n`;
+      formattedResponse += `✓ Secure signed contract within 24-48 hours\n`;
+      formattedResponse += `✓ Collect deposit to lock in project\n`;
+      formattedResponse += `✓ Schedule installation date\n`;
+      formattedResponse += `✓ Build excitement and confidence\n\n`;
+
+      formattedResponse += `⚠️ FOLLOW UP: If no signature same day, call/text immediately!\n`;
+    }
 
     // Extract metadata from documents
-    const combinedText = extractedTexts.join('\n\n');
     const claimNumbers = DocumentIntelligence.extractClaimNumbers(combinedText);
     const dollarAmounts = DocumentIntelligence.extractDollarAmounts(combinedText);
     const dates = DocumentIntelligence.extractDates(combinedText);
