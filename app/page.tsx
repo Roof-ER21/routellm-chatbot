@@ -442,16 +442,51 @@ export default function ChatPage() {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden" style={{ height: '100dvh' }}>
-      {/* Header - Classy Red & Black */}
+      {/* Header - Responsive for mobile */}
       <header className="flex-shrink-0 status-bar-safe bg-gradient-to-r from-gray-900 to-black border-b-2 border-red-600">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-2 sm:py-4">
+          {/* Mobile Header - Single Row */}
+          <div className="md:hidden flex justify-between items-center gap-2">
+            {/* Left: Logo + Name */}
+            <div className="flex items-center gap-2 min-w-0">
+              <div className="relative w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-700 border-2 border-white shadow-lg flex-shrink-0">
+                <div className="text-sm font-black text-white">S21</div>
+              </div>
+              <div className="min-w-0">
+                <h1 className="text-lg font-bold tracking-tight text-white truncate">
+                  SUSAN<span className="text-red-500">21</span>
+                </h1>
+                <p className="text-xs text-gray-400 truncate">{repName}</p>
+              </div>
+            </div>
+
+            {/* Right: Essential Controls Only */}
+            <div className="flex items-center gap-1 flex-shrink-0">
+              <SettingsPanel
+                isDarkMode={isDarkMode}
+                educationMode={educationMode}
+                voiceEnabled={voiceEnabled}
+                onThemeChange={handleThemeChange}
+                onEducationChange={setEducationMode}
+                onVoiceEnabledChange={setVoiceEnabled}
+                onLoadConversation={handleLoadConversation}
+                onNewConversation={handleNewConversation}
+                currentConversationId={currentConversationId}
+              />
+              <button
+                onClick={handleLogout}
+                className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors font-medium text-xs"
+              >
+                Exit
+              </button>
+            </div>
+          </div>
+
+          {/* Desktop Header - Full Layout */}
+          <div className="hidden md:flex justify-between items-center">
             <div className="flex items-center gap-4">
-              {/* Header S21 Logo - Simplified */}
               <div className="relative w-14 h-14 flex items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-red-700 border-2 border-white shadow-lg">
-                <div className="text-xl font-black text-white">
-                  S21
-                </div>
+                <div className="text-xl font-black text-white">S21</div>
               </div>
               <div>
                 <h1 className="text-3xl font-bold tracking-tight text-white">
@@ -461,7 +496,6 @@ export default function ChatPage() {
               </div>
             </div>
 
-            {/* Center: Active Mode Indicators */}
             <div className="flex-1 flex justify-center">
               <ActiveModeIndicator
                 educationMode={educationMode}
@@ -470,7 +504,6 @@ export default function ChatPage() {
               />
             </div>
 
-            {/* Right: Controls */}
             <div className="flex items-center gap-2">
               <div className="text-right mr-3">
                 <p className="text-xs text-gray-400 uppercase tracking-wider">Logged in as</p>
