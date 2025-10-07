@@ -80,7 +80,7 @@ INSERT INTO insurance_companies (name, claim_handler_type, phone, phone_instruct
 ('Travelers', 'Team', '(800) 252-4633', NULL, 'claimhelp@travelers.com', NULL, NULL),
 ('Tower Hill', 'Team', '(888) 315-0828', NULL, 'claims@thig.com', NULL, NULL),
 ('Universal Property', 'Team', '(800) 417-9023', NULL, 'claims@universalproperty.com', NULL, NULL),
-('USAA', 'Team', '(800) 531-8722', 'dial 1,1,1,1,2,2', 'propertyclaims@usaa.com', NULL, 'Phone instructions: dial 1,1,1,1,2,2'),
+('USAA', 'Team', '(800) 531-8722', 'dial 1,1,1,1,2,2', 'getclaimspecificnumber@usaa.com', NULL, 'Phone instructions: dial 1,1,1,1,2,2'),
 ('Utica National', 'Team', '(800) 274-1914', NULL, 'claims@uticanational.com', NULL, NULL),
 ('Vermont Mutual', 'Team', '(800) 639-4298', NULL, 'claims@vermontmutual.com', NULL, NULL),
 ('West Bend', 'Team', '(866) 933-2281', NULL, 'claims@westbendmutual.com', NULL, NULL),

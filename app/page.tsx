@@ -441,9 +441,9 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen overflow-hidden" style={{ height: '100dvh' }}>
       {/* Header - Classy Red & Black */}
-      <header className="status-bar-safe bg-gradient-to-r from-gray-900 to-black border-b-2 border-red-600">
+      <header className="flex-shrink-0 status-bar-safe bg-gradient-to-r from-gray-900 to-black border-b-2 border-red-600">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-4">
@@ -526,10 +526,10 @@ export default function ChatPage() {
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-hidden flex flex-col w-full">
+      <div className="flex-1 overflow-y-auto flex flex-col w-full" style={{ WebkitOverflowScrolling: 'touch' }}>
         {/* Quick Links - Show when no messages */}
         {showQuickLinks && messages.length === 0 && (
-          <div className="p-6 bg-white/50 backdrop-blur-sm border-b border-gray-200 max-w-7xl mx-auto w-full">
+          <div className="flex-shrink-0 p-6 bg-white/50 backdrop-blur-sm border-b border-gray-200 max-w-7xl mx-auto w-full">
             <div className="max-w-5xl mx-auto">
               <h2 className="text-lg font-semibold text-gray-800 mb-4">Quick Access Tools</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -568,7 +568,7 @@ export default function ChatPage() {
         )}
 
         {/* Messages Container */}
-        <div className="flex-1 overflow-y-auto p-6 pb-24">
+        <div className="flex-1 p-6 pb-6">
           <div className="max-w-5xl mx-auto w-full">
             {messages.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center py-12">
@@ -694,7 +694,7 @@ export default function ChatPage() {
         </div>
 
         {/* Input Form */}
-        <div className="bg-white border-t-2 border-gray-200 p-4 shadow-2xl">
+        <div className="flex-shrink-0 bg-white border-t-2 border-gray-200 p-4 shadow-2xl safe-area-bottom">
           <div className="max-w-5xl mx-auto space-y-3">
             {/* Voice Controls with Stop Speaking Button */}
             <div className="flex gap-3">

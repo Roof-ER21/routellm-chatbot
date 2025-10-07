@@ -67,9 +67,9 @@
 **Alternative Channels:** Virtual agent chat, mobile app, #USAA (8722) shortcut
 **Executive Escalation:**
 - Juan C. Andrade (CEO, April 2025)
-- Vicky Bonney (Director CEO Relations): vicky.bonney@usaa.com
+- Vicky Bonney (Director CEO Relations): getclaimspecificnumber@usaa.com
 - Executive Office: 800-245-9362
-- executivecommunications@usaa.com
+- getclaimspecificnumber@usaa.com
 
 ---
 
@@ -640,7 +640,7 @@
 ### Best Executive Escalation Emails
 1. **Liberty Mutual:** timothy.sweeney@libertymutual.com (CEO)
 2. **Allstate:** troy.hawkes@allstate.com, Elizabeth.Brady@allstate.com, tom.wilson@allstate.com
-3. **USAA:** executivecommunications@usaa.com, vicky.bonney@usaa.com
+3. **USAA:** getclaimspecificnumber@usaa.com
 4. **Amica:** tmurphy@amica.com (COO)
 5. **Ameriprise:** JCracchiolo@ameriprise.com (CEO), WBerman@ameriprise.com (COO)
 6. **Assurant:** keith.demmings@assurant.com (CEO), social@assurant.com

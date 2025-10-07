@@ -53,7 +53,7 @@ UPDATE insurance_companies SET
   proven_workarounds = 'Use virtual chat instead of phone (instant). Military-focused service = faster for active duty.',
   alternative_channels = 'Virtual chat (instant, preferred), App (excellent), Email (12-24hr)',
   social_escalation = 'Twitter: @USAA_help (excellent response)',
-  executive_escalation = 'CEO Wayne Peacock: member.services@usaa.com',
+  executive_escalation = 'CEO Wayne Peacock: getclaimspecificnumber@usaa.com',
   naic_complaint_index = 0.31,
   bbb_rating = 'A+',
   avg_hold_time_minutes = 2,

@@ -233,7 +233,7 @@ The system includes 50+ major insurance companies:
 - **Progressive** - (800) 776-4737, homeclaims@progressive.com
 - **State Farm** - (844) 458-4300, statefarmfireclaims@statefarm.com
 - **Travelers** - (800) 252-4633, claimhelp@travelers.com
-- **USAA** - (800) 531-8722, propertyclaims@usaa.com (dial 1,1,1,1,2,2)
+- **USAA** - (800) 531-8722, getclaimspecificnumber@usaa.com (dial 1,1,1,1,2,2)
 
 ### Regional Carriers
 - American Family, American Modern, Amica, Auto Owners, Chubb, Cincinnati, Erie, Hartford, Safeco, and many more...
