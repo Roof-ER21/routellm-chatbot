@@ -1,15 +1,12 @@
 {
-  "name": "Susan 21 - Ancient Wisdom, Modern Protection",
-  "short_name": "Susan 21",
-  "description": "Egyptian-themed AI roofing assistant for damage assessment, insurance claims, and comprehensive roofing solutions",
+  "name": "Susan AI-21",
+  "short_name": "Susan AI",
+  "description": "Expert roofing insurance AI assistant for claims and damage assessment",
   "start_url": "/",
-  "scope": "/",
   "display": "standalone",
   "background_color": "#000000",
-  "theme_color": "#8B0000",
-  "orientation": "any",
-  "lang": "en-US",
-  "dir": "ltr",
+  "theme_color": "#dc2626",
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "/icon-192.png",
@@ -22,54 +19,9 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
-    },
-    {
-      "src": "/apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "any"
     }
   ],
   "categories": ["business", "productivity", "utilities"],
   "screenshots": [],
-  "shortcuts": [
-    {
-      "name": "Upload & Analyze",
-      "short_name": "Analyze",
-      "description": "Upload and analyze documents or photos",
-      "url": "/?action=analyze",
-      "icons": []
-    },
-    {
-      "name": "Email Generator",
-      "short_name": "Email",
-      "description": "Generate professional emails",
-      "url": "/?action=email",
-      "icons": []
-    },
-    {
-      "name": "Insurance Companies",
-      "short_name": "Insurance",
-      "description": "Browse insurance company database",
-      "url": "/?action=insurance",
-      "icons": []
-    }
-  ],
-  "share_target": {
-    "action": "/",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "files": [
-        {
-          "name": "documents",
-          "accept": ["image/*", "application/pdf", ".doc", ".docx"]
-        }
-      ]
-    }
-  },
-  "display_override": ["standalone", "minimal-ui"],
-  "prefer_related_applications": false,
-  "iarc_rating_id": "",
-  "related_applications": []
+  "prefer_related_applications": false
 }

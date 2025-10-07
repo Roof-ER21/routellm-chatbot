@@ -76,6 +76,25 @@ export default function RootLayout({
           }}
         />
 
+        {/* Service Worker Registration for Offline Support */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                      console.log('[PWA] Service Worker registered:', registration.scope);
+                    })
+                    .catch(function(error) {
+                      console.log('[PWA] Service Worker registration failed:', error);
+                    });
+                });
+              }
+            `,
+          }}
+        />
+
         {/* iOS Splash Screens - iPhone */}
         <link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/splash-iphone-14-pro-max.png" />
         <link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="/splash-iphone-14-pro.png" />
