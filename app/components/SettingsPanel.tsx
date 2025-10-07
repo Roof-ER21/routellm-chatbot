@@ -36,6 +36,12 @@ export interface SettingsPanelProps {
   onLoadConversation?: (messages: any[], conversationId: string) => void;
   onNewConversation?: () => void;
   currentConversationId?: string;
+  // New props for Export and Email
+  messages?: any[];
+  repName?: string;
+  sessionId?: string | null;
+  onExport?: () => void;
+  onEmailGenerate?: () => void;
 }
 
 export default function SettingsPanel({
@@ -48,6 +54,11 @@ export default function SettingsPanel({
   onLoadConversation,
   onNewConversation,
   currentConversationId,
+  messages,
+  repName,
+  sessionId,
+  onExport,
+  onEmailGenerate,
 }: SettingsPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
@@ -233,24 +244,56 @@ export default function SettingsPanel({
               </label>
             </div>
 
-            {/* Voice Auto-Speak */}
-            <div className="flex items-center justify-between">
-              <div>
-                <h4 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                  Voice Responses
-                </h4>
-                <p className="text-xs text-gray-500">Auto-speak Susan's replies</p>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={voiceEnabled}
-                  onChange={(e) => onVoiceEnabledChange(e.target.checked)}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
-              </label>
-            </div>
+            {/* Divider */}
+            <div className={`border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`} />
+
+            {/* Export & Email Actions - Only show when messages exist */}
+            {messages && messages.length > 0 && (
+              <>
+                {/* Export Conversation */}
+                {onExport && (
+                  <button
+                    onClick={() => { onExport(); setIsOpen(false); }}
+                    className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all ${
+                      isDarkMode
+                        ? 'bg-gray-800 hover:bg-gray-700 text-white'
+                        : 'bg-gray-50 hover:bg-gray-100 text-gray-900'
+                    }`}
+                  >
+                    <span className="text-lg">📥</span>
+                    <div className="text-left flex-1">
+                      <h4 className={`font-semibold text-sm`}>
+                        Export Conversation
+                      </h4>
+                      <p className="text-xs text-gray-500">Download chat as PDF or text</p>
+                    </div>
+                  </button>
+                )}
+
+                {/* Email Generator */}
+                {onEmailGenerate && (
+                  <button
+                    onClick={() => { onEmailGenerate(); setIsOpen(false); }}
+                    className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all ${
+                      isDarkMode
+                        ? 'bg-gray-800 hover:bg-gray-700 text-white'
+                        : 'bg-gray-50 hover:bg-gray-100 text-gray-900'
+                    }`}
+                  >
+                    <span className="text-lg">✉️</span>
+                    <div className="text-left flex-1">
+                      <h4 className={`font-semibold text-sm`}>
+                        Generate Email
+                      </h4>
+                      <p className="text-xs text-gray-500">Create professional emails</p>
+                    </div>
+                  </button>
+                )}
+
+                {/* Divider */}
+                <div className={`border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`} />
+              </>
+            )}
 
             {/* Divider */}
             <div className={`border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`} />

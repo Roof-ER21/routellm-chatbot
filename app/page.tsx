@@ -472,6 +472,15 @@ export default function ChatPage() {
                 onLoadConversation={handleLoadConversation}
                 onNewConversation={handleNewConversation}
                 currentConversationId={currentConversationId}
+                messages={messages}
+                repName={repName}
+                sessionId={sessionId}
+                onExport={() => {
+                  // Export logic will be handled by ExportButton component
+                  const exportBtn = document.querySelector('[data-export-trigger]') as HTMLButtonElement
+                  exportBtn?.click()
+                }}
+                onEmailGenerate={() => setShowEmailGenerator(true)}
               />
               <button
                 onClick={handleLogout}
@@ -510,22 +519,16 @@ export default function ChatPage() {
                 <p className="text-sm font-semibold text-white">{repName}</p>
               </div>
 
+              {/* Hidden export button for triggering from Settings */}
               {messages.length > 0 && (
-                <>
+                <div className="hidden">
                   <ExportButton
                     messages={messages}
                     repName={repName}
                     isDarkMode={isDarkMode}
+                    data-export-trigger="true"
                   />
-                  <EmailGenerator
-                    repName={repName}
-                    sessionId={sessionId || undefined}
-                    conversationHistory={messages.map(m => ({
-                      role: m.role,
-                      content: m.content
-                    }))}
-                  />
-                </>
+                </div>
               )}
 
               <SettingsPanel
@@ -538,6 +541,14 @@ export default function ChatPage() {
                 onLoadConversation={handleLoadConversation}
                 onNewConversation={handleNewConversation}
                 currentConversationId={currentConversationId}
+                messages={messages}
+                repName={repName}
+                sessionId={sessionId}
+                onExport={() => {
+                  const exportBtn = document.querySelector('[data-export-trigger]') as HTMLButtonElement
+                  exportBtn?.click()
+                }}
+                onEmailGenerate={() => setShowEmailGenerator(true)}
               />
 
               <ModeToggle
@@ -729,41 +740,6 @@ export default function ChatPage() {
         {/* Input Form */}
         <div className="flex-shrink-0 bg-white border-t-2 border-gray-200 p-4 shadow-2xl safe-area-bottom">
           <div className="max-w-5xl mx-auto space-y-3">
-            {/* Voice Controls with Stop Speaking Button */}
-            <div className="flex gap-3">
-              <div className="flex-1">
-                <VoiceControls
-                  onTranscript={handleVoiceTranscript}
-                  autoReadResponses={voiceEnabled}
-                  disabled={isLoading}
-                  onVoiceEnabledChange={setVoiceEnabled}
-                />
-              </div>
-
-              {/* Stop Speaking Button - appears when TTS is active */}
-              {isSpeaking && (
-                <button
-                  onClick={stopSpeaking}
-                  className="
-                    flex items-center justify-center gap-2
-                    px-6 py-3 rounded-xl
-                    bg-gradient-to-br from-red-600 to-red-700
-                    text-white font-semibold
-                    hover:from-red-700 hover:to-red-800
-                    transition-all duration-300
-                    shadow-lg hover:shadow-xl
-                    border-2 border-red-800
-                    animate-fadeIn
-                  "
-                  title="Stop Speaking"
-                  aria-label="Stop Speaking"
-                >
-                  <span className="text-xl">⏹️</span>
-                  <span className="hidden sm:inline text-sm">Stop Speaking</span>
-                </button>
-              )}
-            </div>
-
             {/* Smart Mode Suggestion */}
             <SmartModeSuggestion
               userMessage={input}
