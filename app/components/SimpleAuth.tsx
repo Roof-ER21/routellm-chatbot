@@ -64,47 +64,36 @@ export default function SimpleAuth({ onAuthenticated, isDarkMode = false }: Simp
 
   const bgClass = isDarkMode
     ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-black'
-    : 'bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50'
+    : 'bg-gradient-to-br from-red-950 via-red-900 to-black'
 
   const cardClass = isDarkMode
     ? 'bg-gray-800 border-gray-700'
-    : 'bg-white border-amber-200'
+    : 'bg-black/80 border-red-900/50 backdrop-blur-sm'
 
-  const textClass = isDarkMode ? 'text-gray-100' : 'text-gray-800'
-  const mutedTextClass = isDarkMode ? 'text-gray-400' : 'text-gray-600'
+  const textClass = isDarkMode ? 'text-gray-100' : 'text-gray-100'
+  const mutedTextClass = isDarkMode ? 'text-gray-400' : 'text-red-200/80'
 
   return (
     <div className={`flex items-center justify-center min-h-screen ${bgClass}`}>
       <div className="max-w-md w-full mx-4">
         <div className={`${cardClass} p-8 rounded-2xl shadow-2xl border-2`}>
-          {/* Egyptian-themed Logo */}
+          {/* RoofER/Susan 21 Logo */}
           <div className="flex justify-center mb-6">
             <div className="relative w-32 h-32">
-              {/* Outer circle - Gold */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-amber-400 via-yellow-500 to-orange-500 shadow-2xl"></div>
-              {/* Inner circle - Stone */}
-              <div className="absolute inset-2 rounded-full bg-gradient-to-br from-stone-700 via-stone-600 to-stone-800 shadow-inner"></div>
-              {/* Center symbol */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-5xl font-black text-amber-400 tracking-tight">
-                    S21
-                  </div>
-                  <div className="text-xs uppercase tracking-widest text-amber-300 mt-1 opacity-80">
-                    SUSAN
-                  </div>
-                </div>
-              </div>
-              {/* Decorative ring */}
-              <div className="absolute inset-4 rounded-full border-2 border-amber-400 opacity-30"></div>
+              {/* Use the app icon */}
+              <img
+                src="/icon-192.png"
+                alt="Susan 21"
+                className="w-full h-full rounded-full shadow-2xl ring-4 ring-red-600/30"
+              />
             </div>
           </div>
 
           <h1 className={`text-3xl font-bold text-center mb-2 ${textClass}`}>
-            Welcome to <span className="text-amber-500">SUSAN21</span>
+            Welcome to <span className="text-red-500">SUSAN 21</span>
           </h1>
           <p className={`text-center mb-6 ${mutedTextClass}`}>
-            Ancient Wisdom, Modern Protection
+            Precision in Every Claim
           </p>
 
           {/* Toggle between Login/Sign Up */}
@@ -117,10 +106,10 @@ export default function SimpleAuth({ onAuthenticated, isDarkMode = false }: Simp
               }}
               className={`flex-1 py-2 px-4 rounded-md font-semibold transition-all ${
                 !isSignUp
-                  ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md'
+                  ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-md'
                   : isDarkMode
                   ? 'text-gray-400 hover:text-gray-200'
-                  : 'text-gray-600 hover:text-gray-800'
+                  : 'text-red-200/60 hover:text-red-100'
               }`}
             >
               Login
@@ -133,10 +122,10 @@ export default function SimpleAuth({ onAuthenticated, isDarkMode = false }: Simp
               }}
               className={`flex-1 py-2 px-4 rounded-md font-semibold transition-all ${
                 isSignUp
-                  ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md'
+                  ? 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-md'
                   : isDarkMode
                   ? 'text-gray-400 hover:text-gray-200'
-                  : 'text-gray-600 hover:text-gray-800'
+                  : 'text-red-200/60 hover:text-red-100'
               }`}
             >
               Sign Up
@@ -157,8 +146,8 @@ export default function SimpleAuth({ onAuthenticated, isDarkMode = false }: Simp
                 placeholder="Enter your name"
                 className={`w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-4 transition-all ${
                   isDarkMode
-                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-amber-500 focus:ring-amber-500/20'
-                    : 'bg-white border-amber-300 text-gray-900 placeholder-gray-500 focus:border-amber-500 focus:ring-amber-500/20'
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-red-500 focus:ring-red-500/20'
+                    : 'bg-gray-900/50 border-red-800/50 text-white placeholder-red-300/40 focus:border-red-500 focus:ring-red-500/20'
                 }`}
                 required
                 autoFocus
@@ -180,8 +169,8 @@ export default function SimpleAuth({ onAuthenticated, isDarkMode = false }: Simp
                 maxLength={4}
                 className={`w-full px-4 py-3 border-2 rounded-lg text-2xl text-center tracking-widest focus:outline-none focus:ring-4 transition-all font-mono ${
                   isDarkMode
-                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-amber-500 focus:ring-amber-500/20'
-                    : 'bg-white border-amber-300 text-gray-900 placeholder-gray-500 focus:border-amber-500 focus:ring-amber-500/20'
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-red-500 focus:ring-red-500/20'
+                    : 'bg-gray-900/50 border-red-800/50 text-white placeholder-red-300/40 focus:border-red-500 focus:ring-red-500/20'
                 }`}
                 required
               />
@@ -215,7 +204,7 @@ export default function SimpleAuth({ onAuthenticated, isDarkMode = false }: Simp
             <button
               type="submit"
               disabled={isLoading || !name.trim() || code.length !== 4}
-              className="w-full px-6 py-3 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-white rounded-lg font-bold text-lg hover:from-amber-600 hover:via-orange-600 hover:to-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full px-6 py-3 bg-gradient-to-r from-red-600 via-red-700 to-red-800 text-white rounded-lg font-bold text-lg hover:from-red-700 hover:via-red-800 hover:to-red-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
             >
               {isLoading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -236,11 +225,11 @@ export default function SimpleAuth({ onAuthenticated, isDarkMode = false }: Simp
 
           <div className={`text-center text-xs mt-6 ${mutedTextClass}`}>
             <div className="flex items-center justify-center gap-1 mb-2">
-              <span className="text-amber-500">🔒</span>
+              <span className="text-red-400">🔒</span>
               <span>Your data is stored securely on your device</span>
             </div>
             {isSignUp && (
-              <p className="text-amber-600 dark:text-amber-400 font-semibold">
+              <p className="text-red-400 font-semibold">
                 Remember your code - you'll need it to access your account
               </p>
             )}

@@ -212,6 +212,15 @@ export default function ChatPage() {
       setRepName(displayName)
       setIsAuthenticated(true)
       initializeSession(displayName)
+
+      // Add welcome message for first-time login
+      const welcomeMessage: Message = {
+        role: 'assistant',
+        content: `Welcome to Susan 21, ${displayName}! Your specialist built for you to not only climb the ladder to roofs, but to success! Let's GO RoofER!!!`,
+        timestamp: new Date()
+      }
+      setMessages([welcomeMessage])
+      setShowQuickLinks(false)
     }
   }
 
