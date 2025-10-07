@@ -325,8 +325,8 @@ export default function AdminDashboard() {
       </header>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
-        {/* Tabs */}
-        <div className="flex gap-4 mb-6">
+        {/* Tabs - Simplified */}
+        <div className="flex gap-4 mb-6 flex-wrap">
           <button
             onClick={() => setActiveTab('overview')}
             className={`px-6 py-3 rounded-lg font-semibold transition-all ${
@@ -335,7 +335,32 @@ export default function AdminDashboard() {
                 : 'bg-white text-gray-700 hover:bg-gray-50'
             }`}
           >
-            📊 All-Time Stats
+            📊 Overview
+          </button>
+          <button
+            onClick={() => setActiveTab('client-chats')}
+            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+              activeTab === 'client-chats'
+                ? 'bg-red-600 text-white shadow-lg'
+                : 'bg-white text-gray-700 hover:bg-gray-50'
+            }`}
+          >
+            💬 All Conversations
+          </button>
+          <button
+            onClick={() => setActiveTab('alerts')}
+            className={`px-6 py-3 rounded-lg font-semibold transition-all relative ${
+              activeTab === 'alerts'
+                ? 'bg-red-600 text-white shadow-lg'
+                : 'bg-white text-gray-700 hover:bg-gray-50'
+            }`}
+          >
+            🚨 Flagged Chats
+            {clientStats && (clientStats.criticalAlerts > 0 || clientStats.highAlerts > 0) && (
+              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                {clientStats.criticalAlerts + clientStats.highAlerts}
+              </span>
+            )}
           </button>
           <button
             onClick={() => setActiveTab('today')}
@@ -355,7 +380,7 @@ export default function AdminDashboard() {
                 : 'bg-white text-gray-700 hover:bg-gray-50'
             }`}
           >
-            💬 Chat Transcripts
+            💬 Transcripts
           </button>
           <button
             onClick={() => setActiveTab('database')}
@@ -365,74 +390,71 @@ export default function AdminDashboard() {
                 : 'bg-white text-gray-700 hover:bg-gray-50'
             }`}
           >
-            🗄️ Database Utils
-          </button>
-          <button
-            onClick={() => setActiveTab('client-chats')}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-              activeTab === 'client-chats'
-                ? 'bg-red-600 text-white shadow-lg'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
-            }`}
-          >
-            💾 Client Conversations
-          </button>
-          <button
-            onClick={() => setActiveTab('alerts')}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all relative ${
-              activeTab === 'alerts'
-                ? 'bg-red-600 text-white shadow-lg'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
-            }`}
-          >
-            🚨 Threat Alerts
-            {clientStats && (clientStats.criticalAlerts > 0 || clientStats.highAlerts > 0) && (
-              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
-                {clientStats.criticalAlerts + clientStats.highAlerts}
-              </span>
-            )}
+            🗄️ Database
           </button>
         </div>
 
-        {/* All-Time Stats */}
+        {/* Overview Tab - Statistics Only */}
         {activeTab === 'overview' && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">All-Time Statistics</h2>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-              <table className="w-full">
-                <thead className="bg-gray-50 border-b border-gray-200">
-                  <tr>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">Rep Name</th>
-                    <th className="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase">Total Chats</th>
-                    <th className="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase">Sessions</th>
-                    <th className="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase">Messages</th>
-                    <th className="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase">Last Active</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200">
-                  {stats.map((rep, idx) => (
-                    <tr key={idx} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 font-semibold text-gray-900">{rep.name}</td>
-                      <td className="px-6 py-4 text-center text-gray-700">{rep.total_chats}</td>
-                      <td className="px-6 py-4 text-center text-gray-700">{rep.total_sessions}</td>
-                      <td className="px-6 py-4 text-center text-gray-700">{rep.total_messages}</td>
-                      <td className="px-6 py-4 text-center text-sm text-gray-500">
-                        {new Date(rep.last_active).toLocaleString()}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {stats.length === 0 && (
-                <div className="text-center py-12 text-gray-500">
-                  No data available yet
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">System Overview</h2>
+
+            {/* Single Statistics Dashboard */}
+            {clientStats && (
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white shadow-lg">
+                  <div className="text-3xl font-bold mb-2">{clientStats.totalUsers}</div>
+                  <div className="text-blue-100 text-sm uppercase tracking-wide">Total Users</div>
                 </div>
-              )}
-            </div>
+                <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-6 text-white shadow-lg">
+                  <div className="text-3xl font-bold mb-2">{clientStats.totalConversations}</div>
+                  <div className="text-green-100 text-sm uppercase tracking-wide">Conversations</div>
+                </div>
+                <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-6 text-white shadow-lg">
+                  <div className="text-3xl font-bold mb-2">{clientStats.totalMessages}</div>
+                  <div className="text-purple-100 text-sm uppercase tracking-wide">Total Messages</div>
+                </div>
+                <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-lg p-6 text-white shadow-lg">
+                  <div className="text-3xl font-bold mb-2">{clientStats.totalAlerts}</div>
+                  <div className="text-red-100 text-sm uppercase tracking-wide">Threat Alerts</div>
+                </div>
+              </div>
+            )}
+
+            {/* User Activity Summary */}
+            {clientStats && clientStats.userStats.length > 0 && (
+              <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                  <h3 className="text-lg font-bold text-gray-900">User Activity Summary</h3>
+                </div>
+                <table className="w-full">
+                  <thead className="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">User</th>
+                      <th className="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase">Conversations</th>
+                      <th className="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase">Messages</th>
+                      <th className="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase">Last Active</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {clientStats.userStats.map((user, idx) => (
+                      <tr key={idx} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 font-semibold text-gray-900">{user.displayName}</td>
+                        <td className="px-6 py-4 text-center text-gray-700">{user.conversationCount}</td>
+                        <td className="px-6 py-4 text-center text-gray-700">{user.messageCount}</td>
+                        <td className="px-6 py-4 text-center text-sm text-gray-500">
+                          {new Date(user.lastActive).toLocaleString()}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         )}
 
-        {/* Today's Activity */}
+        {/* Today's Activity Tab */}
         {activeTab === 'today' && (
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Today's Activity</h2>
@@ -472,7 +494,7 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Transcripts */}
+        {/* Transcripts Tab */}
         {activeTab === 'transcripts' && (
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Today's Chat Transcripts</h2>
@@ -590,12 +612,12 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Client Conversations */}
+        {/* All Conversations Tab - Consolidated View */}
         {activeTab === 'client-chats' && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Client-Side Conversations</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">All Conversations</h2>
 
-            {/* Search Bar */}
+            {/* Single Search Bar */}
             <div className="mb-6">
               <div className="relative">
                 <input
@@ -626,68 +648,20 @@ export default function AdminDashboard() {
               )}
             </div>
 
-            {/* Statistics Cards */}
-            {clientStats && (
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white shadow-lg">
-                  <div className="text-3xl font-bold mb-2">{clientStats.totalUsers}</div>
-                  <div className="text-blue-100 text-sm uppercase tracking-wide">Total Users</div>
-                </div>
-                <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-6 text-white shadow-lg">
-                  <div className="text-3xl font-bold mb-2">{clientStats.totalConversations}</div>
-                  <div className="text-green-100 text-sm uppercase tracking-wide">Conversations</div>
-                </div>
-                <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-6 text-white shadow-lg">
-                  <div className="text-3xl font-bold mb-2">{clientStats.totalMessages}</div>
-                  <div className="text-purple-100 text-sm uppercase tracking-wide">Total Messages</div>
-                </div>
-                <div className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-lg p-6 text-white shadow-lg">
-                  <div className="text-3xl font-bold mb-2">
-                    {clientStats.totalConversations > 0
-                      ? Math.round(clientStats.totalMessages / clientStats.totalConversations)
-                      : 0}
-                  </div>
-                  <div className="text-amber-100 text-sm uppercase tracking-wide">Avg Msgs/Conv</div>
-                </div>
-              </div>
-            )}
-
-            {/* User Statistics Table */}
-            {clientStats && clientStats.userStats.length > 0 && (
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-6">
-                <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
-                  <h3 className="text-lg font-bold text-gray-900">User Activity Summary</h3>
-                </div>
-                <table className="w-full">
-                  <thead className="bg-gray-50 border-b border-gray-200">
-                    <tr>
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 uppercase">User</th>
-                      <th className="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase">Conversations</th>
-                      <th className="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase">Messages</th>
-                      <th className="px-6 py-4 text-center text-sm font-semibold text-gray-700 uppercase">Last Active</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {clientStats.userStats.map((user, idx) => (
-                      <tr key={idx} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 font-semibold text-gray-900">{user.displayName}</td>
-                        <td className="px-6 py-4 text-center text-gray-700">{user.conversationCount}</td>
-                        <td className="px-6 py-4 text-center text-gray-700">{user.messageCount}</td>
-                        <td className="px-6 py-4 text-center text-sm text-gray-500">
-                          {new Date(user.lastActive).toLocaleString()}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-
-            {/* Conversations List */}
+            {/* Single Consolidated Conversations List */}
             <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-              <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
-                <h3 className="text-lg font-bold text-gray-900">All Conversations ({filteredConversations.length})</h3>
-                <p className="text-sm text-gray-600 mt-1">Click on a conversation to expand and view full transcript</p>
+              <div className="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900">Conversations ({filteredConversations.length})</h3>
+                  <p className="text-sm text-gray-600 mt-1">Click on a conversation to expand and view full transcript</p>
+                </div>
+                {clientStats && clientStats.totalAlerts > 0 && (
+                  <div className="flex items-center gap-2 px-4 py-2 bg-red-100 rounded-lg">
+                    <span className="text-red-800 font-semibold text-sm">
+                      {clientStats.totalAlerts} Alert{clientStats.totalAlerts > 1 ? 's' : ''}
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div className="divide-y divide-gray-200 max-h-[600px] overflow-y-auto">
@@ -863,41 +837,19 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Threat Alerts Tab */}
+        {/* Flagged Conversations Tab - Simplified */}
         {activeTab === 'alerts' && (
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-              🚨 Threat Alert Dashboard
+              🚨 Flagged Conversations
               {clientStats && clientStats.totalAlerts > 0 && (
                 <span className="text-lg font-normal text-gray-600">
-                  ({clientStats.totalAlerts} total alert{clientStats.totalAlerts > 1 ? 's' : ''})
+                  ({clientStats.totalAlerts} alert{clientStats.totalAlerts > 1 ? 's' : ''} across {flaggedConversations.length} conversation{flaggedConversations.length > 1 ? 's' : ''})
                 </span>
               )}
             </h2>
 
-            {/* Alert Statistics */}
-            {clientStats && (
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-lg p-6 text-white shadow-lg">
-                  <div className="text-3xl font-bold mb-2">{clientStats.totalAlerts}</div>
-                  <div className="text-red-100 text-sm uppercase tracking-wide">Total Alerts</div>
-                </div>
-                <div className="bg-gradient-to-br from-red-700 to-red-800 rounded-lg p-6 text-white shadow-lg">
-                  <div className="text-3xl font-bold mb-2">{clientStats.criticalAlerts}</div>
-                  <div className="text-red-100 text-sm uppercase tracking-wide">Critical Severity</div>
-                </div>
-                <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg p-6 text-white shadow-lg">
-                  <div className="text-3xl font-bold mb-2">{clientStats.highAlerts}</div>
-                  <div className="text-orange-100 text-sm uppercase tracking-wide">High Severity</div>
-                </div>
-                <div className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-lg p-6 text-white shadow-lg">
-                  <div className="text-3xl font-bold mb-2">{flaggedConversations.length}</div>
-                  <div className="text-amber-100 text-sm uppercase tracking-wide">Flagged Conversations</div>
-                </div>
-              </div>
-            )}
-
-            {/* Severity Filter */}
+            {/* Single Severity Filter */}
             <div className="mb-6">
               <label className="block text-sm font-semibold text-gray-700 mb-2">Filter by Severity:</label>
               <div className="flex gap-2 flex-wrap">

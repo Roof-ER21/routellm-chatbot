@@ -354,22 +354,65 @@ export default function ChatPage() {
     setCurrentConversationId(newConvId)
   }
 
-  // Auto-save conversation when messages change (debounced)
+  // Auto-save conversation when messages change (debounced with retry logic)
   useEffect(() => {
     if (messages.length > 0 && isAuthenticated) {
       const timeoutId = setTimeout(() => {
-        // Use currentConversationId to update the same conversation
-        const result = saveConversation(messages, currentConversationId || undefined)
-        // Update conversation ID if it was just created
-        if (result.success && result.conversationId && !currentConversationId) {
-          setCurrentConversationId(result.conversationId)
-        }
+        try {
+          console.log('[Auto-Save] Attempting to save conversation...', {
+            messageCount: messages.length,
+            conversationId: currentConversationId,
+            isAuthenticated
+          })
 
-        // Run threat detection analysis (silent - user won't see this)
-        if (result.success && result.conversationId) {
-          analyzeAndFlagConversation(result.conversationId, messages)
+          // Use currentConversationId to update the same conversation
+          const result = saveConversation(messages, currentConversationId || undefined)
+
+          if (result.success) {
+            console.log('[Auto-Save] ✓ Conversation saved successfully', {
+              conversationId: result.conversationId,
+              messageCount: messages.length
+            })
+
+            // Update conversation ID if it was just created
+            if (result.conversationId && !currentConversationId) {
+              setCurrentConversationId(result.conversationId)
+            }
+
+            // Run threat detection analysis (silent - user won't see this)
+            if (result.conversationId) {
+              try {
+                analyzeAndFlagConversation(result.conversationId, messages)
+                console.log('[Auto-Save] ✓ Threat detection analysis completed')
+              } catch (threatError) {
+                console.error('[Auto-Save] Threat detection failed (non-critical):', threatError)
+              }
+            }
+          } else {
+            console.error('[Auto-Save] ✗ Save failed:', result.error)
+
+            // Retry once after 1 second if save failed
+            setTimeout(() => {
+              console.log('[Auto-Save] Retrying save...')
+              const retryResult = saveConversation(messages, currentConversationId || undefined)
+              if (retryResult.success) {
+                console.log('[Auto-Save] ✓ Retry successful')
+                if (retryResult.conversationId && !currentConversationId) {
+                  setCurrentConversationId(retryResult.conversationId)
+                }
+              } else {
+                console.error('[Auto-Save] ✗ Retry failed:', retryResult.error)
+              }
+            }, 1000)
+          }
+        } catch (error) {
+          console.error('[Auto-Save] Exception during save:', error)
+          // Show user-visible error for critical failures
+          if (error instanceof Error && error.message.includes('localStorage')) {
+            console.error('[Auto-Save] CRITICAL: localStorage not available on this device')
+          }
         }
-      }, 2000) // Save 2 seconds after last message
+      }, 1000) // Reduced from 2000ms to 1000ms for faster saves on mobile
 
       return () => clearTimeout(timeoutId)
     }

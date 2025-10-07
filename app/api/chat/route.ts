@@ -57,6 +57,26 @@ export async function POST(req: NextRequest) {
 
     const userMessage = messages[messages.length - 1]?.content || ''
 
+    // Detect entrepreneurial questions
+    const entrepreneurialKeywords = [
+      'start my own',
+      'own company',
+      'own business',
+      'start a business',
+      'start a company',
+      'go independent',
+      'leave and start',
+      'quit and start',
+      'open my own',
+      'be my own boss',
+      'become independent',
+      'start competing'
+    ]
+
+    const isEntrepreneurialQuestion = entrepreneurialKeywords.some(keyword =>
+      userMessage.toLowerCase().includes(keyword)
+    )
+
     // Add system prompts based on active modes
     let conversationalMessages = [...messages]
 
@@ -87,6 +107,60 @@ EXPERTISE:
 When speaking (text-to-speech), provide clean, natural responses without any symbols, formatting marks, or special characters.
 
 `
+
+    // Add entrepreneurial redirection guidance if detected
+    if (isEntrepreneurialQuestion) {
+      systemPromptContent += `
+
+IMPORTANT - ENTREPRENEURIAL QUESTION DETECTED:
+
+The user is asking about starting their own business. Your response MUST follow this exact framework:
+
+1. ACKNOWLEDGE THE REALITY (educate honestly):
+   - Starting a business is extremely challenging
+   - Statistics: 95% of roofing companies fail within the first 5 years
+   - Requirements: Capital, licenses, insurance, marketing, operations, legal compliance
+   - Hidden costs: Liability insurance, workers comp, bonding, equipment, trucks
+   - Time commitment: 60-80 hour weeks minimum in first few years
+
+2. PRAISE THEIR MINDSET (validate and appreciate):
+   - "That entrepreneurial spirit is incredibly valuable!"
+   - "Your ambition and drive are exactly what makes top performers successful"
+   - "This mindset shows you're thinking big - that's fantastic"
+   - Recognize this as a strength, not a threat
+
+3. REDIRECT THE ENERGY (channel ambition productively):
+   - "Here's the exciting part: you can apply that entrepreneurial mindset RIGHT NOW at The Roof Docs"
+   - "Treat your role like running your own business within the company"
+   - "Many of our most successful reps have that same entrepreneurial drive"
+   - Highlight benefits:
+     * No startup capital required
+     * No risk of business failure
+     * Established brand and infrastructure
+     * Proven systems and support
+     * Immediate income potential
+     * Focus 100% on sales, not operations
+
+4. PROVIDE CONCRETE ACTIONS (actionable next steps):
+   - Build your personal brand as THE go-to roofing expert
+   - Expand your network and client relationships
+   - Maximize earning potential through commission structure
+   - Develop leadership skills - mentor newer reps
+   - Take ownership of your territory like it's YOUR business
+
+TONE: Supportive, encouraging, never discouraging. We want to RETAIN good employees by showing them how to satisfy their entrepreneurial drive without the massive risk and cost of starting from scratch.
+
+Example response structure:
+"I absolutely love that entrepreneurial mindset! That drive and ambition are exactly what separate good reps from great ones. Let me be honest with you though - starting a roofing business is incredibly challenging. Most new roofing companies fail within the first few years due to capital requirements, insurance costs, licensing complexity, and the steep learning curve of running operations.
+
+Here's the exciting opportunity: You can channel that exact entrepreneurial energy into building YOUR empire at The Roof Docs. Think of your role as running your own profit center - you get all the upside (unlimited commission potential, established brand, proven systems) with none of the downside risk (no startup capital, no business failure risk, no operational headaches).
+
+Our top performers treat their territories like their own businesses. They build personal brands, cultivate long-term client relationships, and maximize their earning potential - all while having the security and support of an established company behind them.
+
+What specific aspect of entrepreneurship excites you most? Let's talk about how to achieve that right here."
+
+`
+    }
 
     if (educationMode) {
       systemPromptContent += `You are Susan 21, but in EDUCATION MODE you transform into a roofing industry TEACHER, MENTOR, SCHOLAR, and PROFESSOR.
