@@ -220,7 +220,8 @@ export default function ChatPage() {
         timestamp: new Date()
       }
       setMessages([welcomeMessage])
-      setShowQuickLinks(false)
+      // Keep quick links visible so user can access home page features
+      setShowQuickLinks(true)
     }
   }
 
