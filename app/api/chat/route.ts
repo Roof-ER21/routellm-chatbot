@@ -77,6 +77,23 @@ export async function POST(req: NextRequest) {
       userMessage.toLowerCase().includes(keyword)
     )
 
+    // Detect full approval scenarios
+    const fullApprovalKeywords = [
+      'full approval',
+      'fully approved',
+      'total approval',
+      'complete approval',
+      'approved the whole',
+      'approved everything',
+      'approved full',
+      'got full approval',
+      'received full approval'
+    ]
+
+    const isFullApprovalScenario = fullApprovalKeywords.some(keyword =>
+      userMessage.toLowerCase().includes(keyword)
+    )
+
     // Add system prompts based on active modes
     let conversationalMessages = [...messages]
 
@@ -158,6 +175,76 @@ Here's the exciting opportunity: You can channel that exact entrepreneurial ener
 Our top performers treat their territories like their own businesses. They build personal brands, cultivate long-term client relationships, and maximize their earning potential - all while having the security and support of an established company behind them.
 
 What specific aspect of entrepreneurship excites you most? Let's talk about how to achieve that right here."
+
+`
+    }
+
+    // Add full approval phone call script guidance
+    if (isFullApprovalScenario) {
+      systemPromptContent += `
+
+IMPORTANT - FULL APPROVAL SCENARIO DETECTED:
+
+The insurance company has provided FULL APPROVAL for the claim. This is excellent news! Your response should guide the rep through the FULL APPROVAL PHONE CALL SCRIPT:
+
+📞 FULL APPROVAL ESTIMATE PHONE CALL SCRIPT:
+
+1. **CONGRATULATIONS & CONFIRMATION**:
+   - "Great news! I have the estimate from [Insurance Company] and they've fully approved your claim."
+   - "The total approved amount is $[AMOUNT], which covers everything we discussed."
+   - Confirm this matches their expectations
+
+2. **EXPLAIN THE PAYMENT STRUCTURE**:
+   - "Here's how this works: Your insurance approved $[AMOUNT] total"
+   - "You'll receive a check for $[ACV AMOUNT] (Actual Cash Value) to get started"
+   - "After we complete the work and submit final invoices, they'll release the remaining $[DEPRECIATION AMOUNT] (recoverable depreciation)"
+   - "Your deductible is $[DEDUCTIBLE], which is subtracted from the first check"
+
+3. **SCHEDULING & NEXT STEPS**:
+   - "Let me get you on our production schedule right away"
+   - "Our next available slot is [DATE/TIMEFRAME]"
+   - "The project will take approximately [DURATION] to complete"
+   - Ask about their timeline preferences and any scheduling constraints
+
+4. **CONTRACT & DEPOSIT** (CRITICAL):
+   - "I'll send over the contract today for your review and signature"
+   - "We require a deposit of $[DEPOSIT AMOUNT] to secure your spot on the schedule"
+   - "This can be paid via check, credit card, or bank transfer"
+   - Get commitment on when they can provide the deposit
+
+5. **DOCUMENT COLLECTION**:
+   - "I'll need you to send over a few documents:"
+   - "1. Signed contract"
+   - "2. Copy of your insurance check (front and back once deposited)"
+   - "3. Proof of homeownership (deed or mortgage statement)"
+   - Set a deadline for receiving these documents
+
+6. **SET EXPECTATIONS**:
+   - Explain the installation process step-by-step
+   - Discuss material selections (if applicable)
+   - Confirm HOA requirements (if applicable)
+   - Review project timeline and completion date
+
+7. **CLOSING & COMMITMENT**:
+   - "Do you have any questions about the approval or the process?"
+   - "Can I count on you moving forward with The Roof Docs?"
+   - Get verbal commitment to proceed
+   - Confirm next action steps and deadlines
+
+🎯 KEY OBJECTIVES:
+- Secure signed contract within 24-48 hours
+- Collect deposit to lock in the project
+- Schedule installation date
+- Set clear timeline for document submission
+- Build excitement and confidence in The Roof Docs
+
+⚠️ IMPORTANT REMINDERS:
+- Emphasize the need to act quickly to secure their spot on the production schedule
+- Make it easy for them - offer to email/text contract immediately
+- Be available to answer questions and address any concerns
+- Follow up same day if they don't sign immediately
+
+Your response should provide this script framework while addressing their specific situation. Make it conversational but ensure all critical steps are covered.
 
 `
     }

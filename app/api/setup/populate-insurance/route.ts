@@ -59,7 +59,7 @@ const INSURANCE_COMPANIES = [
   { name: 'The Philadelphia Contributionship', handler: 'Team', phone: '(800) 269-1409', ext_instructions: '1, 2', email: 'claims@1752.com' },
   { name: 'Travelers', handler: 'Adjuster', phone: '(800) 238-6225', ext_instructions: '2,2,5 "I don\'t have it" 800-759-6194 team number', email: 'nccenter@travelers.com' },
   { name: 'Universal Property', handler: 'Team', phone: '(800) 470-0599', ext_instructions: '2, star, 2, 3', email: 'claimpath@universalproperty.com' },
-  { name: 'USAA', handler: 'Team', phone: '(800) 531-8722', ext_instructions: 'Dial 1,1,1,1,2,2, contractor (1), state', email: 'getclaimspecificnumber@usaa.com' },
+  { name: 'USAA', handler: 'Team', phone: '(800) 531-8722', ext_instructions: 'Dial 1,1,1,1,2,2, contractor (1), state', email: 'Get the Claim Specific Email @usaa.com' },
   { name: 'Westfield', handler: 'Team', phone: '(800) 243-0210', ext_instructions: '.', email: 'westfieldclaims@westfieldgrp.com' }
 ];
 

@@ -57,7 +57,7 @@ const INTELLIGENCE_DATA = [
     proven_workarounds: 'Virtual chat better than phone. Active duty = faster',
     alternative_channels: 'Chat (instant, best), App (excellent), Email (12-24hr)',
     social_escalation: '@USAA_help (excellent)',
-    executive_escalation: 'getclaimspecificnumber@usaa.com',
+    executive_escalation: 'Get the Claim Specific Email @usaa.com',
     naic_complaint_index: 0.31,
     bbb_rating: 'A+',
     avg_hold_time_minutes: 2,

@@ -542,7 +542,7 @@ export const insuranceCompanies: InsuranceCompany[] = [
   {
     id: '48',
     name: 'USAA',
-    contact_email: 'getclaimspecificnumber@usaa.com',
+    contact_email: 'Get the Claim Specific Email @usaa.com',
     phone: '(800) 531-8722',
     app_name: 'USAA Mobile',
     client_login_url: 'https://www.usaa.com/',
