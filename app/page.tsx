@@ -216,7 +216,7 @@ export default function ChatPage() {
       // Add welcome message for first-time login
       const welcomeMessage: Message = {
         role: 'assistant',
-        content: `Welcome to Susan 21, ${displayName}! Your specialist built for you to not only climb the ladder to roofs, but to success! Let's GO RoofER!!!`,
+        content: `Welcome to Susan 21, ${displayName}. Your specialist built to help you climb the ladder—not just to roofs, but to success. Let's go, Roof ER.`,
         timestamp: new Date()
       }
       setMessages([welcomeMessage])
