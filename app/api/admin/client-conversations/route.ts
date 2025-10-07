@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { query } from '@/lib/db'
+import { query } from '@/lib/railway-db'
 
 /**
  * Admin API endpoint for retrieving ALL conversations from PostgreSQL database
