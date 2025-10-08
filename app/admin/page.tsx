@@ -620,6 +620,63 @@ export default function AdminDashboard() {
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Database Management</h2>
             <div className="space-y-6">
+              {/* Initialize Database */}
+              <div className="bg-white rounded-lg shadow-lg p-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-3">0. Initialize Database Tables</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Creates the required tables (reps, chat_sessions, chat_messages) if they don't exist.
+                  Run this first if you're seeing database errors.
+                </p>
+                <div className="flex gap-3">
+                  <button
+                    onClick={async () => {
+                      setDbLoading(true)
+                      setDbMessage('Initializing database tables...')
+                      try {
+                        const response = await fetch('/api/admin/init-db', { method: 'POST' })
+                        const data = await response.json()
+                        if (data.success) {
+                          setDbMessage(`✅ Database initialized! Found ${data.messageCount} messages`)
+                        } else {
+                          setDbMessage(`❌ Initialization failed: ${data.error}`)
+                        }
+                      } catch (error: any) {
+                        setDbMessage(`❌ Error: ${error.message}`)
+                      } finally {
+                        setDbLoading(false)
+                      }
+                    }}
+                    disabled={dbLoading}
+                    className="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 text-white font-semibold px-6 py-3 rounded-lg transition-all"
+                  >
+                    {dbLoading ? 'Initializing...' : '▶️ Initialize Tables'}
+                  </button>
+                  <button
+                    onClick={async () => {
+                      setDbLoading(true)
+                      setDbMessage('Checking database status...')
+                      try {
+                        const response = await fetch('/api/admin/init-db')
+                        const data = await response.json()
+                        if (data.success) {
+                          setDbMessage(`✅ Database connected! Messages: ${data.stats.messages}, Sessions: ${data.stats.sessions}, Reps: ${data.stats.reps}`)
+                        } else {
+                          setDbMessage(`❌ Database check failed: ${data.error}${data.hasUrl ? '' : ' (DATABASE_URL not set)'}`)
+                        }
+                      } catch (error: any) {
+                        setDbMessage(`❌ Error: ${error.message}`)
+                      } finally {
+                        setDbLoading(false)
+                      }
+                    }}
+                    disabled={dbLoading}
+                    className="bg-gray-600 hover:bg-gray-700 disabled:bg-gray-400 text-white font-semibold px-6 py-3 rounded-lg transition-all"
+                  >
+                    {dbLoading ? 'Checking...' : '🔍 Check Status'}
+                  </button>
+                </div>
+              </div>
+
               {/* Run Migrations */}
               <div className="bg-white rounded-lg shadow-lg p-6">
                 <h3 className="text-lg font-bold text-gray-900 mb-3">1. Run Database Migrations</h3>
@@ -667,9 +724,11 @@ export default function AdminDashboard() {
               <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
                 <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider mb-3">📋 Instructions</h3>
                 <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700">
-                  <li>First, click "Run Migrations" to add new database fields</li>
-                  <li>Then, click "Populate Intelligence Data" to fill in the research data for all 64 insurance companies</li>
-                  <li>Check the status messages to verify successful completion</li>
+                  <li><strong>If you're seeing database errors:</strong> Click "Initialize Tables" first to create the required database tables</li>
+                  <li>Use "Check Status" to verify database connection and see current record counts</li>
+                  <li>Click "Run Migrations" to add new database fields (for insurance_companies table)</li>
+                  <li>Click "Populate Intelligence Data" to fill in research data for all 64 insurance companies</li>
+                  <li>Check the status messages after each operation to verify successful completion</li>
                 </ol>
                 <div className="mt-4 pt-4 border-t border-gray-300">
                   <p className="text-xs text-gray-600">
