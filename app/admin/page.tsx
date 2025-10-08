@@ -65,7 +65,7 @@ export default function AdminDashboard() {
     }
 
     const intervalId = setInterval(() => {
-      console.log('[Admin] Auto-refreshing conversations...')
+      // Auto-refresh logging disabled to reduce Railway log rate limits
       loadClientConversations()
       setLastRefreshTime(new Date())
     }, 30000) // 30 seconds
@@ -375,6 +375,7 @@ export default function AdminDashboard() {
       <header className="bg-[#1a1a1a] text-white shadow-xl border-b-4 border-red-600">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
+            {/* Logo and Title */}
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
                 <span className="text-2xl">👁️</span>
@@ -386,10 +387,13 @@ export default function AdminDashboard() {
                 <p className="text-xs text-gray-400 uppercase tracking-wider">Analytics Dashboard</p>
               </div>
             </div>
+
+            {/* Action Buttons */}
             <div className="flex items-center gap-3">
+              {/* Storm Data Button */}
               <StormDataModal repName="Admin" />
 
-              {/* Auto-refresh toggle */}
+              {/* Auto-refresh Toggle */}
               <div className="flex items-center gap-2 bg-gray-700 px-3 py-2 rounded-lg">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
@@ -402,13 +406,14 @@ export default function AdminDashboard() {
                 </label>
               </div>
 
-              {/* Last refresh time indicator */}
+              {/* Last Refresh Timestamp */}
               {lastRefreshTime && (
                 <div className="text-xs text-gray-300 bg-gray-700 px-3 py-2 rounded-lg">
                   Last refresh: {lastRefreshTime.toLocaleTimeString()}
                 </div>
               )}
 
+              {/* Refresh Database Chats Button (Orange) */}
               <button
                 onClick={loadClientConversations}
                 className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition-colors font-medium text-sm"
@@ -416,12 +421,16 @@ export default function AdminDashboard() {
               >
                 Refresh Database Chats
               </button>
+
+              {/* Refresh Data Button (Red) */}
               <button
                 onClick={loadData}
                 className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors font-medium text-sm"
               >
                 Refresh Data
               </button>
+
+              {/* Logout Button */}
               <button
                 onClick={handleLogout}
                 className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors font-medium text-sm flex items-center gap-2"

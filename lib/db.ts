@@ -14,6 +14,13 @@ export async function ensureTablesExist() {
       )
     `
 
+    // Add total_chats column if it doesn't exist (for existing deployments)
+    try {
+      await sql`ALTER TABLE reps ADD COLUMN IF NOT EXISTS total_chats INTEGER DEFAULT 0`
+    } catch (e) {
+      // Column might already exist, ignore error
+    }
+
     // Create chat_sessions table
     await sql`
       CREATE TABLE IF NOT EXISTS chat_sessions (
@@ -25,6 +32,13 @@ export async function ensureTablesExist() {
         message_count INTEGER DEFAULT 0
       )
     `
+
+    // Add rep_name column if it doesn't exist (for existing deployments)
+    try {
+      await sql`ALTER TABLE chat_sessions ADD COLUMN IF NOT EXISTS rep_name VARCHAR(255)`
+    } catch (e) {
+      // Column might already exist, ignore error
+    }
 
     // Create chat_messages table
     await sql`
