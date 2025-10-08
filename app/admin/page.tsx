@@ -102,14 +102,65 @@ export default function AdminDashboard() {
     }
   }
 
-  const loadClientConversations = () => {
+  const loadClientConversations = async () => {
     try {
-      const conversations = getAllConversations()
-      const stats = getConversationStats()
-      setClientConversations(conversations)
-      setClientStats(stats)
+      // Fetch conversations from PostgreSQL database (all devices/users)
+      const response = await fetch('/api/admin/client-conversations')
+      const data = await response.json()
+
+      if (data.success && data.conversations) {
+        // Transform database conversations to match expected format
+        const transformedConversations = data.conversations.map((conv: any) => ({
+          id: String(conv.id),
+          username: conv.repName || 'Unknown',
+          displayName: conv.repName || 'Unknown',
+          title: conv.title,
+          preview: conv.preview,
+          date: conv.date,
+          messages: conv.messages.map((msg: any) => ({
+            role: msg.role,
+            content: msg.content,
+            timestamp: new Date(msg.timestamp)
+          })),
+          isFlagged: false,
+          alerts: [],
+          highestSeverity: undefined
+        }))
+
+        setClientConversations(transformedConversations)
+
+        // Calculate stats from database conversations
+        const stats = {
+          totalUsers: data.users?.length || 0,
+          totalConversations: data.totalConversations || 0,
+          totalMessages: data.totalMessages || 0,
+          totalAlerts: 0,
+          criticalAlerts: 0,
+          highAlerts: 0,
+          mediumAlerts: 0,
+          lowAlerts: 0,
+          userStats: data.users?.map((userName: string) => {
+            const userConvs = transformedConversations.filter((c: any) => c.displayName === userName)
+            const totalMessages = userConvs.reduce((sum: number, c: any) => sum + c.messages.length, 0)
+            const lastActive = Math.max(...userConvs.map((c: any) => c.date))
+
+            return {
+              displayName: userName,
+              conversationCount: userConvs.length,
+              messageCount: totalMessages,
+              lastActive: lastActive
+            }
+          }) || []
+        }
+
+        setClientStats(stats)
+      } else {
+        console.error('Failed to load database conversations:', data.error)
+        setClientConversations([])
+        setClientStats(null)
+      }
     } catch (error) {
-      console.error('Error loading client conversations:', error)
+      console.error('Error loading database conversations:', error)
       setClientConversations([])
       setClientStats(null)
     }
@@ -302,9 +353,9 @@ export default function AdminDashboard() {
               <button
                 onClick={loadClientConversations}
                 className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition-colors font-medium text-sm"
-                title="Refresh client-side conversations from localStorage"
+                title="Refresh all conversations from PostgreSQL database"
               >
-                Refresh Client Chats
+                Refresh Database Chats
               </button>
               <button
                 onClick={loadData}
@@ -345,7 +396,7 @@ export default function AdminDashboard() {
                 : 'bg-white text-gray-700 hover:bg-gray-50'
             }`}
           >
-            💬 All Conversations
+            💬 All Conversations (Database)
           </button>
           <button
             onClick={() => setActiveTab('alerts')}
@@ -612,10 +663,13 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* All Conversations Tab - Consolidated View */}
+        {/* All Conversations Tab - Database View */}
         {activeTab === 'client-chats' && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">All Conversations</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">All Conversations (from PostgreSQL Database)</h2>
+            <p className="text-sm text-gray-600 mb-4">
+              💾 Showing conversations from all devices (phone, iPad, computer) and all users stored in the database
+            </p>
 
             {/* Single Search Bar */}
             <div className="mb-6">
