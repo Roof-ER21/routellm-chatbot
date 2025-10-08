@@ -39,9 +39,21 @@ export async function ensureTablesExist() {
       )
     `
 
-    // Add rep_name column if it doesn't exist (for existing deployments)
+    // Add missing columns to chat_sessions if they don't exist (for existing deployments)
     try {
       await sql`ALTER TABLE chat_sessions ADD COLUMN IF NOT EXISTS rep_name VARCHAR(255)`
+    } catch (e) {
+      // Column might already exist, ignore error
+    }
+
+    try {
+      await sql`ALTER TABLE chat_sessions ADD COLUMN IF NOT EXISTS message_count INTEGER DEFAULT 0`
+    } catch (e) {
+      // Column might already exist, ignore error
+    }
+
+    try {
+      await sql`ALTER TABLE chat_sessions ADD COLUMN IF NOT EXISTS last_message_at TIMESTAMP DEFAULT NOW()`
     } catch (e) {
       // Column might already exist, ignore error
     }
