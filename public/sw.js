@@ -57,15 +57,17 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(request)
       .then((response) => {
-        // Clone the response before caching
-        const responseToCache = response.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(request, responseToCache);
-        });
+        // Only cache GET requests (POST/PUT/DELETE cannot be cached)
+        if (request.method === 'GET') {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(request, responseToCache);
+          });
+        }
         return response;
       })
       .catch(() => {
-        // Network failed, try cache
+        // Network failed, try cache (only works for GET requests)
         return caches.match(request).then((response) => {
           return response || caches.match('/offline.html');
         });
