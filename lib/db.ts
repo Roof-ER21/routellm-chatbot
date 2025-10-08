@@ -59,6 +59,28 @@ export async function ensureTablesExist() {
       )
     `
 
+    // Create threat_alerts table
+    await sql`
+      CREATE TABLE IF NOT EXISTS threat_alerts (
+        id SERIAL PRIMARY KEY,
+        session_id INTEGER REFERENCES chat_sessions(id),
+        message_id INTEGER REFERENCES chat_messages(id),
+        rep_name VARCHAR(255) NOT NULL,
+        category VARCHAR(100) NOT NULL,
+        pattern VARCHAR(500) NOT NULL,
+        severity VARCHAR(20) NOT NULL,
+        risk_score INTEGER NOT NULL,
+        matched_text TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW()
+      )
+    `
+
+    // Create indexes for threat_alerts
+    await sql`CREATE INDEX IF NOT EXISTS idx_threat_alerts_session ON threat_alerts(session_id)`
+    await sql`CREATE INDEX IF NOT EXISTS idx_threat_alerts_severity ON threat_alerts(severity)`
+    await sql`CREATE INDEX IF NOT EXISTS idx_threat_alerts_rep ON threat_alerts(rep_name)`
+    await sql`CREATE INDEX IF NOT EXISTS idx_threat_alerts_created ON threat_alerts(created_at)`
+
     console.log('Database tables ensured')
   } catch (error) {
     console.error('Error ensuring tables:', error)
@@ -118,10 +140,11 @@ export async function logChatMessage(
   content: string
 ) {
   try {
-    // Insert message
-    await sql`
+    // Insert message and return the ID
+    const result = await sql`
       INSERT INTO chat_messages (session_id, rep_id, rep_name, role, content, created_at)
       VALUES (${sessionId}, ${repId}, ${repName}, ${role}, ${content}, NOW())
+      RETURNING id
     `
 
     // Update session message count and last message time
@@ -139,9 +162,81 @@ export async function logChatMessage(
           last_active = NOW()
       WHERE id = ${repId}
     `
+
+    // Return the message ID
+    return result.rows[0].id
   } catch (error) {
     console.error('Error logging chat message:', error)
     throw error
+  }
+}
+
+export interface ThreatAlert {
+  sessionId: number
+  messageId: number
+  repName: string
+  category: string
+  pattern: string
+  severity: string
+  riskScore: number
+  matchedText: string
+}
+
+export async function logThreatAlert(alertData: ThreatAlert) {
+  try {
+    const result = await sql`
+      INSERT INTO threat_alerts (
+        session_id,
+        message_id,
+        rep_name,
+        category,
+        pattern,
+        severity,
+        risk_score,
+        matched_text,
+        created_at
+      )
+      VALUES (
+        ${alertData.sessionId},
+        ${alertData.messageId},
+        ${alertData.repName},
+        ${alertData.category},
+        ${alertData.pattern},
+        ${alertData.severity},
+        ${alertData.riskScore},
+        ${alertData.matchedText},
+        NOW()
+      )
+      RETURNING *
+    `
+    return result.rows[0]
+  } catch (error) {
+    console.error('Error logging threat alert:', error)
+    throw error
+  }
+}
+
+export async function getThreatAlerts(sessionId?: number, limit = 100) {
+  try {
+    if (sessionId) {
+      const result = await sql`
+        SELECT * FROM threat_alerts
+        WHERE session_id = ${sessionId}
+        ORDER BY created_at DESC
+        LIMIT ${limit}
+      `
+      return result.rows
+    } else {
+      const result = await sql`
+        SELECT * FROM threat_alerts
+        ORDER BY created_at DESC
+        LIMIT ${limit}
+      `
+      return result.rows
+    }
+  } catch (error) {
+    console.error('Error getting threat alerts:', error)
+    return []
   }
 }
 

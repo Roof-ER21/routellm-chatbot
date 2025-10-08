@@ -41,6 +41,8 @@ export default function AdminDashboard() {
   const [searchQuery, setSearchQuery] = useState('')
   const [alertSeverityFilter, setAlertSeverityFilter] = useState<'all' | 'critical' | 'high' | 'medium' | 'low'>('all')
   const [isUsingFallback, setIsUsingFallback] = useState(false)
+  const [autoRefresh, setAutoRefresh] = useState(false)
+  const [lastRefreshTime, setLastRefreshTime] = useState<Date | null>(null)
 
   // Check if already authenticated (session storage)
   useEffect(() => {
@@ -55,6 +57,21 @@ export default function AdminDashboard() {
       loadData()
     }
   }, [isAuthenticated])
+
+  // Auto-refresh effect
+  useEffect(() => {
+    if (!autoRefresh || !isAuthenticated) {
+      return
+    }
+
+    const intervalId = setInterval(() => {
+      console.log('[Admin] Auto-refreshing conversations...')
+      loadClientConversations()
+      setLastRefreshTime(new Date())
+    }, 30000) // 30 seconds
+
+    return () => clearInterval(intervalId)
+  }, [autoRefresh, isAuthenticated])
 
   const handlePasscodeSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -105,7 +122,7 @@ export default function AdminDashboard() {
 
   const loadClientConversations = async () => {
     try {
-      // Try to fetch conversations from PostgreSQL database (all devices/users)
+      // Fetch conversations from PostgreSQL database ONLY (all devices/users)
       const response = await fetch('/api/admin/client-conversations')
 
       // Check if response is ok
@@ -129,9 +146,9 @@ export default function AdminDashboard() {
             content: msg.content,
             timestamp: new Date(msg.timestamp)
           })),
-          isFlagged: false,
-          alerts: [],
-          highestSeverity: undefined
+          isFlagged: conv.isFlagged || false,
+          alerts: conv.alerts || [],
+          highestSeverity: conv.highestSeverity
         }))
 
         setClientConversations(transformedConversations)
@@ -141,47 +158,38 @@ export default function AdminDashboard() {
           totalUsers: data.users?.length || 0,
           totalConversations: data.totalConversations || 0,
           totalMessages: data.totalMessages || 0,
-          totalAlerts: 0,
-          criticalAlerts: 0,
-          highAlerts: 0,
-          mediumAlerts: 0,
-          lowAlerts: 0,
+          totalAlerts: data.totalAlerts || 0,
+          criticalAlerts: data.criticalAlerts || 0,
+          highAlerts: data.highAlerts || 0,
+          mediumAlerts: data.mediumAlerts || 0,
+          lowAlerts: data.lowAlerts || 0,
           userStats: data.users?.map((userName: string) => {
             const userConvs = transformedConversations.filter((c: any) => c.displayName === userName)
             const totalMessages = userConvs.reduce((sum: number, c: any) => sum + c.messages.length, 0)
             const lastActive = Math.max(...userConvs.map((c: any) => c.date))
+            const alertCount = userConvs.reduce((sum: number, c: any) => sum + (c.alerts?.length || 0), 0)
 
             return {
               displayName: userName,
               conversationCount: userConvs.length,
               messageCount: totalMessages,
-              lastActive: lastActive
+              lastActive: lastActive,
+              alertCount
             }
           }) || []
         }
 
         setClientStats(stats)
         setIsUsingFallback(false)
+        setLastRefreshTime(new Date())
       } else {
         throw new Error(data.error || 'Unknown error from API')
       }
     } catch (error: any) {
       console.error('Error loading database conversations:', error)
-      console.warn('Falling back to localStorage conversations')
-
-      // Fallback to localStorage conversations
-      try {
-        const conversations = getAllConversations()
-        const stats = getConversationStats()
-        setClientConversations(conversations)
-        setClientStats(stats)
-        setIsUsingFallback(true)
-      } catch (localError) {
-        console.error('Error loading localStorage conversations:', localError)
-        setClientConversations([])
-        setClientStats(null)
-        setIsUsingFallback(false)
-      }
+      setClientConversations([])
+      setClientStats(null)
+      setIsUsingFallback(false)
     }
   }
 
@@ -217,9 +225,9 @@ export default function AdminDashboard() {
     })
   }, [clientConversations, searchQuery])
 
-  // Get flagged conversations with optional severity filter
+  // Get flagged conversations with optional severity filter (from database)
   const flaggedConversations = useMemo(() => {
-    const allFlagged = getAllFlaggedConversations()
+    const allFlagged = clientConversations.filter(conv => conv.isFlagged && conv.alerts && conv.alerts.length > 0)
 
     if (alertSeverityFilter === 'all') {
       return allFlagged
@@ -228,7 +236,7 @@ export default function AdminDashboard() {
     return allFlagged.filter(conv =>
       conv.highestSeverity === alertSeverityFilter
     )
-  }, [alertSeverityFilter])
+  }, [clientConversations, alertSeverityFilter])
 
   // Handle clearing alerts
   const handleClearAlerts = (username: string, conversationId: string) => {
@@ -369,6 +377,27 @@ export default function AdminDashboard() {
             </div>
             <div className="flex items-center gap-3">
               <StormDataModal repName="Admin" />
+
+              {/* Auto-refresh toggle */}
+              <div className="flex items-center gap-2 bg-gray-700 px-3 py-2 rounded-lg">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={autoRefresh}
+                    onChange={(e) => setAutoRefresh(e.target.checked)}
+                    className="w-4 h-4 text-red-600 bg-gray-600 border-gray-500 rounded focus:ring-red-500 focus:ring-2"
+                  />
+                  <span className="text-white text-sm font-medium">Auto-refresh (30s)</span>
+                </label>
+              </div>
+
+              {/* Last refresh time indicator */}
+              {lastRefreshTime && (
+                <div className="text-xs text-gray-300 bg-gray-700 px-3 py-2 rounded-lg">
+                  Last refresh: {lastRefreshTime.toLocaleTimeString()}
+                </div>
+              )}
+
               <button
                 onClick={loadClientConversations}
                 className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition-colors font-medium text-sm"
@@ -712,6 +741,22 @@ export default function AdminDashboard() {
                     {dbLoading ? 'Migrating...' : '📤 Migrate Old Chats'}
                   </button>
                 </div>
+
+                {/* Migration Warning */}
+                <div className="mt-4 bg-amber-50 border-l-4 border-amber-400 p-4">
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <svg className="h-5 w-5 text-amber-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <p className="text-sm text-amber-800">
+                        <strong>⚠️ One-time migration only.</strong> After migration, chats automatically sync to database. Run migration on each device (computer, phone, iPad) to transfer old chats. Future chats don't need migration - they save directly to the database.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Run Migrations */}
@@ -763,7 +808,8 @@ export default function AdminDashboard() {
                 <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700">
                   <li><strong>First time setup:</strong> Click "Initialize Tables" to create required database tables</li>
                   <li>Use "Check Status" to verify database connection and see current record counts</li>
-                  <li><strong>To see old chats:</strong> Click "Migrate Old Chats" to copy localStorage conversations to the database (run this on each device: computer, phone, iPad)</li>
+                  <li><strong>One-time migration:</strong> Click "Migrate Old Chats" to copy existing localStorage conversations to the database. Run this once on each device (computer, phone, iPad) to preserve historical chats.</li>
+                  <li><strong>Automatic sync:</strong> After migration, all new chats automatically save to the database. No further migration needed!</li>
                   <li>Click "Run Migrations" to add new database fields (for insurance_companies table)</li>
                   <li>Click "Populate Intelligence Data" to fill in research data for all 64 insurance companies</li>
                   <li>Check the status messages after each operation to verify successful completion</li>
@@ -1050,7 +1096,7 @@ export default function AdminDashboard() {
                       : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                   }`}
                 >
-                  All ({getAllFlaggedConversations().length})
+                  All ({clientConversations.filter(c => c.isFlagged && c.alerts && c.alerts.length > 0).length})
                 </button>
                 <button
                   onClick={() => setAlertSeverityFilter('critical')}
@@ -1060,7 +1106,7 @@ export default function AdminDashboard() {
                       : 'bg-red-100 text-red-800 hover:bg-red-200'
                   }`}
                 >
-                  Critical ({getAllFlaggedConversations().filter(c => c.highestSeverity === 'critical').length})
+                  Critical ({clientConversations.filter(c => c.highestSeverity === 'critical').length})
                 </button>
                 <button
                   onClick={() => setAlertSeverityFilter('high')}
@@ -1070,7 +1116,7 @@ export default function AdminDashboard() {
                       : 'bg-orange-100 text-orange-800 hover:bg-orange-200'
                   }`}
                 >
-                  High ({getAllFlaggedConversations().filter(c => c.highestSeverity === 'high').length})
+                  High ({clientConversations.filter(c => c.highestSeverity === 'high').length})
                 </button>
                 <button
                   onClick={() => setAlertSeverityFilter('medium')}
@@ -1080,7 +1126,7 @@ export default function AdminDashboard() {
                       : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
                   }`}
                 >
-                  Medium ({getAllFlaggedConversations().filter(c => c.highestSeverity === 'medium').length})
+                  Medium ({clientConversations.filter(c => c.highestSeverity === 'medium').length})
                 </button>
                 <button
                   onClick={() => setAlertSeverityFilter('low')}
@@ -1090,7 +1136,7 @@ export default function AdminDashboard() {
                       : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
                   }`}
                 >
-                  Low ({getAllFlaggedConversations().filter(c => c.highestSeverity === 'low').length})
+                  Low ({clientConversations.filter(c => c.highestSeverity === 'low').length})
                 </button>
               </div>
             </div>

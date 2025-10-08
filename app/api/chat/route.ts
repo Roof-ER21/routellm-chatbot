@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { logChatMessage, getOrCreateRep } from '@/lib/db'
+import { logChatMessage, getOrCreateRep, logThreatAlert } from '@/lib/db'
 import { sendRealTimeNotification } from '@/lib/email'
 import { VoiceCommandParser } from '@/lib/voice-command-handler'
 import { TemplateEngine } from '@/lib/template-engine'
 import { aiFailover } from '@/lib/ai-provider-failover'
+import { analyzeThreatPatterns } from '@/lib/threat-detection'
 
 export async function POST(req: NextRequest) {
   try {
@@ -357,7 +358,30 @@ Stay concise and keep the conversation flowing naturally.`
         if (repName && sessionId) {
           try {
             const rep = await getOrCreateRep(repName)
-            await logChatMessage(sessionId, rep.id, repName, 'user', userMessage)
+            const userMessageId = await logChatMessage(sessionId, rep.id, repName, 'user', userMessage)
+
+            // Run threat detection on voice command
+            const threatAnalysis = analyzeThreatPatterns(userMessage)
+            if (threatAnalysis.isSuspicious && threatAnalysis.matches.length > 0) {
+              console.log(`[THREAT DETECTED - VOICE] Rep: ${repName}, Session: ${sessionId}, Risk Score: ${threatAnalysis.riskScore}`)
+              for (const match of threatAnalysis.matches) {
+                try {
+                  await logThreatAlert({
+                    sessionId,
+                    messageId: userMessageId,
+                    repName,
+                    category: match.category,
+                    pattern: match.pattern,
+                    severity: match.severity,
+                    riskScore: threatAnalysis.riskScore,
+                    matchedText: match.matchedText
+                  })
+                } catch (alertError) {
+                  console.error('Error logging threat alert:', alertError)
+                }
+              }
+            }
+
             await logChatMessage(sessionId, rep.id, repName, 'assistant', voiceData.response)
           } catch (logError) {
             console.error('Error logging voice command:', logError)
@@ -404,7 +428,30 @@ Stay concise and keep the conversation flowing naturally.`
           if (repName && sessionId) {
             try {
               const rep = await getOrCreateRep(repName)
-              await logChatMessage(sessionId, rep.id, repName, 'user', userMessage)
+              const userMessageId = await logChatMessage(sessionId, rep.id, repName, 'user', userMessage)
+
+              // Run threat detection on template request
+              const threatAnalysis = analyzeThreatPatterns(userMessage)
+              if (threatAnalysis.isSuspicious && threatAnalysis.matches.length > 0) {
+                console.log(`[THREAT DETECTED - TEMPLATE] Rep: ${repName}, Session: ${sessionId}, Risk Score: ${threatAnalysis.riskScore}`)
+                for (const match of threatAnalysis.matches) {
+                  try {
+                    await logThreatAlert({
+                      sessionId,
+                      messageId: userMessageId,
+                      repName,
+                      category: match.category,
+                      pattern: match.pattern,
+                      severity: match.severity,
+                      riskScore: threatAnalysis.riskScore,
+                      matchedText: match.matchedText
+                    })
+                  } catch (alertError) {
+                    console.error('Error logging threat alert:', alertError)
+                  }
+                }
+              }
+
               await logChatMessage(sessionId, rep.id, repName, 'assistant', templateData.content)
             } catch (logError) {
               console.error('Error logging template:', logError)
@@ -453,8 +500,33 @@ Stay concise and keep the conversation flowing naturally.`
       try {
         const rep = await getOrCreateRep(repName)
 
-        // Log user message
-        await logChatMessage(sessionId, rep.id, repName, 'user', userMessage)
+        // Log user message and get the message ID
+        const userMessageId = await logChatMessage(sessionId, rep.id, repName, 'user', userMessage)
+
+        // Run threat detection on user message
+        const threatAnalysis = analyzeThreatPatterns(userMessage)
+
+        if (threatAnalysis.isSuspicious && threatAnalysis.matches.length > 0) {
+          console.log(`[THREAT DETECTED] Rep: ${repName}, Session: ${sessionId}, Risk Score: ${threatAnalysis.riskScore}`)
+
+          // Log each threat match to database
+          for (const match of threatAnalysis.matches) {
+            try {
+              await logThreatAlert({
+                sessionId,
+                messageId: userMessageId,
+                repName,
+                category: match.category,
+                pattern: match.pattern,
+                severity: match.severity,
+                riskScore: threatAnalysis.riskScore,
+                matchedText: match.matchedText
+              })
+            } catch (alertError) {
+              console.error('Error logging threat alert:', alertError)
+            }
+          }
+        }
 
         // Log assistant message
         await logChatMessage(sessionId, rep.id, repName, 'assistant', message)
