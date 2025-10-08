@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { query } from '@/lib/railway-db'
+import { ensureTablesExist } from '@/lib/db'
 
 /**
  * Admin API endpoint for retrieving ALL conversations from PostgreSQL database
@@ -9,6 +10,9 @@ import { query } from '@/lib/railway-db'
 export async function GET(req: NextRequest) {
   try {
     console.log('[Admin] Fetching all conversations from database...')
+
+    // Ensure tables exist (auto-initialize on first request)
+    await ensureTablesExist()
 
     // Get all chat messages from database, ordered by time
     const messagesResult = await query(`

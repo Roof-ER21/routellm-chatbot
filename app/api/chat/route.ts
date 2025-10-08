@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { logChatMessage, getOrCreateRep, logThreatAlert } from '@/lib/db'
+import { logChatMessage, getOrCreateRep, logThreatAlert, ensureTablesExist } from '@/lib/db'
 import { sendRealTimeNotification } from '@/lib/email'
 import { VoiceCommandParser } from '@/lib/voice-command-handler'
 import { TemplateEngine } from '@/lib/template-engine'
@@ -498,6 +498,9 @@ Stay concise and keep the conversation flowing naturally.`
     // Log messages to database
     if (repName && sessionId) {
       try {
+        // Ensure tables exist before logging
+        await ensureTablesExist()
+
         const rep = await getOrCreateRep(repName)
 
         // Log user message and get the message ID
