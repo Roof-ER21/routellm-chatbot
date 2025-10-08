@@ -674,6 +674,43 @@ export default function AdminDashboard() {
                   >
                     {dbLoading ? 'Checking...' : '🔍 Check Status'}
                   </button>
+                  <button
+                    onClick={async () => {
+                      setDbLoading(true)
+                      setDbMessage('Migrating localStorage conversations to database...')
+                      try {
+                        // Get all conversations from localStorage
+                        const conversations = getAllConversations()
+
+                        if (conversations.length === 0) {
+                          setDbMessage('⚠️ No conversations found in localStorage to migrate')
+                          return
+                        }
+
+                        // Send to migration API
+                        const response = await fetch('/api/admin/migrate-localstorage', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ conversations })
+                        })
+
+                        const data = await response.json()
+                        if (data.success) {
+                          setDbMessage(`✅ ${data.message}`)
+                        } else {
+                          setDbMessage(`❌ Migration failed: ${data.error}`)
+                        }
+                      } catch (error: any) {
+                        setDbMessage(`❌ Error: ${error.message}`)
+                      } finally {
+                        setDbLoading(false)
+                      }
+                    }}
+                    disabled={dbLoading}
+                    className="bg-orange-600 hover:bg-orange-700 disabled:bg-gray-400 text-white font-semibold px-6 py-3 rounded-lg transition-all"
+                  >
+                    {dbLoading ? 'Migrating...' : '📤 Migrate Old Chats'}
+                  </button>
                 </div>
               </div>
 
@@ -724,8 +761,9 @@ export default function AdminDashboard() {
               <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
                 <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider mb-3">📋 Instructions</h3>
                 <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700">
-                  <li><strong>If you're seeing database errors:</strong> Click "Initialize Tables" first to create the required database tables</li>
+                  <li><strong>First time setup:</strong> Click "Initialize Tables" to create required database tables</li>
                   <li>Use "Check Status" to verify database connection and see current record counts</li>
+                  <li><strong>To see old chats:</strong> Click "Migrate Old Chats" to copy localStorage conversations to the database (run this on each device: computer, phone, iPad)</li>
                   <li>Click "Run Migrations" to add new database fields (for insurance_companies table)</li>
                   <li>Click "Populate Intelligence Data" to fill in research data for all 64 insurance companies</li>
                   <li>Check the status messages after each operation to verify successful completion</li>
