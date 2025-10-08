@@ -3,7 +3,6 @@ import { getOrCreateRep, createChatSession, ensureTablesExist } from '@/lib/db'
 
 export async function POST(req: NextRequest) {
   try {
-    // Skip database for now - use in-memory session
     const { repName } = await req.json()
 
     if (!repName || typeof repName !== 'string') {
@@ -13,11 +12,21 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Return mock session for now (database optional)
+    // Ensure tables exist
+    await ensureTablesExist()
+
+    // Create or get rep from Railway PostgreSQL database
+    const rep = await getOrCreateRep(repName)
+
+    // Create a new chat session in Railway PostgreSQL database
+    const session = await createChatSession(rep.id, repName)
+
+    console.log(`[Session] Created for ${repName}: repId=${rep.id}, sessionId=${session.id}`)
+
     return NextResponse.json({
       success: true,
-      repId: Date.now(),
-      sessionId: Date.now() + 1
+      repId: rep.id,
+      sessionId: session.id
     })
   } catch (error) {
     console.error('Session creation error:', error)

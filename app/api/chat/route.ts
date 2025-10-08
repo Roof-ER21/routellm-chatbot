@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { logChatMessage, getOrCreateRep, logThreatAlert, ensureTablesExist } from '@/lib/db'
 import { sendRealTimeNotification } from '@/lib/email'
+import { sendNewUserAlert } from '@/lib/email-notifications'
 import { VoiceCommandParser } from '@/lib/voice-command-handler'
 import { TemplateEngine } from '@/lib/template-engine'
 import { aiFailover } from '@/lib/ai-provider-failover'
@@ -502,6 +503,11 @@ Stay concise and keep the conversation flowing naturally.`
         await ensureTablesExist()
 
         const rep = await getOrCreateRep(repName)
+
+        // Check if this is a new user and send alert (non-blocking)
+        sendNewUserAlert(repName).catch(err => {
+          console.error('[Chat] Error sending new user alert:', err)
+        })
 
         // Log user message and get the message ID
         const userMessageId = await logChatMessage(sessionId, rep.id, repName, 'user', userMessage)

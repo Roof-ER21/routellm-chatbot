@@ -32,7 +32,7 @@ export default function AdminDashboard() {
   const [todaysChats, setTodaysChats] = useState<any[]>([])
   const [transcripts, setTranscripts] = useState<ChatTranscript[]>([])
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState<'overview' | 'today' | 'transcripts' | 'database' | 'client-chats' | 'alerts'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'today' | 'transcripts' | 'database' | 'client-chats' | 'alerts' | 'master-transcript'>('overview')
   const [dbLoading, setDbLoading] = useState(false)
   const [dbMessage, setDbMessage] = useState('')
   const [clientConversations, setClientConversations] = useState<UserConversation[]>([])
@@ -349,10 +349,21 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading dashboard...</p>
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-gray-200">
+        <div className="text-center bg-white rounded-2xl shadow-2xl p-12 max-w-md">
+          <div className="relative mb-6">
+            <div className="w-20 h-20 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-3xl">👁️</span>
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Loading Dashboard</h2>
+          <p className="text-gray-600 text-sm mb-4">Fetching data from database...</p>
+          <div className="flex items-center justify-center gap-2">
+            <div className="w-2 h-2 bg-red-600 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+            <div className="w-2 h-2 bg-red-600 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+            <div className="w-2 h-2 bg-red-600 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+          </div>
         </div>
       </div>
     )
@@ -424,69 +435,137 @@ export default function AdminDashboard() {
       </header>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
-        {/* Tabs - Simplified */}
-        <div className="flex gap-4 mb-6 flex-wrap">
+        {/* Main Action Buttons - Clean 4-Button Layout */}
+        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+          <h3 className="text-lg font-bold text-gray-900 mb-4">Admin Actions</h3>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <button
+              onClick={() => setActiveTab('client-chats')}
+              className={`px-6 py-4 rounded-lg font-bold transition-all text-center ${
+                activeTab === 'client-chats'
+                  ? 'bg-blue-600 text-white shadow-lg transform scale-105'
+                  : 'bg-blue-50 text-blue-700 hover:bg-blue-100 border-2 border-blue-200'
+              }`}
+            >
+              <div className="text-3xl mb-2">👥</div>
+              <div>All Users</div>
+              <div className="text-xs mt-1 opacity-75">View all conversations</div>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('alerts')}
+              className={`px-6 py-4 rounded-lg font-bold transition-all text-center relative ${
+                activeTab === 'alerts'
+                  ? 'bg-red-600 text-white shadow-lg transform scale-105'
+                  : 'bg-red-50 text-red-700 hover:bg-red-100 border-2 border-red-200'
+              }`}
+            >
+              <div className="text-3xl mb-2">🚨</div>
+              <div>Flagged</div>
+              <div className="text-xs mt-1 opacity-75">Threat alerts</div>
+              {clientStats && (clientStats.criticalAlerts > 0 || clientStats.highAlerts > 0) && (
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full w-7 h-7 flex items-center justify-center shadow-lg border-2 border-white">
+                  {clientStats.criticalAlerts + clientStats.highAlerts}
+                </span>
+              )}
+            </button>
+
+            <button
+              onClick={() => setActiveTab('master-transcript')}
+              className={`px-6 py-4 rounded-lg font-bold transition-all text-center ${
+                activeTab === 'master-transcript'
+                  ? 'bg-purple-600 text-white shadow-lg transform scale-105'
+                  : 'bg-purple-50 text-purple-700 hover:bg-purple-100 border-2 border-purple-200'
+              }`}
+            >
+              <div className="text-3xl mb-2">📜</div>
+              <div>Transcript</div>
+              <div className="text-xs mt-1 opacity-75">Master timeline</div>
+            </button>
+
+            <button
+              onClick={async () => {
+                setDbLoading(true)
+                setDbMessage('Pulling data from database...')
+                try {
+                  const response = await fetch('/api/admin/client-conversations')
+                  const data = await response.json()
+                  if (data.success) {
+                    await loadClientConversations()
+                    setDbMessage(`✅ Data pulled successfully! ${data.totalConversations} conversations, ${data.totalMessages} messages`)
+                    setTimeout(() => setDbMessage(''), 5000)
+                  } else {
+                    setDbMessage(`❌ Pull failed: ${data.error}`)
+                  }
+                } catch (error: any) {
+                  setDbMessage(`❌ Error: ${error.message}`)
+                } finally {
+                  setDbLoading(false)
+                }
+              }}
+              disabled={dbLoading}
+              className={`px-6 py-4 rounded-lg font-bold transition-all text-center ${
+                dbLoading
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-green-50 text-green-700 hover:bg-green-100 border-2 border-green-200 hover:shadow-lg'
+              }`}
+            >
+              <div className="text-3xl mb-2">📥</div>
+              <div>{dbLoading ? 'Pulling...' : 'Pull Data'}</div>
+              <div className="text-xs mt-1 opacity-75">Sync from database</div>
+            </button>
+          </div>
+
+          {/* Status Message */}
+          {dbMessage && (
+            <div className={`mt-4 p-3 rounded-lg text-sm font-medium ${
+              dbMessage.includes('✅') ? 'bg-green-100 text-green-800' :
+              dbMessage.includes('❌') ? 'bg-red-100 text-red-800' :
+              'bg-blue-100 text-blue-800'
+            }`}>
+              {dbMessage}
+            </div>
+          )}
+        </div>
+
+        {/* Secondary Navigation Tabs */}
+        <div className="flex gap-3 mb-6 flex-wrap">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+            className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm ${
               activeTab === 'overview'
-                ? 'bg-red-600 text-white shadow-lg'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
+                ? 'bg-gray-800 text-white shadow-md'
+                : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
             }`}
           >
             📊 Overview
           </button>
           <button
-            onClick={() => setActiveTab('client-chats')}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-              activeTab === 'client-chats'
-                ? 'bg-red-600 text-white shadow-lg'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
-            }`}
-          >
-            💬 All Conversations (Database)
-          </button>
-          <button
-            onClick={() => setActiveTab('alerts')}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all relative ${
-              activeTab === 'alerts'
-                ? 'bg-red-600 text-white shadow-lg'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
-            }`}
-          >
-            🚨 Flagged Chats
-            {clientStats && (clientStats.criticalAlerts > 0 || clientStats.highAlerts > 0) && (
-              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
-                {clientStats.criticalAlerts + clientStats.highAlerts}
-              </span>
-            )}
-          </button>
-          <button
             onClick={() => setActiveTab('today')}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+            className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm ${
               activeTab === 'today'
-                ? 'bg-red-600 text-white shadow-lg'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
+                ? 'bg-gray-800 text-white shadow-md'
+                : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
             }`}
           >
-            📅 Today's Activity
+            📅 Today
           </button>
           <button
             onClick={() => setActiveTab('transcripts')}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+            className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm ${
               activeTab === 'transcripts'
-                ? 'bg-red-600 text-white shadow-lg'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
+                ? 'bg-gray-800 text-white shadow-md'
+                : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
             }`}
           >
-            💬 Transcripts
+            💬 Session Logs
           </button>
           <button
             onClick={() => setActiveTab('database')}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+            className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm ${
               activeTab === 'database'
-                ? 'bg-red-600 text-white shadow-lg'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
+                ? 'bg-gray-800 text-white shadow-md'
+                : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
             }`}
           >
             🗄️ Database
@@ -499,24 +578,44 @@ export default function AdminDashboard() {
             <h2 className="text-2xl font-bold text-gray-900 mb-6">System Overview</h2>
 
             {/* Single Statistics Dashboard */}
-            {clientStats && (
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white shadow-lg">
-                  <div className="text-3xl font-bold mb-2">{clientStats.totalUsers}</div>
-                  <div className="text-blue-100 text-sm uppercase tracking-wide">Total Users</div>
+            {clientStats ? (
+              clientStats.totalConversations > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                  <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white shadow-lg">
+                    <div className="text-3xl font-bold mb-2">{clientStats.totalUsers}</div>
+                    <div className="text-blue-100 text-sm uppercase tracking-wide">Total Users</div>
+                  </div>
+                  <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-6 text-white shadow-lg">
+                    <div className="text-3xl font-bold mb-2">{clientStats.totalConversations}</div>
+                    <div className="text-green-100 text-sm uppercase tracking-wide">Conversations</div>
+                  </div>
+                  <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-6 text-white shadow-lg">
+                    <div className="text-3xl font-bold mb-2">{clientStats.totalMessages}</div>
+                    <div className="text-purple-100 text-sm uppercase tracking-wide">Total Messages</div>
+                  </div>
+                  <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-lg p-6 text-white shadow-lg">
+                    <div className="text-3xl font-bold mb-2">{clientStats.totalAlerts}</div>
+                    <div className="text-red-100 text-sm uppercase tracking-wide">Threat Alerts</div>
+                  </div>
                 </div>
-                <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-6 text-white shadow-lg">
-                  <div className="text-3xl font-bold mb-2">{clientStats.totalConversations}</div>
-                  <div className="text-green-100 text-sm uppercase tracking-wide">Conversations</div>
+              ) : (
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-dashed border-gray-300 rounded-xl p-12 text-center mb-8">
+                  <div className="text-6xl mb-4">📊</div>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-3">No Data Available Yet</h3>
+                  <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                    The system is ready, but no conversations have been loaded. Click the <strong>"Pull Data"</strong> button above to sync from the database.
+                  </p>
+                  <div className="inline-flex items-center gap-2 px-6 py-3 bg-blue-100 text-blue-800 rounded-lg font-semibold">
+                    <span>💡</span>
+                    <span>Tip: Use the Database tab to check connection status</span>
+                  </div>
                 </div>
-                <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-6 text-white shadow-lg">
-                  <div className="text-3xl font-bold mb-2">{clientStats.totalMessages}</div>
-                  <div className="text-purple-100 text-sm uppercase tracking-wide">Total Messages</div>
-                </div>
-                <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-lg p-6 text-white shadow-lg">
-                  <div className="text-3xl font-bold mb-2">{clientStats.totalAlerts}</div>
-                  <div className="text-red-100 text-sm uppercase tracking-wide">Threat Alerts</div>
-                </div>
+              )
+            ) : (
+              <div className="bg-yellow-50 border-2 border-yellow-300 rounded-xl p-8 text-center mb-8">
+                <div className="text-5xl mb-4">⚠️</div>
+                <h3 className="text-xl font-bold text-yellow-900 mb-2">Loading Statistics...</h3>
+                <p className="text-yellow-800 text-sm">Please wait while we fetch data from the database</p>
               </div>
             )}
 
@@ -1054,17 +1153,36 @@ export default function AdminDashboard() {
                 ))}
 
                 {filteredConversations.length === 0 && (
-                  <div className="text-center py-12 text-gray-500">
-                    <div className="text-4xl mb-4">💬</div>
-                    <p className="text-lg font-semibold mb-2">
+                  <div className="text-center py-16 text-gray-500">
+                    <div className="text-6xl mb-4">💬</div>
+                    <p className="text-xl font-bold mb-3 text-gray-700">
                       {searchQuery ? 'No conversations match your search' : 'No conversations found'}
                     </p>
-                    <p className="text-sm">
+                    <p className="text-sm mb-6 text-gray-600 max-w-md mx-auto">
                       {searchQuery
                         ? 'Try a different search term or clear the search to see all conversations'
-                        : 'Client-side conversations will appear here once users start chatting'
+                        : 'No conversations found in the database. This could mean:'
                       }
                     </p>
+                    {!searchQuery && (
+                      <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 max-w-lg mx-auto text-left">
+                        <h4 className="font-bold text-blue-900 mb-3 flex items-center gap-2">
+                          <span>💡</span>
+                          <span>Next Steps:</span>
+                        </h4>
+                        <ol className="list-decimal list-inside space-y-2 text-sm text-blue-800">
+                          <li>Click the <strong>"Pull Data"</strong> button above to sync conversations from the database</li>
+                          <li>If this is a new installation, ensure users have started chatting with Susan AI</li>
+                          <li>Check that the database connection is configured properly in the Database tab</li>
+                          <li>Verify that localStorage conversations were migrated using the "Migrate Old Chats" button in the Database tab</li>
+                        </ol>
+                        <div className="mt-4 pt-4 border-t border-blue-300">
+                          <p className="text-xs text-blue-700">
+                            <strong>Note:</strong> Conversations are automatically saved to the database as users chat. The Pull Data button fetches all conversations from all devices.
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -1361,6 +1479,180 @@ export default function AdminDashboard() {
                   <li><span className="font-bold text-yellow-600">MEDIUM (40-69):</span> Document and monitor, periodic review</li>
                   <li><span className="font-bold text-gray-600">LOW (0-39):</span> Normal monitoring, no special action</li>
                 </ul>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Master Transcript View - All messages chronologically */}
+        {activeTab === 'master-transcript' && (
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Master Transcript - All Messages</h2>
+            <p className="text-sm text-gray-600 mb-6">
+              Chronological view of all messages across all users and conversations. Color-coded by user.
+            </p>
+
+            {/* Export Button */}
+            <div className="mb-6 flex justify-between items-center">
+              <div className="text-sm text-gray-600">
+                Total messages: <span className="font-bold text-gray-900">{clientConversations.reduce((sum, conv) => sum + conv.messages.length, 0)}</span>
+              </div>
+              <button
+                onClick={() => {
+                  // Create master transcript text
+                  const allMessages: Array<{ timestamp: Date; repName: string; role: string; content: string }> = []
+
+                  clientConversations.forEach(conv => {
+                    conv.messages.forEach(msg => {
+                      allMessages.push({
+                        timestamp: msg.timestamp,
+                        repName: conv.displayName,
+                        role: msg.role,
+                        content: msg.content
+                      })
+                    })
+                  })
+
+                  // Sort chronologically
+                  allMessages.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
+
+                  // Format as text
+                  const transcriptText = allMessages.map(msg => {
+                    const time = new Date(msg.timestamp).toLocaleString()
+                    const speaker = msg.role === 'user' ? msg.repName : 'SusanAI-21'
+                    return `[${time}] ${speaker}: ${msg.content}`
+                  }).join('\n\n')
+
+                  // Download as text file
+                  const blob = new Blob([transcriptText], { type: 'text/plain' })
+                  const url = URL.createObjectURL(blob)
+                  const a = document.createElement('a')
+                  a.href = url
+                  a.download = `master_transcript_${new Date().toISOString().split('T')[0]}.txt`
+                  document.body.appendChild(a)
+                  a.click()
+                  document.body.removeChild(a)
+                  URL.revokeObjectURL(url)
+                }}
+                className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors font-medium text-sm flex items-center gap-2"
+              >
+                <span>📥</span>
+                <span>Export as TXT</span>
+              </button>
+            </div>
+
+            {/* Master Timeline */}
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+              <div className="max-h-[800px] overflow-y-auto">
+                {(() => {
+                  // Collect all messages with metadata
+                  const allMessages: Array<{ timestamp: Date; repName: string; role: string; content: string; conversationId: string }> = []
+
+                  clientConversations.forEach(conv => {
+                    conv.messages.forEach(msg => {
+                      allMessages.push({
+                        timestamp: msg.timestamp,
+                        repName: conv.displayName,
+                        role: msg.role,
+                        content: msg.content,
+                        conversationId: conv.id
+                      })
+                    })
+                  })
+
+                  // Sort chronologically (oldest first)
+                  allMessages.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
+
+                  // Color palette for different users
+                  const userColors: Record<string, string> = {}
+                  const colors = [
+                    'bg-blue-100 border-blue-400',
+                    'bg-green-100 border-green-400',
+                    'bg-amber-100 border-amber-400',
+                    'bg-purple-100 border-purple-400',
+                    'bg-pink-100 border-pink-400',
+                    'bg-indigo-100 border-indigo-400',
+                    'bg-teal-100 border-teal-400',
+                    'bg-orange-100 border-orange-400'
+                  ]
+
+                  let colorIndex = 0
+                  const getColorForUser = (repName: string) => {
+                    if (!userColors[repName]) {
+                      userColors[repName] = colors[colorIndex % colors.length]
+                      colorIndex++
+                    }
+                    return userColors[repName]
+                  }
+
+                  return (
+                    <div className="divide-y divide-gray-200">
+                      {allMessages.length === 0 ? (
+                        <div className="text-center py-12 text-gray-500">
+                          <div className="text-4xl mb-4">📜</div>
+                          <p className="text-lg font-semibold mb-2">No messages found</p>
+                          <p className="text-sm">Click "Pull Data" to sync from database</p>
+                        </div>
+                      ) : (
+                        allMessages.map((msg, idx) => (
+                          <div
+                            key={idx}
+                            className={`p-4 hover:bg-gray-50 transition-colors ${
+                              msg.role === 'user' ? 'border-l-4 ' + getColorForUser(msg.repName) : 'bg-gray-50'
+                            }`}
+                          >
+                            <div className="flex items-start gap-4">
+                              {/* Timestamp */}
+                              <div className="text-xs text-gray-500 font-mono whitespace-nowrap pt-1">
+                                {new Date(msg.timestamp).toLocaleString('en-US', {
+                                  month: 'short',
+                                  day: 'numeric',
+                                  hour: '2-digit',
+                                  minute: '2-digit',
+                                  second: '2-digit'
+                                })}
+                              </div>
+
+                              {/* Speaker & Message */}
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <span className={`text-sm font-bold ${
+                                    msg.role === 'user' ? 'text-gray-900' : 'text-red-700'
+                                  }`}>
+                                    {msg.role === 'user' ? `👤 ${msg.repName}` : '🤖 SusanAI-21'}
+                                  </span>
+                                </div>
+                                <p className="text-sm text-gray-800 whitespace-pre-wrap break-words">
+                                  {msg.content}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  )
+                })()}
+              </div>
+            </div>
+
+            {/* Legend */}
+            <div className="mt-6 bg-gray-50 border border-gray-200 rounded-lg p-4">
+              <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wider mb-3">Legend</h3>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-4 h-4 bg-gray-50 border-l-4 border-gray-400"></div>
+                    <span className="text-gray-700">AI Response (SusanAI-21)</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 bg-blue-100 border-l-4 border-blue-400"></div>
+                    <span className="text-gray-700">User messages (color-coded by user)</span>
+                  </div>
+                </div>
+                <div className="text-xs text-gray-600">
+                  <p><strong>Tip:</strong> Use the export button to download the complete transcript as a text file for analysis or record-keeping.</p>
+                </div>
               </div>
             </div>
           </div>

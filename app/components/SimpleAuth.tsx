@@ -5,8 +5,8 @@
 
 'use client'
 
-import React, { useState } from 'react'
-import { signUp, login } from '@/lib/simple-auth'
+import React, { useState, useEffect } from 'react'
+import { signUp, login, getRememberedPin } from '@/lib/simple-auth'
 
 interface SimpleAuthProps {
   onAuthenticated: () => void
@@ -20,6 +20,20 @@ export default function SimpleAuth({ onAuthenticated, isDarkMode = false }: Simp
   const [rememberMe, setRememberMe] = useState(false)
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+
+  // Load remembered PIN when name changes
+  useEffect(() => {
+    if (name.trim() && !isSignUp) {
+      const rememberedPin = getRememberedPin(name)
+      if (rememberedPin) {
+        setCode(rememberedPin)
+        setRememberMe(true)
+      } else {
+        setCode('')
+        setRememberMe(false)
+      }
+    }
+  }, [name, isSignUp])
 
   const handleCodeInput = (value: string) => {
     // Only allow digits and max 4 characters

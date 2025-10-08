@@ -119,17 +119,43 @@ export function login(name: string, code: string, rememberMe: boolean = false): 
   data.rememberMe = rememberMe
   saveAuthData(data)
 
+  // Save PIN to localStorage if rememberMe is true
+  if (rememberMe) {
+    try {
+      localStorage.setItem(`susan_${username}_pin_remembered`, code)
+    } catch (error) {
+      console.error('Error saving remembered PIN:', error)
+    }
+  } else {
+    // Clear saved PIN if user unchecks remember me
+    try {
+      localStorage.removeItem(`susan_${username}_pin_remembered`)
+    } catch (error) {
+      console.error('Error removing remembered PIN:', error)
+    }
+  }
+
   return { success: true }
 }
 
 // Logout user
 // By default, preserves the rememberMe setting so user doesn't need to re-check on next login
-// Pass clearRememberMe=true to fully clear the remember setting
+// Pass clearRememberMe=true to fully clear the remember setting and saved PIN
 export function logout(clearRememberMe: boolean = false): void {
   const data = getAuthData()
+  const currentUser = data.currentUser
+
   data.currentUser = null
   if (clearRememberMe) {
     data.rememberMe = false
+    // Clear saved PIN from localStorage when explicitly logging out
+    if (currentUser) {
+      try {
+        localStorage.removeItem(`susan_${currentUser}_pin_remembered`)
+      } catch (error) {
+        console.error('Error removing remembered PIN:', error)
+      }
+    }
   }
   saveAuthData(data)
 }
@@ -144,6 +170,17 @@ export function getCurrentUser(): string | null {
 export function isRemembered(): boolean {
   const data = getAuthData()
   return data.rememberMe && data.currentUser !== null
+}
+
+// Get remembered PIN for a user (if exists)
+export function getRememberedPin(name: string): string | null {
+  const username = name.toLowerCase().trim()
+  try {
+    return localStorage.getItem(`susan_${username}_pin_remembered`)
+  } catch (error) {
+    console.error('Error retrieving remembered PIN:', error)
+    return null
+  }
 }
 
 // Save conversation for current user
