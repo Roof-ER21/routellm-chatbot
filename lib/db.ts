@@ -14,7 +14,13 @@ export async function ensureTablesExist() {
       )
     `
 
-    // Add total_chats column if it doesn't exist (for existing deployments)
+    // Add missing columns if they don't exist (for existing deployments)
+    try {
+      await sql`ALTER TABLE reps ADD COLUMN IF NOT EXISTS last_active TIMESTAMP DEFAULT NOW()`
+    } catch (e) {
+      // Column might already exist, ignore error
+    }
+
     try {
       await sql`ALTER TABLE reps ADD COLUMN IF NOT EXISTS total_chats INTEGER DEFAULT 0`
     } catch (e) {
