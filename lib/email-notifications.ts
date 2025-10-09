@@ -16,7 +16,8 @@ const resend = process.env.RESEND_API_KEY
 
 // Email configuration
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'ahmed.mahmoud@theroofdocs.com'
-const FROM_EMAIL = process.env.FROM_EMAIL || 'SusanAI-21 <noreply@susanai-21.com>'
+// Use Resend's verified domain (onboarding@resend.dev works for all accounts)
+const FROM_EMAIL = process.env.FROM_EMAIL || 'SusanAI-21 <onboarding@resend.dev>'
 
 /**
  * Track first-time users in memory (resets on deployment restart)
