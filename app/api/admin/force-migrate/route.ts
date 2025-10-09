@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server'
 import sql from '@/lib/railway-db'
 
+export async function GET() {
+  return POST()
+}
+
 export async function POST() {
   try {
     const results = []
