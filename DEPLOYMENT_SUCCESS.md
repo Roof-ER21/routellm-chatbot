@@ -165,6 +165,12 @@ Visit `/api/test-db` to verify:
 - **Method:** Removed console.log from hot paths
 - **Preserved:** Critical error logging and threat detection
 
+### Email Notifications Fixed (Oct 9, 2025)
+- **Issue:** 403 validation error - domain susanai-21.com not verified in Resend
+- **Fix:** Changed FROM_EMAIL to use Resend's verified onboarding@resend.dev domain
+- **Status:** ✅ New user alerts and nightly recaps now sending successfully
+- **Alternative:** To use custom domain, verify susanai-21.com in Resend dashboard
+
 ### Threat Detection
 - Still fully operational (logs to database, not console)
 - Voice command monitoring
