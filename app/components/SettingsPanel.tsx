@@ -349,6 +349,27 @@ export default function SettingsPanel({
                   Ping Abacus
                 </button>
               </div>
+
+              {/* Install PWA Button */}
+              <div className="mt-2">
+                <button
+                  onClick={() => {
+                    try {
+                      const anyWin = window as any;
+                      if (anyWin && typeof anyWin.showPWAInstallPrompt === 'function') {
+                        anyWin.showPWAInstallPrompt();
+                      } else {
+                        alert('To install:\n\n• iPhone: Share → Add to Home Screen\n• Android (Chrome): Menu ⋮ → Install app');
+                      }
+                    } catch (e) {
+                      alert('Install instructions:\n\n• iPhone: Share → Add to Home Screen\n• Android (Chrome): Menu ⋮ → Install app');
+                    }
+                  }}
+                  className={`${isDarkMode ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-50 text-gray-900 hover:bg-gray-100'} px-3 py-2 rounded-md text-xs border ${isDarkMode ? 'border-gray-700' : 'border-gray-300'}`}
+                >
+                  Install App (PWA)
+                </button>
+              </div>
             </>
           )}
 

@@ -1,0 +1,18 @@
+[
+  {"name":"AAA (CSAA)","claim_handler_type":"Team","phone":"(800) 922-8228","email":"myclaims@csaa.com","notes":"Also known as CSAA"},
+  {"name":"Allstate","claim_handler_type":"Team","phone":"(800) 255-7828","email":"claimscenter@allstate.com","notes":"Option 2 for claims"},
+  {"name":"American Family","claim_handler_type":"Team","phone":"(800) 692-6326","email":"claimservice@amfam.com"},
+  {"name":"Farmers","claim_handler_type":"Team","phone":"(800) 435-7764","email":"claimsreport@farmersinsurance.com"},
+  {"name":"Geico","claim_handler_type":"Team","phone":"(800) 841-3000","email":"homeownersclaims@geico.com"},
+  {"name":"Liberty Mutual","claim_handler_type":"Team","phone":"(800) 362-0000","email":"claims@libertymutual.com"},
+  {"name":"Nationwide","claim_handler_type":"Team","phone":"(800) 421-3535","email":"claims@nationwide.com"},
+  {"name":"Progressive","claim_handler_type":"Team","phone":"(800) 776-4737","email":"homeclaims@progressive.com"},
+  {"name":"State Farm","claim_handler_type":"Team","phone":"(844) 458-4300","email":"statefarmfireclaims@statefarm.com"},
+  {"name":"Travelers","claim_handler_type":"Team","phone":"(800) 252-4633","email":"claimhelp@travelers.com"},
+  {"name":"USAA","claim_handler_type":"Team","phone":"(800) 531-8722","email":"Get the Claim Specific Email @usaa.com","notes":"Dial 1,1,1,1,2,2"},
+  {"name":"Safeco","claim_handler_type":"Team","phone":"(800) 332-3226","email":"claims@safeco.com"},
+  {"name":"Mercury","claim_handler_type":"Team","phone":"(800) 503-3724","email":"claims@mercuryinsurance.com"},
+  {"name":"Erie","claim_handler_type":"Team","phone":"(800) 458-0811","email":"claims@erieinsurance.com"},
+  {"name":"Hartford","claim_handler_type":"Team","phone":"(800) 243-5860","email":"claims@thehartford.com"}
+]
+

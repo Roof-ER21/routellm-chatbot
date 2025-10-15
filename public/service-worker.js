@@ -13,6 +13,7 @@ const STATIC_ASSETS = [
   '/mobile.html',
   '/offline.html',
   '/manifest.json',
+  '/offline-insurance.json',
   // Add your static CSS/JS assets here
 ];
 
@@ -198,20 +199,15 @@ Reconnect to internet for full AI capabilities.`,
 
   // Insurance companies API fallback
   if (url.pathname.includes('/api/insurance/companies')) {
-    return new Response(
-      JSON.stringify({
-        success: true,
-        companies: [],
-        offline: true,
-        message: 'Insurance companies data unavailable offline. Please reconnect.'
-      }),
-      {
-        status: 200,
-        headers: new Headers({
-          'Content-Type': 'application/json'
-        })
+    return caches.match('/offline-insurance.json').then((resp) => {
+      if (resp) {
+        return resp.then ? resp : new Response(JSON.stringify(resp), { headers: { 'Content-Type': 'application/json' } });
       }
-    );
+      return new Response(
+        JSON.stringify({ success: true, companies: [], offline: true, message: 'Offline dataset missing' }),
+        { status: 200, headers: new Headers({ 'Content-Type': 'application/json' }) }
+      );
+    });
   }
 
   // Default offline response

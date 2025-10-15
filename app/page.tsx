@@ -831,6 +831,14 @@ export default function ChatPage() {
                   autoReadResponses={true}
                 />
               </div>
+              {/* Mobile mic controls */}
+              <div className="md:hidden">
+                <VoiceControls
+                  onTranscript={handleVoiceTranscript}
+                  onVoiceEnabledChange={setVoiceEnabled}
+                  autoReadResponses={true}
+                />
+              </div>
               <input
                 type="text"
                 value={input}
