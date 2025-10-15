@@ -16,6 +16,7 @@ import ActiveModeIndicator from './components/ActiveModeIndicator'
 import CopyButton from './components/CopyButton'
 import SmartModeSuggestion from './components/SmartModeSuggestion'
 import SettingsPanel from './components/SettingsPanel'
+import OfflineIndicator from './components/OfflineIndicator'
 import ExportButton from './components/ExportButton'
 import SimpleAuth from './components/SimpleAuth'
 import { useTextToSpeech } from '@/hooks/useTextToSpeech'
@@ -48,6 +49,7 @@ export default function ChatPage() {
   const [showUnifiedAnalyzer, setShowUnifiedAnalyzer] = useState(false)
   const [voiceEnabled, setVoiceEnabled] = useState(false)
   const [forceHF, setForceHF] = useState(false)
+  const [offlineMode, setOfflineMode] = useState(false)
   const [lastProvider, setLastProvider] = useState<string | null>(null)
   const [educationMode, setEducationMode] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
@@ -264,7 +266,7 @@ export default function ChatPage() {
           sessionId: sessionId,
           handsFreeMode: voiceEnabled, // Enable conversational mode when voice is active
           educationMode: educationMode, // Enable teaching/mentoring persona
-          forceProvider: forceHF ? 'huggingface' : undefined
+          forceProvider: offlineMode ? 'static' : (forceHF ? 'huggingface' : undefined)
         }),
       })
 
@@ -455,6 +457,7 @@ export default function ChatPage() {
     <div className="flex flex-col h-screen overflow-hidden" style={{ height: '100dvh' }}>
       {/* Header - Responsive for mobile */}
       <header className="flex-shrink-0 status-bar-safe bg-gradient-to-r from-gray-900 to-black border-b-2 border-red-600">
+        <OfflineIndicator />
         <div className="max-w-7xl mx-auto px-3 sm:px-6 py-2 sm:py-4">
           {/* Mobile Header - Single Row */}
           <div className="md:hidden flex justify-between items-center gap-2">
@@ -482,6 +485,8 @@ export default function ChatPage() {
                 onVoiceEnabledChange={setVoiceEnabled}
                 forceHF={forceHF}
                 onForceHFChange={setForceHF}
+                offlineMode={offlineMode}
+                onOfflineModeChange={setOfflineMode}
                 onLoadConversation={handleLoadConversation}
                 onNewConversation={handleNewConversation}
                 currentConversationId={currentConversationId}
@@ -527,6 +532,11 @@ export default function ChatPage() {
             </div>
 
             <div className="flex items-center gap-2">
+              {offlineMode && (
+                <span className="px-2 py-1 text-xs font-bold rounded-lg bg-amber-600 text-white border border-white/20">
+                  OFFLINE SAFE MODE
+                </span>
+              )}
               {/* HF in effect badge */}
               {(forceHF || lastProvider === 'HuggingFace') && (
                 <span className="px-2 py-1 text-xs font-bold rounded-lg bg-indigo-600 text-white border border-white/20">

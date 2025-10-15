@@ -36,6 +36,8 @@ export interface SettingsPanelProps {
   // Fallback / provider testing
   forceHF?: boolean;
   onForceHFChange?: (enabled: boolean) => void;
+  offlineMode?: boolean;
+  onOfflineModeChange?: (enabled: boolean) => void;
   onLoadConversation?: (messages: any[], conversationId: string) => void;
   onNewConversation?: () => void;
   currentConversationId?: string;
@@ -56,6 +58,8 @@ export default function SettingsPanel({
   onVoiceEnabledChange,
   forceHF,
   onForceHFChange,
+  offlineMode,
+  onOfflineModeChange,
   onLoadConversation,
   onNewConversation,
   currentConversationId,
@@ -271,6 +275,25 @@ export default function SettingsPanel({
                 className="sr-only peer"
               />
               <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-yellow-500"></div>
+            </label>
+          </div>
+
+          {/* Offline Safe Mode */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h4 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                Offline Safe Mode
+              </h4>
+              <p className="text-xs text-gray-500">Force offline knowledge (no network)</p>
+            </div>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={!!offlineMode}
+                onChange={(e) => onOfflineModeChange && onOfflineModeChange(e.target.checked)}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
             </label>
           </div>
 
