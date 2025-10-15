@@ -140,6 +140,28 @@ npm start
 npm run lint
 ```
 
+### Local Setup (with Docker Postgres)
+
+```bash
+# 1) Start a local Postgres (once)
+docker run --name s21-db \
+  -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=s21 \
+  -p 55432:5432 -d postgres:15-alpine
+
+# 2) Initialize schema + seed data (requires psql client)
+npm run db:init:local
+
+# 3) Run dev server in offline AI mode (fast)
+npm run dev:local
+
+# App runs at http://localhost:4000
+```
+
+Notes
+- dev:local disables remote AI calls so responses use the offline knowledge fallback unless you provide keys.
+- To use your own DB, set `DATABASE_URL` before running dev commands.
+- Environment files like `.env.local` are ignored by git; do not commit secrets.
+
 ## License
 
 ISC

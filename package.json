@@ -4,6 +4,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev -p 4000",
+    "dev:local": "bash ./scripts/dev-local.sh",
+    "db:init:local": "bash ./scripts/db-init-local.sh",
     "build": "next build",
     "start": "./start.sh",
     "lint": "next lint"
