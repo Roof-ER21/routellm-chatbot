@@ -2,33 +2,1315 @@
   "version": 1,
   "entries": [
     {
-      "keywords": ["double layer", "two layer", "overlay", "tear off"],
+      "keywords": [
+        "double layer",
+        "two layer",
+        "overlay",
+        "tear off"
+      ],
       "answer": "DOUBLE LAYER REPLACEMENT REQUIREMENTS:\n\nPer IRC Section R908.3 (VA/MD/PA): 'Roof replacement shall include the removal of ALL existing layers of roof coverings down to the roof deck.'\n\nIRC Section 1511.3.1.1 – Roof recover is PROHIBITED when TWO OR MORE layers exist.\n\nImplications:\n- No recover or overlay on double layers\n- Only full replacement with complete tear-off is code-compliant\n\nArgument:\n'Code prohibits roof recover on double-layer roofs (1511.3.1.1). Full tear-off is required.'"
     },
     {
-      "keywords": ["low slope", "flat roof", "2:12", "minimum slope"],
+      "keywords": [
+        "low slope",
+        "flat roof",
+        "2:12",
+        "minimum slope"
+      ],
       "answer": "LOW SLOPE / FLAT ROOF REQUIREMENTS:\n\nVirginia Residential Code R905.2.2: 'Asphalt shingles shall be used only on roof slopes of 2:12 or greater.'\n\nImplications:\n- Minimum slope: 2:12 for shingles\n- Below 2:12 requires low-slope systems (TPO/EPDM, etc.)\n- Shingles on low-slope roofs violate code\n\nArgument:\n'Existing slope below 2:12 violates R905.2.2 for shingles; use appropriate low-slope system.'"
     },
     {
-      "keywords": ["matching", "discontinued", "like kind and quality", "bulletin 18-23"],
+      "keywords": [
+        "matching",
+        "discontinued",
+        "like kind and quality",
+        "bulletin 18-23"
+      ],
       "answer": "MARYLAND MATCHING REQUIREMENTS:\n\nMaryland Insurance Administration Bulletin 18-23: Like kind & quality required.\nMaryland Code §27-303: Failing to match materials is an unfair settlement practice.\n\nImplications:\n- Discontinued shingles justify replacing entire visible slope/section for uniformity\n\nArgument:\n'MD law requires matching; with discontinued shingles, replace the entire section to maintain uniform appearance.'"
     },
     {
-      "keywords": ["gaf", "creased", "warranty", "wind-lifted"],
+      "keywords": [
+        "gaf",
+        "creased",
+        "warranty",
+        "wind-lifted"
+      ],
       "answer": "GAF MANUFACTURER REQUIREMENTS:\n\nGAF Storm Damage Guidelines: Creased shingles have lost sealant bond and cannot be repaired; replacement required.\n\nImplications:\n- Creasing = functional damage\n- Repairs void warranty\n\nArgument:\n'GAF requires replacement of creased shingles; repair attempts void warranty.'"
     },
     {
-      "keywords": ["storm date", "noaa", "wrong date", "verification"],
+      "keywords": [
+        "storm date",
+        "noaa",
+        "wrong date",
+        "verification"
+      ],
       "answer": "STORM DATE VERIFICATION:\n\nCollect NOAA Storm Events, NWS reports, photos with timestamps, neighbor claims, emergency reports.\n\nScript:\n'The storm date of [date] is verified by NOAA. We have timestamped photos and corroborating evidence. Please re-inspect and review the documented record.'"
     },
     {
-      "keywords": ["pushback", "denial", "dispute", "rebuttal"],
+      "keywords": [
+        "pushback",
+        "denial",
+        "dispute",
+        "rebuttal"
+      ],
       "answer": "HANDLING PUSHBACK & DENIALS:\n\n1) Document everything\n2) Identify pushback type\n3) Escalation: Teammates → Team Lead → Sales Manager → Arbitration\n4) Stay professional\n\nMindset: Pushback indicates exposure — your claim likely has merit."
     },
     {
-      "keywords": ["full approval", "approved", "got full"],
+      "keywords": [
+        "full approval",
+        "approved",
+        "got full"
+      ],
       "answer": "FULL APPROVAL PHONE CALL SCRIPT:\n\n1) Congratulate & confirm scope\n2) Explain payment structure\n3) Schedule immediately\n4) Contract & deposit\n5) Documents needed\n6) Set expectations\n7) Close & commit\n\nFollow-up: If no signature the same day, call/text immediately."
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "API Call to Abacus AI:: ```javascript POST https://api.abacus.ai/api/v0/getChatResponse { \"deploymentToken\": \"your_token\", \"deploymentId\": \"6a1d18f38\", // Your Susan AI deployment \"messages\": [ { \"is_user\": true, \"text\": \"Analyze this roof damage photo...\","
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "Result:: - 6 damage types detected - Severity scoring - Code violations - Professional assessments - **All powered by YOUR Abacus AI!**"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Annual Costs:: - **Vercel:** $0/month (free tier) - **Abacus AI:** Existing subscription (no change) - **Anthropic API:** ~~$20/month~~ **$0/month** ✅ ELIMINATED! - **Total:** **$0/month additional cost**"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "✅ BUILD STATUS: ``` ✓ Build successful ✓ TypeScript compilation passed ✓ All routes generated (19) ✓ Zero errors ✓ Production ready ✓ 100% Abacus AI powered ```"
+    },
+    {
+      "keywords": [
+        "maryland"
+      ],
+      "answer": "Step 1: Upload Training Data to Abacus AI (10 min): 1. Login to https://abacus.ai 2. Go to ChatLLM Teams 3. Upload `/Users/a21/routellm-chatbot/training_data/susan_ai_knowledge_base.json` 4. Add tags: `insurance_claims`, `roofing`, `virginia`, `maryland`, `pennsylvania`"
+    },
+    {
+      "keywords": [
+        "code",
+        "storm",
+        "wind",
+        "hail"
+      ],
+      "answer": "Vision Analysis:: ✅ Roof damage photo analysis ✅ Damage type detection (hail, wind, shingles, etc.) ✅ Severity assessment ✅ Pattern recognition (storm vs age-related) ✅ Material identification ✅ Code violation detection"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "Text Generation:: ✅ Insurance claim responses ✅ Professional email templates ✅ Building code citations ✅ Damage assessments ✅ Voice command processing ✅ Q&A from knowledge base"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "2. Cost: - ✅ Zero additional API costs - ✅ Everything included in Abacus subscription - ✅ No usage surprises - ✅ Predictable pricing"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Expected Flow:: 1. Image uploaded to API 2. Converted to base64 3. Sent to Abacus AI with roofing expert prompt 4. Abacus analyzes image with vision capabilities 5. Returns damage description 6. System processes into structured assessment 7. Returns professional report"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "Next Steps: 1. Get the deployment token from Abacus.AI 2. Add it to `.env.local` as `DEPLOYMENT_TOKEN` 3. I'll update the code to use the deployment token 4. Test the chatbot!"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Create Upload Script:: ```python"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Run Script:: ```bash python3 upload_to_abacus.py ```"
+    },
+    {
+      "keywords": [
+        "adjuster"
+      ],
+      "answer": "Test 1: Q&A Retrieval: **Query:** \"What should I do when the adjuster says there's not enough damage?\" **Expected:** Should reference Q1 and provide specific response"
+    },
+    {
+      "keywords": [
+        "denial"
+      ],
+      "answer": "Test 2: Template Selection: **Query:** \"I need a template for a partial denial appeal\" **Expected:** Should reference Q105 and Generic Partial Template"
+    },
+    {
+      "keywords": [
+        "code",
+        "adjuster"
+      ],
+      "answer": "Test 3: Building Code (Virginia): **Query:** \"Virginia adjuster denied drip edge, help me respond\" **Expected:** Should cite Q301 and R908.3 specifically for Virginia"
+    },
+    {
+      "keywords": [
+        "code",
+        "maryland"
+      ],
+      "answer": "Test 4: Building Code (Maryland): **Query:** \"Maryland claim denied for water barrier issues\" **Expected:** Should cite Q306, R703.2, R703.4, and Bulletin 18-23 for Maryland"
+    },
+    {
+      "keywords": [
+        "gaf",
+        "adjuster",
+        "slope"
+      ],
+      "answer": "Test 5: GAF Guidelines: **Query:** \"Adjuster says creased shingles can be repaired\" **Expected:** Should cite Q201/Q205 and TAB-R-164 slope replacement rule"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "Success Criteria:: - ✅ 4/5 tests should pass with correct Q# citations - ✅ State-specific codes should be accurate (no mixing) - ✅ Template recommendations should be relevant - ✅ Responses should be professional and claim-ready"
+    },
+    {
+      "keywords": [
+        "storm",
+        "noaa"
+      ],
+      "answer": "6. StormVerificationModal Component: **Location:** `/app/components/StormVerificationModal.tsx` **Purpose:** Storm date verification with NOAA **Size:** ~170 lines **Features:** Address/date input, radius selection, NOAA integration"
+    },
+    {
+      "keywords": [
+        "storm"
+      ],
+      "answer": "9. ResultPanel Component: **Location:** `/app/components/ResultPanel.tsx` **Purpose:** Sliding result panels with specialized content renderers **Size:** ~350 lines **Exports:** - `ResultPanel` (main component) - `TemplateResultContent` - `PhotoResultContent` - `StormResultContent`"
+    },
+    {
+      "keywords": [
+        "storm",
+        "noaa"
+      ],
+      "answer": "11. Storm Verification API: **Location:** `/app/api/weather/verify-storm/route.ts` **Endpoint:** `POST /api/weather/verify-storm` **Purpose:** Verify storm events with NOAA **Size:** ~50 lines **Features:** Mock data (NOAA integration ready), radius search"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "16. Quick Reference Guide: **Location:** `/ACTION_BUTTONS_QUICK_REFERENCE.md` **Purpose:** Developer quick reference **Size:** ~400 lines **Contents:** - Import examples - Quick code examples - Props reference - Common patterns - Error handling"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Already Installed: - `next`: ^15.5.4 - `react`: ^19.1.1 - `react-dom`: ^19.1.1 - `typescript`: ^5.9.3 - `resend`: ^6.1.2 - `@vercel/postgres`: ^0.10.0"
+    },
+    {
+      "keywords": [
+        "storm",
+        "noaa"
+      ],
+      "answer": "New Systems Ready: 1. **NOAA API** - Storm verification (mock data currently) - Ready for integration"
+    },
+    {
+      "keywords": [
+        "storm"
+      ],
+      "answer": "API Tests Needed: - [ ] Email send success/failure - [ ] Storm verification with mock data - [ ] Insurance company search - [ ] Company detail lookup - [ ] PDF report generation"
+    },
+    {
+      "keywords": [
+        "storm"
+      ],
+      "answer": "Integration Tests Needed: - [ ] End-to-end template generation - [ ] Photo upload to analysis to result - [ ] Email composition to send - [ ] Storm verification to PDF export - [ ] Company selection to auto-fill"
+    },
+    {
+      "keywords": [
+        "noaa"
+      ],
+      "answer": "Priority 1 (High Impact): 1. Real NOAA API integration 2. Advanced PDF formatting 3. Photo thumbnails in reports 4. Batch email operations"
+    },
+    {
+      "keywords": [
+        "storm",
+        "script"
+      ],
+      "answer": "Adding New Action Types: 1. **Update Type Definition** ```typescript // lib/action-handlers.ts export type ActionType = 'template' | 'photo' | 'email' | 'storm' | 'company' | 'export' | 'voice' | 'YOUR_NEW_TYPE'; ```"
+    },
+    {
+      "keywords": [
+        "adjuster"
+      ],
+      "answer": "2. Analyze Photo Button: **Before:** Prefilled \"analyze this photo\" **After:** 1. Opens PhotoAnalysisModal 2. File picker (multi-select) 3. Uploads with progress 4. Analyzes with Abacus AI 5. Shows ResultPanel with damage assessment 6. Options: Add to Report, Send to Adjuster"
+    },
+    {
+      "keywords": [
+        "storm",
+        "noaa",
+        "hail"
+      ],
+      "answer": "4. Verify Storm Date Button (NEW): **After:** 1. Opens StormVerificationModal 2. Date/location picker 3. Queries NOAA API (or mock) 4. Shows ResultPanel with hail events 5. Map visualization (optional) 6. Export verification PDF"
+    },
+    {
+      "keywords": [
+        "storm",
+        "noaa"
+      ],
+      "answer": "New Systems Ready: - **NOAA API:** Storm verification (mock data currently) - **PDF Generation:** jsPDF library - **File Upload:** Multi-file support with validation"
+    },
+    {
+      "keywords": [
+        "storm",
+        "noaa",
+        "hail"
+      ],
+      "answer": "Next Steps (Optional Enhancements): 1. **NOAA API Integration** - Replace mock storm data - Real-time weather queries - Historical hail events"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "How to Use Action Buttons in Your Code:"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Import the Action Handler: ```typescript import { actionHandler } from '@/lib/action-handlers'; ```"
+    },
+    {
+      "keywords": [
+        "storm",
+        "script"
+      ],
+      "answer": "Import Components: ```typescript import ActionButton from '@/app/components/ActionButton'; import TemplateModal from '@/app/components/TemplateModal'; import PhotoAnalysisModal from '@/app/components/PhotoAnalysisModal'; import EmailComposerModal from '@/app/components/EmailComposerModal'; import StormVerificationModal from '@/app/components/StormVerificationModal'; import InsuranceCompanyModal from '@/app/components/InsuranceCompanyModal'; import ResultPanel, {"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "1. Create a Template Generation Button: ```typescript const [showTemplateModal, setShowTemplateModal] = useState(false); const [templateResult, setTemplateResult] = useState(null); const [showResultPanel, setShowResultPanel] = useState(false);"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "2. Create a Photo Analysis Button: ```typescript const [showPhotoModal, setShowPhotoModal] = useState(false); const [photoResult, setPhotoResult] = useState(null);"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "3. Create an Email Send Button: ```typescript const [showEmailModal, setShowEmailModal] = useState(false);"
+    },
+    {
+      "keywords": [
+        "storm",
+        "script"
+      ],
+      "answer": "4. Create a Storm Verification Button: ```typescript const [showStormModal, setShowStormModal] = useState(false);"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "5. Create an Insurance Company Selector: ```typescript const [showCompanyModal, setShowCompanyModal] = useState(false); const [selectedCompany, setSelectedCompany] = useState(null);"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "6. Create an Export Report Button: ```typescript const [isExporting, setIsExporting] = useState(false);"
+    },
+    {
+      "keywords": [
+        "denial",
+        "script"
+      ],
+      "answer": "Generate Template: ```typescript const result = await actionHandler.handleTemplateGeneration({ templateKey: 'partial_denial_appeal', autoDetect: false, variables: { property_address: '123 Main St', homeowner_name: 'John Doe', },"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Analyze Photos: ```typescript const files: File[] = [...]; // Your files"
+    },
+    {
+      "keywords": [
+        "script",
+        "adjuster"
+      ],
+      "answer": "Send Email: ```typescript const result = await actionHandler.handleEmailSend({ to: 'adjuster@insurance.com', subject: 'Claim Documentation', body: 'Email content here...', attachments: [{ filename: 'report.pdf', content: pdfBuffer,"
+    },
+    {
+      "keywords": [
+        "storm",
+        "script"
+      ],
+      "answer": "Verify Storm: ```typescript const result = await actionHandler.handleStormVerification({ address: '123 Main St, City, ST', date: '2025-09-15', radius: 25, });"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Select Company: ```typescript const result = await actionHandler.handleCompanySelection('company-123');"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Export Report: ```typescript const result = await actionHandler.handleReportExport({ sessionId: '12345', format: 'pdf', includePhotos: true, includeAnalysis: true, includeEmails: true, });"
+    },
+    {
+      "keywords": [
+        "storm",
+        "script"
+      ],
+      "answer": "ActionButton Props Reference: ```typescript interface ActionButtonProps { type: 'template' | 'photo' | 'email' | 'storm' | 'company' | 'export' | 'voice' | 'custom'; label: string; // Button text icon?: ReactNode; // Icon (emoji or component) variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning'; size?: 'sm' | 'md' | 'lg'; // Button size disabled?: boolean; // Disabled state"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "ResultPanel Props Reference: ```typescript interface ResultPanelProps { isOpen: boolean; // Panel visibility onClose: () => void; // Close handler type: PanelType; // Determines color scheme title: string; // Panel header title children: ReactNode; // Panel content }"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Pattern 1: Modal + Result Panel Flow: ```typescript // State const [showModal, setShowModal] = useState(false); const [result, setResult] = useState(null); const [showResult, setShowResult] = useState(false);"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Pattern 2: Direct Action Execution: ```typescript <ActionButton onAction={async () => { const result = await actionHandler.someAction(); if (result.success) { alert('Success!'); } else { alert('Error: ' + result.error);"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Pattern 3: Confirmation Before Action: ```typescript <ActionButton onAction={async () => { if (confirm('Are you sure?')) { const result = await actionHandler.someAction(); // Handle result } }}"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Error Handling Best Practices: ```typescript try { const result = await actionHandler.someAction();"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Custom Button Styles: ```typescript <ActionButton className=\"my-custom-class hover:scale-110\" // ... other props /> ```"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Full Width Buttons: ```typescript <ActionButton fullWidth={true} // ... other props /> ```"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Size Variations: ```typescript // Small <ActionButton size=\"sm\" label=\"Small\" />"
+    },
+    {
+      "keywords": [
+        "storm"
+      ],
+      "answer": "Test Storm Verification: ```bash curl -X POST http://localhost:4000/api/weather/verify-storm \\ -H \"Content-Type: application/json\" \\ -d '{ \"address\": \"123 Main St, City, ST\", \"date\": \"2025-09-15\", \"radius\": 25 }'"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Accessibility Checklist: - [ ] All buttons have descriptive labels - [ ] Modals can be closed with Escape key - [ ] Focus management in modals - [ ] Keyboard navigation support - [ ] ARIA labels on interactive elements - [ ] Color contrast meets WCAG AA - [ ] Loading states announced to screen readers"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Quick Debugging: ```typescript // Enable debug mode in action handler const result = await actionHandler.handleSomeAction(...); console.log('Action result:', result);"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Build & Deployment:: - [x] TypeScript errors fixed - [x] Build successful (0 errors) - [x] 32 routes generated - [x] Deployed to production - [x] Status: Ready - [x] All files uploaded"
+    },
+    {
+      "keywords": [
+        "noaa"
+      ],
+      "answer": "✅ All Other Features: - Chat with Abacus AI ✅ - Template generation ✅ - Voice commands ✅ - Insurance company database ✅ - NOAA weather integration ✅ - Action buttons ✅"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "4. Code Quality: - **Type-safe** implementations - **Error handling** at every level - **Retry logic** with exponential backoff - **Fallback chains** for reliability"
+    },
+    {
+      "keywords": [
+        "noaa"
+      ],
+      "answer": "Medium Priority:: 1. Run insurance database setup in production 2. Enable NOAA weather sync cron job 3. Review error logs and optimize"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "Issue 1: Photo Analysis API Mismatch: **Problem:** - Code in `lib/photo-intelligence.ts` imports Anthropic SDK - But no `ANTHROPIC_API_KEY` in environment - Photos are failing because of missing Anthropic key"
+    },
+    {
+      "keywords": [
+        "hail"
+      ],
+      "answer": "1. Query Hail Events: Retrieve hail events from the database with flexible filtering."
+    },
+    {
+      "keywords": [
+        "hail"
+      ],
+      "answer": "2. Verify Insurance Claim: Verify if a hail event occurred for insurance claim validation."
+    },
+    {
+      "keywords": [
+        "noaa"
+      ],
+      "answer": "3. Sync Weather Data (Cron): Daily synchronization with NOAA database."
+    },
+    {
+      "keywords": [
+        "noaa"
+      ],
+      "answer": "NOAA API Limits: - 1000 requests per day - System uses ~3 requests/day (daily sync) - Manual operations: 997 requests/day available"
+    },
+    {
+      "keywords": [
+        "code",
+        "script"
+      ],
+      "answer": "Response Codes: | Code | Description | |------|-------------| | 200 | Success | | 400 | Bad Request (invalid parameters) | | 401 | Unauthorized (missing/invalid auth) | | 404 | Not Found | | 500 | Internal Server Error |"
+    },
+    {
+      "keywords": [
+        "noaa",
+        "script",
+        "hail"
+      ],
+      "answer": "HailEvent: ```typescript interface HailEvent { id: number eventId: string // NOAA-{id}-{state} eventDate: Date // Date of event state: string // VA, MD, or PA county?: string // County name city?: string // City name"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "VerificationReport: ```typescript interface VerificationReport { verified: boolean // Event found confidence: string // high, medium, low claimDate: string // Original claim date location: string // Search location searchRadius: number // Search radius (miles) eventsFound: number // Count of events"
+    },
+    {
+      "keywords": [
+        "script",
+        "hail"
+      ],
+      "answer": "JavaScript/TypeScript: ```typescript // Query events async function getHailEvents(state: string) { const response = await fetch( `https://susanai-21.vercel.app/api/weather/hail-events?state=${state}` ) const data = await response.json() return data.events"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Caching: ```typescript // Cache responses for 1 hour const cache = new Map() const CACHE_TTL = 60 * 60 * 1000 // 1 hour"
+    },
+    {
+      "keywords": [
+        "code",
+        "script"
+      ],
+      "answer": "Error Handling: ```typescript async function safeVerifyClaim(date: string, location: string) { try { const response = await fetch( `/api/weather/verify-claim?date=${date}&location=${encodeURIComponent(location)}` )"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Retry Logic: ```typescript async function fetchWithRetry(url: string, maxRetries = 3) { for (let i = 0; i < maxRetries; i++) { try { const response = await fetch(url) if (response.ok) return response"
+    },
+    {
+      "keywords": [
+        "noaa"
+      ],
+      "answer": "Support: For API issues: - Check [NOAA_WEATHER_INTEGRATION.md](./NOAA_WEATHER_INTEGRATION.md) - Review Vercel function logs - Contact development team"
+    },
+    {
+      "keywords": [
+        "storm",
+        "noaa",
+        "hail"
+      ],
+      "answer": "3. 🌩️ **NOAA Weather Data Integration** (Hail Storm Verification): **What Changed:** - ❌ Old: No storm verification - ✅ New: NOAA National Weather Service API integration"
+    },
+    {
+      "keywords": [
+        "noaa"
+      ],
+      "answer": "Total Files Created/Modified: **45+ files**: **Core Libraries (5):** - `/lib/document-processor.ts` - Document extraction - `/lib/email-templates.ts` - HTML email templates - `/lib/email.ts` - Email sending - `/lib/noaa-weather-api.ts` - NOAA API client - `/lib/action-handlers.ts` - Action system"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Immediate Setup (5 minutes):: **1. Initialize Insurance Database:** ```bash cd /Users/a21/routellm-chatbot node scripts/setup-insurance-db.js ```"
+    },
+    {
+      "keywords": [
+        "storm"
+      ],
+      "answer": "API Response Times:: - Document Analysis: ~2-5 seconds (varies by file count) - Email Send: ~500ms - Storm Verification: ~300ms (cached data) - Insurance Lookup: ~50ms"
+    },
+    {
+      "keywords": [
+        "noaa"
+      ],
+      "answer": "✅ COMPLETION CHECKLIST: - [x] Document analyzer upgraded to multi-format - [x] Email generator with Resend integration - [x] NOAA weather data integration - [x] Insurance company database (50+ carriers) - [x] All buttons trigger real actions - [x] Database schemas created - [x] API endpoints implemented - [x] UI components built"
+    },
+    {
+      "keywords": [
+        "storm",
+        "noaa",
+        "hail"
+      ],
+      "answer": "Features: ✅ ALL IMPLEMENTED: - ✅ Multi-format document analyzer - ✅ Actual email generator with Resend - ✅ NOAA hail storm verification - ✅ 50+ insurance company database - ✅ Action button system (instant actions)"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Database: ✅ READY: - 4 new tables - Migration scripts - Seed data (50+ companies) - Cron jobs configured"
+    },
+    {
+      "keywords": [
+        "storm"
+      ],
+      "answer": "Result:: **A professional, AI-powered roofing insurance assistant that processes documents, sends emails, verifies storms, manages insurance companies, and triggers instant actions - all deployed and production-ready!**"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "Phase 1: Setup (1 hour): ``` ✅ Get HF API key (free) ✅ Add to environment variables ✅ Deploy updated code Cost: $0 ```"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "📞 Next Steps: 1. ✅ Review this cost analysis 2. ✅ Get free HF API key: https://huggingface.co/settings/tokens 3. ✅ Add to Vercel: `HUGGINGFACE_API_KEY` 4. ✅ Deploy updated code 5. ✅ Test with sample images 6. ✅ Monitor first month usage 7. ✅ Enjoy $149/month savings!"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Build Results:: - ✅ Compiled successfully - ✅ 30 routes generated - ✅ All TypeScript checks passed - ✅ All linting passed - ✅ Zero errors - ✅ Production ready"
+    },
+    {
+      "keywords": [
+        "matching"
+      ],
+      "answer": "✅ Email Generator: - Professional form matching mockup exactly - 9 email types to choose from - AI-powered generation with Abacus AI - Explanation of why each email works - Copy to clipboard functionality - Send via Resend API"
+    },
+    {
+      "keywords": [
+        "noaa"
+      ],
+      "answer": "✅ Other Features (Unchanged): - Chat with Abacus AI - Template generation - Voice commands - Insurance company selector - NOAA weather data (ready to sync)"
+    },
+    {
+      "keywords": [
+        "hail"
+      ],
+      "answer": "Test Email Generator:: 1. Go to https://susanai-21.vercel.app 2. Enter your name and start conversation 3. Click \"Generate Email\" button 4. Fill form: - Email Type: \"Homeowner Communication\" - Recipient Name: \"John Smith\" - Claim Number: \"CLM-2024-001\" - Details: \"Following up on hail damage claim\" 5. Click gradient \"Generate Email\" button"
+    },
+    {
+      "keywords": [
+        "matching"
+      ],
+      "answer": "What You Asked For:: 1. ✅ **Email generator matching mockup** - DONE - Exact form fields - AI-powered generation - Explanation of why it works - Professional preview and actions"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Next Steps: 1. **Read:** DEPLOYMENT_GUIDE.md (detailed instructions) 2. **Deploy:** Use deploy.sh script or manual deployment 3. **Test:** On desktop and mobile devices 4. **Share:** Send URL to field team 5. **Train:** Show team how to add to home screen 6. **Monitor:** Check Vercel analytics after 1 week"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Configuration Files: 7. **vercel.json** - Vercel deployment configuration 8. **.env.production** - Production environment template 9. **.env.example** - Environment variable examples 10. **deploy.sh** - Automated deployment script (executable)"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Project Documentation: 11. **README.md** - Updated project overview 12. **package.json** - Dependencies and scripts"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "📖 File Descriptions:"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "deploy.sh (Automation Script): **Purpose**: Automated deployment script **Type**: Executable bash script **Contains**: - Git initialization - Build testing - Vercel CLI installation - Automated deployment **How to use**: `./deploy.sh`"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Intermediate Path:: 1. START_HERE.md 2. DEPLOYMENT_GUIDE.md 3. Deploy with script 4. Reference QUICK_REFERENCE.md as needed"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "Prerequisites: - GitHub account (for code hosting) - Vercel account (free - sign up at https://vercel.com) - Your Abacus.AI credentials: - Deployment Token: `2670ce30456644ddad56a334786a3a1a` - Deployment ID: `6a1d18f38`"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Key Improvements:: 1. **Eliminated Anthropic Dependency** - Switched photo intelligence to Abacus AI 2. **Unified Inference Engine** - Single API for all features 3. **Zero Additional Cost** - Everything included in Abacus subscription 4. **Simplified Architecture** - One model, one deployment 5. **Enhanced Context** - Knowledge base integration working"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "🗣️ Main Chat: - **Status:** ✅ Production Ready - **API:** Abacus AI getChatResponse - **Features:** - Enhanced context with training data - Q&A from knowledge base - Building codes (VA/MD/PA) - Professional responses - Source citations"
+    },
+    {
+      "keywords": [
+        "denial"
+      ],
+      "answer": "📝 Templates: - **Status:** ✅ Production Ready - **Count:** 10 professional templates - **Categories:** - Appeals (partial/full denial) - Supplemental claims - Escalations - Documentation - Negotiations - **AI Enhancement:** Abacus AI powered"
+    },
+    {
+      "keywords": [
+        "code",
+        "wind",
+        "hail"
+      ],
+      "answer": "📸 Photo Intelligence: - **Status:** ✅ Production Ready - **API:** Abacus AI Vision (100% Abacus AI - no Anthropic!) - **Damage Types:** 6 (hail, wind, shingles, flashing, granular, structural) - **Features:** - Severity scoring - Pattern recognition - Code violations - Professional assessments"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Monthly Costs:: - **Vercel:** $0/month (free tier) - **Abacus AI:** Existing subscription (no change) - **Anthropic API:** ~~$20/month~~ **$0/month** ✅ ELIMINATED! - **Total Additional Cost:** **$0/month**"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "What You Got:: ✅ **Unified Intelligence** - One Abacus AI model for everything ✅ **3 Tier 1 Features** - Chat, Templates, Voice, Photo Analysis ✅ **Knowledge Base Integration** - 1000+ Q&As, codes, templates ✅ **Zero Additional Cost** - Eliminated Anthropic dependency ✅ **Production Ready** - Live on susanai-21.vercel.app"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Files Created for You: 1. **vercel.json** - Vercel deployment configuration 2. **deploy.sh** - Automated deployment script 3. **DEPLOYMENT_GUIDE.md** - Detailed step-by-step instructions 4. **DEPLOYMENT_COMPARISON.md** - All 7 options analyzed 5. **QUICK_START.md** - Non-technical user guide 6. **README.md** - Updated project documentation 7. **.env.production** - Production environment template 8. **DEPLOYMENT_SUMMARY.md** - This file"
+    },
+    {
+      "keywords": [
+        "storm"
+      ],
+      "answer": "Features Available:: 1. **Photo Analyzer** - AI analyzes roof damage photos 2. **Email Generator** - Creates professional insurance emails 3. **Insurance Finder** - Company info and contact details 4. **Weather Data** - Storm history for claims 5. **Real-time Chat** - Instant AI responses 6. **Mobile-First UI** - Designed for phones/tablets"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "To Update App:: 1. Make code changes locally 2. Push to GitHub 3. Vercel auto-deploys 4. Done!"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "Mitigation:: - Code stored on GitHub (can move anytime) - Standard Next.js app (works anywhere) - No proprietary Vercel features used - Can switch to Railway/Netlify in 1 hour if needed"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Cost:: - Vercel: **$0/month** - Abacus.AI: **Existing subscription**"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "For Technical Person:: - [ ] Read DEPLOYMENT_GUIDE.md - [ ] Push code to GitHub - [ ] Deploy to Vercel - [ ] Set environment variables - [ ] Test on mobile devices - [ ] Document the live URL"
+    },
+    {
+      "keywords": [
+        "script",
+        "adjuster"
+      ],
+      "answer": "Test Document: Created a realistic insurance claim document with: - Claim number, policy number - Insurance company (State Farm) - Date of loss, property address - Adjuster information - Damage description - Financial amounts"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Multi-Format Support: - **PDFs** - Insurance documents, estimates, letters - **Word Documents** (.docx, .doc) - Claim forms, reports - **Excel Files** (.xlsx, .xls) - Estimates, calculations - **Text Files** (.txt) - Notes, transcripts - **Images** (JPG, PNG, HEIC, HEIF, WebP) - Photos, scans"
+    },
+    {
+      "keywords": [
+        "approval",
+        "adjuster"
+      ],
+      "answer": "Smart Extraction: - Automatic claim number detection - Policy number extraction - Insurance company identification (20+ major carriers) - Adjuster information (name, phone, email) - Date of loss extraction - Dollar amounts (estimates, approvals, deductibles) - Property address detection"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "AI Analysis: - Powered by Abacus AI multimodal capabilities - Comprehensive document summarization - Key findings identification - Damage description extraction - Claim-relevant information highlighting - Actionable recommendations"
+    },
+    {
+      "keywords": [
+        "matching"
+      ],
+      "answer": "Core Library: - `/lib/document-processor.ts` - Document extraction and processing engine - PDF text extraction using pdfjs-dist - Word document processing using mammoth - Excel data extraction using xlsx - Image to base64 conversion - Insurance data pattern matching"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "UI Components: - `/app/document-analyzer/page.tsx` - Full-featured analyzer interface - Drag-and-drop upload zone - File list with previews - Optional context fields (address, date, notes) - Results display with sections: - Extracted claim information - AI analysis summary - Key findings - Damage descriptions"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "From API: ```javascript const formData = new FormData(); formData.append('file0', pdfFile); formData.append('file1', wordFile); formData.append('propertyAddress', '123 Main St'); formData.append('claimDate', '2024-10-15');"
+    },
+    {
+      "keywords": [
+        "matching"
+      ],
+      "answer": "Document Processing Flow: 1. **Upload** - Files received via multipart/form-data 2. **Validation** - File type and size checks 3. **Extraction** - Type-specific text extraction: - PDF: pdfjs-dist page-by-page text extraction - Word: mammoth raw text extraction - Excel: xlsx sheet-to-json conversion - Images: base64 encoding for AI analysis 4. **Pattern Matching** - Regex-based insurance data extraction 5. **AI Analysis** - Abacus AI multimodal analysis"
+    },
+    {
+      "keywords": [
+        "wind"
+      ],
+      "answer": "Credits: Built for Susan AI-21 Roofing Insurance Assistant - Document processing: pdfjs-dist, mammoth, xlsx - AI analysis: Abacus AI - PDF export: jsPDF - UI: Next.js 15, React 19, Tailwind CSS"
+    },
+    {
+      "keywords": [
+        "denial"
+      ],
+      "answer": "**What Reps Need Most:**: 1. **Denial Letter Analysis** 📋 - Full denials - what was denied and why - Partial denials - approved vs denied items - Missing documentation requests - Action items to overcome denials"
+    },
+    {
+      "keywords": [
+        "denial",
+        "script"
+      ],
+      "answer": "Phase 3: Context-Aware Analysis: **Smart Document Type Detection:** ```typescript function detectDocumentType(text: string): DocumentType { const keywords = { denial_letter: ['denied', 'rejection', 'not covered', 'excluded'], estimate: ['line item', 'quantity', 'unit price', 'total'], email: ['from:', 'to:', 'subject:', 're:'], supplement: ['supplement', 'additional', 'missed items'],"
+    },
+    {
+      "keywords": [
+        "denial"
+      ],
+      "answer": "Document Processing:: - [x] Abacus AI configured and working - [x] Hugging Face configured and working - [ ] Add denial letter intelligence - [ ] Add estimate comparison logic - [ ] Add email analysis - [ ] Add multi-document package analysis"
+    },
+    {
+      "keywords": [
+        "denial"
+      ],
+      "answer": "Unified API:: - [ ] Create `/api/analyze/unified/route.ts` - [ ] Implement smart document type detection - [ ] Add denial letter analysis - [ ] Add estimate comparison - [ ] Add email analysis - [ ] Add full package analysis"
+    },
+    {
+      "keywords": [
+        "denial",
+        "adjuster"
+      ],
+      "answer": "Testing:: - [ ] Test with real denial letters - [ ] Test with insurance estimates - [ ] Test with adjuster emails - [ ] Test with full claims packages - [ ] Verify accuracy of extractions"
+    },
+    {
+      "keywords": [
+        "denial"
+      ],
+      "answer": "Scenario 1: Denial Letter: ``` Rep: [Uploads denial_letter.pdf] Susan: \"I've analyzed your denial letter. Here's what I found:"
+    },
+    {
+      "keywords": [
+        "adjuster"
+      ],
+      "answer": "Scenario 2: Estimate Comparison: ``` Rep: [Uploads adjuster_estimate.pdf + contractor_estimate.pdf] Susan: \"I've compared both estimates. Found $6,800 in potential recovery:"
+    },
+    {
+      "keywords": [
+        "denial"
+      ],
+      "answer": "🚀 Ready to Build?: **Focus Areas:** 1. ✅ Document intelligence (denial letters, estimates, emails) 2. ✅ Abacus AI for text analysis 3. ✅ Hugging Face for image support (optional) 4. ✅ Smart analysis type detection 5. ✅ Actionable recommendations 6. ✅ Test before and after"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "2. Improved Content Validation in Abacus Analyzer: **Added detailed content checking:** ```typescript console.log('[AbacusAnalyzer] Content check:'); console.log('[AbacusAnalyzer] - Has text content:', hasTextContent); console.log('[AbacusAnalyzer] - Has image content:', hasImageContent); console.log('[AbacusAnalyzer] - Total documents:', documents.length); console.log('[AbacusAnalyzer] - Successful documents:', successCount); ```"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "3. Enhanced API Error Handling (`app/api/analyze/documents/route.ts`): **Improved error responses:** ```typescript return NextResponse.json({ success: false, error: error.message || 'Internal server error', details: process.env.NODE_ENV === 'development' ? error.stack : undefined, timestamp: new Date().toISOString(), helpText: 'Make sure your documents contain readable text or are valid images'"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "4. Text File Processing Validation: **Added empty file detection:** ```typescript if (!text || text.trim().length === 0) { console.warn('[DocumentProcessor] WARNING: Text file is empty!'); } ```"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "What Was Sent (INCORRECT): ```typescript { message: prompt, // ❌ Wrong field sessionId, isAgent: true, // ❌ Not used by API conversationHistory: [] // ❌ Wrong field } ```"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "What API Expected (CORRECT): ```typescript { messages: [ // ✅ Array of message objects { role: 'user', content: prompt } ], repName: repName, // ✅ Rep name for logging sessionId: sessionId // ✅ Session tracking } ```"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "Error Handling at Each Step: - **Validation**: Checks email type, recipient name, claim number - **API Call**: Catches network errors, shows status codes - **Response Parsing**: Handles JSON parsing failures with fallbacks - **User Feedback**: Shows actual error messages, not generic ones"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Testing Checklist: ✅ **Build Test**: TypeScript compilation succeeds ✅ **Payload Format**: Matches `/api/chat` expectations ✅ **Error Logging**: Console shows detailed debug info ✅ **Error Display**: User sees actual error messages ✅ **Fallback Handling**: Works even if JSON parsing fails ✅ **Environment**: Required variables are present"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Before (Broken): ```typescript // WRONG payload format body: JSON.stringify({ message: prompt, // ❌ sessionId, isAgent: true, conversationHistory: [] })"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "After (Working): ```typescript // CORRECT payload format const messages = [{ role: 'user', content: prompt }] // ✅ const requestBody = { messages: messages, // ✅ repName: repName, // ✅ sessionId: sessionId // ✅ }"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "POST /api/chat: **Expected Request Body:** ```typescript { messages: Array<{ role: 'user' | 'assistant', content: string }>, repName?: string, // Optional: for database logging"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Success Criteria Met: ✅ Email generation works end-to-end ✅ Actual error messages shown to users ✅ Comprehensive console logging for debugging ✅ Graceful fallbacks for JSON parsing ✅ TypeScript compilation succeeds ✅ No breaking changes to existing features ✅ Environment variables properly configured"
+    },
+    {
+      "keywords": [
+        "denial"
+      ],
+      "answer": "Input (Plain Text):: ``` Subject: Appeal of Partial Denial - 123 Main St"
+    },
+    {
+      "keywords": [
+        "denial"
+      ],
+      "answer": "Basis for Appeal: The denial states that the damage is pre-existing..."
+    },
+    {
+      "keywords": [
+        "code",
+        "script"
+      ],
+      "answer": "Code Quality: - ✅ TypeScript types for all functions - ✅ Error handling and logging - ✅ Input validation and sanitization - ✅ Responsive UI design - ✅ Professional code comments - ✅ Modular architecture - ✅ Database migrations handled automatically"
+    },
+    {
+      "keywords": [
+        "approval"
+      ],
+      "answer": "Recommendations:: - Set up SPF/DKIM records for custom domain - Monitor Resend API usage and limits - Implement user-level rate limiting if needed - Add email templates approval workflow for compliance"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Bundle Sizes:: - Main page: 112 KB First Load JS - Document Analyzer: 234 KB - 32 routes generated - 0 TypeScript errors - 0 linting errors"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "✅ Email Generator: **Flow:** 1. Click \"Generate Email\" button (landing page or chat) 2. Select email type from dropdown 3. Enter recipient name, claim number, additional details 4. Click gradient \"Generate Email\" button 5. **AI generates personalized email:** - Auto-signed by rep name (e.g., \"John Smith, Roof-ER Representative\") - Includes Roof-ER branding and strategies - References building codes and manufacturer guidelines"
+    },
+    {
+      "keywords": [
+        "hail"
+      ],
+      "answer": "Test Email Generator:: 1. Go to https://susanai-21.vercel.app 2. Enter your name, click Continue 3. Click \"Generate Email\" button (on landing page) 4. Fill form: - Email Type: \"Homeowner Communication\" - Recipient Name: \"John Smith\" - Claim Number: \"CLM-2024-001\" - Details: \"Following up on hail damage claim\" 5. Click gradient \"Generate Email\" button"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "🚀 DEPLOYMENT VERIFIED: **Build:** ✅ Successful (0 errors) **Deploy:** ✅ Complete (status: Ready) **Routes:** ✅ 32 generated **TypeScript:** ✅ Valid **Linting:** ✅ Passed"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "Bonus Improvements:: - ✅ Email generator now references Roof-ER training materials - ✅ Email generator hits building codes and manufacturer guidelines - ✅ Emails are ready to paste into Gmail without editing - ✅ Conversational customization workflow clearly explained - ✅ Professional branding throughout"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "3. Code Changes:"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "New Methods in PhotoIntelligence Class: ```typescript // Image verification (prevents fake results) private async verifyRoofImage(imageBuffer: Buffer): Promise<{ isRoof: boolean; actualContent: string; }>"
+    },
+    {
+      "keywords": [
+        "code",
+        "script"
+      ],
+      "answer": "Verification Checklist: - [x] Code implemented and tested locally - [x] TypeScript compilation fixed - [x] Documentation created (4 guides) - [x] Test script created - [x] Environment files updated - [x] README updated with links - [ ] User gets Hugging Face API key (ACTION REQUIRED) - [ ] System tested with real images (PENDING API KEY)"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Pre-Existing (Not Related to This Fix):: - TypeScript errors in `/lib/vision-service.ts` (line 211, 266) - These are in a different vision service file - Not blocking, Next.js will compile despite TypeScript warnings"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Testing:: - Test Script: `node test-vision.js` - Manual Testing: See QUICK_START_VISION_FIX.md"
+    },
+    {
+      "keywords": [
+        "adjuster"
+      ],
+      "answer": "2. **Comprehensive Database**: - **50+ Insurance Companies** pre-loaded - Complete contact information (phone, email, instructions) - Claim handler types (Team vs. Adjuster) - Phone system navigation instructions - Usage tracking and analytics"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "1. Database Setup: Run the setup script to create tables and seed data:"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "4. Setup & Automation ✅: **Automated setup script:** - ✅ Creates all tables and indexes - ✅ Seeds 50+ companies - ✅ Verifies installation - ✅ Reports status"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "For Developers: **Get all companies:** ```javascript const res = await fetch('/api/insurance/companies'); const { companies, total } = await res.json(); ```"
+    },
+    {
+      "keywords": [
+        "matching"
+      ],
+      "answer": "Search & Filter: - ✅ Real-time search - ✅ Case-insensitive matching - ✅ Searches name and email - ✅ Instant results"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Scripts: ``` /scripts/setup-insurance-db.js # Automated setup ```"
+    },
+    {
+      "keywords": [
+        "adjuster"
+      ],
+      "answer": "Email Generator: - ✅ Pre-fill recipient email - ✅ Company-specific templates - ✅ Auto-CC adjuster"
+    },
+    {
+      "keywords": [
+        "adjuster"
+      ],
+      "answer": "claim_insurance_associations: - Links claims to companies - Stores adjuster details - Claim-specific notes - Auto-updated timestamps"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Implementation Stats: - ✅ 50+ companies pre-loaded - ✅ 3 database tables created - ✅ 5 API endpoints built - ✅ 2 UI components created - ✅ 1 setup script automated - ✅ 5 documentation files written - ✅ 8 database indexes created - ✅ 100% responsive design - ✅ Full keyboard accessibility"
+    },
+    {
+      "keywords": [
+        "code",
+        "script"
+      ],
+      "answer": "Code Stats: - ~400 lines in InsuranceCompanyModal - ~150 lines in API routes - ~100 lines in seed data - ~50 lines in setup script - ~1000 lines total documentation"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Immediate Use: 1. ✅ Run setup script 2. ✅ Test in browser 3. ✅ Train reps on usage 4. ✅ Monitor analytics"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "✨ Final Checklist: - [x] Database schema created (3 tables) - [x] Seed data loaded (50+ companies) - [x] API endpoints built (5 routes) - [x] UI components created (2 components) - [x] Chat integration complete - [x] Setup script automated - [x] Documentation complete (5 files) - [x] Error handling implemented"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "🚀 Quick Start Command: ```bash cd /Users/a21/routellm-chatbot && node scripts/setup-insurance-db.js ```"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "Company Cards: - Bold company name - Color-coded type badges - Phone with one-click calling - Email with one-click composition - Yellow badge for phone instructions - Hover states show copy buttons"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Company Record Structure: ```typescript interface InsuranceCompany { id: number name: string claim_handler_type: string phone: string phone_instructions?: string email?: string additional_phone?: string"
+    },
+    {
+      "keywords": [
+        "matching"
+      ],
+      "answer": "Smart Search: - Case-insensitive matching - Searches company name - Searches email address - Instant results"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "API Usage: ```javascript // Search companies const res = await fetch('/api/insurance/companies?q=state+farm') const { companies } = await res.json()"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Component Usage: ```typescript <InsuranceCompanySelector isOpen={showSelector} onClose={() => setShowSelector(false)} onSelect={(company) => { console.log('Selected:', company.name) }} repId={repId} />"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Immediate Use: 1. Run setup script 2. Test in browser 3. Start using with reps"
+    },
+    {
+      "keywords": [
+        "script",
+        "wind",
+        "overlay"
+      ],
+      "answer": "Technical Decisions: - Used Vercel Postgres for consistency - Tailwind CSS for styling consistency - TypeScript for type safety - Modal overlay approach for UX - Auto-tracking for analytics"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "1. Run Database Setup (One-Time): ```bash cd /Users/a21/routellm-chatbot node scripts/setup-insurance-db.js ```"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Issue: Tables Don't Exist: **Solution:** ```bash node scripts/setup-insurance-db.js ```"
+    },
+    {
+      "keywords": [
+        "adjuster"
+      ],
+      "answer": "claim_insurance_associations: ```sql CREATE TABLE claim_insurance_associations ( id SERIAL PRIMARY KEY, session_id INTEGER REFERENCES chat_sessions(id), company_id INTEGER REFERENCES insurance_companies(id), claim_number VARCHAR(255), adjuster_name VARCHAR(255), adjuster_phone VARCHAR(50), adjuster_email VARCHAR(255),"
+    },
+    {
+      "keywords": [
+        "adjuster"
+      ],
+      "answer": "Company Cards: - Bold company name - Type badge (Team/Adjuster) - Phone with icon - Email with icon - Phone instructions (yellow badge) - Hover shows copy buttons - Click to select"
+    },
+    {
+      "keywords": [
+        "code",
+        "script"
+      ],
+      "answer": "Code Documentation: - Inline comments in all files - TypeScript interfaces documented - API endpoints documented - Component props documented"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Common Solutions: - **Database issues** → Re-run setup script - **API errors** → Check POSTGRES_URL env var - **UI problems** → Clear cache, check console - **Search issues** → Verify data in database"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Step 1: Run Database Setup: ```bash cd /Users/a21/routellm-chatbot node scripts/setup-insurance-db.js ```"
+    },
+    {
+      "keywords": [
+        "matching"
+      ],
+      "answer": "Popup Modal: - ✅ Beautiful design matching app theme - ✅ Real-time search - ✅ Grid layout for easy browsing - ✅ Keyboard shortcuts - ✅ Mobile responsive - ✅ Loading states - ✅ Empty states"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "✅ Verification Checklist: - [ ] Database setup script completed successfully - [ ] API returns 50+ companies - [ ] Popup selector opens in chat - [ ] Search works and filters results - [ ] Phone/email links work - [ ] Copy buttons work - [ ] Recently used section appears - [ ] Selected company displays correctly"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "✅ Enhanced Chat Integration: - **Location:** `/Users/a21/routellm-chatbot/app/api/chat/route.ts` - **Smart Routing:** - Auto-detects voice commands (when `mode: 'voice'`) - Auto-detects template requests (keywords: appeal, letter, template, etc.) - Falls back to enhanced Abacus AI chat - **Enhanced Context:** - Injects system prompt with training data reference - 1000+ Q&A scenarios - Building codes (VA/MD/PA)"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "✅ Training Data Preparation: - **Location:** `/Users/a21/routellm-chatbot/training_data/susan_ai_knowledge_base.json` - **Content:** 9,723 lines from 8 knowledge domains - **Upload Guide:** `/Users/a21/routellm-chatbot/KNOWLEDGE_BASE_SETUP.md` - **Upload Script:** `/Users/a21/routellm-chatbot/scripts/upload-knowledge-base-guide.md` - **Status:** ✅ Ready for Abacus AI upload"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Existing: - `POST /api/session` - Create session - `GET /api/admin/stats` - Admin statistics - `GET /api/admin/today` - Today's chats - `GET /api/admin/transcripts` - All transcripts"
+    },
+    {
+      "keywords": [
+        "maryland"
+      ],
+      "answer": "Step 1: Upload Training Data to Abacus AI: 1. Login to https://abacus.ai 2. Navigate to ChatLLM Teams 3. Upload `/Users/a21/routellm-chatbot/training_data/susan_ai_knowledge_base.json` 4. Add tags: `insurance_claims`, `roofing`, `virginia`, `maryland`, `pennsylvania` 5. Test with 10 validation queries (see KNOWLEDGE_BASE_SETUP.md)"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "✅ Build Status: ``` ✓ Build successful ✓ TypeScript compilation passed ✓ All routes generated ✓ Static pages optimized ✓ 19 routes total ✓ Zero errors ✓ Production ready"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Costs: - **Vercel:** $0/month (free tier) - **Abacus AI:** Existing subscription - **Anthropic API:** ~$10-20/month (100-200 photos) - **Total:** ~$20/month"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Before Deployment: - [x] Build successful - [x] TypeScript compilation passed - [x] All API routes created - [x] UI components functional - [x] Dependencies installed - [x] Environment variables configured (local) - [ ] Anthropic API key obtained - [ ] Training data uploaded to Abacus AI"
+    },
+    {
+      "keywords": [
+        "code",
+        "adjuster"
+      ],
+      "answer": "Future Enhancements (Tier 2): - Adjuster Intel Database - Real-Time Weather Verification - Code Citation Engine"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "1. Complete Integration: - **All 3 Tier 1 features** fully integrated - **Intelligent routing** between features - **Unified UX** - seamless experience - **Production-ready** code quality"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "2. Best-in-Class Technology: - **Abacus AI** - Primary inference engine - **Anthropic Claude Vision** - Photo analysis - **Next.js 15** - Modern React framework - **TypeScript** - Type safety throughout - **Vercel** - Enterprise deployment"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "3. Comprehensive Documentation: - **18 documentation files** created - **Step-by-step guides** for everything - **Code examples** and usage patterns - **Troubleshooting** guides"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Technical Metrics ✅: - [x] All 3 Tier 1 features integrated - [x] Build successful (zero errors) - [x] TypeScript compilation passed - [x] API response structure defined - [x] UI components created - [x] Documentation complete - [x] Training data prepared"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Executive Summary: This document outlines the complete process of preparing and uploading Susan AI-21 training data to Abacus AI for use in an AI-powered chatbot. The knowledge base contains **1000+ Q&A scenarios**, **13 email templates**, **7 sales scripts**, **20+ legal arguments**, and comprehensive insurance claim automation training for Roof-ER sales representatives."
+    },
+    {
+      "keywords": [
+        "code",
+        "maryland"
+      ],
+      "answer": "Key Statistics: - **Total Training Data**: 407KB across 8 comprehensive files - **Q&A Database**: 1000+ insurance claim scenarios with responses - **Coverage**: Virginia, Maryland, Pennsylvania building codes and insurance law - **Optimization**: Structured JSON format optimized for RAG (Retrieval Augmented Generation) - **Upload Status**: ✅ Ready for Abacus AI deployment"
+    },
+    {
+      "keywords": [
+        "code",
+        "script"
+      ],
+      "answer": "Knowledge Domains: 1. **qa_database**: 1000+ Q&A scenarios organized by category 2. **email_templates**: 13 templates with variables and success rates 3. **sales_scripts**: 7 scripts for all customer interaction phases 4. **insurance_arguments**: 20+ legal weapons and building codes 5. **customer_resources**: Products, warranties, deductible education 6. **agreements_forms**: 11 legal documents and authorization forms 7. **operations_procedures**: CRM, team roles, operational guides 8. **visual_reference**: 24 images with damage identification keys"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "State-Specific Building Codes:"
+    },
+    {
+      "keywords": [
+        "gaf",
+        "storm",
+        "slope",
+        "warranty"
+      ],
+      "answer": "GAF Manufacturer Requirements: - **TAB-R-164**: Slope replacement with 4-6\" underlayment overlap - **Storm Damage Guidelines**: Creasing, granule loss, sealant failures - **Discontinued Shingle List**: 30+ products requiring full replacement - **Warranty Requirements**: Starter strips, ventilation, ice barriers"
+    },
+    {
+      "keywords": [
+        "code"
+      ],
+      "answer": "Performance Monitoring: **Metrics to Track**: - Query response accuracy (target: >90%) - Average retrieval time (target: <2 seconds) - Template recommendation accuracy (target: >85%) - State code citation accuracy (target: 100%) - User satisfaction scores"
+    },
+    {
+      "keywords": [
+        "script"
+      ],
+      "answer": "Primary Files: | File | Location | Purpose | |------|----------|---------| | Consolidated Knowledge Base | `/Users/a21/routellm-chatbot/training_data/susan_ai_knowledge_base.json` | Main upload file for Abacus AI | | Upload Guide | `/Users/a21/routellm-chatbot/scripts/upload-knowledge-base-guide.md` | Detailed upload instructions | | This Documentation | `/Users/a21/routellm-chatbot/KNOWLEDGE_BASE_SETUP.md` | Complete setup process |"
     }
   ]
 }
-
