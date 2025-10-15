@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "keywords": ["double layer", "two layer", "overlay", "tear off"],
+      "answer": "DOUBLE LAYER REPLACEMENT REQUIREMENTS:\n\nPer IRC Section R908.3 (VA/MD/PA): 'Roof replacement shall include the removal of ALL existing layers of roof coverings down to the roof deck.'\n\nIRC Section 1511.3.1.1 – Roof recover is PROHIBITED when TWO OR MORE layers exist.\n\nImplications:\n- No recover or overlay on double layers\n- Only full replacement with complete tear-off is code-compliant\n\nArgument:\n'Code prohibits roof recover on double-layer roofs (1511.3.1.1). Full tear-off is required.'"
+    },
+    {
+      "keywords": ["low slope", "flat roof", "2:12", "minimum slope"],
+      "answer": "LOW SLOPE / FLAT ROOF REQUIREMENTS:\n\nVirginia Residential Code R905.2.2: 'Asphalt shingles shall be used only on roof slopes of 2:12 or greater.'\n\nImplications:\n- Minimum slope: 2:12 for shingles\n- Below 2:12 requires low-slope systems (TPO/EPDM, etc.)\n- Shingles on low-slope roofs violate code\n\nArgument:\n'Existing slope below 2:12 violates R905.2.2 for shingles; use appropriate low-slope system.'"
+    },
+    {
+      "keywords": ["matching", "discontinued", "like kind and quality", "bulletin 18-23"],
+      "answer": "MARYLAND MATCHING REQUIREMENTS:\n\nMaryland Insurance Administration Bulletin 18-23: Like kind & quality required.\nMaryland Code §27-303: Failing to match materials is an unfair settlement practice.\n\nImplications:\n- Discontinued shingles justify replacing entire visible slope/section for uniformity\n\nArgument:\n'MD law requires matching; with discontinued shingles, replace the entire section to maintain uniform appearance.'"
+    },
+    {
+      "keywords": ["gaf", "creased", "warranty", "wind-lifted"],
+      "answer": "GAF MANUFACTURER REQUIREMENTS:\n\nGAF Storm Damage Guidelines: Creased shingles have lost sealant bond and cannot be repaired; replacement required.\n\nImplications:\n- Creasing = functional damage\n- Repairs void warranty\n\nArgument:\n'GAF requires replacement of creased shingles; repair attempts void warranty.'"
+    },
+    {
+      "keywords": ["storm date", "noaa", "wrong date", "verification"],
+      "answer": "STORM DATE VERIFICATION:\n\nCollect NOAA Storm Events, NWS reports, photos with timestamps, neighbor claims, emergency reports.\n\nScript:\n'The storm date of [date] is verified by NOAA. We have timestamped photos and corroborating evidence. Please re-inspect and review the documented record.'"
+    },
+    {
+      "keywords": ["pushback", "denial", "dispute", "rebuttal"],
+      "answer": "HANDLING PUSHBACK & DENIALS:\n\n1) Document everything\n2) Identify pushback type\n3) Escalation: Teammates → Team Lead → Sales Manager → Arbitration\n4) Stay professional\n\nMindset: Pushback indicates exposure — your claim likely has merit."
+    },
+    {
+      "keywords": ["full approval", "approved", "got full"],
+      "answer": "FULL APPROVAL PHONE CALL SCRIPT:\n\n1) Congratulate & confirm scope\n2) Explain payment structure\n3) Schedule immediately\n4) Contract & deposit\n5) Documents needed\n6) Set expectations\n7) Close & commit\n\nFollow-up: If no signature the same day, call/text immediately."
+    }
+  ]
+}
+

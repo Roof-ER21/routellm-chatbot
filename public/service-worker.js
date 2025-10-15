@@ -14,6 +14,7 @@ const STATIC_ASSETS = [
   '/offline.html',
   '/manifest.json',
   '/offline-insurance.json',
+  '/offline-kb.json',
   // Add your static CSS/JS assets here
 ];
 

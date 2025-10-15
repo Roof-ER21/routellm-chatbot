@@ -268,6 +268,7 @@ class StaticKnowledgeProvider {
 
   constructor() {
     this.loadKnowledgeBase();
+    this.tryLoadExternalKB();
   }
 
   async call(messages: AIMessage[]): Promise<AIResponse> {
@@ -411,6 +412,35 @@ Common Questions I Can Answer Offline:
 - Which insurance companies are most responsive?
 
 Please try asking one of these questions, or reconnect to internet for full AI capabilities.`;
+  }
+
+  // Load additional KB from public/offline-kb.json (server-side)
+  private tryLoadExternalKB(): void {
+    try {
+      // Avoid dynamic import issues; use fs to read JSON at runtime
+      const fs = require('fs');
+      const path = require('path');
+      const kbPath = path.join(process.cwd(), 'public', 'offline-kb.json');
+      if (fs.existsSync(kbPath)) {
+        const raw = fs.readFileSync(kbPath, 'utf-8');
+        const data = JSON.parse(raw);
+        if (data && Array.isArray(data.entries)) {
+          for (const entry of data.entries) {
+            const ans = String(entry.answer || '').trim();
+            const keywords = Array.isArray(entry.keywords) ? entry.keywords : [];
+            for (const kw of keywords) {
+              const key = String(kw || '').toLowerCase();
+              if (key && ans) {
+                // Add to map, later entries can refine earlier ones
+                this.knowledgeBase.set(key, ans);
+              }
+            }
+          }
+        }
+      }
+    } catch (e) {
+      // best-effort; ignore failures and keep built-in answers
+    }
   }
 }
 

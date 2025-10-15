@@ -9,7 +9,9 @@ const OFFLINE_CACHE = 'susan-offline-v1';
 // Files to cache for offline use
 const STATIC_ASSETS = [
   '/',
-  '/offline.html'
+  '/offline.html',
+  '/offline-kb.json',
+  '/offline-insurance.json'
 ];
 
 // Install event - cache static assets
@@ -89,8 +91,20 @@ async function handleChatRequest(request) {
     const body = await requestClone.json();
     const userMessage = body.messages[body.messages.length - 1]?.content || '';
 
-    // Import offline knowledge (inline version)
-    const offlineResponse = getOfflineResponse(userMessage);
+    // Try KB from cache first
+    let offlineResponse = '';
+    try {
+      const kbResp = await caches.match('/offline-kb.json');
+      if (kbResp) {
+        const kb = await kbResp.json();
+        offlineResponse = findFromKB(kb, userMessage);
+      }
+    } catch (e) {
+      // ignore and fallback to inline
+    }
+    if (!offlineResponse) {
+      offlineResponse = getOfflineResponse(userMessage);
+    }
 
     // Return offline response
     return new Response(
@@ -106,6 +120,22 @@ async function handleChatRequest(request) {
       }
     );
   }
+}
+
+// Search offline KB entries
+function findFromKB(kb, query) {
+  if (!kb || !Array.isArray(kb.entries)) return '';
+  const q = String(query || '').toLowerCase();
+  // simple keyword contains match, first hit wins
+  for (const entry of kb.entries) {
+    const kws = Array.isArray(entry.keywords) ? entry.keywords : [];
+    for (const kw of kws) {
+      if (q.includes(String(kw).toLowerCase())) {
+        return entry.answer;
+      }
+    }
+  }
+  return '';
 }
 
 // Offline knowledge base (inline version - duplicated from lib/offline-knowledge.ts)
