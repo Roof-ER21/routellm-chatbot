@@ -265,6 +265,7 @@ class OllamaProvider {
 
 class StaticKnowledgeProvider {
   private knowledgeBase: Map<string, string> = new Map();
+  private offlineEntries: Array<{ keywords?: string[]; answer: string }> = [];
 
   constructor() {
     this.loadKnowledgeBase();
@@ -386,12 +387,27 @@ Please let me know which company you need information about.`
   }
 
   private findRelevantKnowledge(query: string): string {
+    const q = String(query || '').toLowerCase();
     // Check for exact keyword matches
     for (const [keyword, answer] of this.knowledgeBase.entries()) {
-      if (query.includes(keyword)) {
+      if (q.includes(keyword)) {
         return answer;
       }
     }
+
+    // Try offline entries with simple scoring
+    let best = { score: 0, answer: '' };
+    const tokens = q.split(/[^a-z0-9]+/).filter(Boolean);
+    for (const e of this.offlineEntries) {
+      const ans = String(e.answer || '');
+      const ansLC = ans.toLowerCase();
+      const kws = (e.keywords || []).map(x => String(x).toLowerCase());
+      let score = 0;
+      for (const kw of kws) if (q.includes(kw)) score += 3;
+      for (const t of tokens) if (t.length > 2 && ansLC.includes(t)) score += 1;
+      if (score > best.score && score >= 3) best = { score, answer: ans };
+    }
+    if (best.answer) return best.answer;
 
     // Default response for offline mode
     return `SUSAN AI - OFFLINE MODE
@@ -425,6 +441,7 @@ Please try asking one of these questions, or reconnect to internet for full AI c
         const raw = fs.readFileSync(kbPath, 'utf-8');
         const data = JSON.parse(raw);
         if (data && Array.isArray(data.entries)) {
+          this.offlineEntries = data.entries;
           for (const entry of data.entries) {
             const ans = String(entry.answer || '').trim();
             const keywords = Array.isArray(entry.keywords) ? entry.keywords : [];

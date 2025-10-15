@@ -126,16 +126,27 @@ async function handleChatRequest(request) {
 function findFromKB(kb, query) {
   if (!kb || !Array.isArray(kb.entries)) return '';
   const q = String(query || '').toLowerCase();
-  // simple keyword contains match, first hit wins
+  const tokens = q.split(/[^a-z0-9]+/).filter(Boolean);
+  let best = { score: 0, answer: '' };
+
   for (const entry of kb.entries) {
-    const kws = Array.isArray(entry.keywords) ? entry.keywords : [];
+    const kws = (entry.keywords || []).map(x => String(x).toLowerCase());
+    const ans = String(entry.answer || '');
+    let score = 0;
     for (const kw of kws) {
-      if (q.includes(String(kw).toLowerCase())) {
-        return entry.answer;
-      }
+      if (q.includes(kw)) score += 3;
+    }
+    // token overlap in answer text
+    const ansLC = ans.toLowerCase();
+    for (const t of tokens) {
+      if (t.length > 2 && ansLC.includes(t)) score += 1;
+    }
+    if (score > best.score && score >= 3) {
+      best = { score, answer: ans };
     }
   }
-  return '';
+
+  return best.answer;
 }
 
 // Offline knowledge base (inline version - duplicated from lib/offline-knowledge.ts)

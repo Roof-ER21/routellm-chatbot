@@ -40,25 +40,19 @@ function parseInsuranceSQL(sqlText) {
   // Find the big INSERT block
   const insertIdx = sqlText.indexOf('INSERT INTO insurance_companies');
   if (insertIdx === -1) return [];
-  // Slice until ON CONFLICT or ;
-  let tail = sqlText.slice(insertIdx);
-  // Move past column list to the VALUES section
-  const valuesIdx = tail.toUpperCase().indexOf('VALUES');
-  if (valuesIdx !== -1) {
-    tail = tail.slice(valuesIdx + 'VALUES'.length);
-  }
-  const stopIdx = tail.indexOf('ON CONFLICT');
+  // Slice to the VALUES section and extract row tuples reliably
+  const tailFull = sqlText.slice(insertIdx);
+  const valuesIdx = tailFull.toUpperCase().indexOf('VALUES');
+  if (valuesIdx === -1) return [];
+  let tail = tailFull.slice(valuesIdx + 'VALUES'.length);
+  const stopIdx = tail.toUpperCase().indexOf('ON CONFLICT');
   if (stopIdx !== -1) tail = tail.slice(0, stopIdx);
 
-  // Extract rows between parentheses ( ... )
+  const rowStrings = extractParenRows(tail);
   const rows = [];
-  const regex = /\(([^\)]*)\)\s*,?/gms;
-  let m;
-  while ((m = regex.exec(tail)) !== null) {
-    const raw = m[1];
+  for (const raw of rowStrings) {
     const vals = splitSqlValues(raw);
     if (!vals || vals.length < 7) continue;
-
     const [name, claimType, phone, phoneInstr, email, additionalEmail, notes] = vals;
     rows.push({
       name: stripQuotes(name),
@@ -71,6 +65,32 @@ function parseInsuranceSQL(sqlText) {
     });
   }
   return dedupeBy(rows, (r) => r.name || '');
+}
+
+function extractParenRows(s) {
+  const res = [];
+  let depth = 0, inQuote = false, buf = '';
+  for (let i = 0; i < s.length; i++) {
+    const ch = s[i];
+    if (ch === "'") inQuote = !inQuote;
+    if (!inQuote) {
+      if (ch === '(') {
+        if (depth === 0) buf = '';
+        depth++;
+        continue;
+      } else if (ch === ')') {
+        depth--;
+        if (depth === 0) {
+          res.push(buf);
+          buf = '';
+          continue;
+        }
+        continue;
+      }
+    }
+    if (depth > 0) buf += ch;
+  }
+  return res;
 }
 
 function splitSqlValues(s) {
@@ -191,6 +211,7 @@ function ensureKBBase() {
     const docEntries = extractFromDocs();
     const merged = mergeEntries(base.entries, docEntries);
     base.entries = merged;
+    base.builtAt = new Date().toISOString();
   } catch (e) {
     console.log('[KB] Doc extraction skipped:', e.message);
   }
