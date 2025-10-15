@@ -36,7 +36,6 @@ export interface SettingsPanelProps {
   // Fallback / provider testing
   forceHF?: boolean;
   onForceHFChange?: (enabled: boolean) => void;
-  repName?: string;
   onLoadConversation?: (messages: any[], conversationId: string) => void;
   onNewConversation?: () => void;
   currentConversationId?: string;
