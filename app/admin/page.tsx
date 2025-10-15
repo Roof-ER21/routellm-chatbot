@@ -32,7 +32,8 @@ export default function AdminDashboard() {
   const [todaysChats, setTodaysChats] = useState<any[]>([])
   const [transcripts, setTranscripts] = useState<ChatTranscript[]>([])
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState<'overview' | 'today' | 'transcripts' | 'database' | 'client-chats' | 'alerts' | 'master-transcript'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'today' | 'transcripts' | 'database' | 'client-chats' | 'alerts' | 'master-transcript' | 'providers'>('overview')
+  const [providerStatus, setProviderStatus] = useState<any | null>(null)
   const [dbLoading, setDbLoading] = useState(false)
   const [dbMessage, setDbMessage] = useState('')
   const [clientConversations, setClientConversations] = useState<UserConversation[]>([])
@@ -657,6 +658,52 @@ export default function AdminDashboard() {
                   </tbody>
                 </table>
               </div>
+            )}
+          </div>
+        )}
+
+        {/* Providers Tab - Quick health checks */}
+        {activeTab === 'providers' && (
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">AI Providers</h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div className="bg-white rounded-lg shadow p-6">
+                <h3 className="text-lg font-semibold mb-2">Hugging Face</h3>
+                <p className="text-sm text-gray-600 mb-3">Model: <code>{process.env.HUGGINGFACE_MODEL || 'mistralai/Mistral-7B-Instruct-v0.2'}</code></p>
+                <button
+                  onClick={async () => {
+                    const res = await fetch('/api/llm/status?provider=huggingface')
+                    const data = await res.json()
+                    setProviderStatus(data)
+                    alert(`HF: ${data?.huggingface?.ok ? 'OK' : 'FAIL'} | Model: ${data?.env?.huggingface_model}`)
+                  }}
+                  className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black"
+                >
+                  Ping HF
+                </button>
+              </div>
+
+              <div className="bg-white rounded-lg shadow p-6">
+                <h3 className="text-lg font-semibold mb-2">Abacus.AI</h3>
+                <button
+                  onClick={async () => {
+                    const res = await fetch('/api/llm/status?provider=abacus')
+                    const data = await res.json()
+                    setProviderStatus(data)
+                    alert(`Abacus: ${data?.abacus?.ok ? 'OK' : 'FAIL'}`)
+                  }}
+                  className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black"
+                >
+                  Ping Abacus
+                </button>
+              </div>
+            </div>
+
+            {providerStatus && (
+              <pre className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-xs overflow-auto">
+                {JSON.stringify(providerStatus, null, 2)}
+              </pre>
             )}
           </div>
         )}

@@ -47,6 +47,7 @@ export default function ChatPage() {
   const [showEmailGenerator, setShowEmailGenerator] = useState(false)
   const [showUnifiedAnalyzer, setShowUnifiedAnalyzer] = useState(false)
   const [voiceEnabled, setVoiceEnabled] = useState(false)
+  const [forceHF, setForceHF] = useState(false)
   const [educationMode, setEducationMode] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [currentConversationId, setCurrentConversationId] = useState<string>('')
@@ -257,7 +258,8 @@ export default function ChatPage() {
           repName: repName,
           sessionId: sessionId,
           handsFreeMode: voiceEnabled, // Enable conversational mode when voice is active
-          educationMode: educationMode // Enable teaching/mentoring persona
+          educationMode: educationMode, // Enable teaching/mentoring persona
+          forceProvider: forceHF ? 'huggingface' : undefined
         }),
       })
 
@@ -470,6 +472,8 @@ export default function ChatPage() {
                 onThemeChange={handleThemeChange}
                 onEducationChange={setEducationMode}
                 onVoiceEnabledChange={setVoiceEnabled}
+                forceHF={forceHF}
+                onForceHFChange={setForceHF}
                 onLoadConversation={handleLoadConversation}
                 onNewConversation={handleNewConversation}
                 currentConversationId={currentConversationId}
@@ -786,7 +790,7 @@ export default function ChatPage() {
               </div>
             )}
 
-            <div className="flex gap-3">
+            <div className="flex gap-3 items-start">
               <button
                 type="button"
                 onClick={() => setShowUnifiedAnalyzer(true)}
@@ -795,6 +799,14 @@ export default function ChatPage() {
               >
                 <span className="text-xl">📎</span>
               </button>
+              {/* Voice Controls */}
+              <div className="hidden md:block">
+                <VoiceControls
+                  onTranscript={handleVoiceTranscript}
+                  onVoiceEnabledChange={setVoiceEnabled}
+                  autoReadResponses={true}
+                />
+              </div>
               <input
                 type="text"
                 value={input}

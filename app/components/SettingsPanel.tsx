@@ -33,6 +33,9 @@ export interface SettingsPanelProps {
   onThemeChange: (isDark: boolean) => void;
   onEducationChange: (enabled: boolean) => void;
   onVoiceEnabledChange: (enabled: boolean) => void;
+  // Fallback / provider testing
+  forceHF?: boolean;
+  onForceHFChange?: (enabled: boolean) => void;
   onLoadConversation?: (messages: any[], conversationId: string) => void;
   onNewConversation?: () => void;
   currentConversationId?: string;
@@ -51,6 +54,8 @@ export default function SettingsPanel({
   onThemeChange,
   onEducationChange,
   onVoiceEnabledChange,
+  forceHF,
+  onForceHFChange,
   onLoadConversation,
   onNewConversation,
   currentConversationId,
@@ -225,24 +230,94 @@ export default function SettingsPanel({
               </label>
             </div>
 
-            {/* Default Education Mode */}
-            <div className="flex items-center justify-between">
-              <div>
-                <h4 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                  Education Mode
-                </h4>
-                <p className="text-xs text-gray-500">Teaching style by default</p>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={educationMode}
-                  onChange={(e) => onEducationChange(e.target.checked)}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
-              </label>
+          {/* Default Education Mode */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h4 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              Education Mode
+              </h4>
+              <p className="text-xs text-gray-500">Teaching style by default</p>
             </div>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={educationMode}
+                onChange={(e) => onEducationChange(e.target.checked)}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+            </label>
+          </div>
+
+          {/* Voice Responses */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h4 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                Voice Responses
+              </h4>
+              <p className="text-xs text-gray-500">Speak answers aloud; enables mic controls</p>
+            </div>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={voiceEnabled}
+                onChange={(e) => onVoiceEnabledChange(e.target.checked)}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-yellow-500"></div>
+            </label>
+          </div>
+
+          {/* Provider Fallback Testing */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h4 className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                Force Hugging Face
+              </h4>
+              <p className="text-xs text-gray-500">Use HF fallback for next replies</p>
+            </div>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={!!forceHF}
+                onChange={(e) => onForceHFChange && onForceHFChange(e.target.checked)}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+            </label>
+          </div>
+
+          {/* Quick Provider Status */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={async () => {
+                try {
+                  const res = await fetch('/api/llm/status?provider=huggingface')
+                  const data = await res.json()
+                  alert(`HF: ${data?.huggingface?.ok ? 'OK' : 'Fail'}\nModel: ${data?.env?.huggingface_model}`)
+                } catch (err: any) {
+                  alert(`HF error: ${err.message || err}`)
+                }
+              }}
+              className={`${isDarkMode ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-50 text-gray-900 hover:bg-gray-100'} px-3 py-2 rounded-md text-xs border ${isDarkMode ? 'border-gray-700' : 'border-gray-300'}`}
+            >
+              Ping HF
+            </button>
+            <button
+              onClick={async () => {
+                try {
+                  const res = await fetch('/api/llm/status?provider=abacus')
+                  const data = await res.json()
+                  alert(`Abacus: ${data?.abacus?.ok ? 'OK' : 'Fail'}`)
+                } catch (err: any) {
+                  alert(`Abacus error: ${err.message || err}`)
+                }
+              }}
+              className={`${isDarkMode ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-gray-50 text-gray-900 hover:bg-gray-100'} px-3 py-2 rounded-md text-xs border ${isDarkMode ? 'border-gray-700' : 'border-gray-300'}`}
+            >
+              Ping Abacus
+            </button>
+          </div>
 
             {/* Divider */}
             <div className={`border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`} />
