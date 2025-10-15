@@ -48,6 +48,7 @@ export default function ChatPage() {
   const [showUnifiedAnalyzer, setShowUnifiedAnalyzer] = useState(false)
   const [voiceEnabled, setVoiceEnabled] = useState(false)
   const [forceHF, setForceHF] = useState(false)
+  const [lastProvider, setLastProvider] = useState<string | null>(null)
   const [educationMode, setEducationMode] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [currentConversationId, setCurrentConversationId] = useState<string>('')
@@ -227,11 +228,15 @@ export default function ChatPage() {
     setCurrentConversationId('')
   }
 
-  const sendMessage = async (e?: React.FormEvent, messageText?: string) => {
+  const sendMessage = async (
+    e?: React.FormEvent,
+    messageText?: string,
+    options?: { ignoreLoading?: boolean }
+  ) => {
     if (e) e.preventDefault()
 
     const textToSend = messageText || input.trim()
-    if (!textToSend || isLoading) return
+    if (!textToSend || (isLoading && !options?.ignoreLoading)) return
 
     const userMessage: Message = {
       role: 'user',
@@ -279,6 +284,9 @@ export default function ChatPage() {
       console.log('[Page] Adding assistant message to state')
       setMessages(prev => [...prev, assistantMessage])
       latestAssistantMessageRef.current = data.message
+      if (data?.provider) {
+        setLastProvider(data.provider)
+      }
 
       // Auto-speak response if voice is enabled
       console.log('[Page] voiceEnabled:', voiceEnabled, 'isTtsSupported:', isTtsSupported)
@@ -316,7 +324,7 @@ export default function ChatPage() {
     console.log('[Page] Setting input and sending message')
     // Set input and send immediately
     setInput(transcript)
-    sendMessage(undefined, transcript)
+    sendMessage(undefined, transcript, { ignoreLoading: true })
   }
 
   const handleQuickLink = (prompt: string) => {
@@ -519,6 +527,12 @@ export default function ChatPage() {
             </div>
 
             <div className="flex items-center gap-2">
+              {/* HF in effect badge */}
+              {(forceHF || lastProvider === 'HuggingFace') && (
+                <span className="px-2 py-1 text-xs font-bold rounded-lg bg-indigo-600 text-white border border-white/20">
+                  HF IN EFFECT
+                </span>
+              )}
               <div className="text-right mr-3">
                 <p className="text-xs text-gray-400 uppercase tracking-wider">Logged in as</p>
                 <p className="text-sm font-semibold text-white">{repName}</p>
