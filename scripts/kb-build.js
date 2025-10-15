@@ -232,11 +232,15 @@ main();
 // -------------------------
 
 function extractFromDocs() {
-  const files = collectMarkdownFiles(DOC_DIRS);
+  const files = collectMarkdownFiles(DOC_DIRS).concat([
+    path.join(ROOT, 'S21_REP_W5H.md')
+  ].filter(fs.existsSync));
   const entries = [];
   const KEYWORDS = [
-    'code', 'gaf', 'maryland', 'matching', 'storm', 'noaa', 'approval', 'denial', 'rebuttal', 'script',
-    'adjuster', 'wind', 'hail', 'slope', 'double layer', 'overlay', 'warranty'
+    'code', 'gaf', 'certainteed', 'maryland', 'virginia', 'pennsylvania', 'matching', 'storm', 'noaa',
+    'approval', 'denial', 'rebuttal', 'script', 'email', 'phone', 'escalation', 'escalate', 'appeal',
+    'adjuster', 'wind', 'hail', 'slope', 'double layer', 'overlay', 'warranty', 'ul 2218', 'astm d3161', 'astm d3462',
+    'drip edge', 'ice barrier', 'valley', 'flashing', 'soffit', 'siding', 'full approval', 'client update'
   ];
   for (const file of files) {
     let text = '';

@@ -437,6 +437,7 @@ Please try asking one of these questions, or reconnect to internet for full AI c
       const fs = require('fs');
       const path = require('path');
       const kbPath = path.join(process.cwd(), 'public', 'offline-kb.json');
+      const insPath = path.join(process.cwd(), 'public', 'offline-insurance.json');
       if (fs.existsSync(kbPath)) {
         const raw = fs.readFileSync(kbPath, 'utf-8');
         const data = JSON.parse(raw);
@@ -451,6 +452,34 @@ Please try asking one of these questions, or reconnect to internet for full AI c
                 // Add to map, later entries can refine earlier ones
                 this.knowledgeBase.set(key, ans);
               }
+            }
+          }
+        }
+      }
+
+      // Load insurance intel as knowledge entries
+      if (fs.existsSync(insPath)) {
+        const raw = fs.readFileSync(insPath, 'utf-8');
+        const companies = JSON.parse(raw);
+        if (Array.isArray(companies)) {
+          for (const c of companies) {
+            const name = String(c.name || '').trim();
+            if (!name) continue;
+            const kws = [name.toLowerCase(), name.toLowerCase().replace(/\s+/g, '-')];
+            const intel = c.intel || {};
+            const summary = [
+              name,
+              c.phone ? `Phone: ${c.phone}${c.phone_instructions ? ' (' + c.phone_instructions + ')' : ''}` : null,
+              c.email ? `Email: ${c.email}` : null,
+              intel.best_call_times ? `Best call times: ${intel.best_call_times}` : null,
+              intel.current_delays ? `Delays: ${intel.current_delays}` : null,
+              intel.proven_workarounds ? `Workarounds: ${intel.proven_workarounds}` : null,
+              intel.alternative_channels ? `Alt channels: ${intel.alternative_channels}` : null,
+              intel.executive_escalation ? `Exec escalation: ${intel.executive_escalation}` : null,
+            ].filter(Boolean).join('\n');
+            if (summary) {
+              this.offlineEntries.push({ keywords: kws, answer: summary });
+              for (const k of kws) this.knowledgeBase.set(k, summary);
             }
           }
         }

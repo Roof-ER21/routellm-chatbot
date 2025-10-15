@@ -211,6 +211,33 @@ Reconnect to internet for full AI capabilities.`,
     });
   }
 
+  // Single company fallback: /api/insurance/company/:id or companies/:id
+  if (url.pathname.includes('/api/insurance/company/') || /\/api\/insurance\/companies\//.test(url.pathname)) {
+    return caches.match('/offline-insurance.json').then(async (resp) => {
+      let arr = [];
+      if (resp) {
+        try { arr = await resp.json(); } catch {}
+      }
+      const seg = url.pathname.split('/').pop() || '';
+      const key = decodeURIComponent(seg).toLowerCase();
+      let company = null;
+      // slug match by name
+      company = arr.find(c => String(c.name || '').toLowerCase().replace(/\s+/g,'-') === key);
+      if (!company && /^\d+$/.test(key)) {
+        const idx = parseInt(key, 10) - 1;
+        if (idx >= 0 && idx < arr.length) company = arr[idx];
+      }
+      if (!company) {
+        // fallback first element
+        company = arr[0] || null;
+      }
+      return new Response(JSON.stringify({ success: !!company, company, offline: true }), {
+        status: 200,
+        headers: new Headers({ 'Content-Type': 'application/json' })
+      });
+    });
+  }
+
   // Default offline response
   return new Response(
     JSON.stringify({ error: 'Offline', offline: true }),
