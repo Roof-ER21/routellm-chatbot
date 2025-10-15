@@ -13,6 +13,7 @@ export interface VoiceRecognitionOptions {
   interimResults?: boolean;
   onFinalResult?: (transcript: string, confidence: number) => void;
   onError?: (error: string) => void;
+  minActiveMs?: number;
 }
 
 export interface VoiceRecognitionHook {
@@ -42,6 +43,8 @@ export function useVoiceRecognition(
     continuous,
     interimResults,
     lang: language,
+    minActiveMs: options.minActiveMs ?? 1800,
+    restartOnEarlyEnd: true,
     onTranscript: (transcript: string, isFinal: boolean) => {
       if (isFinal && onFinalResult) {
         onFinalResult(transcript, 1.0); // Default confidence

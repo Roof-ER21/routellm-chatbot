@@ -36,6 +36,8 @@ export interface VoiceHookOptions {
   onStart?: () => void;
   onEnd?: () => void;
   debounceMs?: number;
+  minActiveMs?: number; // keep mic alive at least this long after start
+  restartOnEarlyEnd?: boolean; // auto-restart if onend fires too quickly
 }
 
 export interface VoiceHookReturn {
@@ -75,6 +77,7 @@ export function useVoice(options: VoiceHookOptions = {}): VoiceHookReturn {
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
   const wakeLockRef = useRef<any>(null);
   const audioSessionActiveRef = useRef(false);
+  const keepAliveUntilRef = useRef(0);
 
   // Initialize speech recognition
   useEffect(() => {
@@ -114,6 +117,21 @@ export function useVoice(options: VoiceHookOptions = {}): VoiceHookReturn {
     // Event: Recognition ends
     recognition.onend = () => {
       console.log('[Voice] Recognition ended');
+      const now = Date.now();
+      const minActive = options.minActiveMs ?? 1500;
+      const allowRestart = options.restartOnEarlyEnd ?? true;
+
+      // If ended too quickly after start and user didn't stop, restart once
+      if (audioSessionActiveRef.current && allowRestart && now < keepAliveUntilRef.current) {
+        try {
+          console.log('[Voice] Ended early, restarting to allow speech');
+          recognitionRef.current && recognitionRef.current.start();
+          return; // don't mark as ended
+        } catch (e) {
+          console.warn('[Voice] Early restart failed:', e);
+        }
+      }
+
       setIsListening(false);
       audioSessionActiveRef.current = false;
       onEnd?.();
@@ -319,12 +337,15 @@ export function useVoice(options: VoiceHookOptions = {}): VoiceHookReturn {
 
       recognitionRef.current.start();
       audioSessionActiveRef.current = true;
+      // keep mic alive for a minimum window to avoid instant close on mobile
+      const minActive = options.minActiveMs ?? 1500;
+      keepAliveUntilRef.current = Date.now() + minActive;
       return true;
     } catch (error: any) {
       console.error('[Voice] Start failed:', error);
 
       // Handle already started error
-      if (error.message?.includes('already started')) {
+      if (String(error.message || '').includes('already started')) {
         setIsListening(true);
         return true;
       }

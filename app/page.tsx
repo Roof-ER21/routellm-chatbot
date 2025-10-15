@@ -839,16 +839,22 @@ export default function ChatPage() {
                   autoReadResponses={true}
                 />
               </div>
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onFocus={pause}
-                onBlur={resume}
-                placeholder={placeholder}
-                className="flex-1 bg-gray-50 border-2 border-gray-300 focus:border-red-500 rounded-xl px-5 py-4 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-red-100 transition-all"
-                disabled={isLoading}
-              />
+              <div className="relative flex-1">
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onFocus={pause}
+                  onBlur={resume}
+                  placeholder={placeholder}
+                  className="w-full bg-gray-50 border-2 border-gray-300 focus:border-red-500 rounded-xl pr-12 pl-5 py-4 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-red-100 transition-all"
+                  disabled={isLoading}
+                />
+                {/* Inline mic inside input */}
+                <div className="absolute right-2 top-1/2 -translate-y-1/2">
+                  <InlineMic onTranscript={(t) => handleVoiceTranscript(t)} />
+                </div>
+              </div>
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
