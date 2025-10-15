@@ -85,6 +85,14 @@ export default function RootLayout({
                   navigator.serviceWorker.register('/sw.js')
                     .then(function(registration) {
                       console.log('[PWA] Service Worker registered:', registration.scope);
+                      // Warm cache once controller is active
+                      if (navigator.serviceWorker.controller) {
+                        try { navigator.serviceWorker.controller.postMessage({ type: 'WARM_CACHE' }); } catch(e) {}
+                      } else {
+                        navigator.serviceWorker.addEventListener('controllerchange', () => {
+                          try { navigator.serviceWorker.controller && navigator.serviceWorker.controller.postMessage({ type: 'WARM_CACHE' }); } catch(e) {}
+                        });
+                      }
                     })
                     .catch(function(error) {
                       console.log('[PWA] Service Worker registration failed:', error);

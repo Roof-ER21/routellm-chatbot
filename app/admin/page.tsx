@@ -48,8 +48,11 @@ export default function AdminDashboard() {
   const [todaysChats, setTodaysChats] = useState<any[]>([])
   const [transcripts, setTranscripts] = useState<ChatTranscript[]>([])
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState<'overview' | 'today' | 'transcripts' | 'database' | 'client-chats' | 'alerts' | 'master-transcript' | 'providers'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'today' | 'transcripts' | 'database' | 'client-chats' | 'alerts' | 'master-transcript' | 'providers' | 'knowledge'>('overview')
   const [providerStatus, setProviderStatus] = useState<any | null>(null)
+  const [kbStatus, setKbStatus] = useState<{kbEntries:number;builtAt:string|null;companies:number}|null>(null)
+  const [kbQuery, setKbQuery] = useState('')
+  const [kbResults, setKbResults] = useState<Array<{score:number;answer:string}>>([])
   const [dbLoading, setDbLoading] = useState(false)
   const [dbMessage, setDbMessage] = useState('')
   const [clientConversations, setClientConversations] = useState<UserConversation[]>([])
@@ -606,6 +609,22 @@ export default function AdminDashboard() {
           >
             🧠 Providers
           </button>
+          <button
+            onClick={async () => {
+              setActiveTab('knowledge')
+              try {
+                const s = await (await fetch('/api/knowledge/status')).json()
+                if (s.success) setKbStatus({ kbEntries: s.kbEntries, builtAt: s.builtAt, companies: s.companies })
+              } catch {}
+            }}
+            className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm ${
+              activeTab === 'knowledge'
+                ? 'bg-gray-800 text-white shadow-md'
+                : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
+            }`}
+          >
+            📚 Knowledge
+          </button>
         </div>
 
         {/* Overview Tab - Statistics Only */}
@@ -731,6 +750,39 @@ export default function AdminDashboard() {
                 {JSON.stringify(providerStatus, null, 2)}
               </pre>
             )}
+          </div>
+        )}
+
+        {/* Knowledge Tab */}
+        {activeTab === 'knowledge' && (
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Offline Knowledge</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="bg-white rounded-lg shadow p-6">
+                <h3 className="text-lg font-semibold mb-2">Status</h3>
+                <p className="text-sm text-gray-700">Entries: {kbStatus?.kbEntries ?? '—'}</p>
+                <p className="text-sm text-gray-700">Companies: {kbStatus?.companies ?? '—'}</p>
+                <p className="text-sm text-gray-500">Built: {kbStatus?.builtAt ?? '—'}</p>
+              </div>
+              <div className="md:col-span-2 bg-white rounded-lg shadow p-6">
+                <h3 className="text-lg font-semibold mb-2">Quick Search</h3>
+                <div className="flex gap-2 mb-3">
+                  <input value={kbQuery} onChange={e=>setKbQuery(e.target.value)} placeholder="Try: double layer / matching / GAF creased" className="flex-1 border rounded px-3 py-2" />
+                  <button onClick={async ()=>{
+                    try { const r = await (await fetch(`/api/knowledge/search?q=${encodeURIComponent(kbQuery)}`)).json(); if (r.success) setKbResults(r.results); } catch {}
+                  }} className="px-4 py-2 rounded bg-gray-900 text-white">Search</button>
+                </div>
+                <div className="space-y-3 max-h-80 overflow-auto">
+                  {kbResults.map((r,i)=> (
+                    <div key={i} className="p-3 border rounded bg-gray-50">
+                      <div className="text-xs text-gray-500 mb-1">Score: {r.score}</div>
+                      <pre className="whitespace-pre-wrap text-sm text-gray-800">{r.answer}</pre>
+                    </div>
+                  ))}
+                  {kbResults.length===0 && <div className="text-sm text-gray-500">No results yet.</div>}
+                </div>
+              </div>
+            </div>
           </div>
         )}
 

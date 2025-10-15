@@ -291,7 +291,27 @@ I'm currently operating offline with limited capabilities. I can help with:
 
 // Message handler for communication with main app
 self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
+  if (!event.data || !event.data.type) return;
+  if (event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
+    return;
+  }
+  if (event.data.type === 'WARM_CACHE') {
+    event.waitUntil((async () => {
+      try {
+        const cache = await caches.open(CACHE_NAME);
+        const urls = Array.from(new Set([
+          '/',
+          '/offline.html',
+          '/manifest.json',
+          '/offline-kb.json',
+          '/offline-insurance.json',
+        ]));
+        await Promise.all(urls.map(u => cache.add(new Request(u, { cache: 'reload' }))));
+        // Best-effort warmup for root page resources (will be ignored if cross-origin)
+      } catch (e) {
+        // ignore
+      }
+    })());
   }
 });
