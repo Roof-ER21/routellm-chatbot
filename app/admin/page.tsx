@@ -580,6 +580,16 @@ export default function AdminDashboard() {
           >
             🗄️ Database
           </button>
+          <button
+            onClick={() => setActiveTab('providers')}
+            className={`px-4 py-2 rounded-lg font-semibold transition-all text-sm ${
+              activeTab === 'providers'
+                ? 'bg-gray-800 text-white shadow-md'
+                : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200'
+            }`}
+          >
+            🧠 Providers
+          </button>
         </div>
 
         {/* Overview Tab - Statistics Only */}
