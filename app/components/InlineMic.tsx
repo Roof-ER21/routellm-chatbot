@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useVoiceRecognition } from "../hooks/useVoiceRecognition";
+import { useVoice } from "../hooks/useVoice";
 
 export default function InlineMic({
   onTranscript,
@@ -11,20 +11,17 @@ export default function InlineMic({
   className?: string;
 }) {
   const [sticky, setSticky] = useState(false);
-  const {
-    isListening,
-    isSupported,
-    startListening,
-    stopListening,
-  } = useVoiceRecognition({
-    language: "en-US",
+  const { isListening, isSupported, startListening, stopListening } = useVoice({
+    lang: "en-US",
     continuous: false,
     interimResults: true,
     minActiveMs: 1800,
-    onFinalResult: (finalTranscript) => {
-      const txt = (finalTranscript || "").trim();
-      if (txt) onTranscript(txt);
-      if (!sticky) stopListening();
+    onTranscript: (txt: string, isFinal: boolean) => {
+      const text = (txt || "").trim();
+      if (isFinal && text) {
+        onTranscript(text);
+        if (!sticky) stopListening();
+      }
     },
   });
 
