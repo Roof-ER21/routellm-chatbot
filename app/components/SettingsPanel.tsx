@@ -69,6 +69,12 @@ export default function SettingsPanel({
   const [showHistory, setShowHistory] = useState(false);
   const [conversations, setConversations] = useState<Conversation[]>([]);
 
+  // Admin view: only show HF controls to Mojo Jojo/Admin
+  const isAdminUser = (() => {
+    const n = (repName || '').trim().toLowerCase();
+    return n === 'mojo jojo' || n === 'admin' || n === 'mojo';
+  })();
+
   useEffect(() => {
     if (isOpen) {
       loadConversations();
@@ -608,7 +614,3 @@ function ConversationItem({
     </div>
   );
 }
-  const isAdminUser = (() => {
-    const n = (repName || '').trim().toLowerCase();
-    return n === 'mojo jojo' || n === 'admin' || n === 'mojo';
-  })();
