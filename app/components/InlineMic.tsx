@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useVoiceRecognition } from "@/hooks/useVoiceRecognition";
+import { useVoiceRecognition } from "../hooks/useVoiceRecognition";
 
 export default function InlineMic({
   onTranscript,
@@ -54,4 +54,3 @@ export default function InlineMic({
     </button>
   );
 }
-
