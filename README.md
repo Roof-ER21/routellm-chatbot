@@ -44,6 +44,8 @@ npm run dev
 DEPLOYMENT_TOKEN=your_abacus_deployment_token
 ABACUS_DEPLOYMENT_ID=6a1d18f38
 HUGGINGFACE_API_KEY=your_hf_api_key
+# Optional: override the HF model used for fallback
+HUGGINGFACE_MODEL=mistralai/Mistral-7B-Instruct-v0.2
 ```
 
 ## Deployment

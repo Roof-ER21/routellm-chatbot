@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { messages, repName, sessionId, mode, handsFreeMode, educationMode } = body
+    const { messages, repName, sessionId, mode, handsFreeMode, educationMode, forceProvider } = body
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
@@ -538,13 +538,20 @@ Stay concise and keep the conversation flowing naturally.`
     // This will try: Abacus → HuggingFace → Ollama → Static Knowledge
     let aiResponse
     try {
-      // Always use conversational messages (now includes core identity)
-      aiResponse = await aiFailover.getResponse(
-        conversationalMessages.map((msg: any) => ({
-          role: msg.role,
-          content: msg.content
-        }))
-      )
+      const normalized = (forceProvider || '').toString().toLowerCase();
+      const msgs = conversationalMessages.map((msg: any) => ({ role: msg.role, content: msg.content }));
+
+      if (normalized === 'huggingface' || normalized === 'hf') {
+        aiResponse = await aiFailover.getResponseFrom('HuggingFace', msgs)
+      } else if (normalized === 'abacus' || normalized === 'abacus.ai') {
+        aiResponse = await aiFailover.getResponseFrom('Abacus.AI', msgs)
+      } else if (normalized === 'ollama') {
+        aiResponse = await aiFailover.getResponseFrom('Ollama', msgs)
+      } else if (normalized === 'static' || normalized === 'offline') {
+        aiResponse = await aiFailover.getResponseFrom('StaticKnowledge', msgs)
+      } else {
+        aiResponse = await aiFailover.getResponse(msgs)
+      }
     } catch (error: any) {
       console.error('All AI providers failed:', error)
       return NextResponse.json(

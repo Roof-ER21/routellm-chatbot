@@ -155,10 +155,10 @@ class HuggingFaceProvider {
       throw new Error('HUGGINGFACE_API_KEY not configured');
     }
 
-    // Use Llama 3 8B Instruct
-    const model = 'meta-llama/Meta-Llama-3-8B-Instruct';
+    // Allow overriding model via env; choose a widely-available default
+    const model = process.env.HUGGINGFACE_MODEL || 'mistralai/Mistral-7B-Instruct-v0.2';
 
-    // Convert messages to prompt format
+    // Convert messages to a simple, model-agnostic prompt
     const prompt = this.formatPrompt(messages);
 
     const response = await fetch(`https://api-inference.huggingface.co/models/${model}`, {
@@ -200,26 +200,26 @@ class HuggingFaceProvider {
 
     return {
       message: message.trim(),
-      model: 'Llama-3-8B',
+      model: model,
       provider: 'HuggingFace'
     };
   }
 
   private formatPrompt(messages: AIMessage[]): string {
-    // Llama 3 format
-    let prompt = '<|begin_of_text|>';
+    // Simple role-tagged prompt that works across most models
+    let prompt = '';
 
     for (const msg of messages) {
       if (msg.role === 'system') {
-        prompt += `<|start_header_id|>system<|end_header_id|>\n\n${msg.content}<|eot_id|>`;
+        prompt += `System: ${msg.content}\n`;
       } else if (msg.role === 'user') {
-        prompt += `<|start_header_id|>user<|end_header_id|>\n\n${msg.content}<|eot_id|>`;
+        prompt += `User: ${msg.content}\n`;
       } else if (msg.role === 'assistant') {
-        prompt += `<|start_header_id|>assistant<|end_header_id|>\n\n${msg.content}<|eot_id|>`;
+        prompt += `Assistant: ${msg.content}\n`;
       }
     }
 
-    prompt += '<|start_header_id|>assistant<|end_header_id|>\n\n';
+    prompt += 'Assistant: ';
     return prompt;
   }
 }
@@ -528,6 +528,44 @@ Always cite specific codes and provide actionable advice.`
 
   getHealthStatus() {
     return this.healthMonitor.getStatus();
+  }
+
+  // Direct call to a specific provider (useful for testing/forcing)
+  async getResponseFrom(providerName: 'Abacus.AI' | 'HuggingFace' | 'Ollama' | 'StaticKnowledge', messages: AIMessage[]): Promise<AIResponse> {
+    const enhancedMessages: AIMessage[] = [
+      {
+        role: 'system',
+        content: `You are Susan AI-21, an expert roofing insurance claim assistant. You have comprehensive knowledge of:
+- Building codes for VA, MD, PA (double layer, slope, flashing)
+- GAF manufacturer requirements and warranty guidelines
+- Maryland Insurance Administration matching requirements
+- Legal arguments and rebuttals for insurance claims
+- Storm damage assessment standards
+
+Always cite specific codes and provide actionable advice.`
+      },
+      ...messages
+    ];
+
+    const map: Record<string, () => Promise<AIResponse>> = {
+      'Abacus.AI': () => callWithRetry(() => this.abacus.call(enhancedMessages), 3, 'Abacus.AI'),
+      'HuggingFace': () => callWithRetry(() => this.huggingface.call(enhancedMessages), 3, 'HuggingFace'),
+      'Ollama': () => callWithRetry(() => this.ollama.call(enhancedMessages), 3, 'Ollama'),
+      'StaticKnowledge': () => callWithRetry(() => this.staticKnowledge.call(enhancedMessages), 1, 'StaticKnowledge'),
+    };
+
+    if (!map[providerName]) {
+      throw new Error(`Unknown provider: ${providerName}`);
+    }
+
+    try {
+      const res = await map[providerName]();
+      this.healthMonitor.recordSuccess(providerName);
+      return res;
+    } catch (err: any) {
+      this.healthMonitor.recordFailure(providerName);
+      throw err;
+    }
   }
 }
 
