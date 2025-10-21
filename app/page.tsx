@@ -18,7 +18,6 @@ import SettingsPanel from './components/SettingsPanel'
 import OfflineIndicator from './components/OfflineIndicator'
 import ExportButton from './components/ExportButton'
 import SimpleAuth from './components/SimpleAuth'
-import InlineMic from './components/InlineMic'
 import { useTextToSpeech } from '@/hooks/useTextToSpeech'
 import { useRotatingPlaceholder } from '@/hooks/useRotatingPlaceholder'
 import { cleanTextForSpeech } from '@/lib/text-cleanup'
@@ -814,7 +813,7 @@ export default function ChatPage() {
               </div>
             )}
 
-            <div className="flex gap-3 items-start">
+            <div className="flex gap-3">
               <button
                 type="button"
                 onClick={() => setShowUnifiedAnalyzer(true)}
@@ -823,38 +822,16 @@ export default function ChatPage() {
               >
                 <span className="text-xl">📎</span>
               </button>
-              {/* Voice Controls */}
-              <div className="hidden md:block">
-                <VoiceControls
-                  onTranscript={handleVoiceTranscript}
-                  onVoiceEnabledChange={setVoiceEnabled}
-                  autoReadResponses={true}
-                />
-              </div>
-              {/* Mobile mic controls */}
-              <div className="md:hidden">
-                <VoiceControls
-                  onTranscript={handleVoiceTranscript}
-                  onVoiceEnabledChange={setVoiceEnabled}
-                  autoReadResponses={true}
-                />
-              </div>
-              <div className="relative flex-1">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onFocus={pause}
-                  onBlur={resume}
-                  placeholder={placeholder}
-                  className="w-full bg-gray-50 border-2 border-gray-300 focus:border-red-500 rounded-xl pr-12 pl-5 py-4 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-red-100 transition-all"
-                  disabled={isLoading}
-                />
-                {/* Inline mic inside input */}
-                <div className="absolute right-2 top-1/2 -translate-y-1/2">
-                  <InlineMic onTranscript={(t) => handleVoiceTranscript(t)} />
-                </div>
-              </div>
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onFocus={pause}
+                onBlur={resume}
+                placeholder={placeholder}
+                className="flex-1 bg-gray-50 border-2 border-gray-300 focus:border-red-500 rounded-xl px-5 py-4 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-red-100 transition-all"
+                disabled={isLoading}
+              />
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
