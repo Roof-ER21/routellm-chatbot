@@ -810,6 +810,19 @@ html, body {
    VOICE CONTROLS - EGYPTIAN THEME
    ============================================ */
 
+/* HIDE ALL VOICE CONTROLS - Disabled for chat interface */
+.voice-controls,
+.voice-mic-button,
+.voice-command-panel,
+input[type="button"][class*="voice"],
+button[class*="voice"],
+[class*="VOICE"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 /* Voice microphone button - Stargate style with pulsing rings */
 .voice-mic-button {
   background: radial-gradient(
