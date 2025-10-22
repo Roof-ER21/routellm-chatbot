@@ -25,6 +25,22 @@ interface ChatTranscript {
 }
 
 export default function AdminDashboard() {
+  // Ensure the admin page can scroll: temporarily remove global iOS fixed-body class
+  useEffect(() => {
+    const body = document.body
+    const hadIosOptimized = body.classList.contains('ios-optimized')
+    if (hadIosOptimized) {
+      body.classList.remove('ios-optimized')
+    }
+
+    // Cleanup: restore previous state when leaving admin
+    return () => {
+      if (hadIosOptimized) {
+        body.classList.add('ios-optimized')
+      }
+    }
+  }, [])
+
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [passcode, setPasscode] = useState('')
   const [error, setError] = useState('')
