@@ -269,12 +269,17 @@ export default function ChatPage() {
         }),
       })
 
-      if (!response.ok) {
-        throw new Error('Failed to get response')
-      }
-
       const data = await response.json()
       console.log('[Page] Received response from API:', data)
+
+      // Check for API-level errors even if response.ok is true
+      if (data.error) {
+        throw new Error(data.error)
+      }
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to get response from AI providers')
+      }
 
       const assistantMessage: Message = {
         role: 'assistant',
@@ -301,10 +306,20 @@ export default function ChatPage() {
         console.log('[Page] NOT speaking - voiceEnabled:', voiceEnabled, 'isTtsSupported:', isTtsSupported)
       }
     } catch (error) {
-      console.error('Error:', error)
+      console.error('[Chat Error]:', error)
+      const errorContent = error instanceof Error
+        ? error.message
+        : 'Sorry, I encountered an error. Please try again.'
+
+      // More helpful error message
+      let displayError = errorContent
+      if (errorContent.includes('All AI providers failed')) {
+        displayError = '⚠️ Unable to connect to AI services. The system will try the fallback providers automatically. Please check:\n\n1. Your internet connection\n2. Try refreshing the page\n3. Contact support if the issue persists\n\nError details: ' + errorContent
+      }
+
       const errorMessage: Message = {
         role: 'assistant',
-        content: 'Sorry, I encountered an error. Please try again.',
+        content: displayError,
         timestamp: new Date()
       }
       setMessages(prev => [...prev, errorMessage])

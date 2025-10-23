@@ -131,14 +131,30 @@ class AbacusProvider {
     }
 
     const data = await response.json();
+    console.log('[AbacusProvider] Response structure:', {
+      success: data.success,
+      hasResult: !!data.result,
+      hasMessages: !!data.result?.messages,
+      messageCount: data.result?.messages?.length || 0
+    });
+
     const assistantMessages = data.result.messages.filter((msg: any) => !msg.is_user);
     const message = assistantMessages[assistantMessages.length - 1]?.text || '';
 
+    console.log('[AbacusProvider] Extracted message:', {
+      assistantMessageCount: assistantMessages.length,
+      hasText: !!message,
+      textLength: message.length,
+      textPreview: message.substring(0, 100)
+    });
+
     // Validate response - must have content
     if (!message || message.trim().length === 0) {
+      console.error('[AbacusProvider] Empty response detected - triggering fallback');
       throw new Error('Abacus returned empty response');
     }
 
+    console.log('[AbacusProvider] ✅ Valid response received');
     return {
       message: message.trim(),
       model: 'Susan AI-21',
@@ -572,15 +588,18 @@ Always cite specific codes and provide actionable advice.`
     ];
 
     // Try each provider in order
+    const attemptedProviders: string[] = [];
     for (const provider of providers) {
       // Skip if circuit breaker is open
       if (this.healthMonitor.shouldSkip(provider.name)) {
-        console.log(`[Failover] Skipping ${provider.name} (circuit breaker open)`);
+        console.log(`[Failover] ⏭️  Skipping ${provider.name} (circuit breaker open)`);
+        attemptedProviders.push(`${provider.name} (skipped - circuit breaker)`);
         continue;
       }
 
       try {
-        console.log(`[Failover] Trying ${provider.name}...`);
+        console.log(`[Failover] 🔄 Attempting ${provider.name}...`);
+        attemptedProviders.push(provider.name);
         const response = await callWithRetry(
           () => provider.call(),
           3,
@@ -588,18 +607,20 @@ Always cite specific codes and provide actionable advice.`
         );
 
         this.healthMonitor.recordSuccess(provider.name);
-        console.log(`[Failover] Success with ${provider.name}`);
+        console.log(`[Failover] ✅ SUCCESS with ${provider.name}`);
         return response;
 
       } catch (error: any) {
-        console.error(`[Failover] ${provider.name} failed:`, error.message);
+        console.error(`[Failover] ❌ ${provider.name} failed:`, error.message);
         this.healthMonitor.recordFailure(provider.name);
         // Continue to next provider
       }
     }
 
     // All providers failed - return error
-    throw new Error('All AI providers failed. Please check your internet connection or try again later.');
+    const failedList = attemptedProviders.join(', ');
+    console.error(`[Failover] 💥 All providers exhausted. Attempted: ${failedList}`);
+    throw new Error(`All AI providers failed (tried: ${failedList}). Please check your internet connection or try again later.`);
   }
 
   getHealthStatus() {

@@ -1311,6 +1311,629 @@
         "script"
       ],
       "answer": "Primary Files: | File | Location | Purpose | |------|----------|---------| | Consolidated Knowledge Base | `/Users/a21/routellm-chatbot/training_data/susan_ai_knowledge_base.json` | Main upload file for Abacus AI | | Upload Guide | `/Users/a21/routellm-chatbot/scripts/upload-knowledge-base-guide.md` | Detailed upload instructions | | This Documentation | `/Users/a21/routellm-chatbot/KNOWLEDGE_BASE_SETUP.md` | Complete setup process |"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Optional: ```env RESEND_API_KEY=your_key # Only for email notifications POSTGRES_URL=your_url # Already configured in Vercel ```"
+    },
+    {
+      "keywords": [
+        "maryland",
+        "virginia",
+        "pennsylvania"
+      ],
+      "answer": "Step 1: Upload Training Data to Abacus AI (10 min): 1. Login to https://abacus.ai 2. Go to ChatLLM Teams 3. Upload `/Users/a21/routellm-chatbot/training_data/susan_ai_knowledge_base.json` 4. Add tags: `insurance_claims`, `roofing`, `virginia`, `maryland`, `pennsylvania`"
+    },
+    {
+      "keywords": [
+        "code",
+        "email"
+      ],
+      "answer": "Text Generation:: ✅ Insurance claim responses ✅ Professional email templates ✅ Building code citations ✅ Damage assessments ✅ Voice command processing ✅ Q&A from knowledge base"
+    },
+    {
+      "keywords": [
+        "denial",
+        "appeal"
+      ],
+      "answer": "Test 2: Template Selection: **Query:** \"I need a template for a partial denial appeal\" **Expected:** Should reference Q105 and Generic Partial Template"
+    },
+    {
+      "keywords": [
+        "code",
+        "virginia",
+        "adjuster",
+        "drip edge"
+      ],
+      "answer": "Test 3: Building Code (Virginia): **Query:** \"Virginia adjuster denied drip edge, help me respond\" **Expected:** Should cite Q301 and R908.3 specifically for Virginia"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "5. EmailComposerModal Component: **Location:** `/app/components/EmailComposerModal.tsx` **Purpose:** Email composition and sending **Size:** ~180 lines **Features:** Pre-fill support, preview, attachment handling"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "10. Email Send API: **Location:** `/app/api/email/send/route.ts` **Endpoint:** `POST /api/email/send` **Purpose:** Send emails via Resend API **Size:** ~95 lines (updated version) **Features:** Validation, attachment support, Resend integration"
+    },
+    {
+      "keywords": [
+        "storm",
+        "email"
+      ],
+      "answer": "API Tests Needed: - [ ] Email send success/failure - [ ] Storm verification with mock data - [ ] Insurance company search - [ ] Company detail lookup - [ ] PDF report generation"
+    },
+    {
+      "keywords": [
+        "storm",
+        "email"
+      ],
+      "answer": "Integration Tests Needed: - [ ] End-to-end template generation - [ ] Photo upload to analysis to result - [ ] Email composition to send - [ ] Storm verification to PDF export - [ ] Company selection to auto-fill"
+    },
+    {
+      "keywords": [
+        "noaa",
+        "email"
+      ],
+      "answer": "Priority 1 (High Impact): 1. Real NOAA API integration 2. Advanced PDF formatting 3. Photo thumbnails in reports 4. Batch email operations"
+    },
+    {
+      "keywords": [
+        "storm",
+        "script",
+        "email"
+      ],
+      "answer": "Adding New Action Types: 1. **Update Type Definition** ```typescript // lib/action-handlers.ts export type ActionType = 'template' | 'photo' | 'email' | 'storm' | 'company' | 'export' | 'voice' | 'YOUR_NEW_TYPE'; ```"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "1. Generate Template Button: **Before:** Prefilled \"generate a template for...\" **After:** 1. Opens TemplateModal 2. User selects template 3. Auto-generates content 4. Shows ResultPanel with preview 5. Options: Copy, Download, Send Email"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "3. Send Email Button: **Before:** Prefilled email text **After:** 1. Opens EmailComposerModal 2. Pre-filled with template or manual 3. Add attachments 4. Preview before sending 5. Sends via Resend API 6. Success confirmation"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Existing Systems: - **Abacus AI:** Photo analysis, template generation - **Resend API:** Email delivery - **Vercel Postgres:** Insurance company database - **Session Management:** Tracks all actions"
+    },
+    {
+      "keywords": [
+        "storm",
+        "script",
+        "email"
+      ],
+      "answer": "Import Components: ```typescript import ActionButton from '@/app/components/ActionButton'; import TemplateModal from '@/app/components/TemplateModal'; import PhotoAnalysisModal from '@/app/components/PhotoAnalysisModal'; import EmailComposerModal from '@/app/components/EmailComposerModal'; import StormVerificationModal from '@/app/components/StormVerificationModal'; import InsuranceCompanyModal from '@/app/components/InsuranceCompanyModal'; import ResultPanel, {"
+    },
+    {
+      "keywords": [
+        "script",
+        "email"
+      ],
+      "answer": "3. Create an Email Send Button: ```typescript const [showEmailModal, setShowEmailModal] = useState(false);"
+    },
+    {
+      "keywords": [
+        "denial",
+        "script",
+        "appeal"
+      ],
+      "answer": "Generate Template: ```typescript const result = await actionHandler.handleTemplateGeneration({ templateKey: 'partial_denial_appeal', autoDetect: false, variables: { property_address: '123 Main St', homeowner_name: 'John Doe', },"
+    },
+    {
+      "keywords": [
+        "script",
+        "email",
+        "adjuster"
+      ],
+      "answer": "Send Email: ```typescript const result = await actionHandler.handleEmailSend({ to: 'adjuster@insurance.com', subject: 'Claim Documentation', body: 'Email content here...', attachments: [{ filename: 'report.pdf', content: pdfBuffer,"
+    },
+    {
+      "keywords": [
+        "script",
+        "email"
+      ],
+      "answer": "Export Report: ```typescript const result = await actionHandler.handleReportExport({ sessionId: '12345', format: 'pdf', includePhotos: true, includeAnalysis: true, includeEmails: true, });"
+    },
+    {
+      "keywords": [
+        "storm",
+        "script",
+        "email"
+      ],
+      "answer": "ActionButton Props Reference: ```typescript interface ActionButtonProps { type: 'template' | 'photo' | 'email' | 'storm' | 'company' | 'export' | 'voice' | 'custom'; label: string; // Button text icon?: ReactNode; // Icon (emoji or component) variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning'; size?: 'sm' | 'md' | 'lg'; // Button size disabled?: boolean; // Disabled state"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Test Email Send: ```bash curl -X POST http://localhost:4000/api/email/send \\ -H \"Content-Type: application/json\" \\ -d '{ \"to\": \"test@example.com\", \"subject\": \"Test Email\", \"body\": \"This is a test email\", \"repName\": \"John Doe\""
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "✅ 3. Email Generator Landing Button - FIXED: - **Problem:** Button navigated to chat instead of opening modal - **Solution:** Wired button directly to EmailGenerator with autoOpen - **Status:** ✅ DEPLOYED"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "✅ 4. Email Generation Failure - FIXED: - **Problem:** \"Failed to generate email\" error - **Solution:** Fixed API payload format + comprehensive error logging - **Status:** ✅ DEPLOYED"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "3. Email Generator Landing Page Button Fix: **File Modified:** `/app/page.tsx`"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "4. Email Generation API Fix: **File Modified:** `/app/components/EmailGenerator.tsx`"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Core Fixes:: 1. `/app/page.tsx` - Removed button, added email modal integration 2. `/app/components/EmailGenerator.tsx` - Fixed API payload + error handling 3. `/lib/vision-service.ts` - NEW: Hugging Face vision service 4. `/lib/photo-intelligence.ts` - Updated to use Hugging Face 5. `/app/api/vision/analyze/route.ts` - NEW: Dedicated vision endpoint 6. `/app/api/document/heavy-analysis/route.ts` - NEW: Heavy processing endpoint"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Email Generator:: - [x] Landing page button opens modal - [x] Modal opens on button click - [x] Form shows all fields correctly - [x] Generate button calls API with correct payload - [x] Error messages are user-friendly - [x] Generated emails display in preview - [x] Copy and Send buttons work"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "✅ Email Generator (Landing Page): **Before:** Button navigated to chat **After:** Opens modal directly with AI generation"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "API Endpoints:: - `/api/vision/analyze` - Dedicated vision processing - `/api/document/heavy-analysis` - Heavy document operations - `/api/chat` - Main chat (no blocking) - `/api/email/send` - Email generation & sending"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "What You Reported:: 1. ❌ Photo Analyzer button doesn't work 2. ❌ Photo analyzer giving fake results (dog = roof damage) 3. ❌ Email generator landing button goes to chat 4. ❌ Email generation fails with generic error"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "What's Now Working:: 1. ✅ Photo Analyzer button removed (clean UI) 2. ✅ Smart roof validation (rejects non-roof images) 3. ✅ Email generator opens modal directly 4. ✅ Email generation works with detailed logging"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Test Email Generator:: 1. Go to https://susanai-21.vercel.app 2. Enter your name 3. Click \"Generate Email\" button on landing page 4. Should open modal immediately 5. Fill form and click \"Generate Email\" 6. Should see generated email with no errors"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Low Priority:: 1. Add more vision models for better accuracy 2. Implement batch photo analysis progress bar 3. Add email generation history view"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "2. ✉️ **Actual Email Generator** (Fully Functional): **What Changed:** - ❌ Old: Button just prefilled chat message - ✅ New: Complete email composition and sending system"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "New Tables Created:: **1. sent_emails** ```sql CREATE TABLE sent_emails ( id SERIAL PRIMARY KEY, session_id INTEGER, rep_name VARCHAR(255), to_email TEXT, subject TEXT,"
+    },
+    {
+      "keywords": [
+        "noaa",
+        "email"
+      ],
+      "answer": "Total Files Created/Modified: **45+ files**: **Core Libraries (5):** - `/lib/document-processor.ts` - Document extraction - `/lib/email-templates.ts` - HTML email templates - `/lib/email.ts` - Email sending - `/lib/noaa-weather-api.ts` - NOAA API client - `/lib/action-handlers.ts` - Action system"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "⚙️ ENVIRONMENT VARIABLES: **Required (Already Configured):** - ✅ `DEPLOYMENT_TOKEN` - Abacus AI token - ✅ `ABACUS_DEPLOYMENT_ID` - Susan AI-21 deployment (6a1d18f38) - ✅ `POSTGRES_URL` - Database connection - ✅ `RESEND_API_KEY` - Email sending"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Optional Enhancements:: **1. Email Templates:** - Customize HTML email templates in `/lib/email-templates.ts` - Add company logo and branding"
+    },
+    {
+      "keywords": [
+        "storm",
+        "email"
+      ],
+      "answer": "API Response Times:: - Document Analysis: ~2-5 seconds (varies by file count) - Email Send: ~500ms - Storm Verification: ~300ms (cached data) - Insurance Lookup: ~50ms"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Common Issues:: **1. Email Not Sending:** - Check RESEND_API_KEY in Vercel environment - Verify recipient email is valid - Check Resend dashboard for delivery status"
+    },
+    {
+      "keywords": [
+        "noaa",
+        "email"
+      ],
+      "answer": "✅ COMPLETION CHECKLIST: - [x] Document analyzer upgraded to multi-format - [x] Email generator with Resend integration - [x] NOAA weather data integration - [x] Insurance company database (50+ carriers) - [x] All buttons trigger real actions - [x] Database schemas created - [x] API endpoints implemented - [x] UI components built"
+    },
+    {
+      "keywords": [
+        "storm",
+        "noaa",
+        "email",
+        "hail"
+      ],
+      "answer": "Features: ✅ ALL IMPLEMENTED: - ✅ Multi-format document analyzer - ✅ Actual email generator with Resend - ✅ NOAA hail storm verification - ✅ 50+ insurance company database - ✅ Action button system (instant actions)"
+    },
+    {
+      "keywords": [
+        "storm",
+        "email"
+      ],
+      "answer": "Result:: **A professional, AI-powered roofing insurance assistant that processes documents, sends emails, verifies storms, manages insurance companies, and triggers instant actions - all deployed and production-ready!**"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "2. ❌ Email generator didn't match mockup:"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "1. 📧 **Email Generator - Now Matches Mockup EXACTLY**: **Problem:** Email generator didn't have the professional form shown in mockup."
+    },
+    {
+      "keywords": [
+        "matching",
+        "email"
+      ],
+      "answer": "✅ Email Generator: - Professional form matching mockup exactly - 9 email types to choose from - AI-powered generation with Abacus AI - Explanation of why each email works - Copy to clipboard functionality - Send via Resend API"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Core Fixes:: 1. `/app/components/EmailGenerator.tsx` - Complete rewrite (500 lines) 2. `/app/page.tsx` - Integrated PhotoAnalysisModal 3. `/lib/document-processor.ts` - Fixed counting + logging"
+    },
+    {
+      "keywords": [
+        "email",
+        "hail"
+      ],
+      "answer": "Test Email Generator:: 1. Go to https://susanai-21.vercel.app 2. Enter your name and start conversation 3. Click \"Generate Email\" button 4. Fill form: - Email Type: \"Homeowner Communication\" - Recipient Name: \"John Smith\" - Claim Number: \"CLM-2024-001\" - Details: \"Following up on hail damage claim\" 5. Click gradient \"Generate Email\" button"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Immediate Actions:: 1. **Test All Three Fixed Features:** - Email generator form - Photo upload button - Document analyzer count"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Future Enhancements:: 1. **Email Generator:** - Add in-place editing of generated emails - Save draft emails - Email history view"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "✅ FINAL CHECKLIST: - [x] Email generator matches mockup exactly - [x] Email generator calls Abacus AI - [x] Email generator shows explanation - [x] Photo upload button opens file picker - [x] Photo upload sends to API - [x] Photo analysis shows in chat - [x] Document analyzer shows correct count - [x] Document analyzer returns real AI analysis"
+    },
+    {
+      "keywords": [
+        "matching",
+        "email"
+      ],
+      "answer": "What You Asked For:: 1. ✅ **Email generator matching mockup** - DONE - Exact form fields - AI-powered generation - Explanation of why it works - Professional preview and actions"
+    },
+    {
+      "keywords": [
+        "phone"
+      ],
+      "answer": "Mobile Setup:: - **Files**: START_HERE.md, QUICK_START.md, DEPLOYMENT_GUIDE.md - **Keywords**: mobile, iPhone, Android, home screen, PWA"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Test on Mobile:: 1. Share the Vercel URL with team via SMS/Email 2. Each person can add to home screen 3. Test chat functionality 4. Verify Abacus.AI responses work"
+    },
+    {
+      "keywords": [
+        "denial",
+        "escalation",
+        "appeal"
+      ],
+      "answer": "📝 Templates: - **Status:** ✅ Production Ready - **Count:** 10 professional templates - **Categories:** - Appeals (partial/full denial) - Supplemental claims - Escalations - Documentation - Negotiations - **AI Enhancement:** Abacus AI powered"
+    },
+    {
+      "keywords": [
+        "code",
+        "wind",
+        "hail",
+        "flashing"
+      ],
+      "answer": "📸 Photo Intelligence: - **Status:** ✅ Production Ready - **API:** Abacus AI Vision (100% Abacus AI - no Anthropic!) - **Damage Types:** 6 (hail, wind, shingles, flashing, granular, structural) - **Features:** - Severity scoring - Pattern recognition - Code violations - Professional assessments"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Future Enhancements:: 1. Add more templates (currently 10) 2. Expand voice command types 3. Add photo batch processing UI 4. Implement admin dashboard analytics 5. Add email notifications for completed reports"
+    },
+    {
+      "keywords": [
+        "phone"
+      ],
+      "answer": "iPhone Users:: 1. Open Safari (not Chrome!) 2. Go to your Vercel URL 3. Tap Share → \"Add to Home Screen\" 4. Name it \"Roofer AI\" 5. Now they have an app icon!"
+    },
+    {
+      "keywords": [
+        "storm",
+        "email",
+        "phone"
+      ],
+      "answer": "Features Available:: 1. **Photo Analyzer** - AI analyzes roof damage photos 2. **Email Generator** - Creates professional insurance emails 3. **Insurance Finder** - Company info and contact details 4. **Weather Data** - Storm history for claims 5. **Real-time Chat** - Instant AI responses 6. **Mobile-First UI** - Designed for phones/tablets"
+    },
+    {
+      "keywords": [
+        "phone"
+      ],
+      "answer": "Usage Success Metrics:: - Field team can access on phones: ✓ - App loads in <3 seconds: ✓ - AI responds in <5 seconds: ✓ - Works offline after first load: Partial (PWA cache) - Team adoption rate >80%: TBD - Reduces time per claim: TBD"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Time Savings per Field Worker:: - Faster insurance emails: 15 min/day - Quicker damage assessment: 10 min/day - Easy weather lookup: 5 min/day - **Total: 30 minutes/day per worker**"
+    },
+    {
+      "keywords": [
+        "phone"
+      ],
+      "answer": "Day 1:: - Test on desktop browser - Test on iPhone - Test on Android - Fix any issues"
+    },
+    {
+      "keywords": [
+        "email",
+        "phone"
+      ],
+      "answer": "For Field Workers:: - [ ] Receive URL via SMS/email - [ ] Add to phone home screen - [ ] Complete training - [ ] Start using daily - [ ] Provide feedback"
+    },
+    {
+      "keywords": [
+        "approval",
+        "email",
+        "phone",
+        "adjuster"
+      ],
+      "answer": "Smart Extraction: - Automatic claim number detection - Policy number extraction - Insurance company identification (20+ major carriers) - Adjuster information (name, phone, email) - Date of loss extraction - Dollar amounts (estimates, approvals, deductibles) - Property address detection"
+    },
+    {
+      "keywords": [
+        "denial",
+        "script",
+        "email"
+      ],
+      "answer": "Phase 3: Context-Aware Analysis: **Smart Document Type Detection:** ```typescript function detectDocumentType(text: string): DocumentType { const keywords = { denial_letter: ['denied', 'rejection', 'not covered', 'excluded'], estimate: ['line item', 'quantity', 'unit price', 'total'], email: ['from:', 'to:', 'subject:', 're:'], supplement: ['supplement', 'additional', 'missed items'],"
+    },
+    {
+      "keywords": [
+        "denial",
+        "email"
+      ],
+      "answer": "Document Processing:: - [x] Abacus AI configured and working - [x] Hugging Face configured and working - [ ] Add denial letter intelligence - [ ] Add estimate comparison logic - [ ] Add email analysis - [ ] Add multi-document package analysis"
+    },
+    {
+      "keywords": [
+        "denial",
+        "email"
+      ],
+      "answer": "Unified API:: - [ ] Create `/api/analyze/unified/route.ts` - [ ] Implement smart document type detection - [ ] Add denial letter analysis - [ ] Add estimate comparison - [ ] Add email analysis - [ ] Add full package analysis"
+    },
+    {
+      "keywords": [
+        "denial",
+        "email",
+        "adjuster"
+      ],
+      "answer": "Testing:: - [ ] Test with real denial letters - [ ] Test with insurance estimates - [ ] Test with adjuster emails - [ ] Test with full claims packages - [ ] Verify accuracy of extractions"
+    },
+    {
+      "keywords": [
+        "denial",
+        "email"
+      ],
+      "answer": "🚀 Ready to Build?: **Focus Areas:** 1. ✅ Document intelligence (denial letters, estimates, emails) 2. ✅ Abacus AI for text analysis 3. ✅ Hugging Face for image support (optional) 4. ✅ Smart analysis type detection 5. ✅ Actionable recommendations 6. ✅ Test before and after"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Problem Summary: The email generation feature was failing with \"Failed to generate email\" error when users filled out the form and clicked \"Generate Email\"."
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Root Cause: **API Payload Mismatch**: The `EmailGenerator.tsx` component was sending an incorrect payload format to `/api/chat`:"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "1. Fixed API Payload Format: Updated `/Users/a21/routellm-chatbot/app/components/EmailGenerator.tsx` to use correct payload:"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "3. Enhanced Error Messages to User: Users now see actual error details instead of generic \"Failed to generate email\":"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Request Flow: 1. **EmailGenerator** → Formats prompt with email type, recipient, claim number 2. **EmailGenerator** → Calls `/api/chat` with correct payload format 3. **/api/chat** → Validates payload (checks for `messages` array) 4. **/api/chat** → Adds system context about Susan AI-21 5. **/api/chat** → Calls Abacus AI API 6. **Abacus AI** → Generates email content 7. **/api/chat** → Extracts message from Abacus AI response 8. **EmailGenerator** → Parses JSON from AI response 9. **EmailGenerator** → Displays email preview to user"
+    },
+    {
+      "keywords": [
+        "code",
+        "email"
+      ],
+      "answer": "Error Handling at Each Step: - **Validation**: Checks email type, recipient name, claim number - **API Call**: Catches network errors, shows status codes - **Response Parsing**: Handles JSON parsing failures with fallbacks - **User Feedback**: Shows actual error messages, not generic ones"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "3. Test Email Generation: 1. Click \"Generate Email\" button 2. Select email type (e.g., \"Homeowner Communication\") 3. Enter recipient name (e.g., \"John Smith\") 4. Enter claim number (e.g., \"CLM-2024-12345\") 5. Add optional details 6. Click \"Generate Email\""
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "4. Check Console Logs: Open browser DevTools Console, you should see: ``` [EmailGen] Starting email generation... [EmailGen] Email type: Homeowner Communication [EmailGen] Recipient: John Smith [EmailGen] Claim number: CLM-2024-12345 [EmailGen] Calling /api/chat with payload: {...} [EmailGen] API response status: 200 [EmailGen] API response ok: true"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "5. Expected Result: - Email preview appears with subject, body, and explanation - No errors in console - \"Why this email works\" section displays - Copy and Send buttons are enabled"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "`/Users/a21/routellm-chatbot/app/components/EmailGenerator.tsx`: - **Line 108-119**: Fixed payload format to use `messages` array - **Line 85-88**: Added detailed console logging - **Line 121-151**: Enhanced error handling with specific messages - **Line 150-197**: Improved response parsing with fallbacks - **Line 198-202**: Better error display to user"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Known Limitations: 1. **JSON Parsing**: AI may not always return valid JSON - fallback handles this 2. **Email Validation**: Basic regex validation for recipient email 3. **Send Email**: Requires `/api/email/send` endpoint (separate feature)"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Next Steps (Optional Enhancements): 1. Add retry logic for transient API failures 2. Cache generated emails in localStorage 3. Add email templates dropdown for quicker selection 4. Implement draft saving functionality 5. Add preview mode before sending 6. Support multiple recipients 7. Add attachment support"
+    },
+    {
+      "keywords": [
+        "script",
+        "email"
+      ],
+      "answer": "Success Criteria Met: ✅ Email generation works end-to-end ✅ Actual error messages shown to users ✅ Comprehensive console logging for debugging ✅ Graceful fallbacks for JSON parsing ✅ TypeScript compilation succeeds ✅ No breaking changes to existing features ✅ Environment variables properly configured"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "What Was Built: Successfully transformed the \"Generate Email\" button from a simple text prefill into a **fully functional email sender** that:"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "New Files (6):: 1. `/lib/email-templates.ts` - HTML email templates with Roof-ER branding 2. `/app/components/EmailModal.tsx` - Email composition modal 3. `/app/components/EmailGenerator.tsx` - Email generator button component 4. `/app/api/email/send/route.ts` - Send email API endpoint 5. `/app/api/email/history/route.ts` - Email history API endpoint 6. `/EMAIL_SYSTEM_DOCUMENTATION.md` - Complete documentation"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Updated Files (3):: 1. `/lib/db.ts` - Added email logging functions and database schema 2. `/lib/email.ts` - Added `sendClaimEmail()` function 3. `/app/page.tsx` - Integrated EmailGenerator component"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "1. Database Integration: - **New table:** `sent_emails` with full email tracking - **Functions:** `logSentEmail()`, `getEmailHistory()`, `getEmailById()` - **Auto-migration:** Table created automatically on startup"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "2. Professional Email Templates: - **HTML conversion:** Plain text → Professional HTML emails - **Roof-ER branding:** Logo, colors, signature block - **Responsive design:** Works on all email clients - **Auto-formatting:** Markdown-style headers, lists, bold text"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "3. Resend API Integration: - **Email sending:** Via `resend.emails.send()` - **Attachment support:** Up to 10MB per email - **Delivery tracking:** Logs Resend message ID - **Error handling:** Comprehensive error messages"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "4. UI Components: - **EmailModal:** Full-featured email composition interface - **EmailGenerator:** One-click email generation from conversation - **Preview mode:** Toggle between edit and preview - **Validation:** Real-time email validation"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "5. API Endpoints: - **POST /api/email/send** - Send emails with full validation - **GET /api/email/history** - Retrieve email history"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "User Flow:: 1. User chats with Susan AI-21 about insurance claim 2. Clicks **\"Generate Email\"** button in header 3. System auto-generates email from conversation context 4. Modal opens with editable email content 5. User enters recipient email and reviews content 6. Clicks **\"Send Email\"** 7. Email sent via Resend with professional HTML formatting 8. Confirmation displayed, email logged to database"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Technical Flow:: ``` User clicks \"Generate Email\" ↓ EmailGenerator.handleGenerateEmail() ↓ POST /api/templates/generate ↓ Template engine generates content ↓"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Optional Configuration:: - `FROM_EMAIL` - Custom from email (default: Roof-ER Claims <noreply@susanai-21.vercel.app>) - `ABACUS_DEPLOYMENT_ID` - Abacus AI deployment ID"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Database Schema: ```sql CREATE TABLE IF NOT EXISTS sent_emails ( id SERIAL PRIMARY KEY, session_id INTEGER REFERENCES chat_sessions(id), rep_name VARCHAR(255) NOT NULL, to_email TEXT NOT NULL, from_email TEXT NOT NULL, subject TEXT NOT NULL,"
+    },
+    {
+      "keywords": [
+        "email"
+      ],
+      "answer": "Send Email: **POST /api/email/send**"
     }
-  ]
+  ],
+  "builtAt": "2025-10-23T20:53:39.148Z"
 }
