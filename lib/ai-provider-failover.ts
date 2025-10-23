@@ -174,14 +174,19 @@ class HuggingFaceProvider {
     }
 
     // Try multiple models in order of availability
+    // Start with popular, fast models
     const models = [
-      'mistralai/Mistral-7B-Instruct-v0.2',
-      'microsoft/phi-2',
-      'google/flan-t5-base'
+      'Qwen/Qwen2.5-7B-Instruct',           // Qwen3 model (if you meant Qwen2.5)
+      'Qwen/Qwen2.5-Coder-7B-Instruct',     // Qwen coder variant
+      'mistralai/Mistral-7B-Instruct-v0.2', // Mistral (reliable fallback)
+      'microsoft/phi-2',                     // Phi-2 (fast)
+      'google/flan-t5-large'                 // T5 (backup)
     ];
 
+    // Environment variable takes highest priority
     const preferredModel = process.env.HUGGINGFACE_MODEL;
     if (preferredModel) {
+      console.log(`[HuggingFaceProvider] Using configured model: ${preferredModel}`);
       models.unshift(preferredModel);
     }
 
