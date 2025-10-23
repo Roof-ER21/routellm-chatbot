@@ -167,58 +167,90 @@ class HuggingFaceProvider {
   async call(messages: AIMessage[]): Promise<AIResponse> {
     const apiKey = process.env.HUGGINGFACE_API_KEY;
 
+    // Skip if API key is not configured (optional provider)
     if (!apiKey || apiKey === 'your_huggingface_api_key_here') {
-      throw new Error('HUGGINGFACE_API_KEY not configured');
+      console.log('[HuggingFaceProvider] API key not configured - skipping');
+      throw new Error('HUGGINGFACE_API_KEY not configured - add to Railway env vars for HuggingFace backup');
     }
 
-    // Allow overriding model via env; choose a widely-available default
-    const model = process.env.HUGGINGFACE_MODEL || 'mistralai/Mistral-7B-Instruct-v0.2';
+    // Try multiple models in order of availability
+    const models = [
+      'mistralai/Mistral-7B-Instruct-v0.2',
+      'microsoft/phi-2',
+      'google/flan-t5-base'
+    ];
 
-    // Convert messages to a simple, model-agnostic prompt
-    const prompt = this.formatPrompt(messages);
+    const preferredModel = process.env.HUGGINGFACE_MODEL;
+    if (preferredModel) {
+      models.unshift(preferredModel);
+    }
 
-    const response = await fetch(`https://api-inference.huggingface.co/models/${model}`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        inputs: prompt,
-        parameters: {
-          max_new_tokens: 512,
-          temperature: 0.7,
-          top_p: 0.9,
-          return_full_text: false
+    let lastError = null;
+
+    for (const model of models) {
+      try {
+        console.log(`[HuggingFaceProvider] Trying model: ${model}`);
+
+        // Convert messages to a simple, model-agnostic prompt
+        const prompt = this.formatPrompt(messages);
+
+        const response = await fetch(`https://api-inference.huggingface.co/models/${model}`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            inputs: prompt,
+            parameters: {
+              max_new_tokens: 512,
+              temperature: 0.7,
+              top_p: 0.9,
+              return_full_text: false
+            }
+          }),
+          signal: AbortSignal.timeout(30000)
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.log(`[HuggingFaceProvider] Model ${model} failed:`, errorText);
+
+          // Handle model loading
+          if (response.status === 503 || errorText.includes('loading')) {
+            lastError = new Error(`Model ${model} is loading`);
+            continue; // Try next model
+          }
+
+          lastError = new Error(`HuggingFace API error: ${response.status}`);
+          continue; // Try next model
         }
-      }),
-      signal: AbortSignal.timeout(30000)
-    });
 
-    if (!response.ok) {
-      const errorText = await response.text();
+        const result = await response.json();
+        const message = Array.isArray(result) ? result[0]?.generated_text : result.generated_text;
 
-      // Handle model loading
-      if (response.status === 503 || errorText.includes('loading')) {
-        throw new Error('Model is loading, please try again in a moment');
+        // Validate response - must have content
+        if (!message || message.trim().length === 0) {
+          console.log(`[HuggingFaceProvider] Model ${model} returned empty response`);
+          lastError = new Error('HuggingFace returned empty response');
+          continue; // Try next model
+        }
+
+        console.log(`[HuggingFaceProvider] ✅ Success with model: ${model}`);
+        return {
+          message: message.trim(),
+          model: model,
+          provider: 'HuggingFace'
+        };
+      } catch (error: any) {
+        console.log(`[HuggingFaceProvider] Model ${model} error:`, error.message);
+        lastError = error;
+        continue; // Try next model
       }
-
-      throw new Error(`HuggingFace API error: ${response.status}`);
     }
 
-    const result = await response.json();
-    const message = Array.isArray(result) ? result[0]?.generated_text : result.generated_text;
-
-    // Validate response - must have content
-    if (!message || message.trim().length === 0) {
-      throw new Error('HuggingFace returned empty response');
-    }
-
-    return {
-      message: message.trim(),
-      model: model,
-      provider: 'HuggingFace'
-    };
+    // All models failed
+    throw lastError || new Error('HuggingFace: All models failed');
   }
 
   private formatPrompt(messages: AIMessage[]): string {
@@ -244,38 +276,67 @@ class OllamaProvider {
   async call(messages: AIMessage[]): Promise<AIResponse> {
     const ollamaUrl = process.env.OLLAMA_API_URL || 'http://localhost:11434';
 
-    // Try to connect to Ollama
-    const response = await fetch(`${ollamaUrl}/api/chat`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'qwen2.5:7b',
-        messages: messages.map(msg => ({
-          role: msg.role,
-          content: msg.content
-        })),
-        stream: false
-      }),
-      signal: AbortSignal.timeout(30000)
-    });
+    // Try multiple models in order of preference
+    const models = [
+      'qwen2.5:7b',      // Preferred model
+      'qwen2.5:14b',     // Fallback if 7b not available
+      'qwen3-coder:latest', // Alternative
+      'gemma2:latest'    // Final fallback
+    ];
 
-    if (!response.ok) {
-      throw new Error(`Ollama API error: ${response.status}`);
+    let lastError = null;
+
+    for (const model of models) {
+      try {
+        console.log(`[OllamaProvider] Trying model: ${model}`);
+
+        // Try to connect to Ollama
+        const response = await fetch(`${ollamaUrl}/api/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: model,
+            messages: messages.map(msg => ({
+              role: msg.role,
+              content: msg.content
+            })),
+            stream: false
+          }),
+          signal: AbortSignal.timeout(30000)
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.log(`[OllamaProvider] Model ${model} failed:`, errorText);
+          lastError = new Error(`Ollama API error: ${response.status} - ${errorText}`);
+          continue; // Try next model
+        }
+
+        const data = await response.json();
+        const message = data.message?.content || '';
+
+        // Validate response - must have content
+        if (!message || message.trim().length === 0) {
+          console.log(`[OllamaProvider] Model ${model} returned empty response`);
+          lastError = new Error('Ollama returned empty response');
+          continue; // Try next model
+        }
+
+        console.log(`[OllamaProvider] ✅ Success with model: ${model}`);
+        return {
+          message: message.trim(),
+          model: `Ollama ${model}`,
+          provider: 'Ollama (Local)'
+        };
+      } catch (error: any) {
+        console.log(`[OllamaProvider] Model ${model} error:`, error.message);
+        lastError = error;
+        continue; // Try next model
+      }
     }
 
-    const data = await response.json();
-    const message = data.message?.content || '';
-
-    // Validate response - must have content
-    if (!message || message.trim().length === 0) {
-      throw new Error('Ollama returned empty response');
-    }
-
-    return {
-      message: message.trim(),
-      model: 'Qwen 2.5 7B',
-      provider: 'Ollama (Local)'
-    };
+    // All models failed
+    throw lastError || new Error('Ollama: All models failed');
   }
 }
 
