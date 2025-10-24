@@ -307,6 +307,26 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
 
 **CRITICAL MISSION:** Reps are evidence builders, not sales people. Emails must WIN ARGUMENTS with facts, NOT schedule meetings or promote services.
 
+**⚠️ SAFEGUARD - CUSTOMER-SENT EMAILS:**
+If this email is meant to be sent BY the homeowner (e.g., appraisal requests, customer escalations), you MUST include this instruction header at the top:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+INSTRUCTIONS FOR [CUSTOMER_NAME]:
+
+This email is drafted for YOU to send directly to the insurance company.
+
+✅ Copy the email content below (starting from the greeting)
+✅ Send it from YOUR email address to the insurance company
+✅ CC me ([REP_NAME] at [REP_EMAIL]) so I can monitor the response
+
+DO NOT have the rep send this on your behalf - it must come from you
+for maximum impact with the insurance company.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[EMAIL CONTENT STARTS BELOW - COPY FROM HERE]
+
+Then include the actual email content. The signature should be from ${recipientName} (the customer), NOT from ${repName}.
+
 **EMAIL DETAILS:**
 - Recipient: ${recipientName} ${isAdjusterEmail ? '(ADJUSTER)' : isHomeownerEmail ? '(HOMEOWNER)' : ''}
 - Claim Number: ${claimNumber || 'Not specified'}
@@ -821,6 +841,25 @@ Be conversational and brief.`
                   <div className="space-y-5">
                     {/* Intelligence Displays */}
                     {analyzingDocument && <AnalyzingIndicator />}
+
+                    {/* Customer-Sent Template Warning */}
+                    {selectedTemplate && selectedTemplate.sender === 'customer' && (
+                      <div className="bg-yellow-500/20 border-2 border-yellow-400 rounded-lg p-4">
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-full bg-yellow-500 flex items-center justify-center flex-shrink-0">
+                            <span className="text-xl text-white">⚠️</span>
+                          </div>
+                          <div>
+                            <p className="text-yellow-200 font-bold text-sm mb-1">CUSTOMER-SENT EMAIL</p>
+                            <p className="text-yellow-300 text-sm">
+                              This email is for the <strong>HOMEOWNER to send</strong> (not you, the rep).
+                              Susan will include clear instructions at the top of the email explaining that
+                              the homeowner must copy and send it from their own email address.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
                     {recommendedTemplate && !analyzingDocument && (
                       <TemplateRecommendationDisplay

@@ -9,6 +9,7 @@ export interface EmailTemplate {
   audience: string;
   tone: string;
   purpose: string;
+  sender?: 'rep' | 'customer'; // Who sends this email - 'customer' means homeowner sends (not rep)
   structure: {
     greeting?: string;
     introduction?: string;
@@ -250,6 +251,52 @@ const TEMPLATES: EmailTemplate[] = [
     key_phrases: ["payment follow-up", "approved claim", "expedite payment"],
     arguments_used: [],
     success_indicators: { usage_count: 312, approval_rate: 94, avg_response_time: "3-7 days" }
+  },
+  {
+    template_name: "Appraisal Request (Customer Sends)",
+    audience: "Insurance Adjuster",
+    tone: "Firm, professional",
+    purpose: "Homeowner requests appraisal process (sent BY homeowner)",
+    sender: "customer",
+    structure: {
+      greeting: "Dear [RECIPIENT_NAME],",
+      introduction: "I am writing regarding my insurance claim [CLAIM_NUMBER].",
+      evidence_statement: "I strongly disagree with the current estimate and am formally requesting the appraisal process under my policy.",
+      argument_modules: [
+        "Specific disagreements with estimate",
+        "Reference to policy's appraisal clause",
+        "Request for appraisal umpire selection process",
+        "Timeline expectations per policy"
+      ],
+      request: "Please initiate the appraisal process immediately and provide details on selecting appraisers.",
+      closing: "I expect a response within 10 business days as required by my policy."
+    },
+    key_phrases: ["appraisal process", "policy clause", "formal request"],
+    arguments_used: ["Policy Rights"],
+    success_indicators: { usage_count: 89, approval_rate: 75, avg_response_time: "10-15 days" }
+  },
+  {
+    template_name: "Customer to Insurance Escalation (Customer Sends)",
+    audience: "Insurance Claims Manager",
+    tone: "Firm, assertive",
+    purpose: "Homeowner escalates dispute to management (sent BY homeowner)",
+    sender: "customer",
+    structure: {
+      greeting: "Dear [RECIPIENT_NAME],",
+      introduction: "I am writing to escalate my insurance claim [CLAIM_NUMBER] which has not been resolved satisfactorily.",
+      evidence_statement: "Despite multiple communications with the adjuster, my claim remains improperly denied/undervalued:",
+      argument_modules: [
+        "Timeline of communications",
+        "Specific issues with adjuster's decision",
+        "Building code violations in current estimate",
+        "My contractor's documentation of required work"
+      ],
+      request: "I request immediate management review of this claim and a revised estimate that complies with building codes.",
+      closing: "If this is not resolved within 15 business days, I will file a complaint with the state insurance commissioner."
+    },
+    key_phrases: ["escalation", "management review", "state commissioner"],
+    arguments_used: ["Building Code", "State Insurance Regulations"],
+    success_indicators: { usage_count: 67, approval_rate: 60, avg_response_time: "15-20 days" }
   }
 ];
 
@@ -285,8 +332,33 @@ class TemplateService {
   }
 
   generateEmailFromTemplate(template: EmailTemplate, context: any): string {
-    const { repName = "Rep", customerName = "Customer", recipientName = "Sir/Madam", claimNumber = "N/A" } = context;
-    let email = template.structure.greeting?.replace('[RECIPIENT_NAME]', recipientName) || `Dear ${recipientName},`;
+    const {
+      repName = "Rep",
+      repEmail = "rep@roofer.com",
+      customerName = "Customer",
+      recipientName = "Sir/Madam",
+      claimNumber = "N/A",
+      insuranceEmail = "claims@insurance.com"
+    } = context;
+
+    let email = '';
+
+    // CRITICAL: Add instructions header for customer-sent emails
+    if (template.sender === 'customer') {
+      email += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+      email += `INSTRUCTIONS FOR ${customerName.toUpperCase()}:\n\n`;
+      email += `This email is drafted for YOU to send directly to the insurance company.\n\n`;
+      email += `✅ Copy the email content below (starting from the greeting)\n`;
+      email += `✅ Send it from YOUR email address to ${insuranceEmail}\n`;
+      email += `✅ CC me (${repName} at ${repEmail}) so I can monitor the response\n\n`;
+      email += `DO NOT have ${repName} send this on your behalf - it must come from you\n`;
+      email += `for maximum impact with the insurance company.\n`;
+      email += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+      email += `[EMAIL CONTENT STARTS BELOW - COPY FROM HERE]\n\n`;
+    }
+
+    // Generate the actual email content
+    email += template.structure.greeting?.replace('[RECIPIENT_NAME]', recipientName) || `Dear ${recipientName},`;
     email += "\n\n";
 
     if (template.structure.introduction) {
@@ -316,7 +388,13 @@ class TemplateService {
       email += template.structure.closing + "\n\n";
     }
 
-    email += `Best regards,\n\n${repName}\nRoof-ER Claims Advocacy\n`;
+    // Signature: customer name for customer-sent emails, rep name for rep-sent emails
+    if (template.sender === 'customer') {
+      email += `Sincerely,\n\n${customerName}\n`;
+    } else {
+      email += `Best regards,\n\n${repName}\nRoof-ER Claims Advocacy\n`;
+    }
+
     return email;
   }
 }
