@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { extractPDFText, isPDF } from '@/lib/client-pdf-extractor'
 
 interface EmailGeneratorProps {
   repName: string
@@ -43,6 +44,9 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
   const [chatMessages, setChatMessages] = useState<Array<{ role: 'assistant' | 'user'; content: string }>>([])
   const [userInput, setUserInput] = useState('')
   const [isSending, setIsSending] = useState(false)
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
+  const [extractedText, setExtractedText] = useState('')
+  const [isProcessingFiles, setIsProcessingFiles] = useState(false)
 
   // Auto-open modal if autoOpen prop is true
   useEffect(() => {
@@ -73,8 +77,53 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
         setGeneratedEmail(null)
         setError(null)
         setCopied(false)
+        setUploadedFiles([])
+        setExtractedText('')
       }, 300)
     }
+  }
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (!files || files.length === 0) return
+
+    const newFiles = Array.from(files)
+    setUploadedFiles(prev => [...prev, ...newFiles])
+    setIsProcessingFiles(true)
+
+    // Extract text from uploaded files
+    for (const file of newFiles) {
+      try {
+        let extractedContent = ''
+
+        // Handle PDF files
+        if (isPDF(file)) {
+          console.log(`[EmailGen] Extracting text from PDF: ${file.name}`)
+          extractedContent = await extractPDFText(file)
+          console.log(`[EmailGen] Extracted ${extractedContent.length} characters from PDF`)
+        }
+        // Handle text files
+        else if (file.type.includes('text') || file.name.endsWith('.txt')) {
+          extractedContent = await file.text()
+        }
+        // For images and other files, just note them
+        else {
+          extractedContent = `[${file.type || 'Unknown type'} file - content not extracted]`
+        }
+
+        if (extractedContent.trim()) {
+          setExtractedText(prev => prev + '\n\n--- From ' + file.name + ' ---\n' + extractedContent)
+        }
+      } catch (error) {
+        console.error(`[EmailGen] Error extracting text from ${file.name}:`, error)
+        setExtractedText(prev => prev + '\n\n--- From ' + file.name + ' ---\n[Error extracting content]')
+      }
+    }
+    setIsProcessingFiles(false)
+  }
+
+  const removeFile = (index: number) => {
+    setUploadedFiles(prev => prev.filter((_, i) => i !== index))
   }
 
   const handleGenerateEmail = async () => {
@@ -89,10 +138,7 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
       setError('Please enter recipient name')
       return
     }
-    if (!claimNumber.trim()) {
-      setError('Please enter claim number')
-      return
-    }
+    // Claim number is now optional - not required
 
     setIsGenerating(true)
 
@@ -102,14 +148,15 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
       console.log('[EmailGen] Recipient:', recipientName)
       console.log('[EmailGen] Claim number:', claimNumber)
 
-      // Create AI prompt for Abacus AI with personalization
+      // Create AI prompt for Susan AI with personalization
       const prompt = `You are Susan AI, an expert roofing insurance assistant. Generate a personalized, professional ${emailType} email.
 
 **EMAIL DETAILS:**
 - Recipient: ${recipientName}
-- Claim Number: ${claimNumber}
+${claimNumber ? `- Claim Number: ${claimNumber}` : '- Claim Number: Not specified (general inquiry)'}
 - From: ${repName} (Roof-ER Representative)
 - Additional Context: ${additionalDetails || 'Standard claim follow-up'}
+${extractedText ? `\n**UPLOADED DOCUMENT CONTENT:**\n${extractedText}\n\nUse the information from the uploaded documents to make the email more specific and relevant.` : ''}
 
 **REQUIREMENTS:**
 1. Sign the email from "${repName}" (the sales rep)
@@ -119,6 +166,7 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
 5. Hit key points from Roof-ER training (building codes, manufacturer guidelines, proper documentation)
 6. Make it ready to copy/paste into Gmail - no editing needed
 7. Include contact signature for ${repName}
+${!claimNumber ? '8. If no claim number provided, make it a general professional inquiry that works without specific claim details' : ''}
 
 **IMPORTANT:** Also provide a brief explanation of WHY this email strategy works.
 
@@ -192,7 +240,7 @@ Format your response as JSON:
             console.log('[EmailGen] Parsed email data:', emailData)
 
             setGeneratedEmail({
-              subject: emailData.subject || `${emailType} - Claim ${claimNumber}`,
+              subject: emailData.subject || `${emailType}${claimNumber ? ` - Claim ${claimNumber}` : ''}`,
               body: emailData.body || aiResponse,
               explanation: emailData.explanation || 'This email follows professional insurance communication standards with clear, concise language and proper formatting.'
             })
@@ -200,7 +248,7 @@ Format your response as JSON:
             console.log('[EmailGen] No JSON found, using raw response as fallback')
             // Fallback if JSON parsing fails
             setGeneratedEmail({
-              subject: `${emailType} - Claim ${claimNumber}`,
+              subject: `${emailType}${claimNumber ? ` - Claim ${claimNumber}` : ''}`,
               body: aiResponse,
               explanation: 'This email follows professional insurance communication standards with clear, concise language and proper formatting.'
             })
@@ -209,7 +257,7 @@ Format your response as JSON:
           console.error('[EmailGen] JSON parsing failed:', parseError)
           // Fallback if JSON parsing fails
           setGeneratedEmail({
-            subject: `${emailType} - Claim ${claimNumber}`,
+            subject: `${emailType}${claimNumber ? ` - Claim ${claimNumber}` : ''}`,
             body: aiResponse,
             explanation: 'This email follows professional insurance communication standards with clear, concise language and proper formatting.'
           })
@@ -531,13 +579,13 @@ Be conversational and brief.`
                     {/* Claim Number */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-200 mb-2">
-                        Claim Number <span className="text-red-400">*</span>
+                        Claim Number <span className="text-gray-400 text-xs">(optional)</span>
                       </label>
                       <input
                         type="text"
                         value={claimNumber}
                         onChange={(e) => setClaimNumber(e.target.value)}
-                        placeholder="e.g., CLM-2024-12345"
+                        placeholder="e.g., CLM-2024-12345 (optional - leave blank if not applicable)"
                         className="w-full px-4 py-3 bg-gray-800 border-2 border-gray-600 focus:border-purple-500 rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-500/20 transition-all text-white placeholder-gray-500"
                         disabled={isGenerating}
                       />
@@ -561,10 +609,76 @@ Be conversational and brief.`
                       </p>
                     </div>
 
+                    {/* Document Upload */}
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-200 mb-2">
+                        Upload Documents <span className="text-gray-400 text-xs">(optional)</span>
+                      </label>
+                      <div className="space-y-3">
+                        <label className="flex flex-col items-center justify-center w-full h-32 px-4 transition bg-gray-800 border-2 border-gray-600 border-dashed rounded-lg appearance-none cursor-pointer hover:border-purple-500 focus:outline-none">
+                          <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <svg className="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <p className="mb-2 text-sm text-gray-400">
+                              <span className="font-semibold">Click to upload</span> or drag and drop
+                            </p>
+                            <p className="text-xs text-gray-500">PDF, DOCX, TXT, Images (Max 10MB each)</p>
+                          </div>
+                          <input
+                            type="file"
+                            className="hidden"
+                            multiple
+                            accept=".pdf,.docx,.txt,.jpg,.jpeg,.png"
+                            onChange={handleFileUpload}
+                            disabled={isGenerating}
+                          />
+                        </label>
+
+                        {/* Processing indicator */}
+                        {isProcessingFiles && (
+                          <div className="flex items-center gap-2 text-sm text-purple-400">
+                            <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span>Processing files...</span>
+                          </div>
+                        )}
+
+                        {/* Display uploaded files */}
+                        {uploadedFiles.length > 0 && (
+                          <div className="space-y-2">
+                            {uploadedFiles.map((file, index) => (
+                              <div key={index} className="flex items-center justify-between bg-gray-700 px-3 py-2 rounded-lg">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-lg">📄</span>
+                                  <span className="text-sm text-gray-200 truncate max-w-xs">{file.name}</span>
+                                  <span className="text-xs text-gray-400">({(file.size / 1024).toFixed(1)} KB)</span>
+                                </div>
+                                <button
+                                  onClick={() => removeFile(index)}
+                                  className="text-red-400 hover:text-red-300 transition-colors"
+                                  disabled={isGenerating}
+                                >
+                                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                  </svg>
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-xs text-gray-400 mt-2">
+                        Upload denial letters, estimates, or other documents to help generate a more relevant email
+                      </p>
+                    </div>
+
                     {/* Generate Button */}
                     <button
                       onClick={handleGenerateEmail}
-                      disabled={isGenerating || !emailType || !recipientName.trim() || !claimNumber.trim()}
+                      disabled={isGenerating || !emailType || !recipientName.trim()}
                       className="w-full px-6 py-4 bg-gradient-to-r from-red-600 via-purple-600 to-blue-600 hover:from-red-700 hover:via-purple-700 hover:to-blue-700 disabled:from-gray-600 disabled:to-gray-700 text-white font-bold rounded-lg transition-all shadow-lg hover:shadow-xl disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                       {isGenerating ? (
