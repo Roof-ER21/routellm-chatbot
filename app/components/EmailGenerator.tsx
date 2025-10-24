@@ -99,8 +99,13 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
         // Handle PDF files
         if (isPDF(file)) {
           console.log(`[EmailGen] Extracting text from PDF: ${file.name}`)
-          extractedContent = await extractPDFText(file)
-          console.log(`[EmailGen] Extracted ${extractedContent.length} characters from PDF`)
+          const pdfResult = await extractPDFText(file)
+          if (pdfResult.success && pdfResult.text) {
+            extractedContent = pdfResult.text
+            console.log(`[EmailGen] Extracted ${extractedContent.length} characters from PDF (${pdfResult.pageCount} pages)`)
+          } else {
+            extractedContent = `[PDF extraction failed: ${pdfResult.error || 'Unknown error'}]`
+          }
         }
         // Handle text files
         else if (file.type.includes('text') || file.name.endsWith('.txt')) {
