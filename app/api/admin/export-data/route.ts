@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import sql from '@/lib/railway-db'
+import { query } from '@/lib/railway-db'
 import { getAllConversations, getConversationStats } from '@/lib/simple-auth'
 
 export async function GET(req: NextRequest) {
@@ -11,24 +11,12 @@ export async function GET(req: NextRequest) {
     const endDate = searchParams.get('end_date')
     const user = searchParams.get('user')
 
-    // Build date filter
-    let dateFilter = ''
-    if (startDate && endDate) {
-      dateFilter = `AND created_at BETWEEN '${startDate}' AND '${endDate}'`
-    }
-
-    // Build user filter
-    let userFilter = ''
-    if (user && user !== 'all') {
-      userFilter = `AND rep_name = '${user}'`
-    }
-
     let data: any[] = []
 
     switch (type) {
       case 'conversations':
         // Get all conversations from database
-        const conversationsResult = await sql`
+        let conversationQuery = `
           SELECT
             cs.id,
             cs.rep_name as user,
@@ -43,10 +31,26 @@ export async function GET(req: NextRequest) {
             ) as messages
           FROM chat_sessions cs
           LEFT JOIN chat_messages cm ON cs.id = cm.session_id
-          WHERE 1=1 ${dateFilter ? sql.unsafe(dateFilter) : sql``} ${userFilter ? sql.unsafe(userFilter) : sql``}
+          WHERE 1=1
+        `
+        const conversationParams: any[] = []
+
+        if (startDate && endDate) {
+          conversationQuery += ` AND cs.started_at BETWEEN $${conversationParams.length + 1} AND $${conversationParams.length + 2}`
+          conversationParams.push(startDate, endDate)
+        }
+
+        if (user && user !== 'all') {
+          conversationQuery += ` AND cs.rep_name = $${conversationParams.length + 1}`
+          conversationParams.push(user)
+        }
+
+        conversationQuery += `
           GROUP BY cs.id, cs.rep_name, cs.started_at, cs.message_count
           ORDER BY cs.started_at DESC
         `
+
+        const conversationsResult = await query(conversationQuery, conversationParams)
         data = conversationsResult.rows.map(row => ({
           id: row.id,
           user: row.user,
@@ -58,7 +62,7 @@ export async function GET(req: NextRequest) {
 
       case 'emails':
         // Get all sent emails
-        const emailsResult = await sql`
+        let emailQuery = `
           SELECT
             id,
             rep_name as user,
@@ -70,9 +74,23 @@ export async function GET(req: NextRequest) {
             delivery_status,
             sent_at as generated_at
           FROM sent_emails
-          WHERE 1=1 ${dateFilter ? sql.unsafe(dateFilter.replace('created_at', 'sent_at')) : sql``} ${userFilter ? sql.unsafe(userFilter.replace('rep_name', 'rep_name')) : sql``}
-          ORDER BY sent_at DESC
+          WHERE 1=1
         `
+        const emailParams: any[] = []
+
+        if (startDate && endDate) {
+          emailQuery += ` AND sent_at BETWEEN $${emailParams.length + 1} AND $${emailParams.length + 2}`
+          emailParams.push(startDate, endDate)
+        }
+
+        if (user && user !== 'all') {
+          emailQuery += ` AND rep_name = $${emailParams.length + 1}`
+          emailParams.push(user)
+        }
+
+        emailQuery += ` ORDER BY sent_at DESC`
+
+        const emailsResult = await query(emailQuery, emailParams)
         data = emailsResult.rows
         break
 
@@ -84,7 +102,7 @@ export async function GET(req: NextRequest) {
 
       case 'user_activity':
         // Get user activity summary
-        const activityResult = await sql`
+        const activityQuery = `
           SELECT
             r.name as user,
             COUNT(DISTINCT cs.id) as total_sessions,
@@ -100,6 +118,7 @@ export async function GET(req: NextRequest) {
           ORDER BY total_messages DESC
         `
 
+        const activityResult = await query(activityQuery, [])
         data = activityResult.rows.map(row => ({
           user: row.user,
           total_sessions: row.total_sessions || 0,
@@ -113,7 +132,7 @@ export async function GET(req: NextRequest) {
 
       case 'logs':
         // Get system logs (threat alerts as proxy for now)
-        const logsResult = await sql`
+        let logsQuery = `
           SELECT
             id,
             severity as level,
@@ -125,16 +144,24 @@ export async function GET(req: NextRequest) {
               'risk_score', risk_score
             ) as metadata
           FROM threat_alerts
-          WHERE 1=1 ${dateFilter ? sql.unsafe(dateFilter) : sql``}
-          ORDER BY created_at DESC
-          LIMIT 500
+          WHERE 1=1
         `
+        const logsParams: any[] = []
+
+        if (startDate && endDate) {
+          logsQuery += ` AND created_at BETWEEN $${logsParams.length + 1} AND $${logsParams.length + 2}`
+          logsParams.push(startDate, endDate)
+        }
+
+        logsQuery += ` ORDER BY created_at DESC LIMIT 500`
+
+        const logsResult = await query(logsQuery, logsParams)
         data = logsResult.rows
         break
 
       case 'questions':
         // Get all user questions (from chat messages where role = 'user')
-        const questionsResult = await sql`
+        let questionsQuery = `
           SELECT
             cm.content as question,
             cm.rep_name as user,
@@ -142,17 +169,28 @@ export async function GET(req: NextRequest) {
             COUNT(*) OVER (PARTITION BY cm.content) as frequency
           FROM chat_messages cm
           WHERE cm.role = 'user'
-          ${dateFilter ? sql.unsafe(dateFilter) : sql``}
-          ${userFilter ? sql.unsafe(userFilter) : sql``}
-          ORDER BY cm.created_at DESC
-          LIMIT 1000
         `
+        const questionsParams: any[] = []
+
+        if (startDate && endDate) {
+          questionsQuery += ` AND cm.created_at BETWEEN $${questionsParams.length + 1} AND $${questionsParams.length + 2}`
+          questionsParams.push(startDate, endDate)
+        }
+
+        if (user && user !== 'all') {
+          questionsQuery += ` AND cm.rep_name = $${questionsParams.length + 1}`
+          questionsParams.push(user)
+        }
+
+        questionsQuery += ` ORDER BY cm.created_at DESC LIMIT 1000`
+
+        const questionsResult = await query(questionsQuery, questionsParams)
         data = questionsResult.rows
         break
 
       case 'analytics':
         // Get comprehensive analytics
-        const analyticsResult = await sql`
+        let analyticsQuery = `
           SELECT
             DATE(cm.created_at) as date,
             COUNT(DISTINCT cs.id) as conversations,
@@ -162,10 +200,18 @@ export async function GET(req: NextRequest) {
             COUNT(DISTINCT CASE WHEN cm.role = 'assistant' THEN cm.id END) as assistant_messages
           FROM chat_messages cm
           LEFT JOIN chat_sessions cs ON cm.session_id = cs.id
-          WHERE 1=1 ${dateFilter ? sql.unsafe(dateFilter) : sql``}
-          GROUP BY DATE(cm.created_at)
-          ORDER BY date DESC
+          WHERE 1=1
         `
+        const analyticsParams: any[] = []
+
+        if (startDate && endDate) {
+          analyticsQuery += ` AND cm.created_at BETWEEN $${analyticsParams.length + 1} AND $${analyticsParams.length + 2}`
+          analyticsParams.push(startDate, endDate)
+        }
+
+        analyticsQuery += ` GROUP BY DATE(cm.created_at) ORDER BY date DESC`
+
+        const analyticsResult = await query(analyticsQuery, analyticsParams)
         data = analyticsResult.rows
         break
 
