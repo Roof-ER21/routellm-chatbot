@@ -2,6 +2,31 @@
 
 import { useState, useEffect } from 'react'
 import { extractPDFText, isPDF } from '@/lib/client-pdf-extractor'
+import {
+  templateService,
+  getTemplateRecommendation,
+  generateEmail as generateEmailFromTemplate,
+  type EmailTemplate,
+  type TemplateRecommendation
+} from '@/lib/template-service-simple'
+import {
+  analyzeDocument,
+  type DocumentAnalysisResult
+} from '@/lib/document-analyzer'
+import {
+  getArgumentsByScenario,
+  getTopPerformingArguments,
+  searchArguments,
+  type Argument,
+  ARGUMENT_CATEGORIES
+} from '@/lib/argument-library'
+import {
+  TemplateRecommendationDisplay,
+  DocumentAnalysisDisplay,
+  ArgumentSelector,
+  TemplateSelectorModal,
+  AnalyzingIndicator
+} from './EmailGenerator/IntelligenceDisplay'
 
 interface EmailGeneratorProps {
   repName: string
@@ -48,6 +73,24 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
   const [extractedText, setExtractedText] = useState('')
   const [isProcessingFiles, setIsProcessingFiles] = useState(false)
 
+  // New intelligence state
+  const [recommendedTemplate, setRecommendedTemplate] = useState<TemplateRecommendation | null>(null)
+  const [selectedTemplate, setSelectedTemplate] = useState<EmailTemplate | null>(null)
+  const [availableTemplates, setAvailableTemplates] = useState<EmailTemplate[]>([])
+  const [documentAnalysis, setDocumentAnalysis] = useState<DocumentAnalysisResult | null>(null)
+  const [analyzingDocument, setAnalyzingDocument] = useState(false)
+  const [suggestedArguments, setSuggestedArguments] = useState<Argument[]>([])
+  const [selectedArguments, setSelectedArguments] = useState<string[]>([])
+  const [showTemplateSelector, setShowTemplateSelector] = useState(false)
+  const [showArgumentSelector, setShowArgumentSelector] = useState(false)
+
+  // Load templates on mount
+  useEffect(() => {
+    const templates = templateService.getAllTemplates()
+    setAvailableTemplates(templates)
+    console.log('[EmailGen] Loaded', templates.length, 'email templates')
+  }, [])
+
   // Auto-open modal if autoOpen prop is true
   useEffect(() => {
     if (autoOpen) {
@@ -90,6 +133,7 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
     const newFiles = Array.from(files)
     setUploadedFiles(prev => [...prev, ...newFiles])
     setIsProcessingFiles(true)
+    setAnalyzingDocument(true)
 
     // Extract text from uploaded files
     for (const file of newFiles) {
@@ -103,6 +147,46 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
           if (pdfResult.success && pdfResult.text) {
             extractedContent = pdfResult.text
             console.log(`[EmailGen] Extracted ${extractedContent.length} characters from PDF (${pdfResult.pageCount} pages)`)
+
+            // INTELLIGENT DOCUMENT ANALYSIS
+            console.log('[EmailGen] Analyzing document with intelligence service...')
+            try {
+              const analysis = await analyzeDocument(file)
+              setDocumentAnalysis(analysis)
+              console.log('[EmailGen] Document analysis complete:', analysis.summary)
+
+              // Get template recommendation based on analysis
+              const detectedRecipient = emailType.toLowerCase().includes('adjuster') ? 'insurance adjuster' :
+                                       emailType.toLowerCase().includes('homeowner') ? 'homeowner' :
+                                       'insurance company'
+
+              const recommendation = getTemplateRecommendation({
+                recipient: detectedRecipient,
+                claimType: emailType || 'roof damage',
+                issues: analysis.identifiedIssues.map(i => i.description),
+                documents: [file.name]
+              })
+
+              setRecommendedTemplate(recommendation)
+              setSelectedTemplate(recommendation.template)
+              console.log('[EmailGen] Template recommended:', recommendation.template.template_name, `(${recommendation.confidence}% confidence)`)
+
+              // Get suggested arguments based on the scenario
+              const args = getArgumentsByScenario(emailType || 'insurance claim')
+              const topArgs = args.length > 0 ? args : getTopPerformingArguments(8)
+              setSuggestedArguments(topArgs)
+
+              // Auto-select high-success arguments (>85% success rate)
+              const autoSelectedArgs = topArgs
+                .filter(arg => arg.successRate >= 85)
+                .map(arg => arg.id)
+              setSelectedArguments(autoSelectedArgs)
+              console.log('[EmailGen] Auto-selected', autoSelectedArgs.length, 'high-success arguments')
+
+            } catch (analysisError) {
+              console.error('[EmailGen] Document analysis failed:', analysisError)
+              // Continue with basic text extraction
+            }
           } else {
             extractedContent = `[PDF extraction failed: ${pdfResult.error || 'Unknown error'}]`
           }
@@ -125,10 +209,60 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
       }
     }
     setIsProcessingFiles(false)
+    setAnalyzingDocument(false)
   }
 
   const removeFile = (index: number) => {
     setUploadedFiles(prev => prev.filter((_, i) => i !== index))
+  }
+
+  // Handler for using template-based email generation
+  const handleUseTemplate = () => {
+    if (!selectedTemplate) return
+
+    try {
+      // Get selected arguments full text
+      const selectedArgs = selectedArguments
+        .map(id => {
+          const arg = suggestedArguments.find(a => a.id === id)
+          return arg ? arg.fullText : null
+        })
+        .filter(Boolean) as string[]
+
+      console.log('[EmailGen] Generating email from template:', selectedTemplate.template_name)
+      console.log('[EmailGen] With', selectedArgs.length, 'arguments')
+
+      // Generate email from template
+      const emailContent = generateEmailFromTemplate(selectedTemplate.template_name, {
+        repName: repName,
+        repTitle: 'Claims Advocate',
+        customerName: recipientName || 'the homeowner',
+        recipientName: recipientName || 'Adjuster',
+        claimNumber: claimNumber || undefined,
+        propertyAddress: documentAnalysis?.extractedData?.propertyAddress || undefined,
+        selectedArguments: selectedArgs
+      })
+
+      setGeneratedEmail({
+        subject: `Claim ${claimNumber || '#[X]'} - ${selectedTemplate.template_name}`,
+        body: emailContent,
+        explanation: `Generated using the "${selectedTemplate.template_name}" template (${recommendedTemplate?.confidence || 85}% confidence match). This template has been proven effective for ${selectedTemplate.audience} with ${selectedTemplate.tone} tone.`
+      })
+
+      console.log('[EmailGen] Template-based email generated successfully')
+    } catch (error) {
+      console.error('[EmailGen] Template generation error:', error)
+      setError('Failed to generate email from template. Please try again.')
+    }
+  }
+
+  // Handler for toggling argument selection
+  const handleToggleArgument = (id: string) => {
+    setSelectedArguments(prev =>
+      prev.includes(id)
+        ? prev.filter(argId => argId !== id)
+        : [...prev, id]
+    )
   }
 
   const handleGenerateEmail = async () => {
@@ -153,27 +287,165 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
       console.log('[EmailGen] Recipient:', recipientName)
       console.log('[EmailGen] Claim number:', claimNumber)
 
-      // Create AI prompt for Susan AI with personalization
-      const prompt = `You are Susan AI, an expert roofing insurance assistant. Generate a personalized, professional ${emailType} email.
+      // ENHANCED: Context-aware email generation with Roof-ER methodology
+
+      // Detect recipient type
+      const isAdjusterEmail = emailType.toLowerCase().includes('adjuster') ||
+                               emailType.toLowerCase().includes('denial') ||
+                               emailType.toLowerCase().includes('reinspection') ||
+                               emailType.toLowerCase().includes('follow');
+
+      const isHomeownerEmail = emailType.toLowerCase().includes('homeowner') ||
+                                 emailType.toLowerCase().includes('communication') ||
+                                 emailType.toLowerCase().includes('update');
+
+      // Detect situation type
+      const isPartialSituation = emailType.toLowerCase().includes('partial');
+      const isFullDenial = emailType.toLowerCase().includes('full denial');
+      const isReinspection = emailType.toLowerCase().includes('reinspection');
+
+      const prompt = `You are Susan AI-21, a roofing insurance claim specialist. Generate a professional ${emailType} email using Roof-ER's proven methodology.
+
+**CRITICAL MISSION:** Reps are evidence builders, not sales people. Emails must WIN ARGUMENTS with facts, NOT schedule meetings or promote services.
 
 **EMAIL DETAILS:**
-- Recipient: ${recipientName}
-${claimNumber ? `- Claim Number: ${claimNumber}` : '- Claim Number: Not specified (general inquiry)'}
+- Recipient: ${recipientName} ${isAdjusterEmail ? '(ADJUSTER)' : isHomeownerEmail ? '(HOMEOWNER)' : ''}
+- Claim Number: ${claimNumber || 'Not specified'}
 - From: ${repName} (Roof-ER Representative)
-- Additional Context: ${additionalDetails || 'Standard claim follow-up'}
-${extractedText ? `\n**UPLOADED DOCUMENT CONTENT:**\n${extractedText}\n\nUse the information from the uploaded documents to make the email more specific and relevant.` : ''}
+- Email Type: ${emailType}
+- Context: ${additionalDetails || 'Standard communication'}
+${extractedText ? `\n**UPLOADED DOCUMENT:**\n${extractedText}\n\n⚠️ ANALYZE THIS DOCUMENT: If this is a partial estimate, identify missing code requirements (IRC R908.3, R905.2.7.1, R903, R806) and manufacturer guidelines. List specific missing items in your email.` : ''}
 
-**REQUIREMENTS:**
-1. Sign the email from "${repName}" (the sales rep)
-2. Use Roof-ER branding and professional tone
-3. Reference specific Roof-ER templates and insurance claim strategies
-4. Add slight personality while remaining professional
-5. Hit key points from Roof-ER training (building codes, manufacturer guidelines, proper documentation)
-6. Make it ready to copy/paste into Gmail - no editing needed
-7. Include contact signature for ${repName}
-${!claimNumber ? '8. If no claim number provided, make it a general professional inquiry that works without specific claim details' : ''}
+---
 
-**IMPORTANT:** Also provide a brief explanation of WHY this email strategy works.
+## YOUR INSTRUCTIONS:
+
+${isAdjusterEmail ? `
+### ADJUSTER EMAIL - EVIDENCE-BASED DEMAND
+
+**TONE:** Firm on facts, warm in delivery ("here's why this doesn't work, let's fix it")
+
+**STRUCTURE TO FOLLOW:**
+1. **Opening:** "Thank you for the initial approval. However..." OR "Following up on claim #[X]..."
+2. **Problem Statement:** Clearly state the code/manufacturer violation
+   - Example: "The current approval does not comply with IRC R908.3..."
+3. **Evidence List:**
+   • IRC R908.3: [Specific violation]
+   • GAF Guidelines: [Specific requirement]
+   • [Other evidence]
+4. **Analysis:** ${extractedText ? 'Based on the uploaded estimate, the following items are missing:' : 'We have documented:'}
+   - [List specific missing code requirements]
+5. **Clear Demand:** "**Request:** Please provide a revised estimate reflecting [specific action]"
+6. **Supporting Documentation:** List iTel, photos, repair attempt video if available
+7. **Professional Close:** "Please let me know if you need any additional information."
+
+**CRITICAL RULES:**
+❌ NEVER suggest scheduling calls (EXCEPT for reinspection requests)
+❌ NEVER use phrases like "Would you be available for a call?", "Let's discuss", "I'd love to walk you through"
+❌ NEVER promote Roof-ER services or expertise
+❌ NEVER sound overly friendly or casual - keep professional
+
+✅ ALWAYS cite specific building codes (IRC R908.3, R905.2.7.1, R903)
+✅ ALWAYS list evidence clearly
+✅ ALWAYS make clear demand: "Request: [specific action]"
+✅ ALWAYS start with appreciation when possible
+✅ ALWAYS end professionally
+
+${isReinspection ? '✅ FOR REINSPECTION ONLY: You may suggest scheduling dates: "We are available [dates] for the reinspection"' : ''}
+
+**SUBJECT LINE:** "Claim #${claimNumber || '[X]'} - Request for Revised Estimate per IRC R908.3"
+` : ''}
+
+${isHomeownerEmail ? `
+### HOMEOWNER EMAIL - INFORM AND REASSURE
+
+**TONE:** Warm, confident, supportive ("Don't worry, we've got this")
+
+**STRUCTURE TO FOLLOW:**
+1. **Friendly Greeting:** "Hi ${recipientName.split(' ')[0]},"
+2. **What Happened:** Explain in simple, non-technical terms
+   - "The insurance adjuster approved a partial replacement (just the front slope), but..."
+3. **What It Means:** Educate simply
+   - "This is actually common. Building code R908.3 requires complete replacement when..."
+4. **What We're Doing:** List specific actions
+   - "1. I've already prepared a detailed letter citing the codes"
+   - "2. We're including iTel report, photos, repair attempt video"
+   - "3. They typically have 15 days to respond"
+5. **What They Need to Do:** Usually nothing
+   - "For now - nothing! I'm handling all communication."
+6. **Reassurance:** Build confidence
+   - "Roof-ER handles these situations regularly. We know exactly what evidence they need. The facts are on our side."
+7. **Availability:** "Call or text me anytime with questions."
+8. **Encouraging Close:** "You're in good hands - we've got this!"
+
+**WHEN TO MENTION ROOF-ER:**
+✅ When building confidence: "Roof-ER has successfully handled situations like this many times..."
+✅ When explaining capability: "This is exactly why you have us in your corner..."
+✅ ALWAYS refocus immediately back to the claim: "...and here's what we're doing for YOU..."
+
+**SUBJECT LINE:** "Update on Your Insurance Claim #${claimNumber || '[X]'}"
+` : ''}
+
+${!isAdjusterEmail && !isHomeownerEmail ? `
+### GENERAL PROFESSIONAL EMAIL
+
+Follow standard business email format:
+- Professional but warm tone
+- Clear purpose
+- Specific request or information
+- Professional close
+` : ''}
+
+---
+
+## ANALYSIS REQUIREMENTS:
+
+${extractedText && isAdjusterEmail ? `
+⚠️ **CRITICAL:** You have an uploaded document. This appears to be ${isPartialSituation ? 'a PARTIAL APPROVAL estimate' : 'insurance documentation'}.
+
+**YOUR ANALYSIS TASKS:**
+1. Identify what was approved vs. what was denied/missing
+2. Check for these common code violations:
+   - IRC R908.3: Complete tear-off required (25% rule)
+   - IRC R905.2.7.1: Ice & water shield requirements
+   - IRC R903: Flashing replacement
+   - IRC R806: Ventilation requirements
+3. Check for manufacturer violations:
+   - GAF: Cannot mix old/new shingles
+   - Shingle color/texture matching
+   - Slope requirements
+4. List SPECIFIC missing items in your email with code citations
+5. Build the demand around these violations
+
+**Example:**
+"The current estimate is missing:
+• Ice & water shield (IRC R905.2.7.1) - Required in valleys and eaves
+• Step flashing replacement (IRC R903.2) - Cannot reuse damaged flashing
+• Complete tear-off (IRC R908.3) - Partial replacement exceeds 25% threshold"
+` : ''}
+
+---
+
+## FORMATTING:
+
+Return JSON:
+{
+  "subject": "Clear, specific subject line",
+  "body": "Complete email with proper formatting, line breaks, and signature from ${repName}\\n\\nBest regards,\\n${repName}\\nRoof-ER\\n[Phone] | [Email]",
+  "explanation": "Brief explanation of why this approach works (2-3 sentences for rep's learning)"
+}
+
+**FINAL QUALITY CHECKS:**
+- Is tone appropriate for recipient? (Firm+warm for adjusters, warm+confident for homeowners)
+- Are codes cited? (If adjuster email)
+- Is there a clear demand? (If adjuster email)
+- Is it reassuring? (If homeowner email)
+- NO scheduling calls (except reinspection)?
+- NO Roof-ER promotion to adjusters?
+- Strategic Roof-ER mention to homeowners (if applicable)?
+- Always refocuses on claim goal?
+
+Generate the email now following ALL instructions above.
 
 Format your response as JSON:
 {
@@ -548,6 +820,47 @@ Be conversational and brief.`
                 {!generatedEmail ? (
                   // Form View
                   <div className="space-y-5">
+                    {/* Intelligence Displays */}
+                    {analyzingDocument && <AnalyzingIndicator />}
+
+                    {recommendedTemplate && !analyzingDocument && (
+                      <TemplateRecommendationDisplay
+                        recommendation={recommendedTemplate}
+                        onUseTemplate={handleUseTemplate}
+                        onChangeTemplate={() => setShowTemplateSelector(true)}
+                      />
+                    )}
+
+                    {documentAnalysis && !analyzingDocument && (
+                      <DocumentAnalysisDisplay analysis={documentAnalysis} />
+                    )}
+
+                    {suggestedArguments.length > 0 && !analyzingDocument && (
+                      <ArgumentSelector
+                        arguments={suggestedArguments}
+                        selectedIds={selectedArguments}
+                        onToggleArgument={handleToggleArgument}
+                      />
+                    )}
+
+                    {/* Template Selector Modal */}
+                    {showTemplateSelector && (
+                      <TemplateSelectorModal
+                        templates={availableTemplates}
+                        currentTemplate={selectedTemplate}
+                        onSelect={(template) => {
+                          setSelectedTemplate(template)
+                          setRecommendedTemplate({
+                            template,
+                            confidence: 100,
+                            reasoning: 'Manually selected by user',
+                            suggestedArguments: []
+                          })
+                        }}
+                        onClose={() => setShowTemplateSelector(false)}
+                      />
+                    )}
+
                     {/* Email Type Dropdown */}
                     <div>
                       <label className="block text-sm font-semibold text-gray-200 mb-2">

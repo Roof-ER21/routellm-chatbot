@@ -1,76 +1,24 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { templateEngine } from '@/lib/template-engine'
+import { NextRequest, NextResponse } from 'next/server';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
-/**
- * GET /api/templates
- * List all available templates
- */
-export async function GET(req: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
-    const templates = templateEngine.listTemplates()
+    // Read the templates file
+    const templatesPath = join(process.cwd(), 'TEMPLATES_STRUCTURED.json');
+    const templatesData = JSON.parse(readFileSync(templatesPath, 'utf-8'));
 
     return NextResponse.json({
       success: true,
-      templates,
-      count: templates.length
-    })
+      templates: templatesData.email_templates || [],
+      meta: templatesData.meta || {}
+    });
   } catch (error) {
-    console.error('Error listing templates:', error)
-    return NextResponse.json(
-      {
-        success: false,
-        error: 'Failed to list templates',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      },
-      { status: 500 }
-    )
-  }
-}
-
-/**
- * POST /api/templates
- * Get detailed template information
- */
-export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json()
-    const { templateKey } = body
-
-    if (!templateKey) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'templateKey is required'
-        },
-        { status: 400 }
-      )
-    }
-
-    const templateInfo = templateEngine.getTemplateInfo(templateKey)
-
-    if (!templateInfo) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Template not found'
-        },
-        { status: 404 }
-      )
-    }
-
+    console.error('[Templates API] Error loading templates:', error);
     return NextResponse.json({
-      success: true,
-      template: templateInfo
-    })
-  } catch (error) {
-    console.error('Error getting template info:', error)
-    return NextResponse.json(
-      {
-        success: false,
-        error: 'Failed to get template info',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      },
-      { status: 500 }
-    )
+      success: false,
+      error: 'Failed to load templates',
+      templates: []
+    }, { status: 500 });
   }
 }
