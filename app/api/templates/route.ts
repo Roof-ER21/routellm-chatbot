@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      templates: templatesData.email_templates || [],
+      templates: templatesData.templates || {},
       meta: templatesData.meta || {}
     });
   } catch (error) {

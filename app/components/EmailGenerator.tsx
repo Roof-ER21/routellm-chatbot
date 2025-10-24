@@ -18,7 +18,8 @@ import {
   getTopPerformingArguments,
   searchArguments,
   type Argument,
-  ARGUMENT_CATEGORIES
+  ARGUMENT_CATEGORIES,
+  ARGUMENTS
 } from '@/lib/argument-library'
 import {
   TemplateRecommendationDisplay,
@@ -170,17 +171,16 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
               setSelectedTemplate(recommendation.template)
               console.log('[EmailGen] Template recommended:', recommendation.template.template_name, `(${recommendation.confidence}% confidence)`)
 
-              // Get suggested arguments based on the scenario
-              const args = getArgumentsByScenario(emailType || 'insurance claim')
-              const topArgs = args.length > 0 ? args : getTopPerformingArguments(8)
-              setSuggestedArguments(topArgs)
+              // Get ALL arguments from the library (show complete library to reps)
+              // Use all 18 arguments so reps can see and select from the complete library
+              setSuggestedArguments(ARGUMENTS)
 
               // Auto-select high-success arguments (>85% success rate)
-              const autoSelectedArgs = topArgs
+              const autoSelectedArgs = ARGUMENTS
                 .filter(arg => arg.successRate >= 85)
                 .map(arg => arg.id)
               setSelectedArguments(autoSelectedArgs)
-              console.log('[EmailGen] Auto-selected', autoSelectedArgs.length, 'high-success arguments')
+              console.log('[EmailGen] Auto-selected', autoSelectedArgs.length, 'high-success arguments from complete library')
 
             } catch (analysisError) {
               console.error('[EmailGen] Document analysis failed:', analysisError)

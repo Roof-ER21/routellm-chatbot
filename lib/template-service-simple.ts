@@ -33,7 +33,7 @@ export interface TemplateRecommendation {
   suggestedArguments: string[];
 }
 
-// Embedded templates
+// Embedded templates - Complete Library of 10 Templates
 const TEMPLATES: EmailTemplate[] = [
   {
     template_name: "Insurance Company - Code Violation Argument",
@@ -72,6 +72,184 @@ const TEMPLATES: EmailTemplate[] = [
     key_phrases: ["don't worry", "we've got this"],
     arguments_used: ["Building Code"],
     success_indicators: { usage_count: 892, approval_rate: 90, avg_response_time: "Immediate" }
+  },
+  {
+    template_name: "Insurance Company - Multi-Argument Comprehensive",
+    audience: "Insurance Adjuster",
+    tone: "Professional, evidence-based",
+    purpose: "Present multiple code violations and manufacturer specifications",
+    structure: {
+      greeting: "Dear [RECIPIENT_NAME],",
+      introduction: "I am writing on behalf of [CUSTOMER_NAME] regarding claim [CLAIM_NUMBER] for property damage.",
+      evidence_statement: "We have identified multiple issues with the current estimate that require revision:",
+      argument_modules: [
+        "IRC R908.3 - Matching requirement",
+        "Manufacturer warranty specifications",
+        "State-specific building code compliance",
+        "NRCA industry standards",
+        "Property value impact"
+      ],
+      request: "We request a revised estimate addressing all code requirements and manufacturer specifications.",
+      closing: "We appreciate your attention to these important compliance matters."
+    },
+    key_phrases: ["multiple issues", "code compliance", "manufacturer warranty"],
+    arguments_used: ["IRC R908.3", "GAF Matching", "NRCA Standards"],
+    success_indicators: { usage_count: 823, approval_rate: 89, avg_response_time: "10-20 days" }
+  },
+  {
+    template_name: "Insurance Company - Partial Denial Appeal",
+    audience: "Insurance Adjuster/Claims Manager",
+    tone: "Firm, factual, professional",
+    purpose: "Appeal partial denial with strong evidence",
+    structure: {
+      greeting: "Dear [RECIPIENT_NAME],",
+      introduction: "This letter is a formal appeal of the partial denial on claim [CLAIM_NUMBER] for [CUSTOMER_NAME].",
+      evidence_statement: "The denial is inconsistent with both policy language and applicable building codes:",
+      argument_modules: [
+        "Policy coverage interpretation",
+        "IRC R908.3 code requirement",
+        "State insurance regulations",
+        "Depreciation limitations on code-required work"
+      ],
+      request: "We respectfully request immediate reconsideration and approval of the full scope of necessary repairs.",
+      closing: "Please provide your response within 15 business days as required by state regulations."
+    },
+    key_phrases: ["formal appeal", "policy coverage", "state regulations"],
+    arguments_used: ["State Matching Regulations", "Depreciation Limitation"],
+    success_indicators: { usage_count: 567, approval_rate: 78, avg_response_time: "15-30 days" }
+  },
+  {
+    template_name: "Insurance Company - Reinspection Request",
+    audience: "Insurance Adjuster",
+    tone: "Collaborative, professional",
+    purpose: "Request reinspection with new evidence",
+    structure: {
+      greeting: "Dear [RECIPIENT_NAME],",
+      introduction: "I am requesting a reinspection for claim [CLAIM_NUMBER] based on new findings.",
+      evidence_statement: "Since the initial inspection, we have documented additional damage and code violations:",
+      argument_modules: [
+        "New damage documentation (photos, measurements)",
+        "Code violations not initially identified",
+        "Manufacturer specifications requiring attention",
+        "iTel report findings"
+      ],
+      request: "Please schedule a reinspection at your earliest convenience. We are available [DATES].",
+      closing: "Thank you for coordinating this reinspection. Please confirm the appointment."
+    },
+    key_phrases: ["reinspection", "new findings", "additional damage"],
+    arguments_used: ["Building Permit Required"],
+    success_indicators: { usage_count: 445, approval_rate: 91, avg_response_time: "5-10 days" }
+  },
+  {
+    template_name: "Insurance Company - Supplement Request",
+    audience: "Insurance Adjuster",
+    tone: "Professional, detailed",
+    purpose: "Request supplemental payment for additional scope",
+    structure: {
+      greeting: "Dear [RECIPIENT_NAME],",
+      introduction: "I am submitting a supplement request for claim [CLAIM_NUMBER].",
+      evidence_statement: "During the course of repairs, we discovered additional damage and code-required work:",
+      argument_modules: [
+        "Hidden damage discovered during tear-off",
+        "Code-required upgrades (flashing, ventilation)",
+        "Manufacturer-required materials",
+        "Accurate measurements vs original estimate"
+      ],
+      request: "Please review the attached supplement estimate and approve these necessary additions.",
+      closing: "We await your prompt approval to proceed with code-compliant repairs."
+    },
+    key_phrases: ["supplement", "additional scope", "hidden damage"],
+    arguments_used: ["IRC R908.3", "Liability Exposure"],
+    success_indicators: { usage_count: 734, approval_rate: 85, avg_response_time: "10-15 days" }
+  },
+  {
+    template_name: "Homeowner - Status Update (Partial Approval)",
+    audience: "Homeowner",
+    tone: "Reassuring, informative",
+    purpose: "Update homeowner on partial approval and next steps",
+    structure: {
+      greeting: "Hi [CUSTOMER_NAME],",
+      introduction: "I wanted to update you on your insurance claim status.",
+      evidence_statement: "The insurance company approved a partial payment, but we're working to get full coverage:",
+      argument_modules: [
+        "What was approved vs what's needed",
+        "Why full replacement is required (building code)",
+        "Our strategy to get full approval",
+        "Timeline expectations"
+      ],
+      request: "No action needed from you - I'm handling all communication with the insurance company.",
+      closing: "Don't worry, this is common and we've successfully handled this situation many times. You're in good hands!"
+    },
+    key_phrases: ["partial approval", "we're handling it", "common situation"],
+    arguments_used: ["Building Code", "Property Value Impact"],
+    success_indicators: { usage_count: 1089, approval_rate: 95, avg_response_time: "Same day" }
+  },
+  {
+    template_name: "Homeowner - Claim Victory Notification",
+    audience: "Homeowner",
+    tone: "Celebratory, warm",
+    purpose: "Inform homeowner of successful claim approval",
+    structure: {
+      greeting: "Hi [CUSTOMER_NAME],",
+      introduction: "Great news! The insurance company has approved your full claim!",
+      evidence_statement: "After presenting the code requirements and evidence, they agreed to cover:",
+      argument_modules: [
+        "Full scope of approved work",
+        "Total approved amount",
+        "Next steps for starting work",
+        "Timeline to completion"
+      ],
+      request: "I'll be in touch to schedule the work. Please review the approval documents I'm sending.",
+      closing: "Congratulations! This is exactly the outcome we were working toward. Your patience paid off!"
+    },
+    key_phrases: ["great news", "full approval", "congratulations"],
+    arguments_used: [],
+    success_indicators: { usage_count: 623, approval_rate: 100, avg_response_time: "Same day" }
+  },
+  {
+    template_name: "Insurance Company - Documentation Package Cover Letter",
+    audience: "Insurance Adjuster/Claims Manager",
+    tone: "Professional, organized",
+    purpose: "Accompany comprehensive documentation package",
+    structure: {
+      greeting: "Dear [RECIPIENT_NAME],",
+      introduction: "Enclosed is comprehensive documentation for claim [CLAIM_NUMBER].",
+      evidence_statement: "This package includes all evidence supporting full claim approval:",
+      argument_modules: [
+        "Building code citations and interpretations",
+        "Manufacturer specifications and warranty requirements",
+        "Professional photographs documenting damage",
+        "iTel weather verification report",
+        "Detailed measurements and estimates"
+      ],
+      request: "Please review this comprehensive package and approve the full scope of necessary repairs.",
+      closing: "All documentation supports code-compliant, manufacturer-approved repairs. We await your approval."
+    },
+    key_phrases: ["comprehensive documentation", "evidence package", "code citations"],
+    arguments_used: ["IRC R908.3", "GAF Matching", "State Matching Regs"],
+    success_indicators: { usage_count: 389, approval_rate: 88, avg_response_time: "20-30 days" }
+  },
+  {
+    template_name: "Insurance Company - Payment Status Inquiry",
+    audience: "Insurance Adjuster/Payment Department",
+    tone: "Professional, direct",
+    purpose: "Follow up on delayed payment",
+    structure: {
+      greeting: "Dear [RECIPIENT_NAME],",
+      introduction: "I am following up on payment for approved claim [CLAIM_NUMBER].",
+      evidence_statement: "The claim was approved on [DATE], but payment has not been received:",
+      argument_modules: [
+        "Approval date and amount",
+        "Days since approval",
+        "Impact on project timeline",
+        "Homeowner concerns"
+      ],
+      request: "Please expedite payment processing and provide an expected payment date.",
+      closing: "Prompt payment will allow us to proceed with the approved repairs. Thank you for your attention."
+    },
+    key_phrases: ["payment follow-up", "approved claim", "expedite payment"],
+    arguments_used: [],
+    success_indicators: { usage_count: 312, approval_rate: 94, avg_response_time: "3-7 days" }
   }
 ];
 
