@@ -6,7 +6,7 @@
 
 import React, { useState, useMemo } from 'react'
 import type { DocumentAnalysisResult } from '@/lib/document-analyzer'
-import type { TemplateRecommendation, EmailTemplate } from '@/lib/template-service'
+import type { TemplateRecommendation, EmailTemplate } from '@/lib/template-service-simple'
 import type { Argument, ArgumentCategory } from '@/lib/argument-library'
 import { ARGUMENT_CATEGORIES } from '@/lib/argument-library'
 
