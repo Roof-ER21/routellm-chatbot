@@ -163,8 +163,7 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
               const recommendation = getTemplateRecommendation({
                 recipient: detectedRecipient,
                 claimType: emailType || 'roof damage',
-                issues: analysis.identifiedIssues.map(i => i.description),
-                documents: [file.name]
+                issues: analysis.identifiedIssues.map(i => i.description)
               })
 
               setRecommendedTemplate(recommendation)
