@@ -287,7 +287,9 @@ export class RAGService {
       // Enforce cache size limit
       if (this.queryCache.size > this.CACHE_MAX_SIZE) {
         const firstKey = this.queryCache.keys().next().value;
-        this.queryCache.delete(firstKey);
+        if (firstKey !== undefined) {
+          this.queryCache.delete(firstKey);
+        }
       }
 
       const searchTime = Date.now() - startTime;
