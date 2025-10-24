@@ -528,33 +528,70 @@ Format your response as JSON:
         try {
           // Extract JSON from the response (it might be wrapped in markdown code blocks)
           const jsonMatch = aiResponse.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/) ||
-                           aiResponse.match(/(\{[\s\S]*\})/)
+                           aiResponse.match(/\{[\s\S]*?"subject"[\s\S]*?"body"[\s\S]*?\}/)
 
           if (jsonMatch) {
             console.log('[EmailGen] Found JSON in response, parsing...')
-            const emailData = JSON.parse(jsonMatch[1])
+            const emailData = JSON.parse(jsonMatch[0].replace(/```(?:json)?/g, '').trim())
             console.log('[EmailGen] Parsed email data:', emailData)
 
-            setGeneratedEmail({
-              subject: emailData.subject || `${emailType}${claimNumber ? ` - Claim ${claimNumber}` : ''}`,
-              body: emailData.body || aiResponse,
-              explanation: emailData.explanation || 'This email follows professional insurance communication standards with clear, concise language and proper formatting.'
-            })
+            // Validate that we have proper email data
+            if (emailData.subject && emailData.body) {
+              // Clean up the body to remove any JSON artifacts
+              let cleanBody = emailData.body.trim()
+
+              // Remove any remaining JSON structure markers
+              cleanBody = cleanBody.replace(/^\{[\s\S]*?"body"\s*:\s*"/, '')
+              cleanBody = cleanBody.replace(/"\s*,?\s*"explanation"[\s\S]*\}$/, '')
+
+              setGeneratedEmail({
+                subject: emailData.subject.trim(),
+                body: cleanBody,
+                explanation: emailData.explanation || 'This email follows professional insurance communication standards with clear, concise language and proper formatting.'
+              })
+            } else {
+              throw new Error('Invalid email data structure')
+            }
           } else {
             console.log('[EmailGen] No JSON found, using raw response as fallback')
-            // Fallback if JSON parsing fails
+            // Fallback if JSON parsing fails - clean up the response
+            let cleanBody = aiResponse.trim()
+
+            // Try to extract subject from response text
+            const subjectMatch = cleanBody.match(/Subject:\s*(.+)/i)
+            const extractedSubject = subjectMatch ? subjectMatch[1].trim() : `${emailType}${claimNumber ? ` - Claim ${claimNumber}` : ''}`
+
+            // Remove subject line from body if it exists
+            if (subjectMatch) {
+              cleanBody = cleanBody.replace(/Subject:\s*.+\n*/i, '').trim()
+            }
+
             setGeneratedEmail({
-              subject: `${emailType}${claimNumber ? ` - Claim ${claimNumber}` : ''}`,
-              body: aiResponse,
+              subject: extractedSubject,
+              body: cleanBody,
               explanation: 'This email follows professional insurance communication standards with clear, concise language and proper formatting.'
             })
           }
         } catch (parseError) {
           console.error('[EmailGen] JSON parsing failed:', parseError)
-          // Fallback if JSON parsing fails
+          // Fallback if JSON parsing fails - ensure no JSON structure is shown
+          let cleanBody = aiResponse.trim()
+
+          // Remove any JSON structure from the response
+          cleanBody = cleanBody.replace(/\{[\s\S]*?"subject"\s*:\s*"[^"]*"\s*,?\s*"body"\s*:\s*"/g, '')
+          cleanBody = cleanBody.replace(/"\s*,?\s*"explanation"[\s\S]*\}/g, '')
+
+          // Try to extract subject
+          const subjectMatch = cleanBody.match(/Subject:\s*(.+)/i)
+          const extractedSubject = subjectMatch ? subjectMatch[1].trim() : `${emailType}${claimNumber ? ` - Claim ${claimNumber}` : ''}`
+
+          if (subjectMatch) {
+            cleanBody = cleanBody.replace(/Subject:\s*.+\n*/i, '').trim()
+          }
+
           setGeneratedEmail({
-            subject: `${emailType}${claimNumber ? ` - Claim ${claimNumber}` : ''}`,
-            body: aiResponse,
+            subject: extractedSubject,
+            body: cleanBody,
             explanation: 'This email follows professional insurance communication standards with clear, concise language and proper formatting.'
           })
         }
@@ -722,21 +759,36 @@ Be conversational and brief.`
       if (data.message) {
         // Check if Susan provided a regenerated email (JSON format)
         const jsonMatch = data.message.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/) ||
-                         data.message.match(/(\{[\s\S]*"subject"[\s\S]*"body"[\s\S]*\})/)
+                         data.message.match(/\{[\s\S]*?"subject"[\s\S]*?"body"[\s\S]*?\}/)
 
         if (jsonMatch) {
           try {
-            const updatedEmail = JSON.parse(jsonMatch[1])
-            // Update the email with Susan's improvements
-            setGeneratedEmail({
-              subject: updatedEmail.subject || generatedEmail?.subject || '',
-              body: updatedEmail.body || generatedEmail?.body || '',
-              explanation: updatedEmail.explanation || 'Email updated with your details'
-            })
-            // Add message without the JSON
-            const cleanMessage = data.message.replace(/```(?:json)?\s*\{[\s\S]*?\}\s*```/, '✅ Email regenerated with your updates! Check the preview above.')
-            setChatMessages(prev => [...prev, { role: 'assistant', content: cleanMessage }])
+            const updatedEmail = JSON.parse(jsonMatch[0].replace(/```(?:json)?/g, '').trim())
+
+            // Validate and clean the updated email data
+            if (updatedEmail.subject && updatedEmail.body) {
+              // Clean up the body to remove any JSON artifacts
+              let cleanBody = updatedEmail.body.trim()
+              cleanBody = cleanBody.replace(/^\{[\s\S]*?"body"\s*:\s*"/, '')
+              cleanBody = cleanBody.replace(/"\s*,?\s*"explanation"[\s\S]*\}$/, '')
+
+              // Update the email with Susan's improvements
+              setGeneratedEmail({
+                subject: updatedEmail.subject.trim(),
+                body: cleanBody,
+                explanation: updatedEmail.explanation || 'Email updated with your details'
+              })
+
+              // Add message without the JSON
+              const cleanMessage = data.message.replace(/```(?:json)?\s*\{[\s\S]*?\}\s*```/, '✅ Email regenerated with your updates! Check the preview above.')
+                                             .replace(/\{[\s\S]*?"subject"[\s\S]*?"body"[\s\S]*?\}/, '✅ Email regenerated with your updates! Check the preview above.')
+              setChatMessages(prev => [...prev, { role: 'assistant', content: cleanMessage }])
+            } else {
+              // Invalid structure, just show the message
+              setChatMessages(prev => [...prev, { role: 'assistant', content: data.message }])
+            }
           } catch (e) {
+            console.error('[EmailGen] Chat email parse error:', e)
             // If JSON parsing fails, just add the message
             setChatMessages(prev => [...prev, { role: 'assistant', content: data.message }])
           }
@@ -1064,7 +1116,7 @@ Be conversational and brief.`
                         </p>
                       </div>
                       <div className="prose prose-invert max-w-none">
-                        <div className="whitespace-pre-wrap text-gray-200 font-sans text-sm leading-relaxed">
+                        <div className="whitespace-pre-wrap text-gray-200 font-sans text-sm leading-relaxed break-words">
                           {generatedEmail.body}
                         </div>
                       </div>
@@ -1132,9 +1184,9 @@ Be conversational and brief.`
                         <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
                           <span className="text-lg">💡</span>
                         </div>
-                        <div>
+                        <div className="flex-1 min-w-0">
                           <p className="text-blue-200 font-semibold text-sm mb-1">Why this email works:</p>
-                          <p className="text-blue-300 text-sm">{generatedEmail.explanation}</p>
+                          <p className="text-blue-300 text-sm leading-relaxed break-words">{generatedEmail.explanation}</p>
                         </div>
                       </div>
                     </div>
