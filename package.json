@@ -7,9 +7,17 @@
     "dev:local": "bash ./scripts/dev-local.sh",
     "db:init:local": "bash ./scripts/db-init-local.sh",
     "kb:build": "node ./scripts/kb-build.js",
+    "rag:build": "node ./scripts/generate-embeddings.js",
     "build": "npm run kb:build && next build",
     "start": "./start.sh",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:rag": "node test-rag-all.js",
+    "test:rag:search": "node test-rag-search.js",
+    "test:rag:quality": "node test-rag-quality.js",
+    "test:rag:performance": "node test-rag-performance.js",
+    "test:rag:comparison": "node test-rag-comparison.js",
+    "test:rag:validation": "node test-rag-validation.js",
+    "test:deployment": "node test-deployment-readiness.js"
   },
   "keywords": [],
   "author": "",

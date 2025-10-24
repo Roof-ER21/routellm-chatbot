@@ -1,0 +1,547 @@
+{
+  "research_date": "2025-10-24",
+  "research_scope": "Building codes, insurance regulations, and industry standards for roofing in Virginia, Maryland, and Pennsylvania as of October 2025",
+
+  "virginia": {
+    "current_code_edition": "2021 Uniform Statewide Building Code (VUSBC)",
+    "effective_date": "January 18, 2025",
+    "base_standard": "2021 International Residential Code (IRC)",
+
+    "codes": [
+      {
+        "section": "2021 VUSBC - General",
+        "description": "2021 USBC compliance became mandatory January 18, 2025. All new permits after this date must use 2021 code.",
+        "key_requirements": [
+          "Based on 2021 International Codes (I-Codes) including IRC",
+          "Permits filed before January 17, 2025 may remain subject to 2018 edition"
+        ]
+      },
+      {
+        "section": "R905.1.2 - Ice Barrier Requirements",
+        "description": "Ice barrier requirements in areas with history of ice damming",
+        "key_requirements": [
+          "Required in areas designated in Table R301.2 with ice damming history",
+          "Must consist of two layers of cemented underlayment OR self-adhering polymer-modified bitumen sheet",
+          "Must extend minimum 24 inches inside exterior wall line",
+          "For roofs 8:12 pitch or steeper: minimum 36 inches measured along roof slope from eave edge",
+          "Note: Not all VA jurisdictions require ice barriers - check local amendments"
+        ]
+      },
+      {
+        "section": "R908.3 - Roof Recover/Replacement",
+        "description": "Requirements for re-roofing and roof recover",
+        "key_requirements": [
+          "Metal panel, metal shingle, concrete and clay tile may be installed over wood shake roofs per R908.4",
+          "Roof recover NOT permitted if existing roof is water-soaked or deteriorated",
+          "Roof recover NOT permitted over slate, clay, cement, or asbestos-cement tile",
+          "Slopes between 2:12 and 4:12 require double underlayment per Table R905.1.1(2)",
+          "New protective roof coating permitted over existing coatings without tear-off"
+        ]
+      },
+      {
+        "section": "13VAC5-63-433.3 - Alterations and Reroofing",
+        "description": "Virginia-specific alterations to IRC for existing buildings",
+        "key_requirements": [
+          "Materials and methods must comply with Chapter 15 of VCC",
+          "Exception: Low-slope roof replacement not required to meet 2% minimum slope if positive drainage provided"
+        ]
+      }
+    ],
+
+    "sources": [
+      "https://www.dhcd.virginia.gov/codes",
+      "https://codes.iccsafe.org/codes/virginia",
+      "https://codes.iccsafe.org/s/IRC2021P2/chapter-9-roof-assemblies/IRC2021P2-Pt03-Ch09-SecR905.1.2",
+      "https://codes.iccsafe.org/s/IRC2021P2/chapter-9-roof-assemblies/IRC2021P2-Pt03-Ch09-SecR908.3",
+      "https://law.lis.virginia.gov/admincode/title13/agency5/chapter63/section433.3/"
+    ],
+
+    "last_updated": "2021 codes effective January 18, 2025",
+    "next_update": "Anticipated 2024 I-Codes adoption in 2027-2028 timeframe"
+  },
+
+  "maryland": {
+    "current_code_edition": "Maryland Building Performance Standards (MBPS) - 2021/2018 I-Codes",
+    "anticipated_update": "2021 I-Codes anticipated effective January 1, 2025",
+    "state_framework": "Each jurisdiction uses same IBC/IRC/IECC edition with state modifications",
+
+    "insurance_regulations": [
+      {
+        "regulation": "Bulletin 25-10",
+        "date_issued": "June 17, 2025",
+        "title": "Cancellations, Nonrenewals, and Claim Denials Based on Satellite and Aerial Imagery",
+        "key_provisions": [
+          "Addresses use of drone/aerial imaging for roofing assessments",
+          "Regulates use of AI vs. human review in risk assessments",
+          "Confirms aerial imagery collection is legal with limitations",
+          "Protects against improper cancellations based solely on imagery"
+        ],
+        "impact_on_roofing": "Critical for homeowners facing cancellations/denials based on roof condition assessments from aerial imagery"
+      },
+      {
+        "regulation": "Bulletin 25-16",
+        "date_issued": "October 20, 2025",
+        "title": "Cancellation of Life & Health and Property & Casualty Insurance Policies Due to Non-Payment of Premium",
+        "key_provisions": [
+          "Addresses property insurance cancellation procedures"
+        ]
+      },
+      {
+        "regulation": "Bulletin 25-8 (Revised)",
+        "date_issued": "May 16, 2025 (Extended June 17, 2025)",
+        "title": "Cancellation of Insurance Policies",
+        "key_provisions": [
+          "General guidance on policy cancellation procedures"
+        ]
+      },
+      {
+        "statute": "Maryland Code §27-303",
+        "title": "Unfair Claim Settlement Practices",
+        "key_provisions": [
+          "Prohibits refusing to pay claims for arbitrary or capricious reasons",
+          "Requires good faith in settling claims",
+          "Part of Title 27 - Unfair Trade Practices and Other Prohibited Practices",
+          "Applies to property damage claims including roofing"
+        ],
+        "note": "No specific 2025 amendments found; statute continues to apply to roofing matching disputes"
+      }
+    ],
+
+    "codes": [
+      {
+        "section": "General Roofing Requirements",
+        "description": "Maryland-specific roofing code requirements",
+        "key_requirements": [
+          "Roofs must have slopes directing water to drains/gutters",
+          "All materials must be asbestos-free",
+          "Must meet local wind speed resistance standards (especially coastal areas)",
+          "Must meet fire resistance standards",
+          "Local jurisdictions may modify codes (except IECC and MAC)"
+        ]
+      }
+    ],
+
+    "matching_requirements": {
+      "status": "No specific state bulletin on matching found as of October 2025",
+      "relevant_law": "Maryland Code §27-303 - Unfair Settlement Practices",
+      "note": "Previous reference to Bulletin 18-23 not confirmed in 2025 sources",
+      "practical_application": "Matching disputes resolved under general unfair claims practices law"
+    },
+
+    "sources": [
+      "https://insurance.maryland.gov/Pages/2025-Bulletins.aspx",
+      "https://law.justia.com/codes/maryland/insurance/title-27/subtitle-3/section-27-303/",
+      "https://labor.maryland.gov/labor/build/buildcodes.shtml",
+      "https://codes.iccsafe.org/codes/maryland",
+      "https://permitplace.com/state/maryland-building-code-and-licensing-information/"
+    ],
+
+    "last_updated": "2025 bulletins current through October 2025"
+  },
+
+  "pennsylvania": {
+    "current_code_edition": "2018 International Residential Code (IRC)",
+    "adoption_date": "February 14, 2022 (effective immediately)",
+    "base_standard": "2015 International Codes (adopted October 1, 2018)",
+    "important_note": "IRC cannot be enforced 'as-is' - numerous PA-specific modifications exist",
+    "exemptions": "Philadelphia and Allegheny County use custom codes",
+
+    "codes": [
+      {
+        "section": "R908 - Re-Roofing/Roof Replacement",
+        "description": "Pennsylvania requirements for roof replacement",
+        "key_requirements": [
+          "When existing roof has TWO OR MORE layers, complete removal required",
+          "New covering may be installed over old if: (1) following approved manufacturer instructions, OR (2) using complete separate system (e.g., standing-seam metal) that transmits loads directly to structure",
+          "Maximum two layers of roofing material permitted"
+        ]
+      },
+      {
+        "section": "R905.2.5 - Fastener Requirements for Asphalt Shingles",
+        "description": "Nailing requirements for asphalt shingle installation",
+        "key_requirements": [
+          "Fasteners must be: galvanized, stainless steel, aluminum, or copper roofing nails",
+          "Minimum 12-gauge (0.105 inch / 2.67mm) shank",
+          "Minimum 3/8-inch diameter (9.5mm) head",
+          "Must comply with ASTM F1667",
+          "Penetration: minimum 3/4 inch into roof sheathing (or through sheathing if less than 3/4 inch thick)"
+        ]
+      },
+      {
+        "section": "R905.2.6 - Number of Fasteners",
+        "description": "Fastener quantity requirements",
+        "key_requirements": [
+          "Minimum per manufacturer requirements",
+          "Not less than four fasteners per strip shingle",
+          "Not less than two fasteners per individual shingle",
+          "Special requirements for slopes exceeding 21:12 - follow manufacturer specs"
+        ]
+      }
+    ],
+
+    "review_process": {
+      "description": "PA codes updated every 3 years following ICC code releases",
+      "process": "Review & Advisory Council (RAC) reviews changes and recommends inclusions/exclusions",
+      "note": "Legislative exclusions and exemptions modify standard IRC provisions"
+    },
+
+    "sources": [
+      "https://www.pa.gov/agencies/dli/programs-services/labor-management-relations/bureau-of-occupational-and-industrial-safety/uniform-construction-code-home",
+      "https://codes.iccsafe.org/codes/pennsylvania",
+      "https://www.iccsafe.org/advocacy/adoptions-map/pennsylvania/",
+      "https://codes.iccsafe.org/s/IRC2018P4/chapter-9-roof-assemblies/IRC2018P4-Ch09-SecR905",
+      "https://mcclellandsroofing.com/blogs/pennsylvania-roofing-code/"
+    ],
+
+    "last_updated": "2018 IRC adopted February 2022",
+    "next_update": "Triennial UCC update in process as of July 2025, publication expected fall 2025"
+  },
+
+  "gaf": {
+    "requirements": [
+      {
+        "category": "Installation Requirements",
+        "key_points": [
+          "Warranties VOID if not installed per GAF printed application instructions",
+          "WindProven warranty requires strict adherence to application instructions",
+          "Contractor must register warranty within 45 days of installation",
+          "Registration completed online by contractor, warranty emailed to homeowner by GAF"
+        ]
+      },
+      {
+        "category": "Master Elite Contractor Requirements (2025)",
+        "status": "Less than 2% of contractors achieve Master Elite status",
+        "requirements": [
+          "Must complete 3-year commitment in lower-tier GAF program first",
+          "Demonstrate proficiency in leak-free installations",
+          "Strong community reputation and timely payments",
+          "State licensed and properly insured",
+          "Complete additional GAF factory training",
+          "Annual requirements to maintain status",
+          "No new contractors considered"
+        ]
+      },
+      {
+        "category": "Warranty Tiers (2025)",
+        "tiers": [
+          {
+            "name": "Standard Limited Warranty",
+            "requirements": "Basic shingle warranty included with all qualifying products"
+          },
+          {
+            "name": "System Plus Limited Warranty",
+            "requirements": [
+              "Qualifying GAF shingles",
+              "Minimum 3 qualifying GAF accessory products",
+              "Installed by GAF Master Elite contractor"
+            ]
+          },
+          {
+            "name": "Silver Pledge Limited Warranty",
+            "requirements": [
+              "Minimum 4 qualifying GAF accessory products",
+              "Installed by GAF Master Elite contractor"
+            ]
+          },
+          {
+            "name": "Golden Pledge Limited Warranty (Most Comprehensive)",
+            "requirements": [
+              "GAF Lifetime Shingles",
+              "Minimum 5 qualifying GAF accessory products",
+              "Installed by GAF Master Elite contractor",
+              "Includes 25-year workmanship warranty"
+            ]
+          }
+        ]
+      },
+      {
+        "category": "Wind Coverage (2025)",
+        "details": [
+          "Standard wind warranty: 15 years",
+          "WindProven Limited Wind Warranty: Industry-first 15-year warranty with NO maximum wind speed limitation",
+          "Conditional on proper installation per GAF specifications"
+        ]
+      },
+      {
+        "category": "Storm Damage - What's NOT Covered",
+        "exclusions": [
+          "Acts of nature including hail, fire",
+          "Winds exceeding applicable wind speed listed in warranty",
+          "Impact of traffic on roof",
+          "Foreign objects including wind-blown debris",
+          "Damage from objects blown onto roof by wind"
+        ]
+      }
+    ],
+
+    "sources": [
+      "https://www.gaf.com/en-us/resources/warranties/residential",
+      "https://documents.gaf.com/warranties/gaf-shingle-and-accessory-limited-warranty-reswt160l.pdf",
+      "https://documents.gaf.com/warranties/gaf-roofing-system-limited-warranty-reswt163-(3-23).pdf",
+      "https://documents.gaf.com/brochures-&-literature/partner-programs-residential-program-guidelines.pdf"
+    ],
+
+    "last_updated": "2025 Residential Program Guidelines current"
+  },
+
+  "industry_standards": {
+    "nrca": {
+      "publication": "NRCA Roofing Manual: Steep-slope Roof Systems—2025",
+      "release_date": "November 2024 (released for implementation beginning January 1, 2025)",
+      "compliance_required": "November 1, 2025",
+
+      "major_2025_updates": [
+        {
+          "category": "Wood Panel Roof Decking",
+          "changes": [
+            "INCREASED minimum plywood thickness for asphalt shingle, metal shingle, wood shake/shingle:",
+            "16-inch rafter spacing: 1/2 inch → 5/8 inch nominal thickness",
+            "24-inch rafter spacing: 5/8 inch → 3/4 inch nominal thickness",
+            "Revised OSB panel recommendations for steep-slope roof decks"
+          ]
+        },
+        {
+          "category": "Drip-Edge Metal",
+          "changes": [
+            "NOW RECOMMENDED for all eaves and exposed rakes on:",
+            "- Clay and concrete tile roof systems",
+            "- Slate roof systems",
+            "- Wood shake and shingle roof systems"
+          ]
+        },
+        {
+          "category": "Wind Design Updates",
+          "changes": [
+            "References IBC 2024 and IRC 2024 wind resistance provisions",
+            "Updated wind design maps based on ASCE 7-22"
+          ]
+        },
+        {
+          "category": "Non-Wood Deck Materials",
+          "changes": [
+            "New recommendations for other-than-wood roof deck materials",
+            "New nailing substrate material recommendations for steep-slope applications"
+          ]
+        },
+        {
+          "category": "New Appendix",
+          "changes": [
+            "Appendix 4 - FORTIFIED Roof™ Requirements (NEW for 2025)"
+          ]
+        }
+      ],
+
+      "manual_series": [
+        "Steep-slope Roof Systems—2025 (NEW)",
+        "Metal Panel and SPF Roof Systems—2024",
+        "Membrane Roof Systems—2023",
+        "Architectural Metal Flashing and Condensation Control—2022"
+      ],
+
+      "sources": [
+        "https://www.nrca.net/RoofingNews/nrca-releases-2025-roofing-manual-volumes-and-boxed-set.2-5-2025.12571/details/story",
+        "https://www.metalconstructionnews.com/news/industry-news/nrca-manual-roof/",
+        "https://www.nrca.net/manuals"
+      ]
+    },
+
+    "fortified_home": {
+      "program": "FORTIFIED Home™ by IBHS (Insurance Institute for Business & Home Safety)",
+      "standard_version": "2025 FORTIFIED Home Standard",
+      "release_date": "November 2024",
+      "implementation_start": "January 1, 2025",
+      "compliance_required": "November 1, 2025",
+
+      "major_2025_changes": [
+        {
+          "category": "Certified Contractor Requirement",
+          "change": "All FORTIFIED roofs MUST be installed by certified FORTIFIED roofing contractors (NEW requirement)"
+        },
+        {
+          "category": "Inland vs. Coastal Consistency",
+          "change": "Inland requirements now more consistent with hurricane-prone areas",
+          "specifics": [
+            "All FORTIFIED roof decks require tighter nailing pattern (previously coastal-only)",
+            "All roof-mounted vents must meet testing standards for wind-driven rain prevention"
+          ]
+        },
+        {
+          "category": "Hail Resistance Standards",
+          "requirements": [
+            "Steep-roofed structures with asphalt shingles must use products rated 'Excellent' or 'Good' on IBHS Impact-Resistant Shingle Performance Ratings",
+            "Required for hail supplement eligibility",
+            "Provides confidence against hail up to 2 inches diameter"
+          ]
+        },
+        {
+          "category": "Standards Alignment",
+          "update": "Many updates relate to changes in ASCE 7 (American Society of Civil Engineers), which FORTIFIED and building codes use for minimum design load requirements"
+        }
+      ],
+
+      "designation_levels": [
+        "FORTIFIED Roof™ (roof system only)",
+        "FORTIFIED Silver™ (roof + water intrusion)",
+        "FORTIFIED Gold™ (complete home resilience)"
+      ],
+
+      "sources": [
+        "https://fortifiedhome.org/2025-technical-documents/",
+        "https://ibhs.org/ibhs-news-releases/ibhs-releases-updated-resilient-construction-standards/",
+        "https://fortifiedhome.org/wp-content/uploads/2025-Standard-Summary-of-Changes.pdf"
+      ]
+    },
+
+    "astm": {
+      "primary_standards_2025": [
+        {
+          "standard": "ASTM D3462/D3462M-19",
+          "title": "Standard Specification for Asphalt Shingles Made from Glass Felt and Surfaced with Mineral Granules",
+          "scope": "Primary product standard for asphalt roofing shingles",
+          "covers": "Glass felt shingles impregnated and coated with asphalt, surfaced with mineral granules"
+        },
+        {
+          "standard": "ASTM D3018",
+          "title": "Standard Specification for Class A Asphalt Shingles Surfaced with Mineral Granules",
+          "scope": "Secondary product standard providing Class A fire resistance and wind resistance testing"
+        },
+        {
+          "standard": "ASTM D3161/D3161M-20(2025)",
+          "title": "Standard Test Method for Wind Resistance of Steep Slope Roofing Products (Fan-Induced Method)",
+          "status": "Reapproved for 2025",
+          "use": "Permitted for shingles WITHOUT self-sealing strips"
+        },
+        {
+          "standard": "ASTM D7158/D7158M-24a",
+          "title": "Standard Test Method for Wind Resistance of Asphalt Shingles (Uplift Force/Uplift Resistance Method)",
+          "scope": "Required by IBC/IRC for factory-applied self-sealing strip shingles",
+          "status": "Updated 2024, current for 2025"
+        },
+        {
+          "standard": "ASTM D4977/D4977M-20(2025)",
+          "title": "Standard Test Method for Granule Adhesion to Mineral-Surfaced Roofing by Abrasion",
+          "status": "Reapproved for 2025"
+        },
+        {
+          "standard": "ASTM D228/D228M-21",
+          "title": "Standard Test Methods for Sampling, Testing, and Analysis of Asphalt Roll Roofing, Cap Sheets, and Shingles",
+          "scope": "Comprehensive testing methodology for asphalt roofing products"
+        },
+        {
+          "standard": "ASTM F1667",
+          "title": "Standard Specification for Driven Fasteners: Nails, Spikes, and Staples",
+          "scope": "Referenced in IRC for fastener compliance"
+        }
+      ],
+
+      "testing_requirements": [
+        "Physical requirements (tear strength, wind resistance, fire resistance, softening point, pliability) measured immediately after packaging",
+        "Products should be tested as soon as possible after manufacturing",
+        "Test methods must follow ASTM specifications for validity"
+      ],
+
+      "sources": [
+        "https://store.astm.org/products-services/standards-and-publications/standards/roofing-standards.html",
+        "https://www.astm.org/Standards/roofing-standards.html",
+        "https://store.astm.org/d3462_d3462m-19.html",
+        "https://store.astm.org/standards/d3161",
+        "https://www.asphaltroofing.org/when-does-a-shingle-comply-with-astm-d3462/"
+      ]
+    }
+  },
+
+  "new_findings_october_2025": [
+    {
+      "finding": "Virginia 2021 Code Now Mandatory",
+      "details": "As of January 18, 2025, all new permits in Virginia MUST use 2021 VUSBC/IRC",
+      "impact": "Updated roofing requirements now enforceable statewide",
+      "significance": "HIGH"
+    },
+    {
+      "finding": "Maryland Bulletin 25-10 on Aerial Imagery",
+      "details": "New June 2025 bulletin addresses insurer use of drone/satellite imagery for roofing assessments",
+      "impact": "Protects homeowners from arbitrary cancellations based solely on aerial roof images",
+      "significance": "CRITICAL"
+    },
+    {
+      "finding": "NRCA 2025 Manual Increases Deck Thickness Requirements",
+      "details": "Minimum plywood thickness increased for 16\" and 24\" rafter spacing",
+      "impact": "Higher material standards for new roofing installations",
+      "significance": "HIGH"
+    },
+    {
+      "finding": "FORTIFIED 2025 Requires Certified Contractors",
+      "details": "All FORTIFIED roofs must be installed by certified FORTIFIED contractors",
+      "impact": "Raises bar for eligibility for FORTIFIED designation and associated insurance discounts",
+      "significance": "HIGH"
+    },
+    {
+      "finding": "FORTIFIED Inland Requirements Strengthened",
+      "details": "Inland roofs now require same tighter nailing patterns as coastal installations",
+      "impact": "Better wind resistance for all FORTIFIED roofs regardless of location",
+      "significance": "MEDIUM"
+    },
+    {
+      "finding": "Pennsylvania UCC Update Pending",
+      "details": "Triennial code update in process, expected publication fall 2025",
+      "impact": "May adopt 2021 or 2024 IRC provisions",
+      "significance": "MEDIUM - Monitor for changes"
+    },
+    {
+      "finding": "GAF WindProven No Maximum Wind Speed",
+      "details": "GAF's WindProven warranty offers 15-year coverage with NO wind speed cap",
+      "impact": "Industry-leading wind coverage for properly installed systems",
+      "significance": "MEDIUM"
+    },
+    {
+      "finding": "Maryland Matching Requirements Unclear",
+      "details": "No specific 2025 bulletin found on roofing matching; falls under general §27-303 unfair practices",
+      "impact": "Matching disputes handled case-by-case under unfair settlement practices law",
+      "significance": "MEDIUM - Requires further monitoring"
+    }
+  ],
+
+  "research_methodology": {
+    "sources_consulted": [
+      "Official state DHCD/DLI websites",
+      "Maryland Insurance Administration bulletin archives",
+      "ICC Digital Codes (codes.iccsafe.org)",
+      "State statute databases (Justia, state legislature sites)",
+      "GAF official documentation",
+      "NRCA official publications",
+      "IBHS FORTIFIED Home program documentation",
+      "ASTM International standards database"
+    ],
+    "verification_approach": "Only information from authoritative sources included; all claims sourced to official documentation",
+    "limitations": [
+      "Local amendments may vary by jurisdiction - always verify with local AHJ",
+      "Maryland Code §27-303 full text not accessible (403 error) - referenced from secondary sources",
+      "Some bulletins referenced but PDFs not directly accessible for full review",
+      "State-specific IRC amendments may exist beyond what's documented publicly"
+    ]
+  },
+
+  "recommendations": {
+    "for_contractors": [
+      "Verify local jurisdiction amendments before citing code requirements",
+      "Stay current on FORTIFIED certification if operating in FORTIFIED-eligible areas",
+      "Maintain GAF Master Elite status for enhanced warranty offerings",
+      "Document all installations per manufacturer specs for warranty validity",
+      "Be aware of Maryland Bulletin 25-10 when disputing aerial imagery assessments"
+    ],
+    "for_homeowners": [
+      "Request warranty registration within 45 days of GAF installation",
+      "Understand that 2+ layer roofs in PA require complete tear-off",
+      "Maryland residents: cite Bulletin 25-10 if insurer uses only aerial imagery for cancellation",
+      "Consider FORTIFIED designation for insurance premium reductions",
+      "Verify contractor licensing and insurance before signing contracts"
+    ],
+    "for_insurance_adjusters": [
+      "Comply with Maryland Bulletin 25-10 for aerial imagery use",
+      "Review Maryland §27-303 for unfair settlement practices",
+      "Understand wind coverage limitations in GAF warranties",
+      "Recognize FORTIFIED designation criteria for premium adjustments",
+      "Stay updated on local code adoptions affecting repair requirements"
+    ]
+  }
+}

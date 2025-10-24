@@ -34,3 +34,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Large embedding files (deploy via Railway environment or external storage)
+data/embeddings.json
+data/susan_ai_embeddings.json
+data/susan_ai_embeddings.json.backup
+
+# Documentation with potential secrets
+*_TEST_RESULTS.md
+*RAILWAY*.md
+*ABACUS*.md
+DEPLOY_NOW.sh
+test-groq-together.js

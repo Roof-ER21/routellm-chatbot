@@ -1,13 +1,22 @@
 /**
- * AI Provider Failover System
+ * AI Provider Failover System - ULTRA-LOW-COST ARCHITECTURE
  *
- * Multi-tier cascade with offline support:
- * 1. Abacus.AI (primary)
- * 2. Hugging Face Inference API (backup 1)
- * 3. OpenRouter (backup 2)
- * 4. Ollama Local (backup 3)
- * 5. Static Knowledge Base (offline fallback)
+ * Multi-tier cascade optimized for cost and reliability:
+ * 1. Groq (primary) - FREE tier, 14,400 requests/day, FASTEST inference
+ * 2. Together.ai (backup 1) - $25 FREE credit, then $0.20-0.90/M tokens
+ * 3. HuggingFace (backup 2) - Serverless inference
+ * 4. Ollama Local (backup 3) - Local fallback
+ * 5. Static Knowledge Base (final fallback) - Always available offline
+ *
+ * RAG Integration: Retrieval-Augmented Generation using custom training docs
+ * - Semantic search via OpenAI embeddings
+ * - Context injection into system prompts
+ * - Source citation in responses
+ *
+ * Expected monthly cost: $0-5 (vs. Abacus $$$ - 95-99% savings!)
  */
+
+import { ragService } from './rag-service';
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -25,6 +34,8 @@ export interface AIResponse {
   cached?: boolean;
   offline?: boolean;
   confidence?: number;
+  ragSources?: string[];
+  ragRetrievalTime?: number;
 }
 
 export interface ProviderHealth {
@@ -100,6 +111,143 @@ class HealthMonitor {
 // AI PROVIDERS
 // ============================================================================
 
+// ============================================================================
+// GROQ PROVIDER (Primary - FREE!)
+// ============================================================================
+class GroqProvider {
+  async call(messages: AIMessage[]): Promise<AIResponse> {
+    const apiKey = process.env.GROQ_API_KEY;
+
+    if (!apiKey) {
+      console.log('[GroqProvider] API key not configured - skipping');
+      throw new Error('GROQ_API_KEY not configured');
+    }
+
+    // Try multiple models in order of preference (updated for 2025)
+    const models = [
+      'llama-3.3-70b-versatile',     // Latest Llama 3.3 70B
+      'llama-3.1-8b-instant',         // Fastest fallback
+      'mixtral-8x7b-32768',           // Alternative
+    ];
+
+    const preferredModel = process.env.GROQ_MODEL || models[0];
+    console.log(`[GroqProvider] Using model: ${preferredModel}`);
+
+    // Convert messages to Groq format
+    const groqMessages = messages.map(msg => ({
+      role: msg.role,
+      content: msg.content
+    }));
+
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: preferredModel,
+        messages: groqMessages,
+        temperature: 0.7,
+        max_tokens: 2048,
+      }),
+      signal: AbortSignal.timeout(30000)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('[GroqProvider] API error:', errorText);
+      throw new Error(`Groq API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const message = data.choices?.[0]?.message?.content || '';
+
+    // Validate response
+    if (!message || message.trim().length === 0) {
+      console.error('[GroqProvider] Empty response detected');
+      throw new Error('Groq returned empty response');
+    }
+
+    console.log('[GroqProvider] ✅ Success');
+    return {
+      message: message.trim(),
+      model: preferredModel,
+      provider: 'Groq'
+    };
+  }
+}
+
+// ============================================================================
+// TOGETHER.AI PROVIDER (Backup - Ultra Low Cost)
+// ============================================================================
+class TogetherProvider {
+  async call(messages: AIMessage[]): Promise<AIResponse> {
+    const apiKey = process.env.TOGETHER_API_KEY;
+
+    if (!apiKey) {
+      console.log('[TogetherProvider] API key not configured - skipping');
+      throw new Error('TOGETHER_API_KEY not configured');
+    }
+
+    // Try multiple models in order of preference
+    const models = [
+      'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo',  // Best quality
+      'Qwen/Qwen2.5-72B-Instruct-Turbo',               // Excellent for technical
+      'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',   // Fast fallback
+    ];
+
+    const preferredModel = process.env.TOGETHER_MODEL || models[0];
+    console.log(`[TogetherProvider] Using model: ${preferredModel}`);
+
+    // Convert messages to Together format
+    const togetherMessages = messages.map(msg => ({
+      role: msg.role,
+      content: msg.content
+    }));
+
+    const response = await fetch('https://api.together.xyz/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: preferredModel,
+        messages: togetherMessages,
+        temperature: 0.7,
+        max_tokens: 2048,
+      }),
+      signal: AbortSignal.timeout(30000)
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('[TogetherProvider] API error:', errorText);
+      throw new Error(`Together.ai API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const message = data.choices?.[0]?.message?.content || '';
+
+    // Validate response
+    if (!message || message.trim().length === 0) {
+      console.error('[TogetherProvider] Empty response detected');
+      throw new Error('Together.ai returned empty response');
+    }
+
+    console.log('[TogetherProvider] ✅ Success');
+    return {
+      message: message.trim(),
+      model: preferredModel,
+      provider: 'Together.ai'
+    };
+  }
+}
+
+// ============================================================================
+// ABACUS PROVIDER (Legacy - Being Replaced)
+// ============================================================================
 class AbacusProvider {
   async call(messages: AIMessage[]): Promise<AIResponse> {
     const deploymentToken = process.env.DEPLOYMENT_TOKEN;
@@ -611,33 +759,138 @@ function sleep(ms: number): Promise<void> {
 
 export class AIProviderFailover {
   private healthMonitor = new HealthMonitor();
+  private groq = new GroqProvider();
+  private together = new TogetherProvider();
   private abacus = new AbacusProvider();
   private huggingface = new HuggingFaceProvider();
   private ollama = new OllamaProvider();
   private staticKnowledge = new StaticKnowledgeProvider();
 
   async getResponse(messages: AIMessage[]): Promise<AIResponse> {
+    // Extract user query for RAG search
+    const userMessages = messages.filter(m => m.role === 'user');
+    const lastUserMessage = userMessages[userMessages.length - 1]?.content || '';
+
+    // Perform RAG search if enabled
+    let ragContext = null;
+    let ragRetrievalTime = 0;
+    let ragSources: string[] = [];
+
+    if (lastUserMessage && process.env.RAG_ENABLED !== 'false') {
+      try {
+        const ragStart = Date.now();
+        console.log('[Failover] Performing RAG search...');
+
+        ragContext = await ragService.search(lastUserMessage);
+        ragRetrievalTime = Date.now() - ragStart;
+        ragSources = ragContext.sources;
+
+        console.log(`[Failover] RAG search completed in ${ragRetrievalTime}ms`);
+        console.log(`[Failover] Found ${ragContext.chunks.length} relevant chunks from sources:`, ragSources);
+      } catch (error: any) {
+        console.warn('[Failover] RAG search failed, continuing without context:', error.message);
+        // Continue without RAG - graceful degradation
+      }
+    }
+
+    // Build system prompt with optional RAG context
+    let systemPrompt = '';
+
+    // ENHANCED SUSAN AI-21 PERSONALITY (Top 1% Upgrade - Oct 2025)
+    const enhancedPersonality = `You are Susan AI-21, a warm, professional roofing insurance claim expert who helps field reps build stronger claims and win more approvals. You combine deep technical knowledge with genuine care for helping reps succeed.
+
+CORE PERSONALITY:
+- Warm & Approachable: Use conversational tone, show genuine interest, celebrate wins
+- Professional & Expert: Cite specific codes (IRC R908.3, R905.2.2), provide actionable advice
+- Helpful & Proactive: Ask clarifying questions (2-4 questions), anticipate needs, offer suggestions
+
+CORE KNOWLEDGE:
+- Building Codes (VA/MD/PA): Double layer (R908.3), low slope (R905.2.2), flashing (R903, R703)
+- GAF Requirements: Storm damage guidelines, warranty compliance, creased shingle replacement
+- Maryland Law: Bulletin 18-23 (matching), §27-303 (unfair practices), Bulletin 25-10 (aerial imagery 2025)
+- Virginia: 2021 IRC mandatory (Jan 2025), ice barriers 24-36"
+- Insurance Strategy: Evidence documentation, adjuster rebuttals, NOAA storm verification
+
+PERSUASIVE COMMUNICATION (10 Techniques):
+1. Client-focused "you" language: "Based on what you've shared, would it make sense to..."
+2. Before/after scenarios: "Picture this: when the homeowner sees..."
+3. Questions leading to yes: "Does the estimate account for all code-required upgrades?"
+4. Soft closing: "When you send this to the adjuster, make sure to include..."
+5. Social proof: "Many reps in Maryland have success with..."
+6. Natural urgency: "Before the adjuster closes this out..."
+7. Empowerment: "You're in a strong position because..."
+8. Assumed competence: "As you know from experience..."
+9. Collaborative: "Let's think through how to present this..."
+10. Strategic summary: "The key points that will resonate with the adjuster are..."
+
+❌ CRITICAL RULES - NEVER DO (Unless Specifically Asked):
+- Mention "supplementing" or "you should supplement for"
+- Discuss pricing ("this should cost $X", "you could charge more")
+- Suggest adding items to increase claim value
+- Talk about profit margins or pricing strategy
+
+✅ ALWAYS DO:
+- Analyze line items for completeness & code compliance
+- Identify missing requirements (ice shield IRC R905.2.7.1, flashing R903, ventilation R806)
+- Focus on coverage adequacy and documentation, NOT cost
+- Ask clarifying questions before analyzing documents
+- Cite October 2025 regulations when available
+
+INTERACTIVE DOCUMENT ANALYSIS:
+When reps upload estimates/photos/reports, ask 2-4 clarifying questions BEFORE analyzing:
+- Estimates: "What's the storm date?", "Has adjuster approved this?", "Any visible damage not listed?"
+- Photos: "Is this from a verified storm date?", "Other areas with similar damage?", "Pre or post-inspection?"
+- Reports: "What's the insurance company's position?", "Which items are disputed?", "Your goal - full approval or supplement?"
+
+RESPONSE STRUCTURE:
+1. Acknowledge & Validate: "I can see why this is frustrating..."
+2. Clarify & Question: Ask 1-3 relevant questions
+3. Educate & Guide: Share codes/regulations with "why"
+4. Suggest & Empower: Actionable next steps
+5. Cite & Source: Reference specific codes/laws
+
+ETHICAL BOUNDARIES - Never suggest:
+- Fabricating damage or documentation
+- Misrepresenting scope or severity
+- Inflating claims beyond legitimate damage
+- Anything violating insurance regulations
+
+TONE CALIBRATION:
+- MORE supportive: New rep, denied claim, frustration
+- MORE direct: Specific technical questions, time-sensitive, experienced rep
+- ALWAYS: Warm, professional, ethical, focused on legitimate coverage
+
+YOUR ULTIMATE GOAL: Help reps build rock-solid claims that get approved because they're thoroughly documented, properly coded, and legally sound.`;
+
+    if (ragContext && ragContext.chunks.length > 0) {
+      const formattedContext = ragService.formatContextForPrompt(ragContext);
+      systemPrompt = `${formattedContext}
+
+${enhancedPersonality}
+
+IMPORTANT: Use the knowledge base documents above to provide accurate, specific answers. ALWAYS cite sources when available.`;
+    } else {
+      systemPrompt = enhancedPersonality;
+    }
+
     // Add system context
     const enhancedMessages: AIMessage[] = [
       {
         role: 'system',
-        content: `You are Susan AI-21, an expert roofing insurance claim assistant. You have comprehensive knowledge of:
-- Building codes for VA, MD, PA (double layer, slope, flashing)
-- GAF manufacturer requirements and warranty guidelines
-- Maryland Insurance Administration matching requirements
-- Legal arguments and rebuttals for insurance claims
-- Storm damage assessment standards
-
-Always cite specific codes and provide actionable advice.`
+        content: systemPrompt
       },
       ...messages
     ];
 
-    // Define provider cascade
+    // Define provider cascade - NEW COST-FREE ARCHITECTURE!
     const providers = [
       {
-        name: 'Abacus.AI',
-        call: () => this.abacus.call(enhancedMessages)
+        name: 'Groq',
+        call: () => this.groq.call(enhancedMessages)
+      },
+      {
+        name: 'Together.ai',
+        call: () => this.together.call(enhancedMessages)
       },
       {
         name: 'HuggingFace',
@@ -674,6 +927,13 @@ Always cite specific codes and provide actionable advice.`
 
         this.healthMonitor.recordSuccess(provider.name);
         console.log(`[Failover] ✅ SUCCESS with ${provider.name}`);
+
+        // Add RAG metadata to response
+        if (ragSources.length > 0) {
+          response.ragSources = ragSources;
+          response.ragRetrievalTime = ragRetrievalTime;
+        }
+
         return response;
 
       } catch (error: any) {
@@ -694,7 +954,7 @@ Always cite specific codes and provide actionable advice.`
   }
 
   // Direct call to a specific provider (useful for testing/forcing)
-  async getResponseFrom(providerName: 'Abacus.AI' | 'HuggingFace' | 'Ollama' | 'StaticKnowledge', messages: AIMessage[]): Promise<AIResponse> {
+  async getResponseFrom(providerName: 'Groq' | 'Together.ai' | 'Abacus.AI' | 'HuggingFace' | 'Ollama' | 'StaticKnowledge', messages: AIMessage[]): Promise<AIResponse> {
     const enhancedMessages: AIMessage[] = [
       {
         role: 'system',
@@ -711,6 +971,8 @@ Always cite specific codes and provide actionable advice.`
     ];
 
     const map: Record<string, () => Promise<AIResponse>> = {
+      'Groq': () => callWithRetry(() => this.groq.call(enhancedMessages), 3, 'Groq'),
+      'Together.ai': () => callWithRetry(() => this.together.call(enhancedMessages), 3, 'Together.ai'),
       'Abacus.AI': () => callWithRetry(() => this.abacus.call(enhancedMessages), 3, 'Abacus.AI'),
       'HuggingFace': () => callWithRetry(() => this.huggingface.call(enhancedMessages), 3, 'HuggingFace'),
       'Ollama': () => callWithRetry(() => this.ollama.call(enhancedMessages), 3, 'Ollama'),

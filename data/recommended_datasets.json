@@ -1,0 +1,292 @@
+{
+  "metadata": {
+    "analysis_date": "2025-10-24",
+    "total_datasets_found": 12,
+    "high_priority_datasets": 6,
+    "working_directory": "/Users/a21/Desktop/routellm-chatbot-railway/",
+    "analyst": "Claude Code NLP Engineering Agent"
+  },
+  "top_recommendations": [
+    {
+      "rank": 1,
+      "name": "bitext/Bitext-insurance-llm-chatbot-training-dataset",
+      "category": "Insurance Domain",
+      "priority": "CRITICAL",
+      "size": "39,000 examples",
+      "license": "CDLA-Sharing 1.0",
+      "commercial_use": true,
+      "share_alike_required": true,
+      "quality_score": 95,
+      "relevance_score": 98,
+      "download_command": "huggingface-cli download bitext/Bitext-insurance-llm-chatbot-training-dataset",
+      "key_features": [
+        "17 insurance categories",
+        "39 intents including claims and negotiation",
+        "100+ entity types",
+        "Language variations (formal, colloquial, errors)"
+      ],
+      "use_cases": [
+        "Insurance terminology understanding",
+        "Claims processing language",
+        "Settlement negotiation patterns",
+        "Customer objection handling"
+      ],
+      "integration_notes": "Primary dataset for insurance domain fine-tuning. Use as foundation."
+    },
+    {
+      "rank": 2,
+      "name": "goendalf666/sales-conversations-instruction-base",
+      "category": "Persuasive Sales",
+      "priority": "CRITICAL",
+      "size": "20,900 examples",
+      "license": "To be verified",
+      "commercial_use": "verify_required",
+      "quality_score": 90,
+      "relevance_score": 95,
+      "download_command": "huggingface-cli download goendalf666/sales-conversations-instruction-base",
+      "key_features": [
+        "Sales conversation instruction format",
+        "Customer objections and responses",
+        "Persuasive techniques",
+        "Closing strategies"
+      ],
+      "use_cases": [
+        "Persuasive response generation",
+        "Objection handling",
+        "Sales conversation structure",
+        "Closing technique training"
+      ],
+      "integration_notes": "Core dataset for persuasion training. Instruction format perfect for fine-tuning."
+    },
+    {
+      "rank": 3,
+      "name": "nhankins/legal_contracts",
+      "category": "Document Understanding",
+      "priority": "HIGH",
+      "size": "36,364 contract clauses",
+      "license": "Based on CUAD v1 (verify)",
+      "commercial_use": "verify_required",
+      "quality_score": 92,
+      "relevance_score": 85,
+      "download_command": "huggingface-cli download nhankins/legal_contracts",
+      "key_features": [
+        "41 contract clause categories",
+        "Temporal reasoning (dates, terms)",
+        "License and restriction clauses",
+        "Legal document structure"
+      ],
+      "use_cases": [
+        "Contract/estimate reading",
+        "Structured document parsing",
+        "Temporal information extraction",
+        "Technical document comprehension"
+      ],
+      "integration_notes": "Excellent for training document reading skills. Similar cognitive task to estimate analysis."
+    },
+    {
+      "rank": 4,
+      "name": "Anthropic/persuasion",
+      "category": "Persuasive Writing",
+      "priority": "HIGH",
+      "size": "3,940 rated arguments",
+      "license": "CC-BY-NC-SA-4.0",
+      "commercial_use": false,
+      "license_warning": "NON-COMMERCIAL LICENSE - Research use only or request commercial license from Anthropic",
+      "quality_score": 98,
+      "relevance_score": 88,
+      "download_command": "huggingface-cli download Anthropic/persuasion",
+      "key_features": [
+        "Persuasiveness ratings (before/after)",
+        "Change scores (-2 to +5)",
+        "Multiple rhetorical styles",
+        "Human and AI-generated arguments"
+      ],
+      "use_cases": [
+        "Persuasiveness reward modeling",
+        "Rhetorical style training",
+        "RLHF training",
+        "Argument quality ranking"
+      ],
+      "integration_notes": "UNIQUE persuasiveness metrics. Excellent for reward model. CHECK LICENSE for commercial deployment."
+    },
+    {
+      "rank": 5,
+      "name": "snorkelai/Multi-Turn-Insurance-Underwriting",
+      "category": "Insurance Domain",
+      "priority": "MEDIUM-HIGH",
+      "size": "380 multi-turn conversations",
+      "license": "Apache 2.0",
+      "commercial_use": true,
+      "quality_score": 94,
+      "relevance_score": 82,
+      "download_command": "huggingface-cli download snorkelai/Multi-Turn-Insurance-Underwriting",
+      "key_features": [
+        "Commercial property insurance",
+        "Expert-validated by CPCU",
+        "6 task types",
+        "Complex multi-turn reasoning"
+      ],
+      "use_cases": [
+        "Advanced reasoning patterns",
+        "Property insurance specifics",
+        "Risk assessment language",
+        "Multi-turn conversation flow"
+      ],
+      "integration_notes": "Small but very high quality. Use for advanced reasoning training."
+    },
+    {
+      "rank": 6,
+      "name": "DeepMostInnovations/saas-sales-conversations",
+      "category": "Sales Conversations",
+      "priority": "MEDIUM",
+      "size": "Unknown (substantial)",
+      "license": "To be verified",
+      "commercial_use": "verify_required",
+      "quality_score": 85,
+      "relevance_score": 78,
+      "download_command": "huggingface-cli download DeepMostInnovations/saas-sales-conversations",
+      "key_features": [
+        "Sales outcome labels",
+        "Engagement and effectiveness scores",
+        "Pre-computed embeddings (301-dim)",
+        "Conversation flow metadata"
+      ],
+      "use_cases": [
+        "Outcome-based learning",
+        "Conversation effectiveness prediction",
+        "Engagement modeling",
+        "Sales success patterns"
+      ],
+      "integration_notes": "Rich metadata. Adapt from SaaS to roofing domain."
+    }
+  ],
+  "supporting_datasets": [
+    {
+      "name": "gogo8232/fineweb-CC-MAIN-2024-10-insurance-700k-dedup",
+      "category": "Insurance Domain Knowledge",
+      "priority": "MEDIUM",
+      "size": "700,000 texts",
+      "use_case": "Continued pre-training, domain vocabulary",
+      "integration_notes": "Use for continued pre-training. Requires heavy filtering."
+    },
+    {
+      "name": "SROIE Dataset",
+      "category": "Visual Document Understanding",
+      "priority": "LOW-MEDIUM",
+      "size": "1,000 receipt images",
+      "use_case": "Multimodal document processing",
+      "integration_notes": "Consider if adding vision capabilities for PDF estimate reading."
+    },
+    {
+      "name": "mathieu1256/FATURA2-invoices",
+      "category": "Invoice Understanding",
+      "priority": "LOW",
+      "size": "10,000 invoices",
+      "use_case": "Line-item parsing, invoice structure",
+      "integration_notes": "Different format from estimates. Low priority."
+    }
+  ],
+  "datasets_to_skip": [
+    {
+      "name": "infinite-dataset-hub/TextClaimsDataset",
+      "reason": "Too small (97 examples)",
+      "alternative": "Use bitext dataset instead"
+    },
+    {
+      "name": "eltorio/ai-prompts",
+      "reason": "Just templates, not full examples",
+      "alternative": "Use for prompt engineering reference only"
+    }
+  ],
+  "critical_gaps": {
+    "missing_dataset_types": [
+      "Roofing-specific estimates",
+      "Contractor bids and proposals",
+      "Insurance adjuster reports",
+      "Property damage assessments",
+      "Roofing sales scripts"
+    ],
+    "mitigation_strategy": {
+      "approach": "Synthetic data generation + domain adaptation",
+      "methods": [
+        "GPT-4/Claude-based synthetic generation",
+        "Template-based augmentation",
+        "Domain terminology injection",
+        "Cross-domain transfer learning"
+      ]
+    }
+  },
+  "training_strategy": {
+    "phase_1_foundation": {
+      "name": "Core Domain Training",
+      "datasets": [
+        "bitext/Bitext-insurance-llm-chatbot-training-dataset",
+        "goendalf666/sales-conversations-instruction-base",
+        "nhankins/legal_contracts"
+      ],
+      "mixing_ratio": {
+        "insurance": 0.4,
+        "sales": 0.3,
+        "documents": 0.2,
+        "synthetic_roofing": 0.1
+      },
+      "estimated_samples": "~96,000 examples"
+    },
+    "phase_2_specialization": {
+      "name": "Roofing Domain Adaptation",
+      "approach": "Augment with roofing-specific synthetic data",
+      "target_samples": "10,000 roofing examples"
+    },
+    "phase_3_persuasion_rlhf": {
+      "name": "Persuasiveness Optimization",
+      "dataset": "Anthropic/persuasion",
+      "method": "Reward model training using persuasiveness scores",
+      "note": "Verify license for commercial use"
+    }
+  },
+  "license_summary": {
+    "safe_for_commercial": [
+      "bitext/Bitext-insurance-llm-chatbot-training-dataset (CDLA-Sharing)",
+      "snorkelai/Multi-Turn-Insurance-Underwriting (Apache 2.0)",
+      "infinite-dataset-hub/TextClaimsDataset (MIT)"
+    ],
+    "non_commercial": [
+      "Anthropic/persuasion (CC-BY-NC-SA-4.0)"
+    ],
+    "verify_required": [
+      "goendalf666/sales-conversations-instruction-base",
+      "DeepMostInnovations/saas-sales-conversations",
+      "nhankins/legal_contracts (CUAD v1)",
+      "gogo8232/fineweb-CC-MAIN-2024-10-insurance-700k-dedup"
+    ],
+    "action_items": [
+      "Check licenses for datasets marked 'verify_required'",
+      "Request commercial license for Anthropic/persuasion if needed",
+      "Ensure compliance with share-alike requirements (CDLA-Sharing)"
+    ]
+  },
+  "download_script": {
+    "filename": "download_datasets.sh",
+    "description": "Shell script to download all recommended datasets",
+    "location": "To be created"
+  },
+  "processing_pipeline": {
+    "filename": "process_datasets.py",
+    "description": "Python script to process and unify datasets",
+    "location": "To be created",
+    "steps": [
+      "Download datasets",
+      "Convert to unified JSON format",
+      "Clean and deduplicate",
+      "Add roofing-specific augmentations",
+      "Create train/val/test splits",
+      "Generate embeddings"
+    ]
+  },
+  "expected_improvements": {
+    "insurance_terminology": "60%+ improvement",
+    "persuasive_writing": "40%+ improvement",
+    "estimate_reading": "50%+ improvement",
+    "overall_task_performance": "45%+ improvement"
+  }
+}
