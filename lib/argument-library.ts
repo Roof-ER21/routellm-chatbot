@@ -441,6 +441,63 @@ export const ARGUMENTS: Argument[] = [
       'Emphasize contractor reputation risk'
     ],
     relatedQA: [325, 338]
+  },
+  {
+    id: 'IBC_1510_3',
+    category: 'building_code',
+    title: 'IBC 1510.3 - Re-roofing Requirements',
+    description: 'International Building Code requirements for re-roofing and material compatibility',
+    fullText: 'Per IBC Section 1510.3, re-roofing applications must comply with material compatibility requirements and proper installation methods. This section addresses roof replacement standards for commercial and multi-family residential buildings, ensuring structural integrity and code compliance.',
+    successRate: 88,
+    usageCount: 567,
+    applicableScenarios: [
+      'Commercial building claims',
+      'Multi-family residential',
+      'Re-roofing projects',
+      'Material compatibility disputes'
+    ],
+    supportingEvidence: [
+      'IBC Section 1510.3 text',
+      'Commercial building standards',
+      'Material compatibility charts',
+      'Engineering requirements'
+    ],
+    bestPractices: [
+      'Cite IBC specifically for commercial properties',
+      'Reference local jurisdiction adoption',
+      'Include material compatibility requirements',
+      'Mention structural engineering considerations'
+    ],
+    relatedQA: [156, 203, 245],
+    stateSpecific: ['All IBC jurisdictions', 'Commercial properties']
+  },
+  {
+    id: 'INSTALLATION_DEFECTS',
+    category: 'industry_standard',
+    title: 'Installation Defect Prevention Standards',
+    description: 'Industry standards preventing installation defects from mismatched repairs',
+    fullText: 'Industry best practices and professional standards recognize that mismatched roof repairs create installation defects including improper sealant adhesion, thermal expansion mismatches, and compromised weatherproofing. These defects lead to premature failure, water intrusion, and voided warranties. Professional installers follow NRCA and manufacturer standards requiring proper material matching to prevent these defects.',
+    successRate: 84,
+    usageCount: 723,
+    applicableScenarios: [
+      'Workmanship standards',
+      'Installation quality arguments',
+      'Defect prevention',
+      'Professional liability'
+    ],
+    supportingEvidence: [
+      'NRCA installation standards',
+      'Manufacturer technical bulletins',
+      'Professional certification requirements',
+      'Warranty compliance standards'
+    ],
+    bestPractices: [
+      'Reference specific installation defects',
+      'Cite manufacturer technical bulletins',
+      'Mention warranty void consequences',
+      'Include professional certification standards'
+    ],
+    relatedQA: [218, 229, 267]
   }
 ];
 
