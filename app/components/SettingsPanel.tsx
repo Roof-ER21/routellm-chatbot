@@ -47,6 +47,7 @@ export interface SettingsPanelProps {
   sessionId?: string | null;
   onExport?: () => void;
   onEmailGenerate?: () => void;
+  onKnowledgeBase?: () => void;
 }
 
 export default function SettingsPanel({
@@ -68,6 +69,7 @@ export default function SettingsPanel({
   sessionId,
   onExport,
   onEmailGenerate,
+  onKnowledgeBase,
 }: SettingsPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
@@ -375,6 +377,28 @@ export default function SettingsPanel({
 
             {/* Divider */}
             <div className={`border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`} />
+
+            {/* Knowledge Base - Always available */}
+            {onKnowledgeBase && (
+              <button
+                onClick={() => { onKnowledgeBase(); setIsOpen(false); }}
+                className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all ${
+                  isDarkMode
+                    ? 'bg-purple-900/30 hover:bg-purple-800/50 text-white border border-purple-700/50'
+                    : 'bg-purple-50 hover:bg-purple-100 text-gray-900 border border-purple-200'
+                }`}
+              >
+                <span className="text-lg">📚</span>
+                <div className="text-left flex-1">
+                  <h4 className={`font-semibold text-sm ${isDarkMode ? 'text-purple-300' : 'text-purple-900'}`}>
+                    Knowledge Base
+                  </h4>
+                  <p className={`text-xs ${isDarkMode ? 'text-purple-400' : 'text-purple-700'}`}>
+                    123 docs: codes, warranties, training
+                  </p>
+                </div>
+              </button>
+            )}
 
             {/* Export & Email Actions - Only show when messages exist */}
             {messages && messages.length > 0 && (
