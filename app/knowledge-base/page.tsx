@@ -575,8 +575,8 @@ function DocumentViewerContent({
 
   // Get images for this document (normalize document ID)
   // Remove common file extensions (.md, .pdf, .docx) and normalize to lowercase with underscores
-  const documentId =\1doc.filename?.replace(/\.(md|pdf|docx)$/i, '').replace(/\s+/g, '_').replace(/-/g, '_').toLowerCase() ||
-                    \1doc.id.replace(/\s+/g, '_').replace(/-/g, '_').toLowerCase()
+  const documentId = doc.filename?.replace(/\.(md|pdf|docx)$/i, '').replace(/\s+/g, '_').replace(/-/g, '_').toLowerCase() ||
+                     doc.id.replace(/\s+/g, '_').replace(/-/g, '_').toLowerCase()
   const documentImages = imagesManifest[documentId] || []
 
   return (
@@ -587,35 +587,35 @@ function DocumentViewerContent({
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
               <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-bold">
-                \1doc.displayNumber}
+                doc.displayNumber}
               </span>
-              <span className="text-sm opacity-90">{CATEGORY_LABELS\1doc.category]}</span>
+              <span className="text-sm opacity-90">{CATEGORY_LABELSdoc.category]}</span>
             </div>
-            <h2 className="text-2xl font-bold mb-2">\1doc.title}</h2>
-            <p className="text-white/90 text-sm">\1doc.summary}</p>
+            <h2 className="text-2xl font-bold mb-2">doc.title}</h2>
+            <p className="text-white/90 text-sm">doc.summary}</p>
           </div>
         </div>
 
         {/* Metadata Badges */}
         <div className="flex flex-wrap gap-2">
-          \1doc.metadata.success_rate && (
+          doc.metadata.success_rate && (
             <span className="px-3 py-1 bg-green-500 rounded-full text-xs font-semibold">
-              \1doc.metadata.success_rate}% Success
+              doc.metadata.success_rate}% Success
             </span>
           )}
-          {\1doc.metadata as any).legal_weight && (
+          {doc.metadata as any).legal_weight && (
             <span className="px-3 py-1 bg-white/20 rounded-full text-xs font-semibold">
-              {(\1doc.metadata as any).legal_weight).toUpperCase()} Legal Weight
+              {(doc.metadata as any).legal_weight).toUpperCase()} Legal Weight
             </span>
           )}
-          \1doc.metadata.confidence_level && (
+          doc.metadata.confidence_level && (
             <span className="px-3 py-1 bg-white/20 rounded-full text-xs font-semibold">
-              \1doc.metadata.confidence_level.toUpperCase()} Confidence
+              doc.metadata.confidence_level.toUpperCase()} Confidence
             </span>
           )}
-          \1doc.metadata.states &&\1doc.metadata.states.length > 0 && (
+          doc.metadata.states &&doc.metadata.states.length > 0 && (
             <span className="px-3 py-1 bg-white/20 rounded-full text-xs font-semibold">
-              \1doc.metadata.states.join(', ')}
+              doc.metadata.states.join(', ')}
             </span>
           )}
         </div>
@@ -662,7 +662,7 @@ function DocumentViewerContent({
           Print
         </button>
         <button
-          onClick={() => onToggleBookmark\1doc.id)}
+          onClick={() => onToggleBookmarkdoc.id)}
           className={`px-4 py-3 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 ${
             isBookmarked
               ? 'bg-yellow-500 text-white hover:bg-yellow-600'
@@ -678,19 +678,19 @@ function DocumentViewerContent({
       <div className="bg-white rounded-xl shadow-md p-6 mb-6">
         <div className="prose prose-sm max-w-none">
           <pre className="whitespace-pre-wrap font-sans text-gray-700 leading-relaxed">
-            \1doc.content}
+            doc.content}
           </pre>
         </div>
       </div>
 
       {/* Metadata Sections */}
-      \1doc.keywords.length > 0 && (
+      doc.keywords.length > 0 && (
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h3 className="text-lg font-bold text-gray-800 mb-3">Keywords</h3>
           <div className="flex flex-wrap gap-2">
-            \1doc.keywords.map((keyword, index) => (
+            doc.keywords.map((keyword, index) => (
               <span
-                key={`$\1doc.id}-keyword-${index}-${keyword}`}
+                key={`$doc.id}-keyword-${index}-${keyword}`}
                 className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm text-gray-700 transition-colors"
               >
                 {keyword}
@@ -700,13 +700,13 @@ function DocumentViewerContent({
         </div>
       )}
 
-      \1doc.metadata.code_citations &&\1doc.metadata.code_citations.length > 0 && (
+      doc.metadata.code_citations &&doc.metadata.code_citations.length > 0 && (
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h3 className="text-lg font-bold text-gray-800 mb-3">Code Citations</h3>
           <div className="flex flex-wrap gap-2">
-            \1doc.metadata.code_citations.map((citation) => (
+            doc.metadata.code_citations.map((citation) => (
               <span
-                key={`$\1doc.id}-citation-${citation}`}
+                key={`$doc.id}-citation-${citation}`}
                 className="px-3 py-1 bg-blue-100 hover:bg-blue-200 rounded-lg text-sm font-mono text-blue-800 transition-colors cursor-pointer"
                 onClick={async () => {
                   await navigator.clipboard.writeText(citation)
@@ -720,13 +720,13 @@ function DocumentViewerContent({
         </div>
       )}
 
-      \1doc.metadata.scenarios &&\1doc.metadata.scenarios.length > 0 && (
+      doc.metadata.scenarios &&doc.metadata.scenarios.length > 0 && (
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h3 className="text-lg font-bold text-gray-800 mb-3">Relevant Scenarios</h3>
           <div className="flex flex-wrap gap-2">
-            \1doc.metadata.scenarios.map((scenario) => (
+            doc.metadata.scenarios.map((scenario) => (
               <span
-                key={`$\1doc.id}-scenario-${scenario}`}
+                key={`$doc.id}-scenario-${scenario}`}
                 className="px-3 py-1 bg-purple-100 rounded-full text-sm text-purple-800"
               >
                 {scenario.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
@@ -772,7 +772,7 @@ function DocumentViewerContent({
                   >
                     <img
                       src={`/kb-images/${thumbnailName}`}
-                      alt={imageLabel || `Document image from $\1doc.title}`}
+                      alt={imageLabel || `Document image from $doc.title}`}
                       className="w-full h-auto object-contain bg-gray-50"
                       style={{ userSelect: 'none' }}
                       draggable={false}
