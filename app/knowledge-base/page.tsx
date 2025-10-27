@@ -538,7 +538,30 @@ function DocumentViewerContent({
 }) {
   const [copied, setCopied] = useState(false)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [imageLoading, setImageLoading] = useState(false)
+  const [imageError, setImageError] = useState(false)
+  const [useApiRoute, setUseApiRoute] = useState(false)
   const categoryColor = CATEGORY_COLORS[document.category]
+
+  // Add keyboard navigation for image modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedImage) {
+        setSelectedImage(null)
+      }
+    }
+
+    if (selectedImage) {
+      window.addEventListener('keydown', handleKeyDown)
+      // Prevent body scrolling when modal is open
+      document.body.style.overflow = 'hidden'
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = ''
+    }
+  }, [selectedImage])
 
   const handleCopy = async () => {
     await onCopy(document)
@@ -734,13 +757,21 @@ function DocumentViewerContent({
               return (
                 <div key={imageName} className="flex flex-col">
                   <div
-                    className="group relative cursor-pointer overflow-hidden rounded-lg border-2 border-gray-200 hover:border-red-500 transition-all"
-                    onClick={() => setSelectedImage(imageName)}
+                    className="group relative cursor-pointer overflow-hidden rounded-lg border-2 border-gray-200 hover:border-red-500 transition-all shadow-sm hover:shadow-lg"
+                    onClick={() => {
+                      setSelectedImage(imageName)
+                      setImageError(false)
+                      setImageLoading(true)
+                      setUseApiRoute(false)
+                    }}
+                    onContextMenu={(e) => e.preventDefault()}
                   >
                     <img
                       src={`/kb-images/${thumbnailName}`}
                       alt={imageLabel || `Document image from ${document.title}`}
                       className="w-full h-auto object-contain bg-gray-50"
+                      style={{ userSelect: 'none' }}
+                      draggable={false}
                       onError={(e) => {
                         // Fallback to full image if thumbnail doesn't exist
                         const img = e.target as HTMLImageElement
@@ -748,10 +779,11 @@ function DocumentViewerContent({
                           img.src = `/kb-images/${imageName}`
                         }
                       }}
+                      onContextMenu={(e) => e.preventDefault()}
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all flex items-center justify-center">
                       <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                        <div className="bg-white rounded-full p-3">
+                        <div className="bg-white rounded-full p-3 shadow-xl">
                           <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
                           </svg>
@@ -771,38 +803,136 @@ function DocumentViewerContent({
         </div>
       )}
 
-      {/* Image Modal */}
+      {/* Image Modal - Enhanced Lightbox */}
       {selectedImage && (
         <div
-          className="fixed inset-0 z-[70] bg-black/90 flex items-center justify-center p-4"
+          className="fixed inset-0 z-[70] bg-black/95 flex items-center justify-center p-4"
           onClick={() => setSelectedImage(null)}
+          onContextMenu={(e) => e.preventDefault()}
         >
-          <div className="relative max-w-7xl max-h-[90vh] w-full">
+          <div className="relative w-full h-full flex flex-col items-center justify-center">
+            {/* Close Button - Top Right */}
             <button
               onClick={() => setSelectedImage(null)}
-              className="absolute -top-12 right-0 text-white hover:text-red-500 transition-colors"
+              className="absolute top-4 right-4 z-10 w-12 h-12 rounded-full bg-red-600 hover:bg-red-700 text-white transition-all shadow-lg hover:shadow-xl flex items-center justify-center"
+              aria-label="Close image"
             >
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <img
-              src={`/kb-images/${selectedImage}`}
-              alt="Full size document image"
-              className="w-full h-full object-contain rounded-lg"
-              onClick={(e) => e.stopPropagation()}
-            />
-            <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-4 rounded-b-lg">
-              <p className="text-sm font-medium">{selectedImage}</p>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  window.open(`/kb-images/${selectedImage}`, '_blank')
+
+            {/* Image Container */}
+            <div className="relative max-w-7xl max-h-[85vh] w-full h-full flex items-center justify-center">
+              {imageLoading && (
+                <div className="absolute inset-0 flex items-center justify-center z-10">
+                  <div className="text-center">
+                    <div className="w-12 h-12 border-4 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-4" />
+                    <p className="text-white text-sm">Loading image...</p>
+                  </div>
+                </div>
+              )}
+
+              {imageError && !imageLoading && (
+                <div className="absolute inset-0 flex items-center justify-center z-10">
+                  <div className="text-center text-white p-8 max-w-md">
+                    <svg className="w-16 h-16 mx-auto mb-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <h3 className="text-xl font-bold mb-2">Failed to Load Image</h3>
+                    <p className="text-sm mb-4 opacity-80">{selectedImage}</p>
+                    <div className="flex flex-col gap-2">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setImageError(false)
+                          setImageLoading(true)
+                          setUseApiRoute(true)
+                        }}
+                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+                      >
+                        Try API Route
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          window.open(useApiRoute ? `/api/kb-images/${selectedImage}` : `/kb-images/${selectedImage}`, '_blank')
+                        }}
+                        className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+                      >
+                        Open in New Tab
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <img
+                src={useApiRoute ? `/api/kb-images/${selectedImage}` : `/kb-images/${selectedImage}`}
+                alt="Full size document image"
+                className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+                onClick={(e) => e.stopPropagation()}
+                onContextMenu={(e) => e.preventDefault()}
+                onLoad={() => {
+                  setImageLoading(false)
+                  setImageError(false)
+                  console.log('[KB] ✓ Image loaded:', selectedImage, useApiRoute ? '(API route)' : '(static)')
                 }}
-                className="mt-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
-              >
-                Open in New Tab
-              </button>
+                onLoadStart={() => {
+                  setImageLoading(true)
+                  setImageError(false)
+                }}
+                onError={(e) => {
+                  console.error('[KB] ✗ Image load failed:', selectedImage, useApiRoute ? '(API route)' : '(static)')
+                  setImageLoading(false)
+                  if (!useApiRoute) {
+                    // Try API route as fallback
+                    console.log('[KB] → Trying API route fallback...')
+                    setUseApiRoute(true)
+                    const img = e.target as HTMLImageElement
+                    img.src = `/api/kb-images/${selectedImage}`
+                  } else {
+                    // Both methods failed
+                    setImageError(true)
+                  }
+                }}
+                style={{
+                  userSelect: 'none',
+                  display: (imageLoading || imageError) ? 'none' : 'block'
+                }}
+              />
+            </div>
+
+            {/* Bottom Control Bar */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent text-white p-6">
+              <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium opacity-90 truncate">{selectedImage}</p>
+                </div>
+                <div className="flex gap-3 flex-shrink-0">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      window.open(`/kb-images/${selectedImage}`, '_blank')
+                    }}
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Open in New Tab
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setSelectedImage(null)
+                    }}
+                    className="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-sm font-medium transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
