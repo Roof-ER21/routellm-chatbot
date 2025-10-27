@@ -1,0 +1,794 @@
+[
+  {
+    "id": "Q501",
+    "question": "When should I involve my Team Leader?",
+    "guidance": "Involve your Team Leader when you\u2019ve documented properly, tried a rebuttal, and the adjuster still won\u2019t move. They step in before escalation to management.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q502",
+    "question": "What\u2019s the escalation order at Roof-ER?",
+    "guidance": "Start with teammates \u2192 Team Leader \u2192 Sales Manager.",
+    "action_coaching": "If stuck after Sales Manager review, move to arbitration or complaint filing.",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q503",
+    "question": "How do I prep a Photo Report correctly?",
+    "guidance": "Always include slope overviews, close-ups of each damage type, and overall house context.",
+    "action_coaching": "",
+    "knowledge": "Use the Photo Report Template.docx as the structure.",
+    "next_step": ""
+  },
+  {
+    "id": "Q504",
+    "question": "When do I use the Repair Attempt Template?",
+    "guidance": "When the carrier insists shingles are repairable.",
+    "action_coaching": "Perform a documented repair attempt \u2192 use photos + form \u2192 escalate with evidence if repair fails.",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q505",
+    "question": "When do I use the iTel Template?",
+    "guidance": "When shingles are discontinued or unavailable.",
+    "action_coaching": "",
+    "knowledge": "The iTel report confirms unavailability and is strong evidence for full slope replacement.",
+    "next_step": ""
+  },
+  {
+    "id": "Q506",
+    "question": "When should I cite manufacturer guidelines?",
+    "guidance": "Documentation shows you followed process. Without it, escalation has no weight.",
+    "action_coaching": "Never escalate without a complete photo set + template use.",
+    "knowledge": "Use GAF Storm Damage Guidelines.pdf or GAF Slope Replacement.pdf to show repair voids warranty.",
+    "next_step": ""
+  },
+  {
+    "id": "Q508",
+    "question": "How do I explain matching law to a homeowner?",
+    "guidance": "Explain that state laws (like Maryland\u2019s) require repairs to be reasonably uniform in color/quality.",
+    "action_coaching": "",
+    "knowledge": "Use Maryland Insurance Administration Matching Requirement.pdf as the reference.",
+    "next_step": ""
+  },
+  {
+    "id": "Q509",
+    "question": "When do I file a complaint vs. arbitration?",
+    "guidance": "File a complaint when the carrier ignores law or drags feet. Use arbitration when there\u2019s dispute over policy interpretation.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q510",
+    "question": "What\u2019s Roof-ER\u2019s #1 rule in the field?",
+    "guidance": "Document everything. Photos + notes protect both you and the homeowner.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q511",
+    "question": "How many photos per slope should I take?",
+    "guidance": "Minimum: 1 overview + 4\u20136 close-ups per slope.",
+    "action_coaching": "If damage is disputed, add chalked damage photos for clarity.",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q512",
+    "question": "How do I prepare for an adjuster inspection?",
+    "guidance": "Walk slopes in advance, chalk damages clearly, prep documentation, and be respectful but assertive.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q513",
+    "question": "What\u2019s the best way to present code requirements?",
+    "guidance": "Always bring a copy of the relevant code section.",
+    "action_coaching": "",
+    "knowledge": "Use Virginia Building Codes.docx or Maryland Exterior Wrap Code.docx directly.",
+    "next_step": ""
+  },
+  {
+    "id": "Q514",
+    "question": "When should I use the Estimate Request Template?",
+    "guidance": "When the carrier refuses to provide a full, detailed estimate.",
+    "action_coaching": "Submit formally and document the request.",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q515",
+    "question": "How do I explain why patching isn\u2019t acceptable?",
+    "guidance": "Show that removing one shingle breaks surrounding seals.",
+    "action_coaching": "",
+    "knowledge": "GAF guidelines say patches void warranty.",
+    "next_step": ""
+  },
+  {
+    "id": "Q516",
+    "question": "How should I address homeowner concerns about deductible?",
+    "guidance": "Be clear and upfront: the deductible is required by law.",
+    "action_coaching": "Position it as their investment in restoring their home.",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q517",
+    "question": "What do I do if an adjuster won\u2019t look at my evidence?",
+    "guidance": "Stay professional, document the refusal.",
+    "action_coaching": "Escalate to Team Leader with your full photo set.",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q518",
+    "question": "How do I handle siding mismatch issues?",
+    "guidance": "Use Siding Argument.docx to show why siding cannot be pieced.",
+    "action_coaching": "",
+    "knowledge": "Color, texture, and lock-style mismatches fail uniformity.",
+    "next_step": ""
+  },
+  {
+    "id": "Q519",
+    "question": "When do I mention arbitration to an adjuster?",
+    "guidance": "Only after escalation paths are exhausted.",
+    "action_coaching": "Use Arbitration Information.docx as backup.",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q520",
+    "question": "What\u2019s the right tone with adjusters?",
+    "guidance": "Respectful, factual, and firm. Never argumentative.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q521",
+    "question": "How do I explain warranty voiding to a carrier?",
+    "guidance": "Point out GAF\u2019s written requirements.",
+    "action_coaching": "",
+    "knowledge": "GAF Storm Damage Guidelines.pdf clearly states repair voids warranty.",
+    "next_step": ""
+  },
+  {
+    "id": "Q522",
+    "question": "When should I bring in a repair attempt crew?",
+    "guidance": "When required to prove shingles cannot be repaired.",
+    "action_coaching": "Use photos and Repair Attempt Template to close the loop.",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q523",
+    "question": "How do I prevent delays in claims?",
+    "guidance": "Submit complete documentation early. Follow up weekly with carrier.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q524",
+    "question": "How should I document a low slope/flat roof?",
+    "guidance": "Capture drainage, ponding, and seam failures.",
+    "action_coaching": "",
+    "knowledge": "Reference Low Roof_Flat Roof Code.docx.",
+    "next_step": ""
+  },
+  {
+    "id": "Q525",
+    "question": "What do I do if the homeowner doesn\u2019t understand matching law?",
+    "guidance": "Break it down: \u201cLaw says repairs must match. If new and old don\u2019t match, insurance must replace the whole slope/siding.\u201d",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q526",
+    "question": "How do I handle discontinued shingles on site?",
+    "guidance": "Take clear photos of manufacturer marks, confirm unavailability with supply houses.",
+    "action_coaching": "",
+    "knowledge": "Attach Discontinued-Shingle-List.pdf or iTel report.",
+    "next_step": ""
+  },
+  {
+    "id": "Q527",
+    "question": "When do I use the Complaint Form?",
+    "guidance": "After adjuster + supervisor refuse reasonable resolution.",
+    "action_coaching": "",
+    "knowledge": "Use Complaint Forms.docx and file with state regulator.",
+    "next_step": ""
+  },
+  {
+    "id": "Q528",
+    "question": "How do I explain flashing requirements?",
+    "guidance": "Show code sections requiring step and counter-flashing replacement.",
+    "action_coaching": "",
+    "knowledge": "Use Flashing Codes.docx.",
+    "next_step": ""
+  },
+  {
+    "id": "Q529",
+    "question": "How do I prepare for a hostile adjuster?",
+    "guidance": "Stay calm, stick to facts, don\u2019t argue.",
+    "action_coaching": "Document everything and escalate later.",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q530",
+    "question": "How do I explain underlayment rules to a carrier?",
+    "guidance": "Reference code requiring full underlayment replacement on reroof.",
+    "action_coaching": "",
+    "knowledge": "Virginia building codes Re-roofing Chapters.docx.",
+    "next_step": ""
+  },
+  {
+    "id": "Q531",
+    "question": "When do I bring up siding codes?",
+    "guidance": "Anytime siding is damaged, reference local codes on water barrier and siding overlap.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q532",
+    "question": "What\u2019s the role of the Photo Report Template?",
+    "guidance": "It standardizes documentation so carriers can\u2019t dismiss evidence.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q533",
+    "question": "How do I show functional hail damage?",
+    "guidance": "Highlight fractures, loss of granules, bruising.",
+    "action_coaching": "",
+    "knowledge": "Use GAF guidelines.",
+    "next_step": ""
+  },
+  {
+    "id": "Q534",
+    "question": "How do I explain \u201clike kind and quality\u201d to a homeowner?",
+    "guidance": "It means repairs/replacements must match in function, quality, and appearance.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q535",
+    "question": "When do I mention arbitration to a homeowner?",
+    "guidance": "When explaining last-resort options if claim disputes remain.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q536",
+    "question": "What do I do if an adjuster won\u2019t climb the roof?",
+    "guidance": "Document refusal, take slope photos yourself, escalate.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q537",
+    "question": "How do I present discontinued shingles evidence?",
+    "guidance": "Use iTel report + supply house letters.",
+    "action_coaching": "",
+    "knowledge": "Attach Discontinued-Shingle-List.pdf.",
+    "next_step": ""
+  },
+  {
+    "id": "Q538",
+    "question": "When do I reference exterior wrap code?",
+    "guidance": "When siding is removed or replaced.",
+    "action_coaching": "",
+    "knowledge": "Maryland Exterior Wrap Code R703.docx.",
+    "next_step": ""
+  },
+  {
+    "id": "Q539",
+    "question": "How do I handle partial approvals?",
+    "guidance": "Review what was approved, compare to evidence.",
+    "action_coaching": "Use Estimate Request Template to request missing line items.",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q540",
+    "question": "What\u2019s the purpose of the Estimate Request Template?",
+    "guidance": "Forces the carrier to give a clear, itemized breakdown.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q541",
+    "question": "How do I explain code upgrades to a homeowner?",
+    "guidance": "Insurance must cover upgrades required by code, not just existing structure.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q542",
+    "question": "What should I do before filing arbitration?",
+    "guidance": "Ensure you\u2019ve exhausted complaint + supervisor escalation.",
+    "action_coaching": "",
+    "knowledge": "Reference Arbitration Information.docx.",
+    "next_step": ""
+  },
+  {
+    "id": "Q543",
+    "question": "How do I talk about warranties with homeowners?",
+    "guidance": "Explain manufacturer warranty requires proper install + matching materials.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q544",
+    "question": "How do I avoid claim denials?",
+    "guidance": "Proper documentation, follow templates, escalate only with evidence.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q545",
+    "question": "When do I bring in Sales Manager?",
+    "guidance": "Only after Team Leader review fails to resolve.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q546",
+    "question": "What\u2019s the best way to document repair attempts?",
+    "guidance": "Take before, during, and after photos.",
+    "action_coaching": "",
+    "knowledge": "Fill out Repair Attempt Template.docx.",
+    "next_step": ""
+  },
+  {
+    "id": "Q547",
+    "question": "How do I explain flashing replacement to homeowners?",
+    "guidance": "Show how old flashing can\u2019t be reused without leaks.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q548",
+    "question": "What if the carrier refuses code upgrades?",
+    "guidance": "Show code language directly.",
+    "action_coaching": "File complaint with regulator if denied.",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q549",
+    "question": "What\u2019s the right way to close an inspection with an adjuster?",
+    "guidance": "Summarize findings, confirm what was noted, document their statements.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q550",
+    "question": "What\u2019s the main thing that separates Roof-ER reps from competitors?",
+    "guidance": "Consistency \u2014 every rep uses the same templates, codes, and process.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": ""
+  },
+  {
+    "id": "Q551",
+    "question": "How do I explain why we take so many photos?",
+    "guidance": "Photos are your proof. They protect you, Roof-ER, and the homeowner. Without them, insurance can deny.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If adjuster or homeowner questions volume, explain that thorough photos are required to build a bulletproof file."
+  },
+  {
+    "id": "Q552",
+    "question": "When should I introduce myself to the adjuster?",
+    "guidance": "Always greet them immediately, be professional, and state you represent the homeowner.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If they try to dismiss you, calmly explain you are there to document and protect the homeowner\u2019s interests."
+  },
+  {
+    "id": "Q553",
+    "question": "How do I explain iTel to a homeowner?",
+    "guidance": "It\u2019s a lab test that proves if shingles are discontinued/unavailable.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If homeowner hesitates, show them the iTel Template and explain it strengthens their case."
+  },
+  {
+    "id": "Q554",
+    "question": "How do I handle homeowners nervous about complaints?",
+    "guidance": "Explain complaints are a standard, legal process \u2014 not \u201csuing.\u201d",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If they resist, reassure them Roof-ER handles the heavy lifting with the state complaint form."
+  },
+  {
+    "id": "Q555",
+    "question": "When do I bring up building code upgrades?",
+    "guidance": "Always when explaining why replacement is necessary.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If adjuster resists, provide the code section and escalate to Team Leader."
+  },
+  {
+    "id": "Q556",
+    "question": "How do I maintain professionalism with hostile adjusters?",
+    "guidance": "Stay calm, never argue, stick to facts.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Document hostility and report it to Team Leader with photos and notes."
+  },
+  {
+    "id": "Q557",
+    "question": "What\u2019s the rule on roof access safety?",
+    "guidance": "Always use ladder safety, harness if required, and never climb unsafe roofs.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If unsafe, document from ground and escalate to Team Leader for direction."
+  },
+  {
+    "id": "Q558",
+    "question": "How do I explain siding mismatches to carriers?",
+    "guidance": "Show differences in color, texture, lock profile.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If denied, escalate with Siding Argument.docx attached."
+  },
+  {
+    "id": "Q559",
+    "question": "When do I use Estimate Request Template?",
+    "guidance": "If carrier doesn\u2019t provide full estimate.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Submit formally; if ignored, escalate with Sales Manager."
+  },
+  {
+    "id": "Q560",
+    "question": "What should I do after every inspection?",
+    "guidance": "Document everything in CRM immediately.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If missing pieces, return to property same day to finish documentation."
+  },
+  {
+    "id": "Q561",
+    "question": "How do I explain deductible legally?",
+    "guidance": "It\u2019s the homeowner\u2019s legal responsibility by state insurance law.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If homeowner resists, frame it as their investment in protecting the value of their home."
+  },
+  {
+    "id": "Q562",
+    "question": "When do I prepare a repair attempt?",
+    "guidance": "Only when carrier insists shingles are repairable.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Document attempt, photos before/after, and use Repair Attempt Template.docx."
+  },
+  {
+    "id": "Q563",
+    "question": "How do I explain flashing replacement?",
+    "guidance": "Old flashing bends/holes can\u2019t be resealed properly.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If adjuster resists, cite Flashing Codes.docx."
+  },
+  {
+    "id": "Q564",
+    "question": "What should I do before arbitration?",
+    "guidance": "Ensure complaint has already been filed.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Use Arbitration Information.docx and consult Sales Manager."
+  },
+  {
+    "id": "Q565",
+    "question": "How do I talk about matching law in Maryland?",
+    "guidance": "Law requires repairs to be uniform in color/quality.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If adjuster argues, attach Maryland Matching Requirement.pdf."
+  },
+  {
+    "id": "Q566",
+    "question": "When do I escalate to Sales Manager?",
+    "guidance": "After Team Leader review fails.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Provide full documentation package so Sales Manager can escalate efficiently."
+  },
+  {
+    "id": "Q567",
+    "question": "How do I explain granule loss?",
+    "guidance": "Granules protect asphalt; loss exposes roof to leaks.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If adjuster calls it cosmetic, use GAF guidelines to show it\u2019s functional."
+  },
+  {
+    "id": "Q568",
+    "question": "When do I use the Photo Report Template?",
+    "guidance": "Always, for every claim file.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If carrier pushes back, attach the Photo Report to show standard documentation."
+  },
+  {
+    "id": "Q569",
+    "question": "How do I prepare homeowners for adjuster visits?",
+    "guidance": "Tell them to expect you to walk roof with adjuster and present evidence.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If homeowner is nervous, remind them Roof-ER handles the technical parts."
+  },
+  {
+    "id": "Q570",
+    "question": "What if carrier delays for months?",
+    "guidance": "Log every follow-up attempt.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Escalate with Complaint Form if carrier exceeds regulatory timelines."
+  },
+  {
+    "id": "Q571",
+    "question": "How do I explain slope replacement?",
+    "guidance": "You can\u2019t replace only part of a slope without leaks.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Cite GAF Requirement \u2013 Slope Replacement.pdf."
+  },
+  {
+    "id": "Q572",
+    "question": "What do I do if adjuster ignores chimney flashing?",
+    "guidance": "Document with close-up photos.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Escalate using Flashing Codes.docx."
+  },
+  {
+    "id": "Q573",
+    "question": "How do I explain \u201clike kind and quality\u201d?",
+    "guidance": "Repairs must match function, quality, and appearance.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If disputed, reference policy language directly."
+  },
+  {
+    "id": "Q574",
+    "question": "What if shingles aren\u2019t available locally?",
+    "guidance": "Use iTel report + supplier statements.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Escalate with Discontinued-Shingle-List.pdf."
+  },
+  {
+    "id": "Q575",
+    "question": "How do I respond to \u201chail is cosmetic\u201d?",
+    "guidance": "Show fractures, bruising, and granule loss.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Provide GAF guidelines showing functional damage."
+  },
+  {
+    "id": "Q576",
+    "question": "When do I bring in Team Leader for inspection?",
+    "guidance": "If adjuster is combative or dismissive.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Call Team Leader during inspection if necessary."
+  },
+  {
+    "id": "Q577",
+    "question": "How do I explain why underlayment matters?",
+    "guidance": "It\u2019s the waterproof layer; old underlayment cracks and fails.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Cite Virginia building codes Re-roofing Chapters.docx."
+  },
+  {
+    "id": "Q578",
+    "question": "What do I do if homeowner doesn\u2019t understand complaint process?",
+    "guidance": "Explain it\u2019s like filing with DMV \u2014 simple, legal, and effective.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Show them Complaint Forms.docx."
+  },
+  {
+    "id": "Q579",
+    "question": "How do I prove siding is discontinued?",
+    "guidance": "Contact supply houses + use iTel.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "File mismatch claim with photos + Siding Argument.docx."
+  },
+  {
+    "id": "Q580",
+    "question": "What if carrier ignores flashing requirements?",
+    "guidance": "Point directly to code.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Escalate with Sales Manager + Flashing Codes.docx."
+  },
+  {
+    "id": "Q581",
+    "question": "How do I explain to homeowners why Roof-ER documents so much?",
+    "guidance": "Documentation wins claims and protects them.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If overwhelmed, reassure them it\u2019s standard practice."
+  },
+  {
+    "id": "Q582",
+    "question": "What\u2019s the best way to close out an adjuster meeting?",
+    "guidance": "Summarize what was seen and agreed.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Document their statements in CRM immediately."
+  },
+  {
+    "id": "Q583",
+    "question": "How do I present iTel to a carrier?",
+    "guidance": "Provide report copy + supply house verification.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Escalate with Discontinued Shingle List if denied."
+  },
+  {
+    "id": "Q584",
+    "question": "What if adjuster won\u2019t let me speak?",
+    "guidance": "Stay respectful, don\u2019t interrupt.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Document refusal and escalate later."
+  },
+  {
+    "id": "Q585",
+    "question": "How do I talk about siding underlayment?",
+    "guidance": "Required by code for weather barrier.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Reference Maryland Exterior Wrap Code R703.docx."
+  },
+  {
+    "id": "Q586",
+    "question": "When do I use arbitration vs complaint?",
+    "guidance": "Complaint = process failure, Arbitration = policy dispute.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Confirm with Sales Manager before filing."
+  },
+  {
+    "id": "Q587",
+    "question": "How do I respond if adjuster won\u2019t chalk damage?",
+    "guidance": "Chalk yourself and photograph.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Escalate refusal to Team Leader."
+  },
+  {
+    "id": "Q588",
+    "question": "What if homeowner doesn\u2019t want to escalate?",
+    "guidance": "Respect choice, but explain limits.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Offer to at least file complaint for record."
+  },
+  {
+    "id": "Q589",
+    "question": "How do I talk about ventilation codes?",
+    "guidance": "Code requires proper intake/exhaust ventilation.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Reference code section and explain warranty void without compliance."
+  },
+  {
+    "id": "Q590",
+    "question": "When do I recommend arbitration to homeowner?",
+    "guidance": "Last resort when carrier won\u2019t move.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Review Arbitration Information.docx with them."
+  },
+  {
+    "id": "Q591",
+    "question": "How do I prep for flat roof inspection?",
+    "guidance": "Document seams, ponding, and flashing.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Reference Low Roof_Flat Roof Code.docx."
+  },
+  {
+    "id": "Q592",
+    "question": "What if adjuster denies obvious damage?",
+    "guidance": "Stay professional, don\u2019t argue.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Document denial and escalate with photo set."
+  },
+  {
+    "id": "Q593",
+    "question": "How do I explain \u201cfunctional vs cosmetic\u201d damage?",
+    "guidance": "Cosmetic = looks only; Functional = impacts performance.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Use GAF guidelines to show hail/wind is functional."
+  },
+  {
+    "id": "Q594",
+    "question": "What do I do if I miss photos?",
+    "guidance": "Return same day if possible.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Never submit incomplete file \u2014 escalate delay if needed."
+  },
+  {
+    "id": "Q595",
+    "question": "How do I explain slope overview photos?",
+    "guidance": "They show context and prove consistency of damage.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If adjuster questions, explain it avoids cherry-picking."
+  },
+  {
+    "id": "Q596",
+    "question": "When do I provide written arguments?",
+    "guidance": "When verbal rebuttals fail.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Use Roof-ER templates for consistency."
+  },
+  {
+    "id": "Q597",
+    "question": "How do I talk about warranty void to homeowners?",
+    "guidance": "Mixing old/new voids coverage.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Provide GAF requirement docs."
+  },
+  {
+    "id": "Q598",
+    "question": "What if carrier delays estimate?",
+    "guidance": "Log requests, ask weekly.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "File complaint if delay exceeds regulatory timeline."
+  },
+  {
+    "id": "Q599",
+    "question": "How do I talk about repair attempts to homeowners?",
+    "guidance": "It proves shingles can\u2019t be fixed.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "Show Repair Attempt Template."
+  },
+  {
+    "id": "Q600",
+    "question": "What\u2019s the single most important rep habit?",
+    "guidance": "Consistency \u2014 always use templates, codes, and full documentation.",
+    "action_coaching": "",
+    "knowledge": "",
+    "next_step": "If in doubt, check CRM and ask Team Leader before proceeding."
+  }
+]
