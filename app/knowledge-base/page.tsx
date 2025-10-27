@@ -568,7 +568,7 @@ function DocumentViewerContent({
   }, [selectedImage])
 
   const handleCopy = async () => {
-    await onCopy(document)
+    await onCopy(doc)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -587,35 +587,35 @@ function DocumentViewerContent({
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
               <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-bold">
-                doc.displayNumber}
+                {doc.displayNumber}
               </span>
-              <span className="text-sm opacity-90">{CATEGORY_LABELSdoc.category]}</span>
+              <span className="text-sm opacity-90">{CATEGORY_LABELS[doc.category]}</span>
             </div>
-            <h2 className="text-2xl font-bold mb-2">doc.title}</h2>
-            <p className="text-white/90 text-sm">doc.summary}</p>
+            <h2 className="text-2xl font-bold mb-2">{doc.title}</h2>
+            <p className="text-white/90 text-sm">{doc.summary}</p>
           </div>
         </div>
 
         {/* Metadata Badges */}
         <div className="flex flex-wrap gap-2">
-          doc.metadata.success_rate && (
+          {doc.metadata.success_rate && (
             <span className="px-3 py-1 bg-green-500 rounded-full text-xs font-semibold">
-              doc.metadata.success_rate}% Success
+              {doc.metadata.success_rate}% Success
             </span>
           )}
-          {doc.metadata as any).legal_weight && (
+          {(doc.metadata as any).legal_weight && (
             <span className="px-3 py-1 bg-white/20 rounded-full text-xs font-semibold">
-              {(doc.metadata as any).legal_weight).toUpperCase()} Legal Weight
+              {(doc.metadata as any).legal_weight.toUpperCase()} Legal Weight
             </span>
           )}
-          doc.metadata.confidence_level && (
+          {doc.metadata.confidence_level && (
             <span className="px-3 py-1 bg-white/20 rounded-full text-xs font-semibold">
-              doc.metadata.confidence_level.toUpperCase()} Confidence
+              {doc.metadata.confidence_level.toUpperCase()} Confidence
             </span>
           )}
-          doc.metadata.states &&doc.metadata.states.length > 0 && (
+          {doc.metadata.states && doc.metadata.states.length > 0 && (
             <span className="px-3 py-1 bg-white/20 rounded-full text-xs font-semibold">
-              doc.metadata.states.join(', ')}
+              {doc.metadata.states.join(', ')}
             </span>
           )}
         </div>
@@ -644,7 +644,7 @@ function DocumentViewerContent({
           )}
         </button>
         <button
-          onClick={() => onDownload(document)}
+          onClick={() => onDownload(doc)}
           className="flex-1 min-w-[120px] px-4 py-3 bg-white border-2 border-green-500 hover:bg-green-50 rounded-lg text-green-600 font-semibold transition-all flex items-center justify-center gap-2"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -653,7 +653,7 @@ function DocumentViewerContent({
           Download
         </button>
         <button
-          onClick={() => onPrint(document)}
+          onClick={() => onPrint(doc)}
           className="flex-1 min-w-[120px] px-4 py-3 bg-white border-2 border-purple-500 hover:bg-purple-50 rounded-lg text-purple-600 font-semibold transition-all flex items-center justify-center gap-2"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -662,7 +662,7 @@ function DocumentViewerContent({
           Print
         </button>
         <button
-          onClick={() => onToggleBookmarkdoc.id)}
+          onClick={() => onToggleBookmark(doc.id)}
           className={`px-4 py-3 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 ${
             isBookmarked
               ? 'bg-yellow-500 text-white hover:bg-yellow-600'
@@ -678,19 +678,19 @@ function DocumentViewerContent({
       <div className="bg-white rounded-xl shadow-md p-6 mb-6">
         <div className="prose prose-sm max-w-none">
           <pre className="whitespace-pre-wrap font-sans text-gray-700 leading-relaxed">
-            doc.content}
+            {doc.content}
           </pre>
         </div>
       </div>
 
       {/* Metadata Sections */}
-      doc.keywords.length > 0 && (
+      {doc.keywords.length > 0 && (
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h3 className="text-lg font-bold text-gray-800 mb-3">Keywords</h3>
           <div className="flex flex-wrap gap-2">
-            doc.keywords.map((keyword, index) => (
+            {doc.keywords.map((keyword, index) => (
               <span
-                key={`$doc.id}-keyword-${index}-${keyword}`}
+                key={`${doc.id}-keyword-${index}-${keyword}`}
                 className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm text-gray-700 transition-colors"
               >
                 {keyword}
@@ -700,13 +700,13 @@ function DocumentViewerContent({
         </div>
       )}
 
-      doc.metadata.code_citations &&doc.metadata.code_citations.length > 0 && (
+      {doc.metadata.code_citations && doc.metadata.code_citations.length > 0 && (
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h3 className="text-lg font-bold text-gray-800 mb-3">Code Citations</h3>
           <div className="flex flex-wrap gap-2">
-            doc.metadata.code_citations.map((citation) => (
+            {doc.metadata.code_citations.map((citation) => (
               <span
-                key={`$doc.id}-citation-${citation}`}
+                key={`${doc.id}-citation-${citation}`}
                 className="px-3 py-1 bg-blue-100 hover:bg-blue-200 rounded-lg text-sm font-mono text-blue-800 transition-colors cursor-pointer"
                 onClick={async () => {
                   await navigator.clipboard.writeText(citation)
@@ -720,13 +720,13 @@ function DocumentViewerContent({
         </div>
       )}
 
-      doc.metadata.scenarios &&doc.metadata.scenarios.length > 0 && (
+      {doc.metadata.scenarios && doc.metadata.scenarios.length > 0 && (
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h3 className="text-lg font-bold text-gray-800 mb-3">Relevant Scenarios</h3>
           <div className="flex flex-wrap gap-2">
-            doc.metadata.scenarios.map((scenario) => (
+            {doc.metadata.scenarios.map((scenario) => (
               <span
-                key={`$doc.id}-scenario-${scenario}`}
+                key={`${doc.id}-scenario-${scenario}`}
                 className="px-3 py-1 bg-purple-100 rounded-full text-sm text-purple-800"
               >
                 {scenario.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
@@ -772,7 +772,7 @@ function DocumentViewerContent({
                   >
                     <img
                       src={`/kb-images/${thumbnailName}`}
-                      alt={imageLabel || `Document image from $doc.title}`}
+                      alt={imageLabel || `Document image from ${doc.title}`}
                       className="w-full h-auto object-contain bg-gray-50"
                       style={{ userSelect: 'none' }}
                       draggable={false}
