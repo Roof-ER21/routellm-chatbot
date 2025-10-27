@@ -554,12 +554,16 @@ function DocumentViewerContent({
     if (selectedImage) {
       window.addEventListener('keydown', handleKeyDown)
       // Prevent body scrolling when modal is open
-      document.body.style.overflow = 'hidden'
+      if (typeof document !== 'undefined' && document.body) {
+        document.body.style.overflow = 'hidden'
+      }
     }
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
-      document.body.style.overflow = ''
+      if (typeof document !== 'undefined' && document.body) {
+        document.body.style.overflow = ''
+      }
     }
   }, [selectedImage])
 
