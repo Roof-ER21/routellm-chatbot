@@ -518,7 +518,7 @@ export default function KnowledgeBasePage() {
 
 // Document Viewer Content Component
 function DocumentViewerContent({
-  document,
+  document: doc,  // Rename to avoid conflict with global document object
   onCopy,
   onDownload,
   onPrint,
@@ -541,7 +541,7 @@ function DocumentViewerContent({
   const [imageLoading, setImageLoading] = useState(false)
   const [imageError, setImageError] = useState(false)
   const [useApiRoute, setUseApiRoute] = useState(false)
-  const categoryColor = CATEGORY_COLORS[document.category]
+  const categoryColor = CATEGORY_COLORS[doc.category]
 
   // Add keyboard navigation for image modal
   useEffect(() => {
@@ -575,8 +575,8 @@ function DocumentViewerContent({
 
   // Get images for this document (normalize document ID)
   // Remove common file extensions (.md, .pdf, .docx) and normalize to lowercase with underscores
-  const documentId = document.filename?.replace(/\.(md|pdf|docx)$/i, '').replace(/\s+/g, '_').replace(/-/g, '_').toLowerCase() ||
-                     document.id.replace(/\s+/g, '_').replace(/-/g, '_').toLowerCase()
+  const documentId =\1doc.filename?.replace(/\.(md|pdf|docx)$/i, '').replace(/\s+/g, '_').replace(/-/g, '_').toLowerCase() ||
+                    \1doc.id.replace(/\s+/g, '_').replace(/-/g, '_').toLowerCase()
   const documentImages = imagesManifest[documentId] || []
 
   return (
@@ -587,35 +587,35 @@ function DocumentViewerContent({
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
               <span className="px-3 py-1 bg-white/20 rounded-full text-sm font-bold">
-                {document.displayNumber}
+                \1doc.displayNumber}
               </span>
-              <span className="text-sm opacity-90">{CATEGORY_LABELS[document.category]}</span>
+              <span className="text-sm opacity-90">{CATEGORY_LABELS\1doc.category]}</span>
             </div>
-            <h2 className="text-2xl font-bold mb-2">{document.title}</h2>
-            <p className="text-white/90 text-sm">{document.summary}</p>
+            <h2 className="text-2xl font-bold mb-2">\1doc.title}</h2>
+            <p className="text-white/90 text-sm">\1doc.summary}</p>
           </div>
         </div>
 
         {/* Metadata Badges */}
         <div className="flex flex-wrap gap-2">
-          {document.metadata.success_rate && (
+          \1doc.metadata.success_rate && (
             <span className="px-3 py-1 bg-green-500 rounded-full text-xs font-semibold">
-              {document.metadata.success_rate}% Success
+              \1doc.metadata.success_rate}% Success
             </span>
           )}
-          {(document.metadata as any).legal_weight && (
+          {\1doc.metadata as any).legal_weight && (
             <span className="px-3 py-1 bg-white/20 rounded-full text-xs font-semibold">
-              {((document.metadata as any).legal_weight).toUpperCase()} Legal Weight
+              {(\1doc.metadata as any).legal_weight).toUpperCase()} Legal Weight
             </span>
           )}
-          {document.metadata.confidence_level && (
+          \1doc.metadata.confidence_level && (
             <span className="px-3 py-1 bg-white/20 rounded-full text-xs font-semibold">
-              {document.metadata.confidence_level.toUpperCase()} Confidence
+              \1doc.metadata.confidence_level.toUpperCase()} Confidence
             </span>
           )}
-          {document.metadata.states && document.metadata.states.length > 0 && (
+          \1doc.metadata.states &&\1doc.metadata.states.length > 0 && (
             <span className="px-3 py-1 bg-white/20 rounded-full text-xs font-semibold">
-              {document.metadata.states.join(', ')}
+              \1doc.metadata.states.join(', ')}
             </span>
           )}
         </div>
@@ -662,7 +662,7 @@ function DocumentViewerContent({
           Print
         </button>
         <button
-          onClick={() => onToggleBookmark(document.id)}
+          onClick={() => onToggleBookmark\1doc.id)}
           className={`px-4 py-3 rounded-lg font-semibold transition-all flex items-center justify-center gap-2 ${
             isBookmarked
               ? 'bg-yellow-500 text-white hover:bg-yellow-600'
@@ -678,19 +678,19 @@ function DocumentViewerContent({
       <div className="bg-white rounded-xl shadow-md p-6 mb-6">
         <div className="prose prose-sm max-w-none">
           <pre className="whitespace-pre-wrap font-sans text-gray-700 leading-relaxed">
-            {document.content}
+            \1doc.content}
           </pre>
         </div>
       </div>
 
       {/* Metadata Sections */}
-      {document.keywords.length > 0 && (
+      \1doc.keywords.length > 0 && (
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h3 className="text-lg font-bold text-gray-800 mb-3">Keywords</h3>
           <div className="flex flex-wrap gap-2">
-            {document.keywords.map((keyword, index) => (
+            \1doc.keywords.map((keyword, index) => (
               <span
-                key={`${document.id}-keyword-${index}-${keyword}`}
+                key={`$\1doc.id}-keyword-${index}-${keyword}`}
                 className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm text-gray-700 transition-colors"
               >
                 {keyword}
@@ -700,13 +700,13 @@ function DocumentViewerContent({
         </div>
       )}
 
-      {document.metadata.code_citations && document.metadata.code_citations.length > 0 && (
+      \1doc.metadata.code_citations &&\1doc.metadata.code_citations.length > 0 && (
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h3 className="text-lg font-bold text-gray-800 mb-3">Code Citations</h3>
           <div className="flex flex-wrap gap-2">
-            {document.metadata.code_citations.map((citation) => (
+            \1doc.metadata.code_citations.map((citation) => (
               <span
-                key={`${document.id}-citation-${citation}`}
+                key={`$\1doc.id}-citation-${citation}`}
                 className="px-3 py-1 bg-blue-100 hover:bg-blue-200 rounded-lg text-sm font-mono text-blue-800 transition-colors cursor-pointer"
                 onClick={async () => {
                   await navigator.clipboard.writeText(citation)
@@ -720,13 +720,13 @@ function DocumentViewerContent({
         </div>
       )}
 
-      {document.metadata.scenarios && document.metadata.scenarios.length > 0 && (
+      \1doc.metadata.scenarios &&\1doc.metadata.scenarios.length > 0 && (
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
           <h3 className="text-lg font-bold text-gray-800 mb-3">Relevant Scenarios</h3>
           <div className="flex flex-wrap gap-2">
-            {document.metadata.scenarios.map((scenario) => (
+            \1doc.metadata.scenarios.map((scenario) => (
               <span
-                key={`${document.id}-scenario-${scenario}`}
+                key={`$\1doc.id}-scenario-${scenario}`}
                 className="px-3 py-1 bg-purple-100 rounded-full text-sm text-purple-800"
               >
                 {scenario.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
@@ -772,7 +772,7 @@ function DocumentViewerContent({
                   >
                     <img
                       src={`/kb-images/${thumbnailName}`}
-                      alt={imageLabel || `Document image from ${document.title}`}
+                      alt={imageLabel || `Document image from $\1doc.title}`}
                       className="w-full h-auto object-contain bg-gray-50"
                       style={{ userSelect: 'none' }}
                       draggable={false}
