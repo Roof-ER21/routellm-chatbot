@@ -18,16 +18,34 @@ import SettingsPanel from './components/SettingsPanel'
 import OfflineIndicator from './components/OfflineIndicator'
 import ExportButton from './components/ExportButton'
 import SimpleAuth from './components/SimpleAuth'
+import CitationDisplay from './components/CitationDisplay'
+import KnowledgeBase from './components/KnowledgeBase'
+import MessageWithPhotos, { hasPhotoReferences } from './components/MessageWithPhotos'
 import { useTextToSpeech } from '@/hooks/useTextToSpeech'
 import { useRotatingPlaceholder } from '@/hooks/useRotatingPlaceholder'
 import { cleanTextForSpeech } from '@/lib/text-cleanup'
 import { getCurrentUser, getUserDisplayName, logout as authLogout, isRemembered, saveConversation, getCurrentConversation, cleanupOldConversations } from '@/lib/simple-auth'
 import { analyzeAndFlagConversation } from '@/lib/client-threat-detection'
 
+interface Citation {
+  number: string
+  documentId: string
+  documentTitle: string
+  category: string
+  snippet: string
+  metadata?: {
+    states?: string[]
+    success_rate?: number
+    code_citations?: string[]
+    confidence_level?: 'high' | 'medium' | 'low'
+  }
+}
+
 interface Message {
   role: 'user' | 'assistant'
   content: string
   timestamp: Date
+  citations?: Citation[]
 }
 
 export default function ChatPage() {
@@ -46,6 +64,7 @@ export default function ChatPage() {
   const [showPhotoModal, setShowPhotoModal] = useState(false)
   const [showEmailGenerator, setShowEmailGenerator] = useState(false)
   const [showUnifiedAnalyzer, setShowUnifiedAnalyzer] = useState(false)
+  const [showKnowledgeBase, setShowKnowledgeBase] = useState(false)
   const [voiceEnabled, setVoiceEnabled] = useState(false)
   const [forceHF, setForceHF] = useState(false)
   const [offlineMode, setOfflineMode] = useState(false)
@@ -85,27 +104,31 @@ export default function ChatPage() {
     if (!mounted) return
 
     const currentUser = getCurrentUser()
-    if (currentUser && isRemembered()) {
+    // Allow session to persist if user is logged in (even without "Remember Me")
+    // This prevents logout when navigating between pages during the same browser session
+    if (currentUser) {
       const displayName = getUserDisplayName()
       if (displayName) {
         setRepName(displayName)
         setIsAuthenticated(true)
         initializeSession(displayName)
 
-        // Load current conversation
-        const currentConv = getCurrentConversation()
-        if (currentConv && currentConv.messages && currentConv.messages.length > 0) {
-          const messagesWithDates = currentConv.messages.map(m => ({
-            ...m,
-            timestamp: m.timestamp instanceof Date ? m.timestamp : new Date(m.timestamp)
-          }))
-          setMessages(messagesWithDates)
-          setCurrentConversationId(currentConv.id)
-          setShowQuickLinks(false)
-        }
+        // Load current conversation (only if Remember Me is enabled)
+        if (isRemembered()) {
+          const currentConv = getCurrentConversation()
+          if (currentConv && currentConv.messages && currentConv.messages.length > 0) {
+            const messagesWithDates = currentConv.messages.map(m => ({
+              ...m,
+              timestamp: m.timestamp instanceof Date ? m.timestamp : new Date(m.timestamp)
+            }))
+            setMessages(messagesWithDates)
+            setCurrentConversationId(currentConv.id)
+            setShowQuickLinks(false)
+          }
 
-        // Cleanup old conversations (60+ days)
-        cleanupOldConversations()
+          // Cleanup old conversations (60+ days)
+          cleanupOldConversations()
+        }
       }
     }
   }, [mounted])
@@ -284,10 +307,14 @@ export default function ChatPage() {
       const assistantMessage: Message = {
         role: 'assistant',
         content: data.message,
-        timestamp: new Date()
+        timestamp: new Date(),
+        citations: data.citations || [] // Include citations from API response
       }
 
       console.log('[Page] Adding assistant message to state')
+      if (data.citationCount > 0) {
+        console.log(`[Page] Message includes ${data.citationCount} citations`)
+      }
       setMessages(prev => [...prev, assistantMessage])
       latestAssistantMessageRef.current = data.message
       if (data?.provider) {
@@ -513,6 +540,7 @@ export default function ChatPage() {
                   exportBtn?.click()
                 }}
                 onEmailGenerate={() => setShowEmailGenerator(true)}
+                onKnowledgeBase={() => setShowKnowledgeBase(true)}
               />
               {messages.length > 0 && (
                 <button
@@ -601,6 +629,7 @@ export default function ChatPage() {
                   exportBtn?.click()
                 }}
                 onEmailGenerate={() => setShowEmailGenerator(true)}
+                onKnowledgeBase={() => setShowKnowledgeBase(true)}
               />
 
               <ModeToggle
@@ -672,6 +701,26 @@ export default function ChatPage() {
                   <span className="text-sm font-semibold text-gray-700 group-hover:text-green-600 text-center">Insurance Companies</span>
                 </button>
 
+                <button
+                  onClick={() => setShowKnowledgeBase(true)}
+                  className="flex flex-col items-center gap-2 p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-purple-500 hover:shadow-lg transition-all group"
+                >
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center group-hover:from-purple-500 group-hover:to-purple-600 transition-all">
+                    <span className="text-2xl">📚</span>
+                  </div>
+                  <span className="text-sm font-semibold text-gray-700 group-hover:text-purple-600 text-center">Knowledge Base</span>
+                </button>
+
+                <button
+                  onClick={() => window.location.href = '/training'}
+                  className="flex flex-col items-center gap-2 p-4 bg-white rounded-xl border-2 border-gray-200 hover:border-red-600 hover:shadow-lg transition-all group"
+                >
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center group-hover:from-red-600 group-hover:to-red-700 transition-all">
+                    <span className="text-2xl">🎓</span>
+                  </div>
+                  <span className="text-sm font-semibold text-gray-700 group-hover:text-red-600 text-center">Agnes Training</span>
+                </button>
+
               </div>
             </div>
           </div>
@@ -735,6 +784,15 @@ export default function ChatPage() {
                       </div>
                     </div>
                   </div>
+                  <div className="bg-white rounded-xl p-5 shadow-md border border-gray-200">
+                    <div className="flex items-start gap-3">
+                      <span className="text-2xl">📚</span>
+                      <div>
+                        <h3 className="font-semibold text-gray-800 mb-1">Knowledge Base</h3>
+                        <p className="text-sm text-gray-600">123 documents: codes, warranties, training</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <p className="text-gray-500 mt-8 text-sm">
                   Ask about damage assessment, insurance claims, or use the roofing tools above
@@ -765,13 +823,32 @@ export default function ChatPage() {
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="whitespace-pre-wrap break-words leading-relaxed">
-                            {message.role === 'assistant' ? cleanMarkdown(message.content) : message.content}
-                          </p>
-                          <div className="flex items-center justify-between mt-2">
-                            <p className={`text-xs ${message.role === 'user' ? 'text-red-100' : 'text-gray-500'}`}>
-                              {message.timestamp.toLocaleTimeString()}
+                          {message.role === 'assistant' && message.citations && message.citations.length > 0 ? (
+                            <CitationDisplay
+                              text={cleanMarkdown(message.content)}
+                              citations={message.citations}
+                              isDarkMode={isDarkMode}
+                            />
+                          ) : message.role === 'assistant' && hasPhotoReferences(message.content) ? (
+                            <MessageWithPhotos
+                              text={cleanMarkdown(message.content)}
+                            />
+                          ) : (
+                            <p className="whitespace-pre-wrap break-words leading-relaxed">
+                              {message.role === 'assistant' ? cleanMarkdown(message.content) : message.content}
                             </p>
+                          )}
+                          <div className="flex items-center justify-between mt-2">
+                            <div className="flex items-center gap-2">
+                              <p className={`text-xs ${message.role === 'user' ? 'text-red-100' : 'text-gray-500'}`}>
+                                {message.timestamp.toLocaleTimeString()}
+                              </p>
+                              {message.role === 'assistant' && message.citations && message.citations.length > 0 && (
+                                <span className="text-xs text-blue-600 font-medium">
+                                  {message.citations.length} {message.citations.length === 1 ? 'citation' : 'citations'}
+                                </span>
+                              )}
+                            </div>
                             <CopyButton
                               text={message.content}
                               variant={message.role === 'user' ? 'dark' : 'light'}
@@ -948,6 +1025,13 @@ export default function ChatPage() {
 
       {/* Onboarding Tooltip - Shows on first visit */}
       <OnboardingTooltip />
+
+      {/* Knowledge Base Modal */}
+      <KnowledgeBase
+        isOpen={showKnowledgeBase}
+        onClose={() => setShowKnowledgeBase(false)}
+        isDarkMode={isDarkMode}
+      />
 
     </div>
   )
