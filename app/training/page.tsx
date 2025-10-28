@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import A21Badge from '../components/A21Badge'
+import SimpleVoiceButton from '../components/SimpleVoiceButton'
 import { ROLEPLAY_CHARACTERS, type RoleplayCharacterId } from '@/lib/agnes-prompts'
 import CopyButton from '../components/CopyButton'
 import CitationDisplay, { Citation } from '../components/CitationDisplay'
@@ -588,7 +589,20 @@ export default function TrainingPage() {
       {sessionActive && (
         <div className="flex-shrink-0 bg-white border-t-4 border-red-600 p-4 shadow-2xl">
           <div className="max-w-5xl mx-auto">
-            <form onSubmit={sendMessage} className="flex gap-3">
+            <form onSubmit={sendMessage} className="flex gap-3 items-center">
+              {/* Voice Input Button */}
+              <SimpleVoiceButton
+                onTranscript={(text, isFinal) => {
+                  if (isFinal) {
+                    setInput(prev => prev + ' ' + text);
+                  }
+                }}
+                onError={(error) => {
+                  console.error('Voice error:', error);
+                }}
+                className="flex-shrink-0"
+              />
+
               <input
                 type="text"
                 value={input}
