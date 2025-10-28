@@ -214,12 +214,19 @@ function extractKeywords(content, filename) {
   return keywords.slice(0, 10)
 }
 
-// Load embeddings file
+// Load embeddings file (if it exists)
 const embeddingsPath = path.join(__dirname, '..', 'data', 'susan_ai_embeddings.json')
 console.log('[KB] Loading embeddings from:', embeddingsPath)
 
-const data = JSON.parse(fs.readFileSync(embeddingsPath, 'utf-8'))
-const chunks = data.chunks || []
+let chunks = []
+if (fs.existsSync(embeddingsPath)) {
+  const data = JSON.parse(fs.readFileSync(embeddingsPath, 'utf-8'))
+  chunks = data.chunks || []
+  console.log('[KB] Loaded', chunks.length, 'embedding chunks')
+} else {
+  console.log('[KB] ⚠️  Embeddings file not found, skipping embedding-based documents')
+  console.log('[KB] ✓ KB will still work with existing kb-documents.json')
+}
 
 // Group chunks by filename
 const documentMap = new Map()
