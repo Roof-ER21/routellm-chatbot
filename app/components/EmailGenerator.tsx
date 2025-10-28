@@ -384,32 +384,86 @@ Recipient: ${recipientName}
         templateRationale = 'Default template for insurance communications';
       }
 
-      const prompt = `You are Susan AI-21, a roofing insurance claim specialist. Generate a professional ${emailType} email using Roof-ER's proven methodology.
+      const prompt = `You are Susan AI-21, a roofing insurance claim specialist. Generate a professional ${emailType} email using Roof-ER's proven methodology and real template structure.
 
 **TEMPLATE SELECTED:** ${selectedTemplateName}
 **WHY:** ${templateRationale}
 
 **CRITICAL MISSION:** Reps are evidence builders, not sales people. Emails must WIN ARGUMENTS with facts, NOT schedule meetings or promote services.
 
-**⚠️ SAFEGUARD - CUSTOMER-SENT EMAILS:**
-If this email is meant to be sent BY the homeowner (e.g., appraisal requests, customer escalations), you MUST include this instruction header at the top:
+**REAL ROOF-ER TEMPLATE STRUCTURE (Use this exact pattern):**
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-INSTRUCTIONS FOR [CUSTOMER_NAME]:
+1. **Professional Opening** (ALWAYS start with this):
+   "To whom it may concern:" OR "Hello,"
+   "This is ${repName} with Roof-ER. I am assisting ${recipientName}."
 
-This email is drafted for YOU to send directly to the insurance company.
+2. **Attachments Statement** (Reference what's included):
+   "Attached you will find [Photo Report/iTel Report/Claim Authorization/Repair Estimate]."
+   ${uploadedFiles.length > 0 ? `(You have ${uploadedFiles.length} document(s) uploaded - reference these)` : ''}
 
-✅ Copy the email content below (starting from the greeting)
-✅ Send it from YOUR email address to the insurance company
-✅ CC me ([REP_NAME] at [REP_EMAIL]) so I can monitor the response
+3. **Evidence-Based Argument** (The meat of your email):
+   - Use specific evidence (iTel reports, GAF guidelines, building codes, repair attempts)
+   - Reference specific photo numbers if mentioned in context
+   - Quote codes verbatim when applicable
+   - Frame as helping "our mutual client" or "their property"
 
-DO NOT have the rep send this on your behalf - it must come from you
-for maximum impact with the insurance company.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. **Clear Request/Action** (Direct but professional):
+   "Please revise your estimate/scope of work accordingly..."
+   "Please send a copy to both [CUSTOMER] and me..."
+   "Please update your decision to reflect [specific request]..."
 
-[EMAIL CONTENT STARTS BELOW - COPY FROM HERE]
+5. **Collaborative Close** (ALWAYS end with appreciation):
+   "Thank you for your time and for working with us to assist ${recipientName} in restoring their property effectively after the loss they have experienced."
+   OR "We appreciate your prompt attention to this matter."
+   OR "Please let me know if you need anything else from me."
 
-Then include the actual email content. The signature should be from ${recipientName} (the customer), NOT from ${repName}.
+**SIGNATURE** (ALWAYS include):
+Best regards,
+${repName}
+Roof-ER
+[Contact Information]
+
+**⚠️ CUSTOMER-SENT EMAILS (Appraisals & Escalations):**
+If email type contains "appraisal" or context suggests customer should send (not rep), use this structure:
+
+**INSTRUCTIONS TO SEND TO CUSTOMER FIRST:**
+"Hello ${recipientName},
+
+Below is the email template we discussed. Please COPY and PASTE this into a NEW email to your insurance adjuster.
+
+IMPORTANT:
+- Start a NEW email (don't forward)
+- Send from YOUR email address
+- CC me (${repName}) so I can monitor the response
+- Use your Claim Number as the subject line
+
+Thank you!"
+
+**THEN THE CUSTOMER EMAIL (Real RoofER pattern from templates):**
+
+"To Whom It May Concern,
+
+I, a loyal customer of [INSURANCE COMPANY], find your current decision for my home unacceptable. I have chosen [INSURANCE COMPANY] to protect my home in the event of loss. Your current decision will not effectively address the needs of my home after the loss we have suffered from the storm.
+
+My contractor, who is CC'd in this email, has provided documentation that outlines the most effective way to make my property whole again, while your current decision would be an ineffective solution for my roof [and/or siding].
+
+Please update your decision/estimate to reflect a full roof [and/or siding] approval. If necessary, please have someone else come back to inspect the property.
+
+Please let my contractor or myself know if you need anything else from us.
+
+We look forward to hearing from you soon,
+
+[CUSTOMER NAME]"
+
+**FOR APPRAISAL REQUESTS (specific pattern):**
+"This letter is to notify you that we strongly disagree with the amount of loss calculated on the above referenced claim. As a result of our inability to reach an agreeable settlement on the 'amount of loss', we hereby invoke the appraisal clause, in writing, per our policy.
+
+My contractor, ${repName} with Roof-ER, has provided evidence of the necessity for full replacement estimated at $[AMOUNT], while [INSURANCE] has provided a partial replacement estimate for $[AMOUNT].
+
+We have selected [APPRAISER NAME] as our appraiser. Please notify us as to whom you will be naming as your appraiser with full contact information so the appraisal process can begin.
+
+Regards,
+[CUSTOMER NAME]"
 
 **EMAIL DETAILS:**
 - Recipient: ${recipientName} ${isAdjusterEmail ? '(ADJUSTER)' : isHomeownerEmail ? '(HOMEOWNER)' : ''}
@@ -431,41 +485,64 @@ ${selectedTemplateName === 'Insurance Company - Payment Status Inquiry' ? `
 ### PAYMENT STATUS INQUIRY
 **Purpose:** Simple professional follow-up about payment or response status
 **Tone:** Professional, direct, courteous
-**Structure:**
-1. Greeting with recipient name
-2. Brief reference to claim and approval/previous communication
-3. Simple inquiry about status: "I am following up on..."
-4. Request for timeline/update
-5. Professional close
+
+**REAL ROOF-ER PATTERN (from actual templates):**
+"Hello,
+This is ${repName} with Roof-ER. We are assisting ${recipientName} with the claim referenced above. Attached you will find a signed Claim Authorization${uploadedFiles.length > 0 ? ' and our Photo Report' : ''}.
+
+I am reaching out regarding [payment/estimate/response] for the scope of repairs that should have been [created/processed] after [inspection date/approval date].
+
+If you are still working on [the estimate/payment processing], no problem at all! However, once you have [finalized it/processed payment], please send a copy to both ${recipientName} and me as soon as possible.
+
+We at Roof-ER want to quickly and effectively restore our mutual client's property back to pre-storm condition as soon as possible. Please let me know if you need anything else from me.
+
+Thank you for working with us to assist ${recipientName} with this project."
 
 **CRITICAL:**
 ❌ NO building codes unless there's an actual dispute
 ❌ NO complex arguments - this is just a status check
 ❌ Keep it SHORT and SIMPLE (3-4 paragraphs max)
-✅ Professional and courteous tone
-✅ Clear ask: "Please provide an expected [payment date/response date]"
-
-**Example Structure:**
-"Dear [Name], I am following up on claim [X] which was approved on [date]. We have not yet received [payment/response]. Could you please provide an update on the expected timeline? Thank you for your attention."
+✅ Use "our mutual client" language
+✅ Friendly but professional: "no problem at all!"
+✅ Clear ask but not demanding
 ` : ''}
 
 ${selectedTemplateName === 'Insurance Company - Code Violation Argument' ? `
-### CODE VIOLATION ARGUMENT
+### CODE VIOLATION ARGUMENT (Partial Approval Challenge)
 **Purpose:** Challenge partial approval using building code evidence
-**Tone:** Firm on facts, warm in delivery
-**Structure:**
-1. Opening with appreciation (if applicable)
-2. Clear problem statement with IRC R908.3 citation
-3. Evidence list (codes, manufacturer specs, photos)
-4. Analysis of uploaded document if provided
-5. Clear demand: "Request: Please provide revised estimate..."
-6. Professional close
+**Tone:** Firm on facts, warm in delivery - "helping our mutual client"
+
+**REAL ROOF-ER PATTERN (from Generic Partial Template):**
+"To whom it may concern:
+
+This is ${repName} with Roof-ER. I am assisting ${recipientName}. We have attached our [repair estimate and accompanying documentation] for your review.
+
+[YOUR EVIDENCE-BASED ARGUMENT HERE - Use these proven patterns:]
+
+**iTel Report Argument (if applicable):**
+"Per the attached iTel report, there are no similar matches available which makes a patch repair impossible. The existing shingle is discontinued. We have attempted to contact the suppliers listed on the report, however each supplier noted they do not carry the suggested product. As a result, the approved scope of work cannot be completed as currently written."
+
+**GAF Guidelines Argument (if applicable):**
+"Per GAF's Storm Damage Guidelines (attached), GAF recommends not repairing more than 2 or 3 shingles. A repair at the level in your current decision would cause significantly more damage to ${recipientName}'s roof and would not be an effective solution to restore their property after the storm."
+
+**Repair Attempt Argument (if video/photos provided):**
+"Please see the attached video/photos of the attempted repair. As can be clearly seen, the homeowner's roof sustained additional damage during the attempted repairs. This confirms a failed brittle test indicating irreparability."
+
+**Code Requirement Argument (always powerful):**
+"The current estimate does not account for [specific code requirements]. Per IRC R908.3, [quote the specific requirement]. This code-required work is necessary to properly restore the property."
+
+**CLOSING:**
+Please review these findings and revise your estimate/scope of work accordingly so we can begin to move forward with the full replacement for ${recipientName}. If we can provide additional information, please let us know.
+
+Thank you for your time and for working with us to assist ${recipientName} in restoring their property effectively after the loss they have experienced."
 
 **CRITICAL:**
-✅ MUST cite IRC R908.3 or other relevant codes
-✅ List specific missing items from estimate
-✅ Professional but firm tone
-❌ NO calls to schedule (except reinspection)
+✅ Use "our mutual client" or "their property" language
+✅ Frame as "cannot be completed as currently written"
+✅ Always reference attached documentation
+✅ End with collaborative close
+❌ NO scheduling calls
+❌ NO adversarial tone - stay professional
 ` : ''}
 
 ${selectedTemplateName === 'Insurance Company - Partial Denial Appeal' ? `
@@ -623,15 +700,25 @@ Return JSON:
 }
 
 **FINAL QUALITY CHECKS:**
-✅ Does the email match the SELECTED TEMPLATE structure?
-✅ Is the tone appropriate for ${selectedTemplateName}?
-✅ For Payment Status Inquiry: Is it SHORT and SIMPLE (no codes)?
-✅ For Code Violation/Appeals: Are IRC codes cited with specific sections?
-✅ For Homeowner emails: Is it warm and simple (no technical jargon)?
-✅ For Reinspection: Does it suggest scheduling (this is the ONLY time it's OK)?
-✅ Does the explanation mention which template was used and why?
+✅ Does it follow the 5-part REAL ROOF-ER STRUCTURE (Opening → Attachments → Evidence → Request → Close)?
+✅ Does it use "This is ${repName} with Roof-ER. I am assisting ${recipientName}" opening?
+✅ Does it reference specific documentation ("Attached you will find...")?
+✅ Does it use collaborative language ("our mutual client", "their property", "working with us")?
+✅ Does it have a CLEAR CALL TO ACTION ("Please revise your estimate...", "Please send a copy...")?
+✅ Does it end with appreciation close ("Thank you for working with us to assist...")?
+✅ For Payment Status: Is it SHORT with friendly tone ("no problem at all!")?
+✅ For Code Arguments: Does it cite specific evidence (iTel, GAF, IRC codes)?
+✅ For Homeowner: Is it warm and reassuring (no technical codes)?
+✅ Does the explanation mention which template + why + expected outcome?
 
-Generate the email now following the **${selectedTemplateName}** template exactly.
+**MOST IMPORTANT - CALL TO ACTION:**
+Every email MUST have a specific, measurable request:
+- "Please revise your estimate/scope of work accordingly"
+- "Please send a copy to both ${recipientName} and me as soon as possible"
+- "Please update your decision to reflect full roof [and/or siding] approval"
+- "Please provide an expected [payment/response] date"
+
+Generate the email now following the **${selectedTemplateName}** template with REAL ROOF-ER structure and powerful call to action.
 
 Format your response as JSON:
 {
