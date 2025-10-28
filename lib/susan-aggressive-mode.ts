@@ -41,77 +41,95 @@ export const AGGRESSIVE_MODE_TRIGGERS = [
   'carrier won\'t',
 ]
 
-export const PARTIAL_REPAIR_AGGRESSIVE_RESPONSE = `
-🚫 **That's absolutely not happening.** Here's why partial roof repairs are dead on arrival and your battle plan:
+export const PARTIAL_REPAIR_COLLABORATIVE_FIRM_RESPONSE = `
+💼 **We're working within their approval to get completeness.** Here's your collaborative but firm strategy:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-## Why Half-Roof Repairs Are A Non-Starter
+## Understanding the Situation
 
-**Technical Death Sentence:**
-• **Shingle Matching Impossibility** - Discontinued products create exposure size differences that won't seal [4.2]
-• **Sealant Integrity Failure** - New shingles WON'T properly bond to existing due to dimensional incompatibilities [4.2]
-• **Slope System Collapse** - GAF explicitly warns partial slope repairs compromise waterproofing AND adjacent slope stability [4.2]
-• **Warranty Void** - Manufacturer warranties don't cover Frankenstein roofs with mixed systems
+**Key Insight:** They've already acknowledged SOME damage exists (partial approval). Now we build on that foundation to demonstrate the full scope.
 
-**Code & Professional Standards:**
-• **IRC R908.3** - Repairs must bring ENTIRE connected roof surface to current code [1.2]
-• **GAF TAB-R-164** - Slope replacement guidance explicitly addresses this [4.2]
-• **NRCA Standards** - Professional installation requires consistent materials across connected slopes
+**Your Advantage:**
+• Adjuster already confirmed storm damage principle
+• You're not fighting "is there damage?" - you're expanding scope
+• Work within their framework, not against it
+• Professional, solution-oriented approach wins here
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-## Your Immediate Counter-Attack
+## Collaborative But Firm Strategy
 
-**Step 1: Document Everything (Today)**
-• Photos showing damage on ALL slopes (not just "their" slope)
-• Test squares on every slope face
-• Document any pre-existing conditions they're trying to exclude
+**Step 1: Acknowledge Their Approval (Professional Partnership)**
+Start by recognizing what they approved - builds rapport
 
-**Step 2: Deploy The Partial Repair Argument Template**
+**Step 2: Present Additional Findings (Technical Evidence)**
+• Document damage on slopes they missed
+• Use same damage types they already approved elsewhere
+• Consistency argument: "This damage is identical to what you approved on the front slope"
 
-**Ready-to-Use Email (Copy/Paste):**
+**Step 3: Technical Requirements (Code Compliance)**
+• IRC R908.3 - Code upgrade requirements
+• GAF installation standards - System integrity
+• Shingle matching issues - Technical impossibility
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## Ready-to-Use Email Template (Collaborative Tone)
 
 \`\`\`
-Subject: Re: Partial Repair Scope - Technical & Code Issues
+Subject: Additional Findings - [Address] Claim Review
 
 [Adjuster Name],
 
-Thank you for your inspection. However, the proposed partial roof repair presents several technical and code compliance issues that must be addressed:
+Thank you for approving the repairs to [approved areas]. We have completed our detailed inspection and have additional findings that need to be addressed.
 
-**Technical Concerns:**
-1. Shingle Matching - Per attached photos, existing shingles are [discontinued/aged X years]. GAF guidelines (TAB-R-164) explicitly warn that partial slope repairs compromise system integrity due to dimensional incompatibilities.
+**Additional Damage Documented:**
 
-2. Storm Pattern Consistency - As documented in our inspection report, damage exists on multiple slopes [list slopes]. This indicates a storm event affecting the entire roof system, not isolated damage.
+The attached photo report shows damage consistent with what has already been approved on [approved slope/area]. Specifically:
 
-3. Slope Integrity - GAF technical bulletin TAB-R-164 states that repairs to partial slopes compromise both waterproofing and adjacent slope stability.
+• [Slope/Area 1]: [Damage type] - identical characteristics to approved damage
+• [Slope/Area 2]: [Damage type] - same storm event impact patterns
+• [Additional items]: [Description] - consistent with approved findings
 
-**Building Code Requirements:**
-IRC Section R908.3 requires that when replacing roofing materials, the entire roof surface area must be brought up to the requirements of current code for new roofs.
+**Technical Concerns with Partial Repair:**
 
-**Requested Action:**
-Revised scope approving full roof replacement per:
-- Documented multi-slope storm damage
-- Manufacturer technical guidelines (GAF TAB-R-164)
-- IRC R908.3 code compliance requirements
+1. **Shingle Matching** - Existing shingles [age/discontinued status]. Partial repair creates dimensional incompatibilities per GAF TAB-R-164.
 
-Attached: Photo report showing damage across all slopes, manufacturer guidelines, code citations.
+2. **Code Requirements** - IRC R908.3 requires bringing connected roof surfaces to current code during repairs.
 
-We're available for a reinspection if needed to verify damage extent.
+3. **Storm Consistency** - Damage pattern indicates single weather event affecting multiple slopes, not isolated damage.
 
+**Our Estimate:**
+
+We have attached our complete repair estimate for your review. This damage is consistent with what has already been approved, which leaves us and the homeowner unsure why these findings were left off of the initial estimate.
+
+**Next Steps:**
+
+Please review these findings and revise your estimate/scope of work accordingly. We're available for a reinspection if you'd like to verify these additional findings together.
+
+Please let us know if you have any questions or concerns regarding our estimate.
+
+Best regards,
 [Your Name]
 RoofER
 \`\`\`
 
-**Step 3: The Triple-Threat Follow-Up**
-• **CC the Homeowner** - On EVERY email (puts pressure on adjuster)
-• **Reference Our Templates** - Use "Partial Repair Argument" from Insurance Arguments folder
-• **Set Deadline** - "Please respond within 72 hours with revised scope"
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-**Step 4: Escalation Path (If They Don't Budge)**
-• 72 hours no response → Escalate to adjuster's supervisor
-• Still no → File complaint with state insurance commissioner
-• Nuclear option → Public adjuster + attorney letter
+## Follow-Up Strategy (Professional Persistence)
+
+**Day 3:** Friendly check-in
+"Just following up on the additional findings we sent. Have you had a chance to review?"
+
+**Day 7:** Professional reminder
+"We'd like to get this resolved for the homeowner. Can we schedule a time to discuss the additional scope?"
+
+**Day 10:** Escalation offer
+"Would it be helpful to have a reinspection so we can review the findings together?"
+
+**Day 14:** Supervisor escalation (still professional)
+"We haven't received a response on the revised scope. Could you direct me to your supervisor to expedite review?"
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -163,12 +181,24 @@ RoofER
 **Don't back down. We're flipping this to full approval. Let's go.**
 `
 
-export const DENIAL_AGGRESSIVE_RESPONSE = `
-🔥 **Denial? We're flipping this. Here's your reversal playbook:**
+export const DENIAL_ASSERTIVE_EVIDENCE_RESPONSE = `
+⚔️ **Denial means we challenge the fundamental decision with overwhelming evidence.** Here's your battle plan:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-## Immediate Action (Next 24 Hours)
+## Critical Understanding
+
+**The Situation:** They're claiming NO covered damage exists. This is fundamentally different from a partial - you're not expanding scope, you're PROVING damage.
+
+**Your Mission:**
+• Challenge their conclusion with irrefutable evidence
+• Demonstrate damage exists and is storm-related
+• Provide comprehensive documentation packages
+• Prepare multiple escalation paths
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## Immediate Evidence Assembly (Next 24 Hours)
 
 **Step 1: Denial Analysis**
 • Pull the EXACT denial letter/email
@@ -217,27 +247,37 @@ Subject: Formal Appeal - Claim #[XXXXX] Denial
 
 [Adjuster/Claims Manager],
 
-We are formally appealing the denial of claim #[XXXXX] dated [DATE]. The denial appears to be based on [STATED REASON], which we respectfully contest based on the following evidence:
+We are formally appealing the denial of claim #[XXXXX] dated [DATE]. The denial conclusion is not supported by the physical evidence documented during our professional inspection.
 
-**Factual Corrections:**
-1. [Counter their first point with evidence]
-2. [Counter their second point with evidence]
-3. [Counter their third point with evidence]
+**Storm Damage Evidence:**
 
-**Supporting Documentation:**
-- Professional inspection report with test square analysis
-- Photo documentation (attached, 50+ images)
-- Weather data from NOAA for storm date [DATE]
-- Manufacturer specifications requiring replacement
-- Building code citations (IRC R908.3, etc.)
+The extent of the wind and/or hail damage can be seen in the attached photo report. This is not general wear - impact points and directional marks are consistent with wind/hail events and not aging.
 
-**Policy Coverage Analysis:**
-[Quote specific policy language that supports coverage]
+Specifically:
+• Test square analysis shows [X] impact points per 10x10 section
+• Directional damage patterns consistent with [DATE] storm event
+• NOAA weather data confirms [hail size/wind speed] on claim date
+• No prior claims history - this is sudden and accidental damage per policy terms
+
+**Code and Technical Requirements:**
+
+• IRC R908.3 requires code upgrades during roof repairs
+• GAF installation manual [section] prohibits partial repairs for storm damage
+• Manufacturer warranty void if partial repairs attempted
+• [STATE] building code mandates full system replacement for this damage extent
+
+**Policy Coverage:**
+
+The policy covers "sudden and accidental" direct physical loss. The attached documentation proves:
+1. Damage occurred during documented storm event
+2. Damage is direct physical loss (not wear and tear)
+3. Full roof replacement is the only code-compliant repair method
 
 **Requested Action:**
-Reversal of denial and approval for full roof replacement per attached scope of work.
 
-We request a response within 10 business days per [STATE] insurance regulations.
+Immediate reversal of denial and approval for full roof replacement per attached scope of work.
+
+We expect a response within 10 business days per [STATE] insurance regulations. The homeowner has been advised of their rights under [STATE] bad faith statutes.
 
 [Your Name]
 RoofER
@@ -247,25 +287,35 @@ On behalf of [Homeowner]
 **Email Template 2: Escalation (If no response in 10 days)**
 
 \`\`\`
-Subject: Re: Claim #[XXXXX] - Escalation to Claims Manager
+Subject: Re: Claim #[XXXXX] - Escalation Request
 
 [Claims Manager],
 
-Following our appeal submitted on [DATE], we have not received a response from [Adjuster Name]. We are escalating this matter for immediate review.
+Following our appeal submitted on [DATE], we have not received a response from [Adjuster Name]. We are requesting immediate review and escalation of this matter.
 
-**New Evidence:**
-[Any additional documentation gathered]
+**Evidence Summary:**
 
-**Regulatory Notification:**
-Please be advised that if this claim is not resolved within [STATE-REQUIRED] timeframe, we will be filing a complaint with the [STATE] Insurance Commissioner for bad faith claims handling.
+Our professional inspection documented clear storm damage:
+• [X] impact points per test square
+• Directional damage patterns from [DATE] storm
+• NOAA-confirmed weather event matching damage characteristics
 
-**Attorney Consultation:**
-The homeowner has consulted with legal counsel regarding potential bad faith and breach of contract claims.
+**Outstanding Issues:**
 
-Immediate attention to this matter is appreciated.
+The denial does not address:
+1. Physical evidence of storm impact documented in photos
+2. Code compliance requirements (IRC R908.3)
+3. Manufacturer installation standards prohibiting partial repairs
+
+**Timeline:**
+
+We need resolution within [STATE-REQUIRED] timeframe to proceed with repairs. The homeowner has weatherproofing concerns and is considering all available options, including regulatory and legal remedies.
+
+Please advise on next steps.
 
 [Your Name]
 RoofER
+On behalf of [Homeowner]
 \`\`\`
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

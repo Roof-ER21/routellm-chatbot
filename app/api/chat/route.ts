@@ -9,7 +9,8 @@ import { analyzeThreatPatterns } from '@/lib/threat-detection'
 import { searchInsuranceArguments, extractCodeCitations, getBuildingCodeReference } from '@/lib/insurance-argumentation-kb'
 import { injectCitations, extractCodeCitations as extractCodesFromText, type Citation } from '@/lib/citation-tracker'
 import { SUSAN_RESPONSE_FRAMEWORK, SUSAN_KB_SEARCH_PROMPT } from '@/lib/susan-enhanced-prompt'
-import { detectAggressiveMode, PARTIAL_REPAIR_AGGRESSIVE_RESPONSE, DENIAL_AGGRESSIVE_RESPONSE } from '@/lib/susan-aggressive-mode'
+import { detectAggressiveMode, PARTIAL_REPAIR_COLLABORATIVE_FIRM_RESPONSE, DENIAL_ASSERTIVE_EVIDENCE_RESPONSE } from '@/lib/susan-aggressive-mode'
+import { SUSAN_PERSONALITY_CORE, SUSAN_NAME_EXTRACTION_PROMPT, extractRepName } from '@/lib/susan-personality'
 
 export async function POST(req: NextRequest) {
   try {
@@ -205,7 +206,17 @@ ${SUSAN_RESPONSE_FRAMEWORK}
 
 ${SUSAN_KB_SEARCH_PROMPT}
 
+${SUSAN_PERSONALITY_CORE}
+
+${SUSAN_NAME_EXTRACTION_PROMPT}
+
 `
+
+    // Extract rep name from conversation
+    const userMessage = messages[messages.length - 1]?.content || ''
+    const conversationHistory = messages.map((m: any) => m.content)
+    const detectedRepName = extractRepName(userMessage, conversationHistory)
+    const finalRepName = detectedRepName || repName || null
 
     // Add entrepreneurial redirection guidance if detected
     if (isEntrepreneurialQuestion) {
@@ -402,56 +413,62 @@ REFLECTION QUESTIONS FOR YOUR GROWTH:
 
     // Add aggressive mode guidance for partial repairs/denials
     if (isAggressiveMode) {
+      const repNameContext = finalRepName ? `The rep's name is ${finalRepName}. Use their name 2-3 times in your response.` : 'Try to identify and use the rep\'s name if mentioned.'
+
       if (aggressiveDetection.responseType === 'partial_repair') {
         systemPromptContent += `
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔥 AGGRESSIVE MODE ACTIVATED - PARTIAL REPAIR DETECTED 🔥
+💼 COLLABORATIVE-FIRM MODE - PARTIAL REPAIR DETECTED 💼
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-CRITICAL: The rep is dealing with an adjuster pushing partial repairs.
+CRITICAL: The rep is dealing with a partial approval from the adjuster.
 
-YOUR RESPONSE MUST BE:
-1. **FIRM & ASSERTIVE** - "That's absolutely not happening"
-2. **TECHNICALLY DEVASTATING** - Explain why partial repairs are non-starters
-3. **ACTION-ORIENTED** - Give them ready-to-use email templates
-4. **BATTLE-READY** - This is war for full approval, not a negotiation
+${repNameContext}
 
-${PARTIAL_REPAIR_AGGRESSIVE_RESPONSE}
+YOUR RESPONSE TONE - COLLABORATIVE BUT FIRM:
+They've already acknowledged SOME damage exists (partial approval). We're building on that foundation to demonstrate the full scope.
 
-REMEMBER: Partial repairs are:
-- Technically unsound (shingle matching, sealant issues, slope integrity)
-- Code non-compliant (IRC R908.3)
-- Professionally unacceptable (GAF TAB-R-164)
-- A TEST from insurance to see if we'll cave
+This is NOT a denial battle - it's a scope expansion using their own approval as leverage.
 
-WE DON'T CAVE. WE FIGHT FOR FULL APPROVAL.
+1. **COLLABORATIVE** - Work within their framework ("They approved X, now let's show them Y")
+2. **PROFESSIONAL** - Maintain good relationships with adjusters
+3. **EVIDENCE-BASED** - Use consistency arguments and technical requirements
+4. **SUPPORTIVE TO REP** - Reassure them this is highly winnable (87% success rate)
+
+${PARTIAL_REPAIR_COLLABORATIVE_FIRM_RESPONSE}
+
+REMEMBER: This is about expanding scope, not fighting over whether damage exists.
+They already said YES to storm damage - we're just showing them the complete picture.
+
+Use a friendly, supportive tone with the rep. Never make them feel hopeless.
 `
       } else if (aggressiveDetection.responseType === 'denial') {
         systemPromptContent += `
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔥 AGGRESSIVE MODE ACTIVATED - DENIAL DETECTED 🔥
+⚔️ ASSERTIVE-EVIDENCE MODE - DENIAL DETECTED ⚔️
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 CRITICAL: The rep is dealing with a claim denial.
 
-YOUR RESPONSE MUST BE:
-1. **BATTLE MODE** - "We're flipping this denial"
-2. **STRATEGIC** - Immediate reversal playbook
-3. **EVIDENCE-BASED** - What documentation to deploy
-4. **AGGRESSIVE TIMELINE** - Escalation path with deadlines
+${repNameContext}
 
-${DENIAL_AGGRESSIVE_RESPONSE}
+YOUR RESPONSE TONE - ASSERTIVE AND EVIDENCE-HEAVY:
+They're claiming NO covered damage exists. This is fundamentally different from a partial.
+We're not expanding scope - we're PROVING storm damage with overwhelming evidence.
+
+1. **ASSERTIVE WITH ADJUSTER** - Challenge the decision with strong evidence
+2. **SUPPORTIVE WITH REP** - Reassure them denials are reversible (78% success rate)
+3. **STRATEGIC** - Multi-step reversal process with escalation paths
+4. **EVIDENCE-FOCUSED** - Test squares, weather data, code citations, policy language
+
+${DENIAL_ASSERTIVE_EVIDENCE_RESPONSE}
 
 REMEMBER: Denials are opening moves, not final answers.
-Our reversal rate: 78% [3.2]
+Use a confident, reassuring tone with the rep. This is totally winnable.
 
-We reverse denials with:
-- Overwhelming evidence (test squares, photos, weather data)
-- Legal pressure (bad faith claims, attorney letters)
-- Regulatory threats (state insurance commissioner)
-- Relentless persistence (we don't stop until we win)
+Never make the rep feel hopeless - frame this as "we've done this before, here's the playbook."
 `
       } else if (aggressiveDetection.responseType === 'lowball') {
         systemPromptContent += `
