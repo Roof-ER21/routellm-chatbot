@@ -243,79 +243,65 @@ You already did the inspection - now we weaponize it:
 **Email Template 1: Initial Appeal (Send within 48 hours)**
 
 \`\`\`
-Subject: Formal Appeal - Claim #[XXXXX] Denial
+Subject: Appeal - Claim #[XXXXX]
 
-[Adjuster/Claims Manager],
+[Adjuster Name],
 
-We are formally appealing the denial of claim #[XXXXX] dated [DATE]. The denial conclusion is not supported by the physical evidence documented during our professional inspection.
+Thank you for your review of claim #[XXXXX]. We respectfully request reconsideration based on the following documentation:
 
 **Storm Damage Evidence:**
 
-The extent of the wind and/or hail damage can be seen in the attached photo report. This is not general wear - impact points and directional marks are consistent with wind/hail events and not aging.
+Our professional inspection documented clear storm-related damage. The attached photo report shows impact points and directional marks consistent with [DATE] weather event, not aging or wear.
 
-Specifically:
-• Test square analysis shows [X] impact points per 10x10 section
-• Directional damage patterns consistent with [DATE] storm event
+Findings:
+• Test square analysis: [X] impacts per 10x10 section
+• Directional damage patterns matching storm direction
 • NOAA weather data confirms [hail size/wind speed] on claim date
-• No prior claims history - this is sudden and accidental damage per policy terms
 
-**Code and Technical Requirements:**
+**Technical Requirements:**
 
-• IRC R908.3 requires code upgrades during roof repairs
-• GAF installation manual [section] prohibits partial repairs for storm damage
-• Manufacturer warranty void if partial repairs attempted
-• [STATE] building code mandates full system replacement for this damage extent
+• IRC R908.3 code upgrade requirements for roof repairs
+• GAF installation standards for storm damage repairs
+• Manufacturer warranty requirements for proper installation
 
-**Policy Coverage:**
+**Documentation Attached:**
 
-The policy covers "sudden and accidental" direct physical loss. The attached documentation proves:
-1. Damage occurred during documented storm event
-2. Damage is direct physical loss (not wear and tear)
-3. Full roof replacement is the only code-compliant repair method
+• Professional photo report with test squares
+• Weather data from NOAA for storm date
+• Complete scope of work for code-compliant repairs
 
-**Requested Action:**
+We believe this documentation supports coverage and would appreciate your review. Please let us know if you need any additional information.
 
-Immediate reversal of denial and approval for full roof replacement per attached scope of work.
-
-We expect a response within 10 business days per [STATE] insurance regulations. The homeowner has been advised of their rights under [STATE] bad faith statutes.
+Thank you for your time and consideration.
 
 [Your Name]
 RoofER
-On behalf of [Homeowner]
 \`\`\`
 
 **Email Template 2: Escalation (If no response in 10 days)**
 
 \`\`\`
-Subject: Re: Claim #[XXXXX] - Escalation Request
+Subject: Follow-Up - Claim #[XXXXX]
 
 [Claims Manager],
 
-Following our appeal submitted on [DATE], we have not received a response from [Adjuster Name]. We are requesting immediate review and escalation of this matter.
+We submitted an appeal on [DATE] and have not received a response from [Adjuster Name]. We would appreciate your assistance in reviewing this matter.
 
-**Evidence Summary:**
+**Summary of Evidence Provided:**
 
-Our professional inspection documented clear storm damage:
-• [X] impact points per test square
-• Directional damage patterns from [DATE] storm
-• NOAA-confirmed weather event matching damage characteristics
+• Test square documentation showing [X] impact points
+• Directional damage patterns from [DATE] storm event
+• NOAA weather data confirming storm conditions
+• IRC R908.3 code compliance documentation
 
-**Outstanding Issues:**
+The homeowner needs to proceed with repairs and would appreciate a timely response on the appeal.
 
-The denial does not address:
-1. Physical evidence of storm impact documented in photos
-2. Code compliance requirements (IRC R908.3)
-3. Manufacturer installation standards prohibiting partial repairs
+Could you please review the submitted documentation and let us know the status?
 
-**Timeline:**
-
-We need resolution within [STATE-REQUIRED] timeframe to proceed with repairs. The homeowner has weatherproofing concerns and is considering all available options, including regulatory and legal remedies.
-
-Please advise on next steps.
+Thank you for your help.
 
 [Your Name]
 RoofER
-On behalf of [Homeowner]
 \`\`\`
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
