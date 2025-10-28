@@ -303,7 +303,91 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
       const isFullDenial = emailType.toLowerCase().includes('full denial');
       const isReinspection = emailType.toLowerCase().includes('reinspection');
 
+      // INTELLIGENT TEMPLATE SELECTION
+      // Map the email type and additional details to the appropriate template
+      const situationAnalysis = `
+Email Type: ${emailType}
+Additional Context: ${additionalDetails || 'None'}
+Recipient: ${recipientName}
+      `.toLowerCase();
+
+      // Template mapping logic
+      let selectedTemplateName = '';
+      let templateRationale = '';
+
+      // Payment/Status inquiries
+      if ((emailType.toLowerCase().includes('follow-up') || emailType.toLowerCase().includes('status')) &&
+          (additionalDetails.toLowerCase().includes('haven') ||
+           additionalDetails.toLowerCase().includes('payment') ||
+           additionalDetails.toLowerCase().includes('hear'))) {
+        selectedTemplateName = 'Insurance Company - Payment Status Inquiry';
+        templateRationale = 'Simple follow-up inquiry - no need for code arguments yet';
+      }
+      // Partial denial appeals
+      else if (emailType.toLowerCase().includes('partial') && emailType.toLowerCase().includes('denial')) {
+        selectedTemplateName = 'Insurance Company - Partial Denial Appeal';
+        templateRationale = 'Formal appeal with strong evidence for partial denial';
+      }
+      // Full denial appeals - need strongest arguments
+      else if (emailType.toLowerCase().includes('full') && emailType.toLowerCase().includes('denial')) {
+        selectedTemplateName = 'Insurance Company - Multi-Argument Comprehensive';
+        templateRationale = 'Full denial requires comprehensive multi-code argument approach';
+      }
+      // Reinspection requests
+      else if (emailType.toLowerCase().includes('reinspection')) {
+        selectedTemplateName = 'Insurance Company - Reinspection Request';
+        templateRationale = 'Collaborative tone appropriate for scheduling reinspection';
+      }
+      // Supplement requests
+      else if (emailType.toLowerCase().includes('supplement')) {
+        selectedTemplateName = 'Insurance Company - Supplement Request';
+        templateRationale = 'Document additional scope discovered during work';
+      }
+      // Homeowner communications
+      else if (emailType.toLowerCase().includes('homeowner')) {
+        // Check if it's a victory notification
+        if (additionalDetails.toLowerCase().includes('approved') ||
+            additionalDetails.toLowerCase().includes('success') ||
+            additionalDetails.toLowerCase().includes('won')) {
+          selectedTemplateName = 'Homeowner - Claim Victory Notification';
+          templateRationale = 'Celebrate the win with homeowner';
+        } else {
+          selectedTemplateName = 'Homeowner - Advocacy & Reassurance';
+          templateRationale = 'Warm, supportive tone to reassure homeowner';
+        }
+      }
+      // Initial claim submissions
+      else if (emailType.toLowerCase().includes('initial') || emailType.toLowerCase().includes('submission')) {
+        selectedTemplateName = 'Insurance Company - Documentation Package Cover Letter';
+        templateRationale = 'Comprehensive documentation package with all evidence';
+      }
+      // Estimate follow-ups (could be payment or status)
+      else if (emailType.toLowerCase().includes('estimate')) {
+        selectedTemplateName = 'Insurance Company - Payment Status Inquiry';
+        templateRationale = 'Professional inquiry about estimate status';
+      }
+      // Generic adjuster follow-up (default to code violation if context suggests denial)
+      else if (emailType.toLowerCase().includes('adjuster')) {
+        if (extractedText || additionalDetails.toLowerCase().includes('partial') ||
+            additionalDetails.toLowerCase().includes('deny') ||
+            additionalDetails.toLowerCase().includes('code')) {
+          selectedTemplateName = 'Insurance Company - Code Violation Argument';
+          templateRationale = 'Evidence suggests need for code-based argument';
+        } else {
+          selectedTemplateName = 'Insurance Company - Payment Status Inquiry';
+          templateRationale = 'Simple adjuster follow-up without conflict indicators';
+        }
+      }
+      // Default fallback
+      else {
+        selectedTemplateName = 'Insurance Company - Code Violation Argument';
+        templateRationale = 'Default template for insurance communications';
+      }
+
       const prompt = `You are Susan AI-21, a roofing insurance claim specialist. Generate a professional ${emailType} email using Roof-ER's proven methodology.
+
+**TEMPLATE SELECTED:** ${selectedTemplateName}
+**WHY:** ${templateRationale}
 
 **CRITICAL MISSION:** Reps are evidence builders, not sales people. Emails must WIN ARGUMENTS with facts, NOT schedule meetings or promote services.
 
@@ -337,82 +421,166 @@ ${extractedText ? `\n**UPLOADED DOCUMENT:**\n${extractedText}\n\n⚠️ ANALYZE 
 
 ---
 
-## YOUR INSTRUCTIONS:
+## YOUR INSTRUCTIONS - FOLLOW THE SELECTED TEMPLATE EXACTLY:
 
-${isAdjusterEmail ? `
-### ADJUSTER EMAIL - EVIDENCE-BASED DEMAND
+**SELECTED TEMPLATE:** ${selectedTemplateName}
 
-**TONE:** Firm on facts, warm in delivery ("here's why this doesn't work, let's fix it")
+Based on this template, here are the specific guidelines:
 
-**STRUCTURE TO FOLLOW:**
-1. **Opening:** "Thank you for the initial approval. However..." OR "Following up on claim #[X]..."
-2. **Problem Statement:** Clearly state the code/manufacturer violation
-   - Example: "The current approval does not comply with IRC R908.3..."
-3. **Evidence List:**
-   • IRC R908.3: [Specific violation]
-   • GAF Guidelines: [Specific requirement]
-   • [Other evidence]
-4. **Analysis:** ${extractedText ? 'Based on the uploaded estimate, the following items are missing:' : 'We have documented:'}
-   - [List specific missing code requirements]
-5. **Clear Demand:** "**Request:** Please provide a revised estimate reflecting [specific action]"
-6. **Supporting Documentation:** List iTel, photos, repair attempt video if available
-7. **Professional Close:** "Please let me know if you need any additional information."
+${selectedTemplateName === 'Insurance Company - Payment Status Inquiry' ? `
+### PAYMENT STATUS INQUIRY
+**Purpose:** Simple professional follow-up about payment or response status
+**Tone:** Professional, direct, courteous
+**Structure:**
+1. Greeting with recipient name
+2. Brief reference to claim and approval/previous communication
+3. Simple inquiry about status: "I am following up on..."
+4. Request for timeline/update
+5. Professional close
 
-**CRITICAL RULES:**
-❌ NEVER suggest scheduling calls (EXCEPT for reinspection requests)
-❌ NEVER use phrases like "Would you be available for a call?", "Let's discuss", "I'd love to walk you through"
-❌ NEVER promote Roof-ER services or expertise
-❌ NEVER sound overly friendly or casual - keep professional
+**CRITICAL:**
+❌ NO building codes unless there's an actual dispute
+❌ NO complex arguments - this is just a status check
+❌ Keep it SHORT and SIMPLE (3-4 paragraphs max)
+✅ Professional and courteous tone
+✅ Clear ask: "Please provide an expected [payment date/response date]"
 
-✅ ALWAYS cite specific building codes (IRC R908.3, R905.2.7.1, R903)
-✅ ALWAYS list evidence clearly
-✅ ALWAYS make clear demand: "Request: [specific action]"
-✅ ALWAYS start with appreciation when possible
-✅ ALWAYS end professionally
-
-${isReinspection ? '✅ FOR REINSPECTION ONLY: You may suggest scheduling dates: "We are available [dates] for the reinspection"' : ''}
-
-**SUBJECT LINE:** "Claim #${claimNumber || '[X]'} - Request for Revised Estimate per IRC R908.3"
+**Example Structure:**
+"Dear [Name], I am following up on claim [X] which was approved on [date]. We have not yet received [payment/response]. Could you please provide an update on the expected timeline? Thank you for your attention."
 ` : ''}
 
-${isHomeownerEmail ? `
-### HOMEOWNER EMAIL - INFORM AND REASSURE
+${selectedTemplateName === 'Insurance Company - Code Violation Argument' ? `
+### CODE VIOLATION ARGUMENT
+**Purpose:** Challenge partial approval using building code evidence
+**Tone:** Firm on facts, warm in delivery
+**Structure:**
+1. Opening with appreciation (if applicable)
+2. Clear problem statement with IRC R908.3 citation
+3. Evidence list (codes, manufacturer specs, photos)
+4. Analysis of uploaded document if provided
+5. Clear demand: "Request: Please provide revised estimate..."
+6. Professional close
 
-**TONE:** Warm, confident, supportive ("Don't worry, we've got this")
-
-**STRUCTURE TO FOLLOW:**
-1. **Friendly Greeting:** "Hi ${recipientName.split(' ')[0]},"
-2. **What Happened:** Explain in simple, non-technical terms
-   - "The insurance adjuster approved a partial replacement (just the front slope), but..."
-3. **What It Means:** Educate simply
-   - "This is actually common. Building code R908.3 requires complete replacement when..."
-4. **What We're Doing:** List specific actions
-   - "1. I've already prepared a detailed letter citing the codes"
-   - "2. We're including iTel report, photos, repair attempt video"
-   - "3. They typically have 15 days to respond"
-5. **What They Need to Do:** Usually nothing
-   - "For now - nothing! I'm handling all communication."
-6. **Reassurance:** Build confidence
-   - "Roof-ER handles these situations regularly. We know exactly what evidence they need. The facts are on our side."
-7. **Availability:** "Call or text me anytime with questions."
-8. **Encouraging Close:** "You're in good hands - we've got this!"
-
-**WHEN TO MENTION ROOF-ER:**
-✅ When building confidence: "Roof-ER has successfully handled situations like this many times..."
-✅ When explaining capability: "This is exactly why you have us in your corner..."
-✅ ALWAYS refocus immediately back to the claim: "...and here's what we're doing for YOU..."
-
-**SUBJECT LINE:** "Update on Your Insurance Claim #${claimNumber || '[X]'}"
+**CRITICAL:**
+✅ MUST cite IRC R908.3 or other relevant codes
+✅ List specific missing items from estimate
+✅ Professional but firm tone
+❌ NO calls to schedule (except reinspection)
 ` : ''}
 
-${!isAdjusterEmail && !isHomeownerEmail ? `
-### GENERAL PROFESSIONAL EMAIL
+${selectedTemplateName === 'Insurance Company - Partial Denial Appeal' ? `
+### PARTIAL DENIAL APPEAL
+**Purpose:** Formal appeal of partial denial with strong evidence
+**Tone:** Firm, factual, professional
+**Structure:**
+1. "This letter is a formal appeal of the partial denial..."
+2. State why denial is inconsistent with policy/codes
+3. Present multiple arguments (policy, IRC R908.3, state regulations)
+4. Request immediate reconsideration
+5. Reference state timelines for response
 
-Follow standard business email format:
-- Professional but warm tone
-- Clear purpose
-- Specific request or information
-- Professional close
+**CRITICAL:**
+✅ Use "formal appeal" language
+✅ Cite policy provisions AND building codes
+✅ Request response within state-mandated timeframe
+` : ''}
+
+${selectedTemplateName === 'Insurance Company - Multi-Argument Comprehensive' ? `
+### COMPREHENSIVE MULTI-ARGUMENT
+**Purpose:** Full denial or complex dispute - bring all evidence
+**Tone:** Professional, evidence-based, comprehensive
+**Structure:**
+1. Professional opening
+2. "We have identified multiple issues requiring revision:"
+3. List ALL applicable arguments:
+   - IRC R908.3 matching requirement
+   - Manufacturer warranty specifications
+   - State building codes
+   - NRCA industry standards
+   - Property value impact
+4. Detailed evidence from uploaded documents
+5. Strong closing demand
+
+**CRITICAL:**
+✅ Use MULTIPLE code citations
+✅ Include manufacturer requirements
+✅ Reference state-specific regulations if known
+✅ Comprehensive but organized presentation
+` : ''}
+
+${selectedTemplateName === 'Insurance Company - Reinspection Request' ? `
+### REINSPECTION REQUEST
+**Purpose:** Request reinspection with new evidence
+**Tone:** Collaborative, professional
+**Structure:**
+1. "I am requesting a reinspection for claim [X]..."
+2. Explain new findings (additional damage, code violations, iTel report)
+3. List specific new evidence
+4. ✅ SCHEDULING OK HERE: "We are available [dates]. Please confirm appointment."
+5. Collaborative close
+
+**CRITICAL:**
+✅ OK to suggest scheduling for reinspection
+✅ Focus on NEW findings since original inspection
+✅ Collaborative tone (not adversarial)
+` : ''}
+
+${selectedTemplateName === 'Insurance Company - Supplement Request' ? `
+### SUPPLEMENT REQUEST
+**Purpose:** Request additional payment for scope discovered during work
+**Tone:** Professional, detailed
+**Structure:**
+1. "I am submitting a supplement request..."
+2. Explain what was discovered during tear-off/work
+3. List: hidden damage, code-required upgrades, accurate measurements
+4. Request approval to proceed
+5. Professional close
+
+**CRITICAL:**
+✅ Focus on HIDDEN damage and CODE-REQUIRED work
+✅ Explain these weren't visible during initial inspection
+✅ Detail-oriented and factual
+` : ''}
+
+${selectedTemplateName.includes('Homeowner') ? `
+### HOMEOWNER COMMUNICATION
+**Purpose:** ${selectedTemplateName.includes('Victory') ? 'Celebrate claim victory' : 'Update and reassure homeowner'}
+**Tone:** Warm, supportive, confident
+**Structure:**
+1. Friendly greeting: "Hi [First Name],"
+2. ${selectedTemplateName.includes('Victory') ? 'Great news opening' : 'Status update in simple terms'}
+3. Simple explanation (avoid technical jargon)
+4. What you're doing / what was achieved
+5. What they need to do (usually nothing)
+6. Reassurance: "Don't worry, we've got this!" or "Congratulations!"
+
+**CRITICAL:**
+✅ Warm, personal tone
+✅ Simple language (no IRC codes in homeowner emails)
+✅ Build confidence
+✅ Clear next steps
+❌ Don't overwhelm with technical details
+` : ''}
+
+${selectedTemplateName === 'Insurance Company - Documentation Package Cover Letter' ? `
+### DOCUMENTATION PACKAGE COVER
+**Purpose:** Accompany comprehensive evidence package
+**Tone:** Professional, organized
+**Structure:**
+1. "Enclosed is comprehensive documentation..."
+2. List package contents:
+   - Building code citations
+   - Manufacturer specifications
+   - Photos
+   - iTel report
+   - Measurements
+3. Request review and approval
+4. Professional close
+
+**CRITICAL:**
+✅ Organized presentation
+✅ Complete evidence list
+✅ Professional tone
 ` : ''}
 
 ---
@@ -449,28 +617,27 @@ ${extractedText && isAdjusterEmail ? `
 
 Return JSON:
 {
-  "subject": "Clear, specific subject line",
+  "subject": "Clear, specific subject line matching the template type",
   "body": "Complete email with proper formatting, line breaks, and signature from ${repName}\\n\\nBest regards,\\n${repName}\\nRoof-ER\\n[Phone] | [Email]",
-  "explanation": "Brief explanation of why this approach works (2-3 sentences for rep's learning)"
+  "explanation": "Brief explanation mentioning: (1) Template used: ${selectedTemplateName}, (2) Why this template was chosen: ${templateRationale}, (3) Expected outcome (2-3 sentences)"
 }
 
 **FINAL QUALITY CHECKS:**
-- Is tone appropriate for recipient? (Firm+warm for adjusters, warm+confident for homeowners)
-- Are codes cited? (If adjuster email)
-- Is there a clear demand? (If adjuster email)
-- Is it reassuring? (If homeowner email)
-- NO scheduling calls (except reinspection)?
-- NO Roof-ER promotion to adjusters?
-- Strategic Roof-ER mention to homeowners (if applicable)?
-- Always refocuses on claim goal?
+✅ Does the email match the SELECTED TEMPLATE structure?
+✅ Is the tone appropriate for ${selectedTemplateName}?
+✅ For Payment Status Inquiry: Is it SHORT and SIMPLE (no codes)?
+✅ For Code Violation/Appeals: Are IRC codes cited with specific sections?
+✅ For Homeowner emails: Is it warm and simple (no technical jargon)?
+✅ For Reinspection: Does it suggest scheduling (this is the ONLY time it's OK)?
+✅ Does the explanation mention which template was used and why?
 
-Generate the email now following ALL instructions above.
+Generate the email now following the **${selectedTemplateName}** template exactly.
 
 Format your response as JSON:
 {
-  "subject": "Email subject line",
-  "body": "Complete email body with greeting, body, professional close, and signature from ${repName}",
-  "explanation": "Why this email works (mention specific Roof-ER strategies used)"
+  "subject": "Subject line matching ${selectedTemplateName} style",
+  "body": "Complete email following ${selectedTemplateName} structure with signature from ${repName}",
+  "explanation": "Explanation including: Template used (${selectedTemplateName}), rationale (${templateRationale}), and expected outcome"
 }`
 
       // Build messages array in correct format for /api/chat
