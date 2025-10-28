@@ -28,6 +28,20 @@ import {
   TemplateSelectorModal,
   AnalyzingIndicator
 } from './EmailGenerator/IntelligenceDisplay'
+import {
+  ConversationalFlow,
+  IntelligenceSummary
+} from './EmailGenerator/ConversationalFlow'
+import { EmailPreviewEnhanced } from './EmailGenerator/EmailPreviewEnhanced'
+import {
+  getInitialQuestions,
+  generateFollowUpQuestions,
+  parseIntelligenceFromResponse,
+  buildEnhancedEmailPrompt,
+  hasEnoughIntelligence,
+  type GatheredIntelligence,
+  type ConversationContext
+} from '@/lib/conversational-flow-service'
 
 interface EmailGeneratorProps {
   repName: string
@@ -84,6 +98,11 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
   const [selectedArguments, setSelectedArguments] = useState<string[]>([])
   const [showTemplateSelector, setShowTemplateSelector] = useState(false)
   const [showArgumentSelector, setShowArgumentSelector] = useState(false)
+
+  // Conversational flow state
+  const [conversationMode, setConversationMode] = useState<'form' | 'gathering' | 'summary' | 'generating'>('form')
+  const [conversationQuestions, setConversationQuestions] = useState<string[]>([])
+  const [gatheredIntelligence, setGatheredIntelligence] = useState<Partial<GatheredIntelligence>>({})
 
   // Load templates on mount
   useEffect(() => {
@@ -262,6 +281,164 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
         ? prev.filter(argId => argId !== id)
         : [...prev, id]
     )
+  }
+
+  // NEW: Start conversational intelligence gathering
+  const handleStartConversation = () => {
+    setError(null)
+
+    // Validation
+    if (!emailType) {
+      setError('Please select an email type')
+      return
+    }
+    if (!recipientName.trim()) {
+      setError('Please enter recipient name')
+      return
+    }
+
+    // Build conversation context
+    const context: ConversationContext = {
+      emailType,
+      recipientName,
+      claimNumber,
+      initialDetails: additionalDetails,
+      uploadedDocuments: extractedText,
+      documentAnalysis: documentAnalysis || undefined
+    }
+
+    // Get initial questions
+    const questions = getInitialQuestions(context)
+    const questionTexts = questions.map(q => q.question)
+
+    setConversationQuestions(questionTexts)
+    setConversationMode('gathering')
+    console.log('[EmailGen] Starting conversation with', questionTexts.length, 'questions')
+  }
+
+  // Handle conversation completion
+  const handleConversationComplete = (responses: string[]) => {
+    console.log('[EmailGen] Conversation complete with', responses.length, 'responses')
+
+    // Parse intelligence from all responses
+    let intelligence: Partial<GatheredIntelligence> = {}
+    responses.forEach(response => {
+      intelligence = parseIntelligenceFromResponse(response, intelligence)
+    })
+
+    setGatheredIntelligence(intelligence)
+
+    // Check if we need follow-up questions
+    const context: ConversationContext = {
+      emailType,
+      recipientName,
+      claimNumber,
+      initialDetails: additionalDetails
+    }
+
+    const followUps = generateFollowUpQuestions(context, intelligence)
+
+    if (followUps.length > 0 && !hasEnoughIntelligence(intelligence)) {
+      // Add follow-up questions
+      const followUpTexts = followUps.map(q => q.question)
+      setConversationQuestions(prev => [...prev, ...followUpTexts])
+      console.log('[EmailGen] Adding', followUpTexts.length, 'follow-up questions')
+    } else {
+      // We have enough intelligence, show summary
+      setConversationMode('summary')
+      console.log('[EmailGen] Intelligence gathering complete:', intelligence)
+    }
+  }
+
+  // Handle proceeding from summary to generation
+  const handleProceedToGeneration = () => {
+    setConversationMode('generating')
+    generateEmailWithIntelligence()
+  }
+
+  // Generate email with gathered intelligence
+  const generateEmailWithIntelligence = async () => {
+    setIsGenerating(true)
+    setError(null)
+
+    try {
+      console.log('[EmailGen] Generating email with intelligence:', gatheredIntelligence)
+
+      // Get selected arguments full objects
+      const selectedArgs = selectedArguments
+        .map(id => ARGUMENTS.find(a => a.id === id))
+        .filter(Boolean) as Argument[]
+
+      // Build enhanced prompt with gathered intelligence
+      const prompt = buildEnhancedEmailPrompt(
+        {
+          emailType,
+          recipientName,
+          claimNumber,
+          initialDetails: additionalDetails,
+          uploadedDocuments: extractedText
+        },
+        gatheredIntelligence as GatheredIntelligence,
+        selectedTemplate,
+        selectedArgs
+      )
+
+      console.log('[EmailGen] Enhanced prompt built, calling API...')
+
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: [{ role: 'user', content: prompt }],
+          repName: repName,
+          sessionId: sessionId
+        }),
+      })
+
+      if (!response.ok) {
+        const errorText = await response.text()
+        throw new Error(errorText || 'Failed to generate email')
+      }
+
+      const data = await response.json()
+
+      if (data.message) {
+        // Parse JSON response
+        try {
+          const jsonMatch = data.message.match(/\{[\s\S]*?"subject"[\s\S]*?"body"[\s\S]*?\}/)
+          if (jsonMatch) {
+            const emailData = JSON.parse(jsonMatch[0])
+
+            if (emailData.subject && emailData.body) {
+              setGeneratedEmail({
+                subject: emailData.subject.trim(),
+                body: emailData.body.trim(),
+                explanation: emailData.explanation || `Generated using ${emailData.templateUsed || 'custom approach'} with ${emailData.argumentsUsed?.length || 0} evidence-based arguments. Success rate: ${emailData.successIndicators?.templateSuccessRate || 85}%.`
+              })
+              setConversationMode('form') // Reset for next email
+              console.log('[EmailGen] Email generated successfully!')
+            } else {
+              throw new Error('Invalid email structure')
+            }
+          } else {
+            throw new Error('No JSON found in response')
+          }
+        } catch (parseError) {
+          console.error('[EmailGen] Parse error:', parseError)
+          setError('Failed to parse AI response. Please try again.')
+        }
+      } else {
+        throw new Error('No response from AI')
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to generate email'
+      console.error('[EmailGen] Generation failed:', errorMessage)
+      setError(`Failed to generate email: ${errorMessage}`)
+    } finally {
+      setIsGenerating(false)
+    }
   }
 
   const handleGenerateEmail = async () => {
@@ -888,8 +1065,8 @@ Be conversational and brief.`
                   </div>
                 )}
 
-                {!generatedEmail ? (
-                  // Form View
+                {!generatedEmail && conversationMode === 'form' ? (
+                  // Form View (Initial)
                   <div className="space-y-5">
                     {/* Intelligence Displays */}
                     {analyzingDocument && <AnalyzingIndicator />}
@@ -1083,44 +1260,90 @@ Be conversational and brief.`
                       </p>
                     </div>
 
-                    {/* Generate Button */}
-                    <button
-                      onClick={handleGenerateEmail}
-                      disabled={isGenerating || !emailType || !recipientName.trim()}
-                      className="w-full px-6 py-4 bg-gradient-to-r from-red-600 via-purple-600 to-blue-600 hover:from-red-700 hover:via-purple-700 hover:to-blue-700 disabled:from-gray-600 disabled:to-gray-700 text-white font-bold rounded-lg transition-all shadow-lg hover:shadow-xl disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                    >
-                      {isGenerating ? (
-                        <>
-                          <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          <span>Generating with AI...</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>✨</span>
-                          <span>Generate Email</span>
-                        </>
-                      )}
-                    </button>
+                    {/* Generate Buttons */}
+                    <div className="space-y-3">
+                      {/* NEW: Conversational Intelligence Mode (RECOMMENDED) */}
+                      <button
+                        onClick={handleStartConversation}
+                        disabled={isGenerating || !emailType || !recipientName.trim()}
+                        className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 via-blue-600 to-green-600 hover:from-purple-700 hover:via-blue-700 hover:to-green-700 disabled:from-gray-600 disabled:to-gray-700 text-white font-bold rounded-lg transition-all shadow-lg hover:shadow-xl disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      >
+                        <span>🎯</span>
+                        <span>Start Intelligent Email Builder (Recommended)</span>
+                      </button>
+                      <p className="text-xs text-center text-purple-300">
+                        Susan will ask smart questions to gather evidence and create a powerful, fact-based email
+                      </p>
+
+                      {/* Divider */}
+                      <div className="flex items-center gap-3 my-4">
+                        <div className="flex-1 border-t border-gray-600"></div>
+                        <span className="text-gray-400 text-sm">or</span>
+                        <div className="flex-1 border-t border-gray-600"></div>
+                      </div>
+
+                      {/* Legacy: Quick Generate (less effective) */}
+                      <button
+                        onClick={handleGenerateEmail}
+                        disabled={isGenerating || !emailType || !recipientName.trim()}
+                        className="w-full px-6 py-3 bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 disabled:from-gray-600 disabled:to-gray-700 text-white font-medium rounded-lg transition-all disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      >
+                        {isGenerating ? (
+                          <>
+                            <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span>Generating with AI...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>⚡</span>
+                            <span>Quick Generate (Basic Email)</span>
+                          </>
+                        )}
+                      </button>
+                      <p className="text-xs text-center text-gray-400">
+                        Uses only the details you've provided above (may be less effective)
+                      </p>
+                    </div>
                   </div>
-                ) : (
+                ) : conversationMode === 'gathering' ? (
+                  // Conversational Intelligence Gathering
+                  <ConversationalFlow
+                    questions={conversationQuestions}
+                    onComplete={handleConversationComplete}
+                    onCancel={() => setConversationMode('form')}
+                    repName={repName}
+                  />
+                ) : conversationMode === 'summary' ? (
+                  // Intelligence Summary
+                  <IntelligenceSummary
+                    intelligence={gatheredIntelligence}
+                    onEdit={() => setConversationMode('gathering')}
+                    onProceed={handleProceedToGeneration}
+                  />
+                ) : conversationMode === 'generating' ? (
+                  // Generating with Intelligence
+                  <div className="flex flex-col items-center justify-center py-12 space-y-4">
+                    <svg className="animate-spin h-16 w-16 text-purple-500" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <p className="text-xl font-bold text-purple-300">Crafting Your Powerful Email...</p>
+                    <p className="text-sm text-gray-400 text-center max-w-md">
+                      Susan is analyzing the intelligence gathered and building a fact-based, persuasive email using proven templates and arguments.
+                    </p>
+                  </div>
+                ) : !generatedEmail ? null : (
                   // Preview View with Optional Chat
                   <div className="space-y-4">
-                    {/* Email Preview */}
-                    <div className="bg-gray-800 border-2 border-gray-600 rounded-lg p-6">
-                      <div className="mb-4 pb-4 border-b-2 border-gray-700">
-                        <p className="text-sm text-gray-300 mb-2">
-                          <strong className="text-gray-200">Subject:</strong> {generatedEmail.subject}
-                        </p>
-                      </div>
-                      <div className="prose prose-invert max-w-none">
-                        <div className="whitespace-pre-wrap text-gray-200 font-sans text-sm leading-relaxed break-words">
-                          {generatedEmail.body}
-                        </div>
-                      </div>
-                    </div>
+                    {/* Enhanced Email Preview */}
+                    <EmailPreviewEnhanced
+                      email={generatedEmail}
+                      onCopy={handleCopyToClipboard}
+                      copied={copied}
+                    />
 
                     {/* Chat Interface (shown when Let's Talk is clicked) */}
                     {showChat && (
@@ -1178,18 +1401,6 @@ Be conversational and brief.`
                       </div>
                     )}
 
-                    {/* AI Explanation */}
-                    <div className="bg-blue-500/20 border-2 border-blue-400 rounded-lg p-4">
-                      <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
-                          <span className="text-lg">💡</span>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-blue-200 font-semibold text-sm mb-1">Why this email works:</p>
-                          <p className="text-blue-300 text-sm leading-relaxed break-words">{generatedEmail.explanation}</p>
-                        </div>
-                      </div>
-                    </div>
 
                     {/* Let's Talk with Susan - Only show if chat not active */}
                     {!showChat && (
@@ -1243,27 +1454,13 @@ Be conversational and brief.`
                       </>
                     )}
 
-                    {/* Copy Button */}
-                    <button
-                      onClick={handleCopyToClipboard}
-                      className="w-full px-6 py-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-lg transition-all font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
-                    >
-                      {copied ? (
-                        <>
-                          <span>✓</span>
-                          <span>Copied to Clipboard!</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>📋</span>
-                          <span>Copy to Clipboard (Paste in Gmail)</span>
-                        </>
-                      )}
-                    </button>
-
                     {/* Back Button */}
                     <button
-                      onClick={() => setGeneratedEmail(null)}
+                      onClick={() => {
+                        setGeneratedEmail(null)
+                        setConversationMode('form')
+                        setGatheredIntelligence({})
+                      }}
                       disabled={isTalking}
                       className="w-full px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded-lg transition-colors font-medium"
                     >

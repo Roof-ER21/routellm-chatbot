@@ -10,7 +10,7 @@ import PhotoAnalysisModal from './components/PhotoAnalysisModal'
 import UnifiedAnalyzerModal from './components/UnifiedAnalyzerModal'
 import InsuranceDetailPopup from './components/InsuranceDetailPopup'
 import VoiceControls from './components/VoiceControls'
-import TransformersVoiceControls from './components/TransformersVoiceControls'
+import SimpleVoiceButton from './components/SimpleVoiceButton'
 import InlineMic from './components/InlineMic'
 import ModeToggle from './components/ModeToggle'
 import OnboardingTooltip from './components/OnboardingTooltip'
@@ -379,9 +379,20 @@ export default function ChatPage() {
   }
 
   const clearChat = () => {
+    // Save current conversation before clearing if it has messages
+    if (messages.length > 0 && currentConversationId) {
+      saveConversation(messages, currentConversationId)
+      // Run threat detection on final conversation
+      analyzeAndFlagConversation(currentConversationId, messages)
+    }
+
+    // Create a completely new conversation with new ID
+    const newConversationId = `conv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
     setMessages([])
     setShowQuickLinks(true)
-    setCurrentConversationId('')
+    setCurrentConversationId(newConversationId)
+
+    console.log('[Chat] Started new conversation:', newConversationId)
   }
 
   const handleLoadConversation = (loadedMessages: any[], conversationId: string) => {
@@ -968,39 +979,20 @@ export default function ChatPage() {
               </button>
             </div>
 
-            {/* Advanced Voice Controls (Transformers.js - Offline Capable) */}
-            <div className="mt-4 border-t border-gray-200 pt-4">
-              <details className="group">
-                <summary className="cursor-pointer text-sm font-medium text-gray-700 hover:text-red-600 transition-colors flex items-center gap-2">
-                  <span>🟣 Advanced Voice (Offline-Capable, Zero API Costs)</span>
-                  <span className="text-xs text-gray-500 group-open:hidden">▶ Expand</span>
-                  <span className="text-xs text-gray-500 hidden group-open:inline">▼ Collapse</span>
-                </summary>
-                <div className="mt-3 p-4 bg-gradient-to-br from-purple-50 to-blue-50 rounded-lg border border-purple-200">
-                  <div className="mb-2 text-sm text-gray-700">
-                    <p className="font-semibold mb-1">✨ Features:</p>
-                    <ul className="text-xs space-y-1 list-disc list-inside">
-                      <li>🔵 Real-time speech (Web Speech API - fastest)</li>
-                      <li>🟣 Recording mode (Transformers.js - works offline!)</li>
-                      <li>🟢 Audio file upload (transcribe recordings)</li>
-                      <li>💰 Zero API costs - runs in your browser</li>
-                      <li>🔐 Privacy-first - audio never leaves your device</li>
-                    </ul>
-                  </div>
-                  <TransformersVoiceControls
-                    onTranscript={(text, isFinal) => {
-                      if (isFinal) {
-                        handleVoiceTranscript(text);
-                      }
-                    }}
-                    onError={(error) => {
-                      console.error('Voice error:', error);
-                    }}
-                    autoInitialize={true}
-                    showAdvanced={false}
-                  />
-                </div>
-              </details>
+            {/* Simple Voice Input (Web Speech API only) */}
+            <div className="mt-4 flex items-center justify-center gap-2 text-sm text-gray-600">
+              <span>Quick voice input:</span>
+              <SimpleVoiceButton
+                onTranscript={(text, isFinal) => {
+                  if (isFinal) {
+                    handleVoiceTranscript(text);
+                  }
+                }}
+                onError={(error) => {
+                  console.error('Voice error:', error);
+                }}
+              />
+              <span className="text-xs text-gray-500">(Tap blue mic to speak)</span>
             </div>
 
               {!showQuickLinks && messages.length > 0 && (
