@@ -26,6 +26,7 @@ export default function SimpleVoiceButton({
   const [transcript, setTranscript] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [recognition, setRecognition] = useState<any>(null);
+  const [autoStopAfterSpeech, setAutoStopAfterSpeech] = useState(true); // Auto-stop after final transcript
 
   // Check browser support
   useEffect(() => {
@@ -49,6 +50,19 @@ export default function SimpleVoiceButton({
             if (onTranscript) {
               onTranscript(transcript, true);
             }
+
+            // Auto-stop recognition after getting final transcript
+            // This prevents the mic from staying on after sending a message
+            if (autoStopAfterSpeech) {
+              console.log('[SimpleVoice] Auto-stopping after final transcript');
+              setTimeout(() => {
+                try {
+                  recognitionInstance.stop();
+                } catch (err) {
+                  console.error('[SimpleVoice] Error stopping recognition:', err);
+                }
+              }, 500); // Small delay to ensure transcript is processed
+            }
           } else {
             interimTranscript += transcript;
           }
@@ -68,12 +82,24 @@ export default function SimpleVoiceButton({
       };
 
       recognitionInstance.onend = () => {
+        console.log('[SimpleVoice] Recognition ended');
         setIsListening(false);
       };
 
       setRecognition(recognitionInstance);
     }
-  }, [onTranscript, onError]);
+
+    // Cleanup: stop recognition when component unmounts
+    return () => {
+      if (recognition) {
+        try {
+          recognition.stop();
+        } catch (err) {
+          // Ignore errors on cleanup
+        }
+      }
+    };
+  }, [onTranscript, onError, autoStopAfterSpeech]);
 
   const toggleListening = () => {
     if (!recognition) {
@@ -86,13 +112,34 @@ export default function SimpleVoiceButton({
     }
 
     if (isListening) {
-      recognition.stop();
-      setIsListening(false);
+      console.log('[SimpleVoice] Stopping recognition (user toggled)');
+      try {
+        recognition.stop();
+        setIsListening(false);
+      } catch (err) {
+        console.error('[SimpleVoice] Error stopping recognition:', err);
+        setIsListening(false); // Update state anyway
+      }
     } else {
+      console.log('[SimpleVoice] Starting recognition (user toggled)');
       setError(null);
       setTranscript('');
-      recognition.start();
-      setIsListening(true);
+      try {
+        recognition.start();
+        setIsListening(true);
+      } catch (err: any) {
+        console.error('[SimpleVoice] Error starting recognition:', err);
+        // If already started, just update the state
+        if (err.message?.includes('already started')) {
+          setIsListening(true);
+        } else {
+          const errorMsg = `Failed to start voice recognition: ${err.message}`;
+          setError(errorMsg);
+          if (onError) {
+            onError(new Error(errorMsg));
+          }
+        }
+      }
     }
   };
 
