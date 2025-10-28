@@ -214,7 +214,42 @@ function extractKeywords(content, filename) {
   return keywords.slice(0, 10)
 }
 
-// Load embeddings file (if it exists)
+// Check if kb-documents.json already exists and has content
+const outputPath = path.join(__dirname, '..', 'public', 'kb-documents.json')
+const deduplicatedPath = path.join(__dirname, '..', 'public', 'kb-documents-deduplicated.json')
+
+// If kb-documents.json exists and has content, don't overwrite it
+if (fs.existsSync(outputPath)) {
+  const existingData = JSON.parse(fs.readFileSync(outputPath, 'utf-8'))
+  if (existingData.length > 0) {
+    console.log(`[KB] ✓ kb-documents.json already exists with ${existingData.length} documents`)
+    console.log('[KB] ✓ Skipping preload to preserve existing knowledge base')
+    process.exit(0)
+  }
+}
+
+// If deduplicated backup exists, use it
+if (fs.existsSync(deduplicatedPath)) {
+  const deduplicatedData = JSON.parse(fs.readFileSync(deduplicatedPath, 'utf-8'))
+  if (deduplicatedData.length > 0) {
+    fs.writeFileSync(outputPath, JSON.stringify(deduplicatedData, null, 2))
+    console.log(`[KB] ✓ Restored ${deduplicatedData.length} documents from deduplicated backup`)
+
+    // Print statistics
+    const categoryCount = {}
+    deduplicatedData.forEach(doc => {
+      categoryCount[doc.category] = (categoryCount[doc.category] || 0) + 1
+    })
+
+    console.log('[KB] Documents by category:')
+    Object.entries(categoryCount).sort((a, b) => b[1] - a[1]).forEach(([category, count]) => {
+      console.log(`  ${category}: ${count}`)
+    })
+    process.exit(0)
+  }
+}
+
+// Load embeddings file (if it exists) - only as last resort
 const embeddingsPath = path.join(__dirname, '..', 'data', 'susan_ai_embeddings.json')
 console.log('[KB] Loading embeddings from:', embeddingsPath)
 
@@ -224,8 +259,11 @@ if (fs.existsSync(embeddingsPath)) {
   chunks = data.chunks || []
   console.log('[KB] Loaded', chunks.length, 'embedding chunks')
 } else {
-  console.log('[KB] ⚠️  Embeddings file not found, skipping embedding-based documents')
-  console.log('[KB] ✓ KB will still work with existing kb-documents.json')
+  console.log('[KB] ⚠️  Embeddings file not found')
+  console.log('[KB] ⚠️  No deduplicated backup found')
+  console.log('[KB] ⚠️  Creating empty kb-documents.json - KB will use hardcoded documents')
+  fs.writeFileSync(outputPath, '[]')
+  process.exit(0)
 }
 
 // Group chunks by filename
@@ -266,7 +304,6 @@ documentMap.forEach((textChunks, filename) => {
 })
 
 // Save to JSON file
-const outputPath = path.join(__dirname, '..', 'public', 'kb-documents.json')
 fs.writeFileSync(outputPath, JSON.stringify(documents, null, 2))
 
 console.log(`[KB] Preloaded ${documents.length} documents → ${outputPath}`)
