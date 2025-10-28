@@ -23,6 +23,16 @@ const nextConfig = {
       config.externals.push('canvas', 'pdf-parse');
     }
 
+    // Transformers.js support (client-side only)
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        crypto: false,
+      };
+    }
+
     return config;
   },
 }

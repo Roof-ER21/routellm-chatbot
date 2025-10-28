@@ -27,6 +27,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.65.0",
     "@google-cloud/vision": "^5.3.3",
+    "@huggingface/transformers": "^3.7.6",
     "@tailwindcss/postcss": "^4.1.14",
     "@types/node": "^24.6.1",
     "@types/react": "^19.1.17",
@@ -35,6 +36,7 @@
     "autoprefixer": "^10.4.21",
     "canvas": "^3.2.0",
     "jspdf": "^3.0.3",
+    "lucide-react": "^0.548.0",
     "mammoth": "^1.11.0",
     "next": "^15.5.4",
     "pdf-lib": "^1.17.1",
