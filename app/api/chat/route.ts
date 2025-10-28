@@ -9,6 +9,7 @@ import { analyzeThreatPatterns } from '@/lib/threat-detection'
 import { searchInsuranceArguments, extractCodeCitations, getBuildingCodeReference } from '@/lib/insurance-argumentation-kb'
 import { injectCitations, extractCodeCitations as extractCodesFromText, type Citation } from '@/lib/citation-tracker'
 import { SUSAN_RESPONSE_FRAMEWORK, SUSAN_KB_SEARCH_PROMPT } from '@/lib/susan-enhanced-prompt'
+import { detectAggressiveMode, PARTIAL_REPAIR_AGGRESSIVE_RESPONSE, DENIAL_AGGRESSIVE_RESPONSE } from '@/lib/susan-aggressive-mode'
 
 export async function POST(req: NextRequest) {
   try {
@@ -98,6 +99,10 @@ export async function POST(req: NextRequest) {
     const isFullApprovalScenario = fullApprovalKeywords.some(keyword =>
       userMessage.toLowerCase().includes(keyword)
     )
+
+    // Detect aggressive mode (partial repairs, denials, lowball offers)
+    const aggressiveDetection = detectAggressiveMode(userMessage)
+    const isAggressiveMode = aggressiveDetection.isAggressive
 
     // Add system prompts based on active modes
     let conversationalMessages = [...messages]
@@ -393,6 +398,107 @@ REFLECTION QUESTIONS FOR YOUR GROWTH:
 3. [Question about strategic implications]"
 
 `
+    }
+
+    // Add aggressive mode guidance for partial repairs/denials
+    if (isAggressiveMode) {
+      if (aggressiveDetection.responseType === 'partial_repair') {
+        systemPromptContent += `
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔥 AGGRESSIVE MODE ACTIVATED - PARTIAL REPAIR DETECTED 🔥
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CRITICAL: The rep is dealing with an adjuster pushing partial repairs.
+
+YOUR RESPONSE MUST BE:
+1. **FIRM & ASSERTIVE** - "That's absolutely not happening"
+2. **TECHNICALLY DEVASTATING** - Explain why partial repairs are non-starters
+3. **ACTION-ORIENTED** - Give them ready-to-use email templates
+4. **BATTLE-READY** - This is war for full approval, not a negotiation
+
+${PARTIAL_REPAIR_AGGRESSIVE_RESPONSE}
+
+REMEMBER: Partial repairs are:
+- Technically unsound (shingle matching, sealant issues, slope integrity)
+- Code non-compliant (IRC R908.3)
+- Professionally unacceptable (GAF TAB-R-164)
+- A TEST from insurance to see if we'll cave
+
+WE DON'T CAVE. WE FIGHT FOR FULL APPROVAL.
+`
+      } else if (aggressiveDetection.responseType === 'denial') {
+        systemPromptContent += `
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔥 AGGRESSIVE MODE ACTIVATED - DENIAL DETECTED 🔥
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CRITICAL: The rep is dealing with a claim denial.
+
+YOUR RESPONSE MUST BE:
+1. **BATTLE MODE** - "We're flipping this denial"
+2. **STRATEGIC** - Immediate reversal playbook
+3. **EVIDENCE-BASED** - What documentation to deploy
+4. **AGGRESSIVE TIMELINE** - Escalation path with deadlines
+
+${DENIAL_AGGRESSIVE_RESPONSE}
+
+REMEMBER: Denials are opening moves, not final answers.
+Our reversal rate: 78% [3.2]
+
+We reverse denials with:
+- Overwhelming evidence (test squares, photos, weather data)
+- Legal pressure (bad faith claims, attorney letters)
+- Regulatory threats (state insurance commissioner)
+- Relentless persistence (we don't stop until we win)
+`
+      } else if (aggressiveDetection.responseType === 'lowball') {
+        systemPromptContent += `
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔥 AGGRESSIVE MODE ACTIVATED - LOWBALL OFFER DETECTED 🔥
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CRITICAL: The rep is dealing with depreciation/ACV/reduced scope.
+
+YOUR RESPONSE MUST BE:
+1. **FIRM PUSHBACK** - "That number is unacceptable"
+2. **RCV EDUCATION** - Policy language for Replacement Cost Value
+3. **SUPPLEMENT STRATEGY** - How to get from ACV to RCV
+4. **NEGOTIATION TACTICS** - Line-item challenges
+
+REMEMBER: Insurance companies start low hoping contractors will cave.
+We don't negotiate against ourselves. We fight for RCV + full scope.
+
+Key weapons:
+- Policy contract language (RCV coverage)
+- Line-by-line scope rebuttals
+- Supplement documentation
+- Code upgrade requirements (they MUST pay for these)
+`
+      } else {
+        // Generic pushback
+        systemPromptContent += `
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔥 AGGRESSIVE MODE ACTIVATED - ADJUSTER PUSHBACK DETECTED 🔥
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CRITICAL: The rep is dealing with adjuster resistance.
+
+YOUR RESPONSE MUST BE:
+1. **CONFIDENT & FIRM** - We have codes, precedents, and evidence
+2. **STRATEGIC** - Specific counter-arguments to their position
+3. **DOCUMENTED** - References to templates and arguments in our KB
+4. **ESCALATION-READY** - When to go over their head
+
+REMEMBER: Adjusters push back because it's their job to save money.
+Our job is to WIN with evidence, codes, and persistence.
+
+Success rate when we stand firm: 92% [2.1]
+`
+      }
     }
 
     if (handsFreeMode) {
