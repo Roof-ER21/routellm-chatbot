@@ -150,7 +150,7 @@ export default function KnowledgeBasePage() {
   const stats = useMemo(() => {
     return {
       totalDocuments: allDocuments.length,
-      highSuccessDocuments: allDocuments.filter(doc => (doc.metadata.success_rate ?? 0) > 90).length
+      highSuccessDocuments: allDocuments.filter(doc => (doc.metadata?.success_rate ?? 0) > 90).length
     }
   }, [allDocuments])
 
