@@ -11,6 +11,7 @@ import { injectCitations, extractCodeCitations as extractCodesFromText, type Cit
 import { SUSAN_RESPONSE_FRAMEWORK, SUSAN_KB_SEARCH_PROMPT } from '@/lib/susan-enhanced-prompt'
 import { detectAggressiveMode, PARTIAL_REPAIR_COLLABORATIVE_FIRM_RESPONSE, DENIAL_ASSERTIVE_EVIDENCE_RESPONSE } from '@/lib/susan-aggressive-mode'
 import { SUSAN_PERSONALITY_CORE, SUSAN_NAME_EXTRACTION_PROMPT, extractRepName } from '@/lib/susan-personality'
+import { formatStateContext } from '@/lib/state-codes-reference'
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { messages, repName, sessionId, mode, handsFreeMode, educationMode, forceProvider } = body
+    const { messages, repName, sessionId, mode, handsFreeMode, educationMode, forceProvider, selectedState } = body
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
@@ -574,6 +575,29 @@ PHOTO REFERENCE RULES:
 ❌ Don't include more than 2 photos per response
 ❌ Don't ask follow-up questions when photos answer the query
 `
+
+    // Add state-specific context if state is selected
+    if (selectedState) {
+      const stateContext = formatStateContext(selectedState)
+      if (stateContext) {
+        systemPromptContent += `\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📍 STATE-SPECIFIC CONTEXT - ${selectedState.toUpperCase()}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${stateContext}
+
+⚠️ IMPORTANT: The rep has selected ${selectedState} as their working state. You MUST prioritize ${selectedState}-specific building codes, regulations, and requirements in your response. Always cite the correct IRC version and effective date for ${selectedState}.
+
+When providing building codes, manufacturer guidelines, or insurance regulations:
+1. Use ${selectedState}-specific codes and references
+2. Cite the correct IRC version for ${selectedState}
+3. Mention state-specific requirements (e.g., MIA Bulletin 18-23 for Maryland)
+4. Reference local enforcement variations when applicable
+5. Include state insurance regulations when relevant
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
+      }
+    }
 
     // Always add system prompt (includes core identity + mode-specific content)
     const systemPrompt = {

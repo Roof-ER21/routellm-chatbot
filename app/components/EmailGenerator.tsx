@@ -28,6 +28,8 @@ import {
   TemplateSelectorModal,
   AnalyzingIndicator
 } from './EmailGenerator/IntelligenceDisplay'
+import StateSelector from './StateSelector'
+import { formatStateContext } from '@/lib/state-codes-reference'
 
 interface EmailGeneratorProps {
   repName: string
@@ -84,6 +86,7 @@ export default function EmailGenerator({ repName, sessionId, conversationHistory
   const [selectedArguments, setSelectedArguments] = useState<string[]>([])
   const [showTemplateSelector, setShowTemplateSelector] = useState(false)
   const [showArgumentSelector, setShowArgumentSelector] = useState(false)
+  const [selectedState, setSelectedState] = useState<string | null>(null)
 
   // Load templates on mount
   useEffect(() => {
@@ -738,7 +741,8 @@ Format your response as JSON:
       const requestBody = {
         messages: messages,
         repName: repName,
-        sessionId: sessionId
+        sessionId: sessionId,
+        selectedState: selectedState || undefined
       }
 
       console.log('[EmailGen] Calling /api/chat with payload:', JSON.stringify(requestBody, null, 2))
@@ -911,7 +915,8 @@ Keep it short - just a brief assessment and your first question.`
       const requestBody = {
         messages: messages,
         repName: repName,
-        sessionId: sessionId
+        sessionId: sessionId,
+        selectedState: selectedState || undefined
       }
 
       console.log('[EmailGen] Calling /api/chat for Susan review...')
@@ -1000,7 +1005,8 @@ Be conversational and brief.`
         body: JSON.stringify({
           messages: [{ role: 'user', content: conversationContext }],
           repName: repName,
-          sessionId: sessionId
+          sessionId: sessionId,
+          selectedState: selectedState || undefined
         }),
       })
 
@@ -1145,6 +1151,13 @@ Be conversational and brief.`
                 {!generatedEmail ? (
                   // Form View
                   <div className="space-y-5">
+                    {/* State Selector - At the top of the form */}
+                    <StateSelector
+                      selectedState={selectedState}
+                      onStateChange={setSelectedState}
+                      showDetails={true}
+                    />
+
                     {/* Intelligence Displays */}
                     {analyzingDocument && <AnalyzingIndicator />}
 

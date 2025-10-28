@@ -5,6 +5,8 @@ import { useState, useRef, useEffect } from 'react'
 // Force dynamic rendering - no static generation
 export const dynamic = 'force-dynamic'
 import InsuranceCompanySelector, { InsuranceCompany } from './components/InsuranceCompanySelector'
+import StateSelector from './components/StateSelector'
+import { formatStateContext } from '@/lib/state-codes-reference'
 import EmailGenerator from './components/EmailGenerator'
 import PhotoAnalysisModal from './components/PhotoAnalysisModal'
 import UnifiedAnalyzerModal from './components/UnifiedAnalyzerModal'
@@ -75,6 +77,7 @@ export default function ChatPage() {
   const [educationMode, setEducationMode] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [currentConversationId, setCurrentConversationId] = useState<string>('')
+  const [selectedState, setSelectedState] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const latestAssistantMessageRef = useRef<string>('')
 
@@ -291,7 +294,8 @@ export default function ChatPage() {
           sessionId: sessionId,
           handsFreeMode: voiceEnabled, // Enable conversational mode when voice is active
           educationMode: educationMode, // Enable teaching/mentoring persona
-          forceProvider: offlineMode ? 'static' : (forceHF ? 'huggingface' : undefined)
+          forceProvider: offlineMode ? 'static' : (forceHF ? 'huggingface' : undefined),
+          selectedState: selectedState || undefined
         }),
       })
 
@@ -941,6 +945,15 @@ export default function ChatPage() {
                 </button>
               </div>
             )}
+
+            {/* State Selector - Add this RIGHT BEFORE the input field */}
+            <div className="px-0 pb-2">
+              <StateSelector
+                selectedState={selectedState}
+                onStateChange={setSelectedState}
+                showDetails={true}
+              />
+            </div>
 
             <div className="flex gap-3">
               <button
