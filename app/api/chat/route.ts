@@ -212,8 +212,7 @@ ${SUSAN_NAME_EXTRACTION_PROMPT}
 
 `
 
-    // Extract rep name from conversation
-    const userMessage = messages[messages.length - 1]?.content || ''
+    // Extract rep name from conversation (userMessage already declared above)
     const conversationHistory = messages.map((m: any) => m.content)
     const detectedRepName = extractRepName(userMessage, conversationHistory)
     const finalRepName = detectedRepName || repName || null
