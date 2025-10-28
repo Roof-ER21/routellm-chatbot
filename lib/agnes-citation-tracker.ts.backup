@@ -1,0 +1,205 @@
+/**
+ * Agnes Citation Tracking System
+ *
+ * Mirrors Susan's citation system but adapted for training materials (Q-numbers)
+ * Uses grouped numbering format: [8.1], [8.2], [8.3], etc. (category 8 = training)
+ */
+
+export interface AgnesCitation {
+  number: string // Format: "8.1", "8.2", etc.
+  categoryNumber: number // Always 8 (training category)
+  documentNumber: number // Sequential within training
+  documentId: string // Q-number like "Q501", "Q502"
+  documentTitle: string
+  category: string
+  snippet: string
+  preview: string
+  metadata?: {
+    source?: string
+    success_rate?: number
+    confidence_level?: 'high' | 'medium' | 'low'
+  }
+}
+
+export interface AgnesCitedResponse {
+  text: string // Response text with [8.1], [8.2] markers injected
+  citations: AgnesCitation[]
+}
+
+/**
+ * Agnes Citation Tracker
+ * Manages training material citations using Susan's grouped numbering system
+ */
+export class AgnesCitationTracker {
+  private citations: Map<string, AgnesCitation> = new Map()
+  private documentCounter: number = 0
+  private readonly TRAINING_CATEGORY = 8 // Training materials are category 8
+
+  /**
+   * Add a citation for a training document
+   * Returns citation number in format "8.1", "8.2", etc.
+   */
+  addCitation(documentId: string, documentTitle: string, content: string, source?: string): string {
+    // Check if already cited
+    if (this.citations.has(documentId)) {
+      return this.citations.get(documentId)!.number
+    }
+
+    // Increment counter for new citation
+    this.documentCounter++
+
+    // Create citation number: "8.X"
+    const citationNumber = `${this.TRAINING_CATEGORY}.${this.documentCounter}`
+
+    // Create preview (first 100 chars)
+    const previewText = content.substring(0, 100).trim()
+    const preview = previewText.length === 100 ? previewText + '...' : previewText
+
+    // Create citation object
+    const citation: AgnesCitation = {
+      number: citationNumber,
+      categoryNumber: this.TRAINING_CATEGORY,
+      documentNumber: this.documentCounter,
+      documentId,
+      documentTitle,
+      category: 'training',
+      snippet: content.substring(0, 200),
+      preview,
+      metadata: {
+        source,
+        confidence_level: 'high'
+      }
+    }
+
+    this.citations.set(documentId, citation)
+    return citationNumber
+  }
+
+  /**
+   * Get all citations, sorted by document number
+   */
+  getCitations(): AgnesCitation[] {
+    return Array.from(this.citations.values()).sort((a, b) =>
+      a.documentNumber - b.documentNumber
+    )
+  }
+
+  /**
+   * Get citation by document ID
+   */
+  getCitationByDocumentId(documentId: string): AgnesCitation | undefined {
+    return this.citations.get(documentId)
+  }
+
+  /**
+   * Reset tracker
+   */
+  reset(): void {
+    this.citations.clear()
+    this.documentCounter = 0
+  }
+}
+
+/**
+ * Inject citations into Agnes response text
+ * Scans for Q-numbers and replaces with [8.X] format
+ */
+export function injectAgnesCitations(
+  responseText: string,
+  trainingData: any[],
+  kbData: any[] = []
+): AgnesCitedResponse {
+  const tracker = new AgnesCitationTracker()
+  let citedText = responseText
+
+  // Create map of Q-numbers to training items
+  const qNumberMap = new Map<string, any>()
+
+  trainingData.forEach(item => {
+    const qNum = item.id || `Q${Math.random().toString().slice(2, 5)}`
+    qNumberMap.set(qNum, item)
+    qNumberMap.set(qNum.replace('Q', ''), item) // Also match without Q prefix
+  })
+
+  kbData.forEach(doc => {
+    if (doc.id && doc.id.startsWith('Q')) {
+      qNumberMap.set(doc.id, doc)
+      qNumberMap.set(doc.id.replace('Q', ''), doc)
+    }
+  })
+
+  console.log('[Citation Tracker] Q-numbers in map:', Array.from(qNumberMap.keys()).slice(0, 10))
+  console.log('[Citation Tracker] Response text length:', responseText.length)
+
+  // Extract all Q-numbers from response for debugging
+  const debugPattern = /Q\d{3,4}/g
+  const foundQNumbers = responseText.match(debugPattern) || []
+  console.log('[Citation Tracker] Q-numbers found in response:', foundQNumbers)
+
+  // Pattern 1: Q-numbers in format "Q503", "Q502", etc.
+  const qPattern = /Q(\d{3,4})/g
+  citedText = citedText.replace(qPattern, (match) => {
+    const item = qNumberMap.get(match) || qNumberMap.get(match.replace('Q', ''))
+
+    if (item) {
+      const title = item.question || item.title || `Training ${match}`
+      const content = item.answer || item.content || item.guidance || match
+      const source = item.metadata?.source || item.source || 'Training Materials'
+
+      const citationNum = tracker.addCitation(match, title, content, source)
+      return `${match} [${citationNum}]`
+    }
+
+    return match
+  })
+
+  // Pattern 2: "Per Q503" or "Reference Q502" or "According to Q504"
+  const qRefPattern = /(Per|Reference|According to|See)\s+(Q\d{3,4})/gi
+  citedText = citedText.replace(qRefPattern, (match, prefix, qNum) => {
+    const item = qNumberMap.get(qNum) || qNumberMap.get(qNum.replace('Q', ''))
+
+    if (item) {
+      const title = item.question || item.title || `Training ${qNum}`
+      const content = item.answer || item.content || item.guidance || qNum
+      const source = item.metadata?.source || item.source || 'Training Materials'
+
+      const citationNum = tracker.addCitation(qNum, title, content, source)
+      return `${prefix} ${qNum} [${citationNum}]`
+    }
+
+    return match
+  })
+
+  // Pattern 3: "(Q503)" or "[Q502]" - references in parentheses/brackets
+  const qParensPattern = /[\(\[]Q(\d{3,4})[\)\]]/g
+  citedText = citedText.replace(qParensPattern, (match, number) => {
+    const qNum = `Q${number}`
+    const item = qNumberMap.get(qNum) || qNumberMap.get(number)
+
+    if (item) {
+      const title = item.question || item.title || `Training ${qNum}`
+      const content = item.answer || item.content || item.guidance || qNum
+      const source = item.metadata?.source || item.source || 'Training Materials'
+
+      const citationNum = tracker.addCitation(qNum, title, content, source)
+      // Replace the parentheses/brackets with citation
+      return `[${citationNum}]`
+    }
+
+    return match
+  })
+
+  return {
+    text: citedText,
+    citations: tracker.getCitations()
+  }
+}
+
+/**
+ * Extract Q-numbers from text
+ */
+export function extractQNumbers(text: string): string[] {
+  const qPattern = /Q\d{3,4}/g
+  const matches = text.match(qPattern) || []
+  return [...new Set(matches)] // Deduplicate
+}

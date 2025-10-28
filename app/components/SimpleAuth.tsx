@@ -7,6 +7,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { signUp, login, getRememberedPin } from '@/lib/simple-auth'
+import S21Badge from './S21Badge'
 
 interface SimpleAuthProps {
   onAuthenticated: () => void
@@ -93,14 +94,7 @@ export default function SimpleAuth({ onAuthenticated, isDarkMode = false }: Simp
         <div className={`${cardClass} p-8 rounded-2xl shadow-2xl border-2`}>
           {/* RoofER/Susan 21 Logo */}
           <div className="flex justify-center mb-6">
-            <div className="relative w-32 h-32">
-              {/* Use the app icon */}
-              <img
-                src="/icon-192.png"
-                alt="Susan 21"
-                className="w-full h-full rounded-full shadow-2xl ring-4 ring-red-600/30"
-              />
-            </div>
+            <S21Badge size="lg" />
           </div>
 
           <h1 className={`text-3xl font-bold text-center mb-2 ${textClass}`}>

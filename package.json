@@ -7,8 +7,9 @@
     "dev:local": "bash ./scripts/dev-local.sh",
     "db:init:local": "bash ./scripts/db-init-local.sh",
     "kb:build": "node ./scripts/kb-build.js",
+    "kb:preload": "node ./scripts/preload-kb-documents.js",
     "rag:build": "node ./scripts/generate-embeddings.js",
-    "build": "npm run kb:build && next build",
+    "build": "npm run kb:build && npm run kb:preload && next build",
     "start": "./start.sh",
     "lint": "next lint",
     "test:rag": "node test-rag-all.js",
@@ -50,6 +51,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.1",
     "sharp": "^0.34.4"
   }
 }

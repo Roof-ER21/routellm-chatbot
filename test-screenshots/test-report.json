@@ -1,0 +1,22 @@
+{
+  "timestamp": "2025-10-27T15:25:02.430Z",
+  "baseUrl": "http://localhost:4000",
+  "tests": [
+    {
+      "name": "Sample Photo Report 1",
+      "documentId": "9.5",
+      "imagesSectionFound": true,
+      "imageCount": 0,
+      "modalTested": true,
+      "status": "PASS"
+    },
+    {
+      "name": "Sample Photo Report 2",
+      "documentId": "9.4",
+      "imagesSectionFound": true,
+      "imageCount": 0,
+      "modalTested": true,
+      "status": "PASS"
+    }
+  ]
+}

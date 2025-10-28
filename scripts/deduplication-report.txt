@@ -1,0 +1,1357 @@
+================================================================================
+KNOWLEDGE BASE DEDUPLICATION REPORT
+================================================================================
+
+SUMMARY
+--------------------------------------------------------------------------------
+Total documents before deduplication: 248
+  - From TypeScript KB: 16
+  - From kb-documents.json: 116
+  - From embeddings: 116
+
+Total duplicate groups found: 118
+Total duplicate documents: 126
+Final document count: 122
+
+DUPLICATES BY TYPE
+--------------------------------------------------------------------------------
+  Exact Filename: 23 duplicates
+  Exact Id: 89 duplicates
+  Exact Title: 14 duplicates
+
+DETAILED DUPLICATE GROUPS
+--------------------------------------------------------------------------------
+
+1. EXACT_ID: COMPLAINT_FORMS
+   Found 3 occurrences:
+   [KEPT] ID: COMPLAINT_FORMS
+          Source: unknown
+          Title: State Insurance Complaint Forms and Process...
+          Filename: State_Complaint_Forms.md
+   [REMOVED] ID: COMPLAINT_FORMS
+          Source: kb_json
+          Title: Complaint Forms...
+          Filename: Complaint Forms.docx
+   [REMOVED] ID: COMPLAINT_FORMS
+          Source: embeddings
+          Title: Complaint Forms...
+          Filename: Complaint Forms.docx
+
+2. EXACT_ID: ROOFER_TOP10_CHEATSHEET_FIXED
+   Found 2 occurrences:
+   [KEPT] ID: ROOFER_TOP10_CHEATSHEET_FIXED
+          Source: unknown
+          Title: RoofER Top10 CheatSheet Fixed...
+          Filename: RoofER_Top10_CheatSheet_Fixed.pdf
+   [REMOVED] ID: ROOFER_TOP10_CHEATSHEET_FIXED
+          Source: embeddings
+          Title: Roof-ER Top 10 Quick Facts Cheat Sheet...
+          Filename: RoofER_Top10_CheatSheet_Fixed.pdf
+
+3. EXACT_ID: SALES_OPERATIONS_AND_TASKS
+   Found 2 occurrences:
+   [KEPT] ID: SALES_OPERATIONS_AND_TASKS
+          Source: unknown
+          Title: Sales Operations and Tasks...
+          Filename: Sales Operations and Tasks.docx
+   [REMOVED] ID: SALES_OPERATIONS_AND_TASKS
+          Source: embeddings
+          Title: Sales Operations and Tasks...
+          Filename: Sales Operations and Tasks.docx
+
+4. EXACT_ID: ROOFER_MASTER_DOCUMENTS_UPDATED
+   Found 2 occurrences:
+   [KEPT] ID: ROOFER_MASTER_DOCUMENTS_UPDATED
+          Source: unknown
+          Title: RoofER Master Documents Updated...
+          Filename: RoofER_Master_Documents_Updated.pdf
+   [REMOVED] ID: ROOFER_MASTER_DOCUMENTS_UPDATED
+          Source: embeddings
+          Title: Claim Filing Information Sheet...
+          Filename: RoofER_Master_Documents_Updated.pdf
+
+5. EXACT_ID: REQUIRED_MORTGAGE_ENDORSEMENT_COMPANIES
+   Found 2 occurrences:
+   [KEPT] ID: REQUIRED_MORTGAGE_ENDORSEMENT_COMPANIES
+          Source: unknown
+          Title: Required Mortgage Endorsement Companies...
+          Filename: Required Mortgage Endorsement Companies.docx
+   [REMOVED] ID: REQUIRED_MORTGAGE_ENDORSEMENT_COMPANIES
+          Source: embeddings
+          Title: MGM Insurance...
+          Filename: Required Mortgage Endorsement Companies.docx
+
+6. EXACT_ID: UNTITLED_DOCUMENT
+   Found 2 occurrences:
+   [KEPT] ID: UNTITLED_DOCUMENT
+          Source: unknown
+          Title: Untitled document...
+          Filename: Untitled document.docx
+   [REMOVED] ID: UNTITLED_DOCUMENT
+          Source: embeddings
+          Title: Q- How are you handy?...
+          Filename: Untitled document.docx
+
+7. EXACT_ID: TRAINING_MANUAL
+   Found 2 occurrences:
+   [KEPT] ID: TRAINING_MANUAL
+          Source: unknown
+          Title: Training Manual...
+          Filename: Training Manual.docx
+   [REMOVED] ID: TRAINING_MANUAL
+          Source: embeddings
+          Title: 2024 Training Guide...
+          Filename: Training Manual.docx
+
+8. EXACT_ID: ROOFER_MASTER_DOCUMENTS
+   Found 2 occurrences:
+   [KEPT] ID: ROOFER_MASTER_DOCUMENTS
+          Source: unknown
+          Title: RoofER Master Documents...
+          Filename: RoofER_Master_Documents.pdf
+   [REMOVED] ID: ROOFER_MASTER_DOCUMENTS
+          Source: embeddings
+          Title: Claim Filing Information Sheet...
+          Filename: RoofER_Master_Documents.pdf
+
+9. EXACT_ID: DMV_BLANK_CONTINGENCY
+   Found 2 occurrences:
+   [KEPT] ID: DMV_BLANK_CONTINGENCY
+          Source: unknown
+          Title: DMV Blank Contingency...
+          Filename: DMV Blank Contingency.pdf
+   [REMOVED] ID: DMV_BLANK_CONTINGENCY
+          Source: embeddings
+          Title: YTIRGETNI...
+          Filename: DMV Blank Contingency.pdf
+
+10. EXACT_ID: PA_BLANK_CONTINGENCY
+   Found 2 occurrences:
+   [KEPT] ID: PA_BLANK_CONTINGENCY
+          Source: unknown
+          Title: PA Blank Contingency...
+          Filename: PA Blank Contingency.pdf
+   [REMOVED] ID: PA_BLANK_CONTINGENCY
+          Source: embeddings
+          Title: YTIRGETNI...
+          Filename: PA Blank Contingency.pdf
+
+11. EXACT_ID: HOVER_ESX_XML_PDF_PROCESS
+   Found 2 occurrences:
+   [KEPT] ID: HOVER_ESX_XML_PDF_PROCESS
+          Source: unknown
+          Title: Hover ESX XML PDF Process...
+          Filename: Hover ESX_XML_PDF Process.docx
+   [REMOVED] ID: HOVER_ESX_XML_PDF_PROCESS
+          Source: embeddings
+          Title: When you need a Hover ESX, XML, or PDF to send to your adjus...
+          Filename: Hover ESX_XML_PDF Process.docx
+
+12. EXACT_ID: MERGED_PDFS_4
+   Found 2 occurrences:
+   [KEPT] ID: MERGED_PDFS_4
+          Source: unknown
+          Title: Merged PDFs 4...
+          Filename: Merged_PDFs_4.pdf
+   [REMOVED] ID: MERGED_PDFS_4
+          Source: embeddings
+          Title: Use this template to Send to the Adjuster/Insurance when sen...
+          Filename: Merged_PDFs_4.pdf
+
+13. EXACT_ID: MERGED_PDFS_5
+   Found 2 occurrences:
+   [KEPT] ID: MERGED_PDFS_5
+          Source: unknown
+          Title: Merged PDFs 5...
+          Filename: Merged_PDFs_5.pdf
+   [REMOVED] ID: MERGED_PDFS_5
+          Source: embeddings
+          Title: Use email template to Adjuster/Insurance and...
+          Filename: Merged_PDFs_5.pdf
+
+14. EXACT_ID: ADJUSTER_INSPECTOR_INFORMATION_SHEET1
+   Found 2 occurrences:
+   [KEPT] ID: ADJUSTER_INSPECTOR_INFORMATION_SHEET1
+          Source: unknown
+          Title: Adjuster Inspector Information Sheet1...
+          Filename: Adjuster_Inspector Information Sheet1.pdf
+   [REMOVED] ID: ADJUSTER_INSPECTOR_INFORMATION_SHEET1
+          Source: embeddings
+          Title: Name Insurance/Inspection CompanyInspector or Adjuster?Hover...
+          Filename: Adjuster_Inspector Information Sheet1.pdf
+
+15. EXACT_ID: MERGED_PDFS_6
+   Found 2 occurrences:
+   [KEPT] ID: MERGED_PDFS_6
+          Source: unknown
+          Title: Merged PDFs 6...
+          Filename: Merged_PDFs_6.pdf
+   [REMOVED] ID: MERGED_PDFS_6
+          Source: embeddings
+          Title: Slide 1...
+          Filename: Merged_PDFs_6.pdf
+
+16. EXACT_ID: MERGED_PDFS_2
+   Found 2 occurrences:
+   [KEPT] ID: MERGED_PDFS_2
+          Source: unknown
+          Title: Merged PDFs 2...
+          Filename: Merged_PDFs_2.pdf
+   [REMOVED] ID: MERGED_PDFS_2
+          Source: embeddings
+          Title: MGM Insurance...
+          Filename: Merged_PDFs_2.pdf
+
+17. EXACT_ID: MISSION_VALUES_COMMITMENT
+   Found 2 occurrences:
+   [KEPT] ID: MISSION_VALUES_COMMITMENT
+          Source: unknown
+          Title: Mission, Values, & Commitment...
+          Filename: Mission, Values, & Commitment.docx
+   [REMOVED] ID: MISSION_VALUES_COMMITMENT
+          Source: embeddings
+          Title: Our Culture & Your Commitment...
+          Filename: Mission, Values, & Commitment.docx
+
+18. EXACT_ID: MERGED_PDFS_3
+   Found 2 occurrences:
+   [KEPT] ID: MERGED_PDFS_3
+          Source: unknown
+          Title: Merged PDFs 3...
+          Filename: Merged_PDFs_3.pdf
+   [REMOVED] ID: MERGED_PDFS_3
+          Source: embeddings
+          Title: Arbitration Information...
+          Filename: Merged_PDFs_3.pdf
+
+19. EXACT_ID: MERGED_PDFS_1
+   Found 2 occurrences:
+   [KEPT] ID: MERGED_PDFS_1
+          Source: unknown
+          Title: Merged PDFs 1...
+          Filename: Merged_PDFs_1.pdf
+   [REMOVED] ID: MERGED_PDFS_1
+          Source: embeddings
+          Title: Claim Filing Information Sheet...
+          Filename: Merged_PDFs_1.pdf
+
+20. EXACT_ID: FULL_APPROVAL_ESTIMATE_PHONE_CALL
+   Found 2 occurrences:
+   [KEPT] ID: FULL_APPROVAL_ESTIMATE_PHONE_CALL
+          Source: unknown
+          Title: Full Approval Estimate Phone Call...
+          Filename: Full Approval Estimate Phone Call.docx
+   [REMOVED] ID: FULL_APPROVAL_ESTIMATE_PHONE_CALL
+          Source: embeddings
+          Title: Full Approval Estimate Phone Call...
+          Filename: Full Approval Estimate Phone Call.docx
+
+21. EXACT_ID: PARTIAL_ESTIMATE_PHONE_CALL
+   Found 2 occurrences:
+   [KEPT] ID: PARTIAL_ESTIMATE_PHONE_CALL
+          Source: unknown
+          Title: Partial Estimate Phone Call...
+          Filename: Partial Estimate Phone Call.docx
+   [REMOVED] ID: PARTIAL_ESTIMATE_PHONE_CALL
+          Source: embeddings
+          Title: Partial Estimate/Denial Phone Call...
+          Filename: Partial Estimate Phone Call.docx
+
+22. EXACT_ID: CONTINGENCY_AND_CLAIM_AUTHORIZATION_SCRIPT
+   Found 2 occurrences:
+   [KEPT] ID: CONTINGENCY_AND_CLAIM_AUTHORIZATION_SCRIPT
+          Source: unknown
+          Title: Contingency and Claim Authorization Script...
+          Filename: Contingency and Claim Authorization Script.docx
+   [REMOVED] ID: CONTINGENCY_AND_CLAIM_AUTHORIZATION_SCRIPT
+          Source: embeddings
+          Title: Contingency & Claim Authorization...
+          Filename: Contingency and Claim Authorization Script.docx
+
+23. EXACT_ID: POST_ADJUSTER_MEETING_SCRIPT
+   Found 2 occurrences:
+   [KEPT] ID: POST_ADJUSTER_MEETING_SCRIPT
+          Source: unknown
+          Title: Post Adjuster Meeting Script...
+          Filename: Post Adjuster Meeting Script.docx
+   [REMOVED] ID: POST_ADJUSTER_MEETING_SCRIPT
+          Source: embeddings
+          Title: Post Adjuster Meeting Script...
+          Filename: Post Adjuster Meeting Script.docx
+
+24. EXACT_ID: CLAIM_FILING_INFORMATION_SHEET
+   Found 2 occurrences:
+   [KEPT] ID: CLAIM_FILING_INFORMATION_SHEET
+          Source: unknown
+          Title: Claim Filing Information Sheet...
+          Filename: Claim Filing Information Sheet.docx
+   [REMOVED] ID: CLAIM_FILING_INFORMATION_SHEET
+          Source: embeddings
+          Title: Claim Filing Information Sheet...
+          Filename: Claim Filing Information Sheet.docx
+
+25. EXACT_ID: INITIAL_PITCH_SCRIPT
+   Found 2 occurrences:
+   [KEPT] ID: INITIAL_PITCH_SCRIPT
+          Source: unknown
+          Title: Initial Pitch Script...
+          Filename: Initial Pitch Script.docx
+   [REMOVED] ID: INITIAL_PITCH_SCRIPT
+          Source: embeddings
+          Title: Initial Pitch...
+          Filename: Initial Pitch Script.docx
+
+26. EXACT_ID: INSPECTION_AND_POST_INSPECTION_SCRIPT
+   Found 2 occurrences:
+   [KEPT] ID: INSPECTION_AND_POST_INSPECTION_SCRIPT
+          Source: unknown
+          Title: Inspection and Post Inspection Script...
+          Filename: Inspection and Post Inspection Script.docx
+   [REMOVED] ID: INSPECTION_AND_POST_INSPECTION_SCRIPT
+          Source: embeddings
+          Title: Inspection and Post-Inspection...
+          Filename: Inspection and Post Inspection Script.docx
+
+27. EXACT_ID: TEMPLATE_FROM_CUSTOMER_TO_INSURANCE
+   Found 2 occurrences:
+   [KEPT] ID: TEMPLATE_FROM_CUSTOMER_TO_INSURANCE
+          Source: unknown
+          Title: Template from Customer to Insurance...
+          Filename: Template from Customer to Insurance.docx
+   [REMOVED] ID: TEMPLATE_FROM_CUSTOMER_TO_INSURANCE
+          Source: embeddings
+          Title: Customer Perspective Template for Customer to Send to Adjust...
+          Filename: Template from Customer to Insurance.docx
+
+28. EXACT_ID: GENERIC_PARTIAL_TEMPLATE
+   Found 2 occurrences:
+   [KEPT] ID: GENERIC_PARTIAL_TEMPLATE
+          Source: unknown
+          Title: Generic Partial Template...
+          Filename: Generic Partial Template.docx
+   [REMOVED] ID: GENERIC_PARTIAL_TEMPLATE
+          Source: embeddings
+          Title: Partial Argument to Send to Adjuster/Insurance...
+          Filename: Generic Partial Template.docx
+
+29. EXACT_ID: REQUEST_FOR_APPRAISAL
+   Found 2 occurrences:
+   [KEPT] ID: REQUEST_FOR_APPRAISAL
+          Source: unknown
+          Title: Request For Appraisal...
+          Filename: Request For Appraisal.docx
+   [REMOVED] ID: REQUEST_FOR_APPRAISAL
+          Source: embeddings
+          Title: Please send exactly what is below to your customer....
+          Filename: Request For Appraisal.docx
+
+30. EXACT_ID: DANNY_S_REPAIR_ATTEMPT_VIDEO_TEMPLATE
+   Found 2 occurrences:
+   [KEPT] ID: DANNY_S_REPAIR_ATTEMPT_VIDEO_TEMPLATE
+          Source: unknown
+          Title: Danny s Repair Attempt Video Template...
+          Filename: Danny_s Repair Attempt Video Template.docx
+   [REMOVED] ID: DANNY_S_REPAIR_ATTEMPT_VIDEO_TEMPLATE
+          Source: embeddings
+          Title: Use this template to Send to the Adjuster/Insurance when sen...
+          Filename: Danny_s Repair Attempt Video Template.docx
+
+31. EXACT_ID: PHOTO_REPORT_TEMPLATE
+   Found 2 occurrences:
+   [KEPT] ID: PHOTO_REPORT_TEMPLATE
+          Source: unknown
+          Title: Photo Report Template...
+          Filename: Photo Report Template.docx
+   [REMOVED] ID: PHOTO_REPORT_TEMPLATE
+          Source: embeddings
+          Title: Photo Report Argument to Send to Adjuster/Insurance...
+          Filename: Photo Report Template.docx
+
+32. EXACT_ID: GAF_GUIDELINES_TEMPLATE
+   Found 2 occurrences:
+   [KEPT] ID: GAF_GUIDELINES_TEMPLATE
+          Source: unknown
+          Title: GAF Guidelines Template...
+          Filename: GAF Guidelines Template.docx
+   [REMOVED] ID: GAF_GUIDELINES_TEMPLATE
+          Source: embeddings
+          Title: GAF Guidelines Argument to Send to Adjuster/Insurance...
+          Filename: GAF Guidelines Template.docx
+
+33. EXACT_ID: REPAIR_ATTEMPT_TEMPLATE
+   Found 2 occurrences:
+   [KEPT] ID: REPAIR_ATTEMPT_TEMPLATE
+          Source: unknown
+          Title: Repair Attempt Template...
+          Filename: Repair Attempt Template.docx
+   [REMOVED] ID: REPAIR_ATTEMPT_TEMPLATE
+          Source: embeddings
+          Title: Repair Attempt Argument to Send to Adjuster/Insurance...
+          Filename: Repair Attempt Template.docx
+
+34. EXACT_ID: SIDING_ARGUMENT
+   Found 2 occurrences:
+   [KEPT] ID: SIDING_ARGUMENT
+          Source: unknown
+          Title: Siding Argument...
+          Filename: Siding Argument.docx
+   [REMOVED] ID: SIDING_ARGUMENT
+          Source: embeddings
+          Title: Siding Argument to send to Insurance/Adjuster...
+          Filename: Siding Argument.docx
+
+35. EXACT_ID: POST_AM_EMAIL_TEMPLATE
+   Found 2 occurrences:
+   [KEPT] ID: POST_AM_EMAIL_TEMPLATE
+          Source: unknown
+          Title: Post AM Email Template...
+          Filename: Post AM Email Template.docx
+   [REMOVED] ID: POST_AM_EMAIL_TEMPLATE
+          Source: embeddings
+          Title: Post Adjuster Meeting Email Template...
+          Filename: Post AM Email Template.docx
+
+36. EXACT_ID: ESTIMATE_REQUEST_TEMPLATE
+   Found 2 occurrences:
+   [KEPT] ID: ESTIMATE_REQUEST_TEMPLATE
+          Source: unknown
+          Title: Estimate Request Template...
+          Filename: Estimate Request Template.docx
+   [REMOVED] ID: ESTIMATE_REQUEST_TEMPLATE
+          Source: embeddings
+          Title: Use this template to Send to the Adjuster/Insurance when req...
+          Filename: Estimate Request Template.docx
+
+37. EXACT_ID: ITEL_SHINGLE_TEMPLATE
+   Found 2 occurrences:
+   [KEPT] ID: ITEL_SHINGLE_TEMPLATE
+          Source: unknown
+          Title: iTel Shingle Template...
+          Filename: iTel Shingle Template.docx
+   [REMOVED] ID: ITEL_SHINGLE_TEMPLATE
+          Source: embeddings
+          Title: iTel Argument to Send to Adjuster/Insurance...
+          Filename: iTel Shingle Template.docx
+
+38. EXACT_ID: ROOFER_STANDARD_MATERIALS
+   Found 2 occurrences:
+   [KEPT] ID: ROOFER_STANDARD_MATERIALS
+          Source: unknown
+          Title: RoofER Standard Materials...
+          Filename: RoofER Standard Materials.docx
+   [REMOVED] ID: ROOFER_STANDARD_MATERIALS
+          Source: embeddings
+          Title: All the below are standard products we offer to customers at...
+          Filename: RoofER Standard Materials.docx
+
+39. EXACT_ID: POST_SIGN_UP_TIMELINE
+   Found 2 occurrences:
+   [KEPT] ID: POST_SIGN_UP_TIMELINE
+          Source: unknown
+          Title: Post Sign Up Timeline...
+          Filename: Post Sign Up Timeline.docx
+   [REMOVED] ID: POST_SIGN_UP_TIMELINE
+          Source: embeddings
+          Title: Insurance Process Steps & Timeline...
+          Filename: Post Sign Up Timeline.docx
+
+40. EXACT_ID: SILVER_PLEDGE_WARRANTY_BROCHURE
+   Found 2 occurrences:
+   [KEPT] ID: SILVER_PLEDGE_WARRANTY_BROCHURE
+          Source: unknown
+          Title: Silver Pledge Warranty Brochure...
+          Filename: Silver Pledge Warranty Brochure.pdf
+   [REMOVED] ID: SILVER_PLEDGE_WARRANTY_BROCHURE
+          Source: embeddings
+          Title: It’s security,...
+          Filename: Silver Pledge Warranty Brochure.pdf
+
+41. EXACT_ID: GAF_WARRANTY_COMPARISON
+   Found 2 occurrences:
+   [KEPT] ID: GAF_WARRANTY_COMPARISON
+          Source: unknown
+          Title: GAF Warranty Comparison...
+          Filename: GAF Warranty Comparison.pdf
+   [REMOVED] ID: GAF_WARRANTY_COMPARISON
+          Source: embeddings
+          Title: GAF Warranties...
+          Filename: GAF Warranty Comparison.pdf
+
+42. EXACT_ID: GAF_TIMBERLINE_HDZ_PRESENTATION
+   Found 2 occurrences:
+   [KEPT] ID: GAF_TIMBERLINE_HDZ_PRESENTATION
+          Source: unknown
+          Title: GAF Timberline HDZ Presentation...
+          Filename: GAF Timberline HDZ Presentation.pptx
+   [REMOVED] ID: GAF_TIMBERLINE_HDZ_PRESENTATION
+          Source: embeddings
+          Title: 2020...
+          Filename: GAF Timberline HDZ Presentation.pptx
+
+43. EXACT_ID: GAF_STANDARD_WARRANTY
+   Found 2 occurrences:
+   [KEPT] ID: GAF_STANDARD_WARRANTY
+          Source: unknown
+          Title: GAF Standard Warranty...
+          Filename: GAF Standard Warranty.pdf
+   [REMOVED] ID: GAF_STANDARD_WARRANTY
+          Source: embeddings
+          Title: GAF Shingle & Accessory...
+          Filename: GAF Standard Warranty.pdf
+
+44. EXACT_ID: WARRANTY_COMPARISON_PRSENTATION
+   Found 2 occurrences:
+   [KEPT] ID: WARRANTY_COMPARISON_PRSENTATION
+          Source: unknown
+          Title: Warranty Comparison Prsentation...
+          Filename: Warranty Comparison Prsentation.pptx
+   [REMOVED] ID: WARRANTY_COMPARISON_PRSENTATION
+          Source: embeddings
+          Title: The GAF Lifetime Roofing System...
+          Filename: Warranty Comparison Prsentation.pptx
+
+45. EXACT_ID: SILVER_PLEDGE_LEGALESE
+   Found 2 occurrences:
+   [KEPT] ID: SILVER_PLEDGE_LEGALESE
+          Source: unknown
+          Title: Silver Pledge Legalese...
+          Filename: Silver Pledge Legalese.pdf
+   [REMOVED] ID: SILVER_PLEDGE_LEGALESE
+          Source: embeddings
+          Title: Silver Pledge™...
+          Filename: Silver Pledge Legalese.pdf
+
+46. EXACT_ID: GOLDEN_PLEDGE_LIMITED_RESWT161_LEGAL_SAMPLE
+   Found 2 occurrences:
+   [KEPT] ID: GOLDEN_PLEDGE_LIMITED_RESWT161_LEGAL_SAMPLE
+          Source: unknown
+          Title: Golden Pledge Limited RESWT161 Legal Sample...
+          Filename: Golden_Pledge_Limited_RESWT161_Legal_Sample.pdf
+   [REMOVED] ID: GOLDEN_PLEDGE_LIMITED_RESWT161_LEGAL_SAMPLE
+          Source: embeddings
+          Title: Golden Pledge®...
+          Filename: Golden_Pledge_Limited_RESWT161_Legal_Sample.pdf
+
+47. EXACT_ID: SP_EXCLUSION_FORM
+   Found 2 occurrences:
+   [KEPT] ID: SP_EXCLUSION_FORM
+          Source: unknown
+          Title: SP Exclusion Form...
+          Filename: SP Exclusion Form.pdf
+   [REMOVED] ID: SP_EXCLUSION_FORM
+          Source: embeddings
+          Title: GAF Silver Pledge™...
+          Filename: SP Exclusion Form.pdf
+
+48. EXACT_ID: REPAIR_ATTEMPT_AGREEMENT
+   Found 2 occurrences:
+   [KEPT] ID: REPAIR_ATTEMPT_AGREEMENT
+          Source: unknown
+          Title: Repair Attempt Agreement...
+          Filename: Repair Attempt Agreement.pdf
+   [REMOVED] ID: REPAIR_ATTEMPT_AGREEMENT
+          Source: embeddings
+          Title: YTIRGETNI...
+          Filename: Repair Attempt Agreement.pdf
+
+49. EXACT_ID: ITEL_AGREEMENT
+   Found 2 occurrences:
+   [KEPT] ID: ITEL_AGREEMENT
+          Source: unknown
+          Title: iTel Agreement...
+          Filename: iTel Agreement.pdf
+   [REMOVED] ID: ITEL_AGREEMENT
+          Source: embeddings
+          Title: YTIRGETNI...
+          Filename: iTel Agreement.pdf
+
+50. EXACT_ID: CLAIM_AUTHORIZATION_FORM
+   Found 2 occurrences:
+   [KEPT] ID: CLAIM_AUTHORIZATION_FORM
+          Source: unknown
+          Title: Claim Authorization Form...
+          Filename: Claim Authorization Form.pdf
+   [REMOVED] ID: CLAIM_AUTHORIZATION_FORM
+          Source: embeddings
+          Title: YTIRGETNI...
+          Filename: Claim Authorization Form.pdf
+
+51. EXACT_ID: EMERGENCY_TARP
+   Found 2 occurrences:
+   [KEPT] ID: EMERGENCY_TARP
+          Source: unknown
+          Title: Emergency Tarp...
+          Filename: Emergency Tarp.pdf
+   [REMOVED] ID: EMERGENCY_TARP
+          Source: embeddings
+          Title: YTIRGETNI...
+          Filename: Emergency Tarp.pdf
+
+52. EXACT_ID: INSURANCEAGREMENT_UPDATED
+   Found 2 occurrences:
+   [KEPT] ID: INSURANCEAGREMENT_UPDATED
+          Source: unknown
+          Title: InsuranceAgrement Updated...
+          Filename: InsuranceAgrement_Updated.pdf
+   [REMOVED] ID: INSURANCEAGREMENT_UPDATED
+          Source: embeddings
+          Title: YTIRGETNI...
+          Filename: InsuranceAgrement_Updated.pdf
+
+53. EXACT_ID: GAF_MASTER_ELITE_2025
+   Found 2 occurrences:
+   [KEPT] ID: GAF_MASTER_ELITE_2025
+          Source: unknown
+          Title: GAF Master Elite 2025...
+          Filename: GAF Master Elite 2025.pdf
+   [REMOVED] ID: GAF_MASTER_ELITE_2025
+          Source: embeddings
+          Title: Roof-ER...
+          Filename: GAF Master Elite 2025.pdf
+
+54. EXACT_ID: PENNSYLVANIA_LICENSE_VALID_THROUGH_2027
+   Found 2 occurrences:
+   [KEPT] ID: PENNSYLVANIA_LICENSE_VALID_THROUGH_2027
+          Source: unknown
+          Title: Pennsylvania License Valid Through 2027...
+          Filename: Pennsylvania License Valid Through 2027.pdf
+   [REMOVED] ID: PENNSYLVANIA_LICENSE_VALID_THROUGH_2027
+          Source: embeddings
+          Title: ‚„””„‚»…(cid:10)””‰(cid:190)¿(cid:10)(cid:192)` ´ˆ˜¯(cid:10)...
+          Filename: Pennsylvania License Valid Through 2027.pdf
+
+55. EXACT_ID: MASTER_ELITE_REFERENCE_LETTER_FOR_CUSTOMERS
+   Found 2 occurrences:
+   [KEPT] ID: MASTER_ELITE_REFERENCE_LETTER_FOR_CUSTOMERS
+          Source: unknown
+          Title: Master Elite Reference Letter for Customers...
+          Filename: Master Elite Reference Letter for Customers.pdf
+   [REMOVED] ID: MASTER_ELITE_REFERENCE_LETTER_FOR_CUSTOMERS
+          Source: embeddings
+          Title: Roof-ER 2/17/2025...
+          Filename: Master Elite Reference Letter for Customers.pdf
+
+56. EXACT_ID: MARYLAND_LICENSE_VALID_THROUGH_2027
+   Found 2 occurrences:
+   [KEPT] ID: MARYLAND_LICENSE_VALID_THROUGH_2027
+          Source: unknown
+          Title: Maryland License Valid through 2027...
+          Filename: Maryland License Valid through 2027.pdf
+   [REMOVED] ID: MARYLAND_LICENSE_VALID_THROUGH_2027
+          Source: embeddings
+          Title: 07/30/2025 6,483,231...
+          Filename: Maryland License Valid through 2027.pdf
+
+57. EXACT_ID: GAF_CERTIFICATION
+   Found 2 occurrences:
+   [KEPT] ID: GAF_CERTIFICATION
+          Source: unknown
+          Title: GAF Certification...
+          Filename: GAF Certification.PDF
+   [REMOVED] ID: GAF_CERTIFICATION
+          Source: embeddings
+          Title: Roof-ER...
+          Filename: GAF Certification.PDF
+
+58. EXACT_ID: GAF_MASTER_ELITE_2024
+   Found 2 occurrences:
+   [KEPT] ID: GAF_MASTER_ELITE_2024
+          Source: unknown
+          Title: GAF Master Elite 2024...
+          Filename: GAF Master Elite 2024.PDF
+   [REMOVED] ID: GAF_MASTER_ELITE_2024
+          Source: embeddings
+          Title: Roof-ER...
+          Filename: GAF Master Elite 2024.PDF
+
+59. EXACT_ID: FLASHING_CODES
+   Found 2 occurrences:
+   [KEPT] ID: FLASHING_CODES
+          Source: unknown
+          Title: Flashing Codes...
+          Filename: Flashing Codes.docx
+   [REMOVED] ID: FLASHING_CODES
+          Source: embeddings
+          Title: Flashing Codes...
+          Filename: Flashing Codes.docx
+
+60. EXACT_ID: PHILLY_PARTIALS
+   Found 2 occurrences:
+   [KEPT] ID: PHILLY_PARTIALS
+          Source: unknown
+          Title: PHILLY PARTIALS...
+          Filename: PHILLY PARTIALS.docx
+   [REMOVED] ID: PHILLY_PARTIALS
+          Source: embeddings
+          Title: TOWNSHIP AND DENIED PERMIT FOR APPROVALS...
+          Filename: PHILLY PARTIALS.docx
+
+61. EXACT_ID: ARBITRATION_INFORMATION
+   Found 2 occurrences:
+   [KEPT] ID: ARBITRATION_INFORMATION
+          Source: unknown
+          Title: Arbitration Information...
+          Filename: Arbitration Information.docx
+   [REMOVED] ID: ARBITRATION_INFORMATION
+          Source: embeddings
+          Title: Arbitration Information...
+          Filename: Arbitration Information.docx
+
+62. EXACT_ID: MARYLAND_EXTERIOR_WRAP_CODE_R703
+   Found 2 occurrences:
+   [KEPT] ID: MARYLAND_EXTERIOR_WRAP_CODE_R703
+          Source: unknown
+          Title: Maryland Exterior Wrap Code R703...
+          Filename: Maryland Exterior Wrap Code R703.docx
+   [REMOVED] ID: MARYLAND_EXTERIOR_WRAP_CODE_R703
+          Source: embeddings
+          Title: The 2018 IRC...
+          Filename: Maryland Exterior Wrap Code R703.docx
+
+63. EXACT_ID: VIRGINIA_RESIDENTIAL_BUILDING_CODES
+   Found 2 occurrences:
+   [KEPT] ID: VIRGINIA_RESIDENTIAL_BUILDING_CODES
+          Source: unknown
+          Title: Virginia Residential Building Codes...
+          Filename: Virginia Residential Building Codes.docx
+   [REMOVED] ID: VIRGINIA_RESIDENTIAL_BUILDING_CODES
+          Source: embeddings
+          Title: Virginia Residential Building Codes...
+          Filename: Virginia Residential Building Codes.docx
+
+64. EXACT_ID: ENGINEERS
+   Found 2 occurrences:
+   [KEPT] ID: ENGINEERS
+          Source: unknown
+          Title: Engineers...
+          Filename: Engineers.docx
+   [REMOVED] ID: ENGINEERS
+          Source: embeddings
+          Title: Engineers...
+          Filename: Engineers.docx
+
+65. EXACT_ID: LOW_ROOF_FLAT_ROOF_CODE
+   Found 2 occurrences:
+   [KEPT] ID: LOW_ROOF_FLAT_ROOF_CODE
+          Source: unknown
+          Title: Low Roof Flat Roof Code...
+          Filename: Low Roof_Flat Roof Code.docx
+   [REMOVED] ID: LOW_ROOF_FLAT_ROOF_CODE
+          Source: embeddings
+          Title: Notes: Per Virginia Residential Building Code R905.2.2 - Slo...
+          Filename: Low Roof_Flat Roof Code.docx
+
+66. EXACT_ID: MARYLAND_INSURANCE_ADMINISTRATION_MATCHING_REQUIREMENT_1
+   Found 2 occurrences:
+   [KEPT] ID: MARYLAND_INSURANCE_ADMINISTRATION_MATCHING_REQUIREMENT_1
+          Source: unknown
+          Title: Maryland Insurance Administration Matching Requirement 1...
+          Filename: Maryland Insurance Administration Matching Requirement 1.pdf
+   [REMOVED] ID: MARYLAND_INSURANCE_ADMINISTRATION_MATCHING_REQUIREMENT_1
+          Source: embeddings
+          Title: LARRY HOGAN AL REDMER, JR....
+          Filename: Maryland Insurance Administration Matching Requirement 1.pdf
+
+67. EXACT_ID: MARYLAND_INSURANCE_ADMINISTRATION_MATCHING_REQUIREMENT_3
+   Found 2 occurrences:
+   [KEPT] ID: MARYLAND_INSURANCE_ADMINISTRATION_MATCHING_REQUIREMENT_3
+          Source: unknown
+          Title: Maryland Insurance Administration Matching Requirement 3...
+          Filename: Maryland Insurance Administration Matching Requirement 3.pdf
+   [REMOVED] ID: MARYLAND_INSURANCE_ADMINISTRATION_MATCHING_REQUIREMENT_3
+          Source: embeddings
+          Title: Maryland-Unfair Claim Settlement Practices...
+          Filename: Maryland Insurance Administration Matching Requirement 3.pdf
+
+68. EXACT_ID: MARYLAND_INSURANCE_ADMINISTRATION_MATCHING_REQUIREMENT_2
+   Found 2 occurrences:
+   [KEPT] ID: MARYLAND_INSURANCE_ADMINISTRATION_MATCHING_REQUIREMENT_2
+          Source: unknown
+          Title: Maryland Insurance Administration Matching Requirement 2...
+          Filename: Maryland Insurance Administration Matching Requirement 2.pdf
+   [REMOVED] ID: MARYLAND_INSURANCE_ADMINISTRATION_MATCHING_REQUIREMENT_2
+          Source: embeddings
+          Title: Aluminum Siding Claims...
+          Filename: Maryland Insurance Administration Matching Requirement 2.pdf
+
+69. EXACT_ID: CERTIFIED_CERTIFICATE
+   Found 2 occurrences:
+   [KEPT] ID: CERTIFIED_CERTIFICATE
+          Source: unknown
+          Title: CERTIFIED CERTIFICATE...
+          Filename: CERTIFIED_CERTIFICATE.pdf
+   [REMOVED] ID: CERTIFIED_CERTIFICATE
+          Source: embeddings
+          Title: Roof-ER...
+          Filename: CERTIFIED_CERTIFICATE.pdf
+
+70. EXACT_ID: MD_LICENSE
+   Found 2 occurrences:
+   [KEPT] ID: MD_LICENSE
+          Source: unknown
+          Title: MD License...
+          Filename: MD License.pdf
+   [REMOVED] ID: MD_LICENSE
+          Source: embeddings
+          Title: 06/01/2023 6,088,495...
+          Filename: MD License.pdf
+
+71. EXACT_ID: ADJUSTER_MEETING_OUTCOME_SCRIPT
+   Found 2 occurrences:
+   [KEPT] ID: ADJUSTER_MEETING_OUTCOME_SCRIPT
+          Source: unknown
+          Title: Adjuster Meeting Outcome Script...
+          Filename: Adjuster Meeting Outcome Script.pdf
+   [REMOVED] ID: ADJUSTER_MEETING_OUTCOME_SCRIPT
+          Source: embeddings
+          Title: YTIRGETNI...
+          Filename: Adjuster Meeting Outcome Script.pdf
+
+72. EXACT_ID: AM_OUTCOME_PROCESS
+   Found 2 occurrences:
+   [KEPT] ID: AM_OUTCOME_PROCESS
+          Source: unknown
+          Title: AM Outcome Process...
+          Filename: AM Outcome Process.pdf
+   [REMOVED] ID: AM_OUTCOME_PROCESS
+          Source: embeddings
+          Title: YTIRGETNI...
+          Filename: AM Outcome Process.pdf
+
+73. EXACT_ID: SUSAN_AI
+   Found 2 occurrences:
+   [KEPT] ID: SUSAN_AI
+          Source: unknown
+          Title: susan ai...
+          Filename: susan_ai.docx
+   [REMOVED] ID: SUSAN_AI
+          Source: embeddings
+          Title: Building Code Requirements – Virginia (Q301–Q325)...
+          Filename: susan_ai.docx
+
+74. EXACT_ID: ESCAL
+   Found 2 occurrences:
+   [KEPT] ID: ESCAL
+          Source: unknown
+          Title: Escal...
+          Filename: Escal.docx
+   [REMOVED] ID: ESCAL
+          Source: embeddings
+          Title: Arbitration & Escalation – Q401–Q425...
+          Filename: Escal.docx
+
+75. EXACT_ID: GAF_STORM
+   Found 2 occurrences:
+   [KEPT] ID: GAF_STORM
+          Source: unknown
+          Title: GAF Storm...
+          Filename: GAF_Storm.docx
+   [REMOVED] ID: GAF_STORM
+          Source: embeddings
+          Title: GAF Manufacturer Guidelines & Storm Standards (Q201–Q225)...
+          Filename: GAF_Storm.docx
+
+76. EXACT_ID: TRAINING
+   Found 2 occurrences:
+   [KEPT] ID: TRAINING
+          Source: unknown
+          Title: Training...
+          Filename: Training.docx
+   [REMOVED] ID: TRAINING
+          Source: embeddings
+          Title: Q501–Q550 – Guidance & Training Scenarios...
+          Filename: Training.docx
+
+77. EXACT_ID: KNOWLEDGE
+   Found 2 occurrences:
+   [KEPT] ID: KNOWLEDGE
+          Source: unknown
+          Title: Knowledge...
+          Filename: Knowledge.docx
+   [REMOVED] ID: KNOWLEDGE
+          Source: embeddings
+          Title: Q601–Q650 – Knowledge Q&A (with Guidance + Next Step)...
+          Filename: Knowledge.docx
+
+78. EXACT_ID: DOCS_TEMPS
+   Found 2 occurrences:
+   [KEPT] ID: DOCS_TEMPS
+          Source: unknown
+          Title: docs temps...
+          Filename: docs_temps.docx
+   [REMOVED] ID: DOCS_TEMPS
+          Source: embeddings
+          Title: Documentation & Templates (Q101–Q125)...
+          Filename: docs_temps.docx
+
+79. EXACT_ID: STUCK_DO
+   Found 2 occurrences:
+   [KEPT] ID: STUCK_DO
+          Source: unknown
+          Title: Stuck do...
+          Filename: Stuck_do.docx
+   [REMOVED] ID: STUCK_DO
+          Source: embeddings
+          Title: Q751–Q800 – Stuck → Do This...
+          Filename: Stuck_do.docx
+
+80. EXACT_ID: PUSHBACK
+   Found 2 occurrences:
+   [KEPT] ID: PUSHBACK
+          Source: unknown
+          Title: Pushback...
+          Filename: Pushback.docx
+   [REMOVED] ID: PUSHBACK
+          Source: embeddings
+          Title: Insurance Pushback & Arguments Playbook (Q1–Q100)...
+          Filename: Pushback.docx
+
+81. EXACT_ID: EXAMPLE_PHOTOS
+   Found 2 occurrences:
+   [KEPT] ID: EXAMPLE_PHOTOS
+          Source: unknown
+          Title: EXAMPLE PHOTOS...
+          Filename: EXAMPLE PHOTOS.pdf
+   [REMOVED] ID: EXAMPLE_PHOTOS
+          Source: embeddings
+          Title: What your photos should look like for the supplement team!...
+          Filename: EXAMPLE PHOTOS.pdf
+
+82. EXACT_ID: SAMPLE_PHOTO_REPORT_4
+   Found 2 occurrences:
+   [KEPT] ID: SAMPLE_PHOTO_REPORT_4
+          Source: unknown
+          Title: Sample Photo Report 4...
+          Filename: Sample Photo Report 4.pdf
+   [REMOVED] ID: SAMPLE_PHOTO_REPORT_4
+          Source: embeddings
+          Title: Photo Sheet...
+          Filename: Sample Photo Report 4.pdf
+
+83. EXACT_ID: SAMPLE_PHOTO_REPORT_3
+   Found 2 occurrences:
+   [KEPT] ID: SAMPLE_PHOTO_REPORT_3
+          Source: unknown
+          Title: Sample Photo Report 3...
+          Filename: Sample Photo Report 3.pdf
+   [REMOVED] ID: SAMPLE_PHOTO_REPORT_3
+          Source: embeddings
+          Title: Photo Sheet...
+          Filename: Sample Photo Report 3.pdf
+
+84. EXACT_ID: SAMPLE_PHOTO_REPORT_2
+   Found 2 occurrences:
+   [KEPT] ID: SAMPLE_PHOTO_REPORT_2
+          Source: unknown
+          Title: Sample Photo Report 2...
+          Filename: Sample Photo Report 2.pdf
+   [REMOVED] ID: SAMPLE_PHOTO_REPORT_2
+          Source: embeddings
+          Title: Photo Sheet...
+          Filename: Sample Photo Report 2.pdf
+
+85. EXACT_ID: SAMPLE_PHOTO_REPORT_1
+   Found 2 occurrences:
+   [KEPT] ID: SAMPLE_PHOTO_REPORT_1
+          Source: unknown
+          Title: Sample Photo Report 1...
+          Filename: Sample Photo Report 1.pdf
+   [REMOVED] ID: SAMPLE_PHOTO_REPORT_1
+          Source: embeddings
+          Title: Photo Sheet...
+          Filename: Sample Photo Report 1.pdf
+
+86. EXACT_ID: RESIDENTIAL_BRAND_GUIDELINES
+   Found 2 occurrences:
+   [KEPT] ID: RESIDENTIAL_BRAND_GUIDELINES
+          Source: unknown
+          Title: RESIDENTIAL BRAND GUIDELINES...
+          Filename: RESIDENTIAL_BRAND_GUIDELINES.pdf
+   [REMOVED] ID: RESIDENTIAL_BRAND_GUIDELINES
+          Source: embeddings
+          Title: Trademark Use and Brand Guidelines for...
+          Filename: RESIDENTIAL_BRAND_GUIDELINES.pdf
+
+87. EXACT_ID: TRAINING_TIMELINE
+   Found 2 occurrences:
+   [KEPT] ID: TRAINING_TIMELINE
+          Source: unknown
+          Title: Training Timeline...
+          Filename: Training Timeline.docx
+   [REMOVED] ID: TRAINING_TIMELINE
+          Source: embeddings
+          Title: Training Timeline...
+          Filename: Training Timeline.docx
+
+88. EXACT_ID: REFERRAL_BONUS
+   Found 2 occurrences:
+   [KEPT] ID: REFERRAL_BONUS
+          Source: unknown
+          Title: Referral Bonus...
+          Filename: Referral Bonus.docx
+   [REMOVED] ID: REFERRAL_BONUS
+          Source: embeddings
+          Title: Referral Bonus...
+          Filename: Referral Bonus.docx
+
+89. EXACT_TITLE: roof-er siding claim response packet
+   Found 2 occurrences:
+   [KEPT] ID: ROOF-ER_SIDING_CLAIM_RESPONSE_PACKET
+          Source: unknown
+          Title: Roof-ER Siding Claim Response Packet...
+          Filename: Roof-ER Siding Claim Response Packet.docx
+   [REMOVED] ID: ROOF_ER_SIDING_CLAIM_RESPONSE_PACKET
+          Source: embeddings
+          Title: Roof-ER Siding Claim Response Packet...
+          Filename: Roof-ER Siding Claim Response Packet.docx
+
+90. EXACT_TITLE: roof-er quick cheat sheet
+   Found 2 occurrences:
+   [KEPT] ID: ROOF-ER_QUICK_CHEAT_SHEET
+          Source: unknown
+          Title: Roof-ER Quick Cheat Sheet...
+          Filename: Roof-ER Quick Cheat Sheet.pdf
+   [REMOVED] ID: ROOF_ER_QUICK_CHEAT_SHEET
+          Source: embeddings
+          Title: Roof-ER Quick Cheat Sheet...
+          Filename: Roof-ER Quick Cheat Sheet.pdf
+
+91. EXACT_TITLE: roof-er roof & siding claim response packet
+   Found 2 occurrences:
+   [KEPT] ID: ROOF-ER_ROOF_SIDING_CLAIM_RESPONSE_PACKET
+          Source: unknown
+          Title: Roof-ER Roof & Siding Claim Response Packet...
+          Filename: Roof-ER Roof & Siding Claim Response Packet.docx
+   [REMOVED] ID: ROOF_ER_ROOF_SIDING_CLAIM_RESPONSE_PACKET
+          Source: embeddings
+          Title: Roof-ER Roof & Siding Claim Response Packet...
+          Filename: Roof-ER Roof & Siding Claim Response Packet.docx
+
+92. EXACT_TITLE: roof-er
+   Found 6 occurrences:
+   [KEPT] ID: ROOF-ER
+          Source: unknown
+          Title: Roof-ER...
+          Filename: Roof-ER.pdf
+   [REMOVED] ID: GAF_MASTER_ELITE_2025
+          Source: embeddings
+          Title: Roof-ER...
+          Filename: GAF Master Elite 2025.pdf
+   [REMOVED] ID: ROOF_ER_CERTAINTEED_SHINGLEMASTER
+          Source: embeddings
+          Title: Roof-ER...
+          Filename: Roof-ER CertainTeed ShingleMaster.pdf
+   [REMOVED] ID: GAF_CERTIFICATION
+          Source: embeddings
+          Title: Roof-ER...
+          Filename: GAF Certification.PDF
+   [REMOVED] ID: GAF_MASTER_ELITE_2024
+          Source: embeddings
+          Title: Roof-ER...
+          Filename: GAF Master Elite 2024.PDF
+   [REMOVED] ID: CERTIFIED_CERTIFICATE
+          Source: embeddings
+          Title: Roof-ER...
+          Filename: CERTIFIED_CERTIFICATE.pdf
+
+93. EXACT_TITLE: roof-er sales training
+   Found 4 occurrences:
+   [KEPT] ID: ROOF-ER_SALES_TRAINING
+          Source: unknown
+          Title: Roof-ER Sales Training...
+          Filename: Roof-ER Sales Training.pptx
+   [REMOVED] ID: ROOF_ER_SALES_TRAINING_PPTX
+          Source: embeddings
+          Title: Roof-ER Sales Training...
+          Filename: Roof-ER Sales Training.pptx.pdf
+   [REMOVED] ID: ROOF_ER_SALES_TRAINING_1_
+          Source: embeddings
+          Title: Roof-ER Sales Training...
+          Filename: Roof-ER Sales Training (1).pptx
+   [REMOVED] ID: ROOF_ER_SALES_TRAINING
+          Source: embeddings
+          Title: Roof-ER Sales Training...
+          Filename: Roof-ER Sales Training.pptx
+
+94. EXACT_TITLE: use email template to adjuster/insurance and
+   Found 2 occurrences:
+   [KEPT] ID: HOW_TO_DO_A_REPAIR_ATTEMPT_EXAMPLE_
+          Source: embeddings
+          Title: Use email template to Adjuster/Insurance and...
+          Filename: How to do a Repair Attempt [EXAMPLE].docx
+   [REMOVED] ID: MERGED_PDFS_5
+          Source: embeddings
+          Title: Use email template to Adjuster/Insurance and...
+          Filename: Merged_PDFs_5.pdf
+
+95. EXACT_TITLE: 06/01/2023 6,088,495
+   Found 3 occurrences:
+   [KEPT] ID: COPY_OF_MD_LICENSE_VALID_THROUGH_7_2025_
+          Source: embeddings
+          Title: 06/01/2023 6,088,495...
+          Filename: Copy of MD License (Valid through 7_2025).pdf
+   [REMOVED] ID: MD_LICENSE_VALID_THROUGH_7_2025_
+          Source: embeddings
+          Title: 06/01/2023 6,088,495...
+          Filename: MD License (Valid through 7_2025).pdf
+   [REMOVED] ID: MD_LICENSE
+          Source: embeddings
+          Title: 06/01/2023 6,088,495...
+          Filename: MD License.pdf
+
+96. EXACT_FILENAME: how to do a repair attempt [example].docx
+   Found 2 occurrences:
+   [KEPT] ID: HOW_TO_DO_A_REPAIR_ATTEMPT_EXAMPLE
+          Source: unknown
+          Title: How to do a Repair Attempt [EXAMPLE]...
+          Filename: How to do a Repair Attempt [EXAMPLE].docx
+   [REMOVED] ID: HOW_TO_DO_A_REPAIR_ATTEMPT_EXAMPLE_
+          Source: embeddings
+          Title: Use email template to Adjuster/Insurance and...
+          Filename: How to do a Repair Attempt [EXAMPLE].docx
+
+97. EXACT_FILENAME: role+.docx
+   Found 2 occurrences:
+   [KEPT] ID: ROLE
+          Source: unknown
+          Title: Role+...
+          Filename: Role+.docx
+   [REMOVED] ID: ROLE_
+          Source: embeddings
+          Title: Role...
+          Filename: Role+.docx
+
+98. EXACT_FILENAME: roof-er quick strike guide.docx
+   Found 2 occurrences:
+   [KEPT] ID: ROOF-ER_QUICK_STRIKE_GUIDE
+          Source: unknown
+          Title: Roof-ER Quick Strike Guide...
+          Filename: Roof-ER Quick Strike Guide.docx
+   [REMOVED] ID: ROOF_ER_QUICK_STRIKE_GUIDE
+          Source: embeddings
+          Title: Roof-ER Quick Strike Guide: Insurance Claim Responses...
+          Filename: Roof-ER Quick Strike Guide.docx
+
+99. EXACT_FILENAME: 📧 email generator .docx
+   Found 2 occurrences:
+   [KEPT] ID: EMAIL_GENERATOR
+          Source: unknown
+          Title: 📧 Email Generator...
+          Filename: 📧 Email Generator .docx
+   [REMOVED] ID: _EMAIL_GENERATOR_
+          Source: embeddings
+          Title: 📧 Email Generator button could work in practice if it were b...
+          Filename: 📧 Email Generator .docx
+
+100. EXACT_FILENAME: roof-er sales training.pptx.pdf
+   Found 2 occurrences:
+   [KEPT] ID: ROOF-ER_SALES_TRAININGPPTX
+          Source: unknown
+          Title: Roof-ER Sales Training.pptx...
+          Filename: Roof-ER Sales Training.pptx.pdf
+   [REMOVED] ID: ROOF_ER_SALES_TRAINING_PPTX
+          Source: embeddings
+          Title: Roof-ER Sales Training...
+          Filename: Roof-ER Sales Training.pptx.pdf
+
+101. EXACT_FILENAME: what is a deductible_.pdf
+   Found 2 occurrences:
+   [KEPT] ID: WHAT_IS_A_DEDUCTIBLE
+          Source: unknown
+          Title: What is a Deductible...
+          Filename: What is a Deductible_.pdf
+   [REMOVED] ID: WHAT_IS_A_DEDUCTIBLE_
+          Source: embeddings
+          Title: What is a homeowners deductible?...
+          Filename: What is a Deductible_.pdf
+
+102. EXACT_FILENAME: project agreement - repair - va.pdf
+   Found 2 occurrences:
+   [KEPT] ID: PROJECT_AGREEMENT_-_REPAIR_-_VA
+          Source: unknown
+          Title: Project Agreement - Repair - VA...
+          Filename: Project Agreement - Repair - VA.pdf
+   [REMOVED] ID: PROJECT_AGREEMENT_REPAIR_VA
+          Source: embeddings
+          Title: YTIRGETNI...
+          Filename: Project Agreement - Repair - VA.pdf
+
+103. EXACT_FILENAME: project agreement - repair - md.pdf
+   Found 2 occurrences:
+   [KEPT] ID: PROJECT_AGREEMENT_-_REPAIR_-_MD
+          Source: unknown
+          Title: Project Agreement - Repair - MD...
+          Filename: Project Agreement - Repair - MD.pdf
+   [REMOVED] ID: PROJECT_AGREEMENT_REPAIR_MD
+          Source: embeddings
+          Title: YTIRGETNI...
+          Filename: Project Agreement - Repair - MD.pdf
+
+104. EXACT_FILENAME: coi - general liability.pdf
+   Found 2 occurrences:
+   [KEPT] ID: COI_-_GENERAL_LIABILITY
+          Source: unknown
+          Title: COI - General Liability...
+          Filename: COI - General Liability.pdf
+   [REMOVED] ID: COI_GENERAL_LIABILITY
+          Source: embeddings
+          Title: CERTIFICATE OF LIABILITY INSURANCE DATE (MM/DD/YYYY)...
+          Filename: COI - General Liability.pdf
+
+105. EXACT_FILENAME: roof-er certainteed shinglemaster.pdf
+   Found 2 occurrences:
+   [KEPT] ID: ROOF-ER_CERTAINTEED_SHINGLEMASTER
+          Source: unknown
+          Title: Roof-ER CertainTeed ShingleMaster...
+          Filename: Roof-ER CertainTeed ShingleMaster.pdf
+   [REMOVED] ID: ROOF_ER_CERTAINTEED_SHINGLEMASTER
+          Source: embeddings
+          Title: Roof-ER...
+          Filename: Roof-ER CertainTeed ShingleMaster.pdf
+
+106. EXACT_FILENAME: pa license 2025 - 2027.pdf
+   Found 2 occurrences:
+   [KEPT] ID: PA_LICENSE_2025_-_2027
+          Source: unknown
+          Title: PA license 2025 - 2027...
+          Filename: PA license 2025 - 2027.pdf
+   [REMOVED] ID: PA_LICENSE_2025_2027
+          Source: embeddings
+          Title: ‚„””„‚»…(cid:10)””‰(cid:190)¿(cid:10)(cid:192)` ´ˆ˜¯(cid:10)...
+          Filename: PA license 2025 - 2027.pdf
+
+107. EXACT_FILENAME: form w-9 (rev. march 2024) (1).pdf
+   Found 2 occurrences:
+   [KEPT] ID: FORM_W-9_REV_MARCH_2024_1
+          Source: unknown
+          Title: Form W-9 (Rev. March 2024) (1)...
+          Filename: Form W-9 (Rev. March 2024) (1).pdf
+   [REMOVED] ID: FORM_W_9_REV_MARCH_2024_1_
+          Source: embeddings
+          Title: W-9...
+          Filename: Form W-9 (Rev. March 2024) (1).pdf
+
+108. EXACT_FILENAME: coi - workers comp 2026.pdf
+   Found 2 occurrences:
+   [KEPT] ID: COI_-_WORKERS_COMP_2026
+          Source: unknown
+          Title: COI - workers comp 2026...
+          Filename: COI - workers comp 2026.pdf
+   [REMOVED] ID: COI_WORKERS_COMP_2026
+          Source: embeddings
+          Title: DATE (MM/DD/YYYY)...
+          Filename: COI - workers comp 2026.pdf
+
+109. EXACT_FILENAME: copy of md license (valid through 7_2025).pdf
+   Found 2 occurrences:
+   [KEPT] ID: COPY_OF_MD_LICENSE_VALID_THROUGH_7_2025
+          Source: unknown
+          Title: Copy of MD License (Valid through 7 2025)...
+          Filename: Copy of MD License (Valid through 7_2025).pdf
+   [REMOVED] ID: COPY_OF_MD_LICENSE_VALID_THROUGH_7_2025_
+          Source: embeddings
+          Title: 06/01/2023 6,088,495...
+          Filename: Copy of MD License (Valid through 7_2025).pdf
+
+110. EXACT_FILENAME: md license (valid through 7_2025).pdf
+   Found 2 occurrences:
+   [KEPT] ID: MD_LICENSE_VALID_THROUGH_7_2025
+          Source: unknown
+          Title: MD License (Valid through 7 2025)...
+          Filename: MD License (Valid through 7_2025).pdf
+   [REMOVED] ID: MD_LICENSE_VALID_THROUGH_7_2025_
+          Source: embeddings
+          Title: 06/01/2023 6,088,495...
+          Filename: MD License (Valid through 7_2025).pdf
+
+111. EXACT_FILENAME: discontinued-shingle-list.pdf
+   Found 2 occurrences:
+   [KEPT] ID: DISCONTINUED-SHINGLE-LIST
+          Source: unknown
+          Title: Discontinued-Shingle-List...
+          Filename: Discontinued-Shingle-List.pdf
+   [REMOVED] ID: DISCONTINUED_SHINGLE_LIST
+          Source: embeddings
+          Title: Discontinued Shingle List...
+          Filename: Discontinued-Shingle-List.pdf
+
+112. EXACT_FILENAME: gaf storm damage guidelines .pdf
+   Found 2 occurrences:
+   [KEPT] ID: GAF_STORM_DAMAGE_GUIDELINES
+          Source: unknown
+          Title: GAF Storm Damage Guidelines...
+          Filename: GAF Storm Damage Guidelines .pdf
+   [REMOVED] ID: GAF_STORM_DAMAGE_GUIDELINES_
+          Source: embeddings
+          Title: TTTEEECCCHHHNNNIIICCCAAALLL AAADDDVVVIIISSSOOORRRYYY BBBUUUL...
+          Filename: GAF Storm Damage Guidelines .pdf
+
+113. EXACT_FILENAME: gaf requirement - slope replacement.pdf
+   Found 2 occurrences:
+   [KEPT] ID: GAF_REQUIREMENT_-_SLOPE_REPLACEMENT
+          Source: unknown
+          Title: GAF Requirement - Slope Replacement...
+          Filename: GAF Requirement - Slope Replacement.pdf
+   [REMOVED] ID: GAF_REQUIREMENT_SLOPE_REPLACEMENT
+          Source: embeddings
+          Title: To: GAFResidentialSales,GAFContractors,FieldServices,DesignS...
+          Filename: GAF Requirement - Slope Replacement.pdf
+
+114. EXACT_FILENAME: virginia building codes re-roofing chapters.docx
+   Found 2 occurrences:
+   [KEPT] ID: VIRGINIA_BUILDING_CODES_RE-ROOFING_CHAPTERS
+          Source: unknown
+          Title: Virginia building codes Re-roofing Chapters...
+          Filename: Virginia building codes Re-roofing Chapters.docx
+   [REMOVED] ID: VIRGINIA_BUILDING_CODES_RE_ROOFING_CHAPTERS
+          Source: embeddings
+          Title: 2021 Virginia ICC Building Codes...
+          Filename: Virginia building codes Re-roofing Chapters.docx
+
+115. EXACT_FILENAME: roof-er sales training (1).pptx
+   Found 2 occurrences:
+   [KEPT] ID: ROOF-ER_SALES_TRAINING_1
+          Source: unknown
+          Title: Roof-ER Sales Training (1)...
+          Filename: Roof-ER Sales Training (1).pptx
+   [REMOVED] ID: ROOF_ER_SALES_TRAINING_1_
+          Source: embeddings
+          Title: Roof-ER Sales Training...
+          Filename: Roof-ER Sales Training (1).pptx
+
+116. EXACT_FILENAME: warranty comparison prsentation (1).pptx
+   Found 2 occurrences:
+   [KEPT] ID: WARRANTY_COMPARISON_PRSENTATION_1
+          Source: unknown
+          Title: Warranty Comparison Prsentation (1)...
+          Filename: Warranty Comparison Prsentation (1).pptx
+   [REMOVED] ID: WARRANTY_COMPARISON_PRSENTATION_1_
+          Source: embeddings
+          Title: The GAF Lifetime Roofing System...
+          Filename: Warranty Comparison Prsentation (1).pptx
+
+117. EXACT_FILENAME: culture and commitment.docx.pdf
+   Found 2 occurrences:
+   [KEPT] ID: CULTURE_AND_COMMITMENTDOCX
+          Source: unknown
+          Title: Culture and Commitment.docx...
+          Filename: Culture and Commitment.docx.pdf
+   [REMOVED] ID: CULTURE_AND_COMMITMENT_DOCX
+          Source: embeddings
+          Title: Our Culture & Your Commitment...
+          Filename: Culture and Commitment.docx.pdf
+
+118. EXACT_FILENAME: copy of blank roofer - new sales hire checklist.docx
+   Found 2 occurrences:
+   [KEPT] ID: COPY_OF_BLANK_ROOFER_-_NEW_SALES_HIRE_CHECKLIST
+          Source: unknown
+          Title: Copy of BLANK RoofER - New Sales Hire Checklist...
+          Filename: Copy of BLANK RoofER - New Sales Hire Checklist.docx
+   [REMOVED] ID: COPY_OF_BLANK_ROOFER_NEW_SALES_HIRE_CHECKLIST
+          Source: embeddings
+          Title: Roof-ER New Sales Rep Checklist...
+          Filename: Copy of BLANK RoofER - New Sales Hire Checklist.docx
+
+================================================================================
+END OF REPORT
+================================================================================

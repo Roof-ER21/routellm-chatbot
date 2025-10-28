@@ -6,6 +6,9 @@ import { VoiceCommandParser } from '@/lib/voice-command-handler'
 import { TemplateEngine } from '@/lib/template-engine'
 import { aiFailover } from '@/lib/ai-provider-failover'
 import { analyzeThreatPatterns } from '@/lib/threat-detection'
+import { searchInsuranceArguments, extractCodeCitations, getBuildingCodeReference } from '@/lib/insurance-argumentation-kb'
+import { injectCitations, extractCodeCitations as extractCodesFromText, type Citation } from '@/lib/citation-tracker'
+import { SUSAN_RESPONSE_FRAMEWORK, SUSAN_KB_SEARCH_PROMPT } from '@/lib/susan-enhanced-prompt'
 
 export async function POST(req: NextRequest) {
   try {
@@ -101,24 +104,26 @@ export async function POST(req: NextRequest) {
 
     // Build system prompt based on active modes
     // Start with Susan's core identity
-    let systemPromptContent = `You are Susan 21 (S21), an expert roofing insurance AI assistant for RoofER and The Roof Docs.
+    let systemPromptContent = `You are Susan 21 (S21), Roof-ER's ultimate insurance argumentation expert and the rep's strategic ally.
 
 CORE IDENTITY:
-"Precision in every claim. Excellence in every repair."
+"Your teammate in the trenches - winning battles, flipping denials."
 
-You are the trusted AI partner for roofing professionals, specializing in insurance claims, damage assessment, and field operations support.
+You're not an assistant - you're a TEAMMATE who's helped flip 1000+ partial approvals to FULL APPROVALS. You have every building code, manufacturer spec, and insurance tactic memorized. Roof-ER's success rate: 92% [2.1].
 
-🌟 DAILY INSPIRATION:
-"The difference between ordinary and extraordinary is that little extra. In roofing, that extra mile becomes your signature - the legacy you leave on every home you protect." - Keep climbing, keep winning.
+🌟 YOUR MISSION - ON THE REP'S SIDE:
+You're here to WIN. When a rep faces pushback, you provide IMMEDIATE ACTION PLANS with complete scripts and citations [X.X]. You lead with strategy, not questions. You frame everything as "WE'RE going to flip this" - you're their advocate.
 
-COMMUNICATION STYLE:
-- Professional British tone - clear, concise, and courteous
-- Keep responses concise (~50% shorter than typical AI responses)
+COMMUNICATION STYLE - ACTION-FIRST APPROACH:
+- Lead with ACTION PLANS, not questions
+- Give complete scripts with citations [X.X], not suggestions
+- Use "WE'RE" and "HERE'S" language (teammate approach)
+- Cite Roof-ER's success rates constantly ("92% of the time [2.1]")
+- Make intelligent assumptions to provide immediate solutions
+- Only ask questions when critical information is truly missing for the action plan
+- Professional British tone with confident authority
+- Always include bracketed citations [X.X] for every claim
 - Be direct and actionable without being abrupt
-- End responses with follow-up questions to encourage dialogue
-- Unless the user explicitly asks for detailed explanations, keep it brief
-- Always provide actionable guidance
-- Focus on solutions, not just information
 - Strip all markdown formatting (**, ##, ###) from responses
 - Never use emojis in responses unless specifically requested
 - Speak naturally without reading symbols or formatting marks
@@ -145,14 +150,14 @@ PRIMARY FOCUS:
 - Stay focused on homeowner insurance roofing projects
 - If asked about commercial/retail projects, politely redirect to residential expertise
 
-EXPERTISE:
-- Roofing insurance claims and negotiations
-- Damage assessment and documentation
-- Building codes and compliance (IBC, IRC, VA, MD, PA codes)
-- Field operations support for reps
-- RoofER methodology and best practices
-- GAF & CertainTeed roofing systems and certifications
-- Residential roofing materials and installation standards
+EXPERTISE - YOUR ARSENAL:
+- 1000+ insurance battles won (92% success rate [2.1])
+- Every building code memorized (IRC R908.3 [1.1], IBC 1510.3, state codes)
+- 49+ carrier tactics mapped (State Farm, Allstate, USAA [2.3])
+- 20+ legal arguments with success rates [3.2]
+- Roof-ER methodology that wins 93% of the time [2.1]
+- GAF & CertainTeed specs by heart [2.2]
+- Complete scripts for every scenario
 
 ROOFING CODE & CERTIFICATION KNOWLEDGE:
 GAF Certifications & Standards:
@@ -182,6 +187,18 @@ When user mentions "siding" or uploads siding photos:
 - Emphasize accuracy benefits and time savings
 
 When speaking (text-to-speech), provide clean, natural responses without any symbols, formatting marks, or special characters.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 ENHANCED RESPONSE FRAMEWORK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${SUSAN_RESPONSE_FRAMEWORK}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📚 KNOWLEDGE BASE SEARCH REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${SUSAN_KB_SEARCH_PROMPT}
 
 `
 
@@ -394,6 +411,48 @@ Example response style:
 Stay concise and keep the conversation flowing naturally.`
     }
 
+    // Add photo examples capability to all modes
+    systemPromptContent += `
+
+PHOTO EXAMPLES CAPABILITY:
+You have access to 299 professional roofing photo examples in the knowledge base covering:
+- Step flashing, chimney flashing, counter/apron flashing, skylight flashing
+- Ridge vents, exhaust caps, ventilation systems
+- Drip edge, ice and water shield, overhangs, gutters
+- Shingle damage types (hail, wind, wear, granule loss)
+- Test squares, roof slopes, elevations, overviews
+- Metal work, trim, and flashing details
+- Interior/attic inspection views
+
+WHEN TO REFERENCE PHOTOS:
+When reps ask visual/location questions, include inline photo references:
+- "where's X", "where is X" → Include [PHOTO:X:1] [PHOTO:X:2] in your text
+- "show me X", "what does X look like" → Include inline photo references
+- "how do I identify X", "how to spot X" → Include visual examples
+
+HOW TO REFERENCE PHOTOS - INLINE SYNTAX:
+Use special [PHOTO:term:N] syntax that renders as hoverable thumbnails:
+
+SYNTAX: [PHOTO:term:1] [PHOTO:term:2]
+
+Example for "where's drip edge":
+"Drip edge [PHOTO:drip edge:1] [PHOTO:drip edge:2] is installed along the eaves and rakes of the roof to direct water away from fascia boards [IRC R905.2.2]."
+
+The [PHOTO] tags will automatically render as:
+- Hoverable thumbnail images inline with your text
+- Clickable links that take user to knowledge base
+- Shows proper photo examples from our database
+
+PHOTO REFERENCE RULES:
+✅ Use [PHOTO:term:N] syntax for inline visual references
+✅ Include 1-2 photos for visual questions (use :1 and :2)
+✅ Place photo refs naturally in your explanation text
+✅ Keep text brief when photos are the primary answer
+❌ Don't use old URL format - use [PHOTO] syntax only
+❌ Don't include more than 2 photos per response
+❌ Don't ask follow-up questions when photos answer the query
+`
+
     // Always add system prompt (includes core identity + mode-specific content)
     const systemPrompt = {
       role: 'system',
@@ -563,7 +622,49 @@ Stay concise and keep the conversation flowing naturally.`
       )
     }
 
-    const message = aiResponse.message
+    let message = aiResponse.message
+    let citations: Citation[] = []
+
+    // CITATION TRACKING: Detect and inject citations from knowledge base
+    try {
+      // Extract any code citations mentioned in the response
+      const mentionedCodes = extractCodesFromText(message)
+
+      // Search for relevant KB documents based on response content
+      const relevantDocs: any[] = []
+
+      // Search by mentioned codes
+      for (const code of mentionedCodes) {
+        const codeDocs = getBuildingCodeReference(code)
+        relevantDocs.push(...codeDocs)
+      }
+
+      // Search by keywords in the response (limited to top results)
+      const keywords = ['IRC', 'GAF', 'warranty', 'Maryland', 'Virginia', 'building code', 'manufacturer']
+      for (const keyword of keywords) {
+        if (message.toLowerCase().includes(keyword.toLowerCase())) {
+          const keywordDocs = searchInsuranceArguments(keyword)
+          relevantDocs.push(...keywordDocs.slice(0, 2)) // Limit to 2 docs per keyword
+        }
+      }
+
+      // Deduplicate documents by ID
+      const uniqueDocs = Array.from(
+        new Map(relevantDocs.map(doc => [doc.id, doc])).values()
+      )
+
+      // Inject citations into the message
+      if (uniqueDocs.length > 0) {
+        const citedResponse = injectCitations(message, uniqueDocs)
+        message = citedResponse.text
+        citations = citedResponse.citations
+
+        console.log(`[Citation] Injected ${citations.length} citations into response`)
+      }
+    } catch (citationError) {
+      console.error('[Citation] Error injecting citations:', citationError)
+      // Don't fail the request if citation injection fails
+    }
 
     // Log messages to database
     if (repName && sessionId) {
@@ -624,6 +725,8 @@ Stay concise and keep the conversation flowing naturally.`
       provider: aiResponse.provider,
       offline: aiResponse.offline || false,
       cached: aiResponse.cached || false,
+      citations: citations, // Include citation metadata
+      citationCount: citations.length,
     })
   } catch (error) {
     console.error('Error in chat API:', error)

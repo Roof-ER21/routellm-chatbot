@@ -1,0 +1,16 @@
+{
+  "total_before": 248,
+  "total_after": 132,
+  "duplicates_removed": 116,
+  "duplicate_groups": 118,
+  "sources": {
+    "typescript_kb": 16,
+    "kb_json": 116,
+    "embeddings": 116
+  },
+  "duplicates_by_type": {
+    "exact_id": 89,
+    "exact_title": 14,
+    "exact_filename": 23
+  }
+}
