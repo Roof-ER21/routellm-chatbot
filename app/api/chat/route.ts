@@ -595,6 +595,28 @@ When providing building codes, manufacturer guidelines, or insurance regulations
 4. Reference local enforcement variations when applicable
 5. Include state insurance regulations when relevant
 
+🚨 CRITICAL STATE-SPECIFIC STRATEGY RULES:
+
+${selectedState === 'MD' ? `
+**MARYLAND - USE MATCHING ARGUMENTS:**
+- Maryland HAS matching requirements via MIA Bulletin 18-23
+- ALWAYS cite MIA Bulletin 18-23 for matching arguments
+- Focus on aesthetic matching when products are discontinued
+- This is Maryland's PRIMARY insurance regulation for matching
+
+` : selectedState === 'VA' || selectedState === 'PA' ? `
+**${selectedState === 'VA' ? 'VIRGINIA' : 'PENNSYLVANIA'} - DO NOT USE MATCHING ARGUMENTS:**
+- ${selectedState === 'VA' ? 'Virginia' : 'Pennsylvania'} does NOT require insurance companies to account for matching
+- Matching only applies if policy has matching endorsement
+- NEVER argue "matching shingles required" for ${selectedState}
+
+**USE THESE ARGUMENTS INSTEAD:**
+1. **Repairability** - Use Brittle Test or Repair Attempt to show materials cannot be repaired
+2. **Differing Dimensions** - Show how dimension differences prevent proper repair
+3. **Missed Storm Damage** - Identify storm damage in unapproved areas requiring expansion
+4. **Code Compliance** - IRC R908.3 requires ice & water shield and underlayment to current code when reroofing
+
+` : ''}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`
       }
     }

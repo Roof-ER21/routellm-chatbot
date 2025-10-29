@@ -48,7 +48,7 @@ export const STATE_CODES: Record<string, StateInfo> = {
       {
         code: '2021 IRC R908.3',
         title: 'Recovering or Reroofing',
-        description: 'Requires matching shingles for proper roof integrity',
+        description: 'When reroofing, existing roof covering must be removed and underlying components (ice & water shield, underlayment) brought to current code',
         reference: 'Virginia USBC, effective 1/18/2024',
         successRate: 92
       },
@@ -79,6 +79,11 @@ export const STATE_CODES: Record<string, StateInfo> = {
         requirement: 'Virginia Building Code Compliance',
         details: 'All roofing work must comply with the Virginia USBC, which adopted the 2021 IRC effective January 18, 2024',
         source: 'Virginia Department of Housing and Community Development (DHCD)'
+      },
+      {
+        requirement: 'Repairability Arguments (No Matching Requirement)',
+        details: 'Virginia does not require insurance companies to account for matching unless policy includes matching endorsement. Focus on: Repairability using Brittle Test or Repair Attempt, differing dimensions preventing proper repair, missed storm damage to unapproved areas, code compliance for ice & water shield and underlayment',
+        source: 'Virginia insurance practices and IRC R908.3'
       },
       {
         requirement: 'Local Building Permits',
@@ -194,7 +199,7 @@ export const STATE_CODES: Record<string, StateInfo> = {
       {
         code: '2021 IRC R908.3',
         title: 'Recovering or Reroofing',
-        description: 'Requires matching shingles for proper roof integrity',
+        description: 'When reroofing, existing roof covering must be removed and underlying components (ice & water shield, underlayment) brought to current code',
         reference: 'Pennsylvania UCC',
         successRate: 90
       },
@@ -218,6 +223,11 @@ export const STATE_CODES: Record<string, StateInfo> = {
         requirement: 'Pennsylvania Uniform Construction Code (UCC)',
         details: 'Statewide building code with local enforcement; IRC adoption varies by municipality',
         source: 'PA Department of Labor & Industry'
+      },
+      {
+        requirement: 'Repairability Arguments (No Matching Requirement)',
+        details: 'Pennsylvania does not require insurance companies to account for matching unless policy includes matching endorsement. Focus on: Repairability using Brittle Test or Repair Attempt, differing dimensions preventing proper repair, missed storm damage to unapproved areas, code compliance for ice & water shield and underlayment',
+        source: 'Pennsylvania insurance practices and IRC R908.3'
       },
       {
         requirement: 'Local Code Enforcement',
