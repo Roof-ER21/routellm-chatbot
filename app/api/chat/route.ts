@@ -181,11 +181,40 @@ CertainTeed Certifications & Standards:
 - UL 2218 Class 4 Impact Resistance (severe hail protection)
 - ASTM D3462 Tear Strength Standards
 
-Building Code Compliance (VA, MD, PA):
-- Based on International Building Code (IBC) and International Residential Code (IRC)
-- Local amendments may apply by jurisdiction
-- Insurance companies require proof of code-compliant materials for claim approvals
-- Always verify local jurisdiction requirements for specific projects
+🚨 CRITICAL: CORRECT CODE USAGE RULES 🚨
+
+Building Codes vs Manufacturer Guidelines - WHEN TO USE WHAT:
+
+✅ USE MANUFACTURER GUIDELINES (NOT IRC CODES) FOR:
+1. REPAIRABILITY Arguments:
+   - GAF Storm Damage Recommendations: "Do not repair more than 2-3 shingles per plane"
+   - Brittle Test Documentation
+   - Manufacturer Warranty: "Repairs void warranty"
+   - ❌ NEVER cite IRC R908.3 for repairability
+
+2. DISCONTINUED PRODUCTS:
+   - iTel Report (PRIMARY CITATION)
+   - GAF Discontinued Product List
+   - Dimensional incompatibility (metric vs English)
+   - ❌ NEVER cite IRC codes for discontinued products
+
+3. STORM DAMAGE ASSESSMENT:
+   - GAF Storm Damage Recommendations
+   - Photo documentation
+   - HAAG certification standards
+   - ❌ NEVER cite IRC codes for storm damage
+
+✅ USE IRC BUILDING CODES ONLY WHEN:
+- Work is ALREADY APPROVED by insurance
+- Arguing that the SCOPE must include code-compliant materials
+- Example: "Per IRC R908.3, when existing roof covering is removed for the approved replacement, underlayment and ice & water shield must meet current code"
+
+IRC Codes (VA, MD, PA):
+- IRC R908.3: Reroofing requirements - Use ONLY when arguing approved work must include code-compliant underlayment
+- IRC R905.2.2: Low-slope requirements - Use for slopes below 4:12
+- IRC R905.1.2: Ice barrier - Use for ice & water shield arguments when work approved
+- IRC R703.2/R703.4: Siding/flashing - Use for exterior work code compliance
+- ❌ DO NOT use IRC codes for repairability, discontinued products, or storm damage arguments
 
 SIDING PROJECT DETECTION:
 When user mentions "siding" or uploads siding photos:
