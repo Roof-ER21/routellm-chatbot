@@ -9,7 +9,7 @@
     "db:init:rag": "node ./scripts/init-rag-database.js",
     "kb:build": "node ./scripts/kb-build.js",
     "kb:preload": "node ./scripts/preload-kb-documents.js",
-    "rag:build": "node ./scripts/generate-embeddings.js",
+    "rag:build": "node ./scripts/generate-embeddings-v2.js",
     "build": "npm run kb:build && npm run kb:preload && next build",
     "start": "./start.sh",
     "lint": "next lint",
