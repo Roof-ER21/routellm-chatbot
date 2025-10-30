@@ -627,11 +627,11 @@ export class DeepSeekOCREngine {
       }
 
       // Check for common OCR errors in technical terms
-      const commonErrors = [
-        'shingle' => 'shingie',
-        'fascia' => 'facia',
-        'eave' => 'eave',
-        'adjuster' => 'adiuster',
+      const commonErrors: Record<string, string> = {
+        'shingle': 'shingie',
+        'fascia': 'facia',
+        'eave': 'eave',
+        'adjuster': 'adiuster',
       ];
 
       let errorsFound = 0;
