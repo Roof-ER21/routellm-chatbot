@@ -5,12 +5,13 @@
  * Uses PostgreSQL + pgvector for fast vector similarity search
  */
 
-import { sql } from '@vercel/postgres';
+import { Pool } from 'pg';
 
-// Configure connection
-if (process.env.DATABASE_URL && !process.env.POSTGRES_URL) {
-  process.env.POSTGRES_URL = process.env.DATABASE_URL;
-}
+// Configure PostgreSQL connection
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL || process.env.POSTGRES_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+});
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -145,7 +146,7 @@ export async function queryRAG(
     params.push(topK);
 
     // Execute query
-    const result = await sql.query(sqlQuery, params);
+    const result = await pool.query(sqlQuery, params);
 
     // Transform results
     const ragResults: RAGResult[] = result.rows.map((row: any) => ({
@@ -230,7 +231,7 @@ async function logQueryAnalytics(
   fromCache: boolean
 ): Promise<void> {
   try {
-    await sql`
+    await pool.query(`
       INSERT INTO rag_analytics (
         query_text,
         result_count,
@@ -238,14 +239,8 @@ async function logQueryAnalytics(
         from_cache,
         timestamp
       )
-      VALUES (
-        ${query},
-        ${resultCount},
-        ${queryTime},
-        ${fromCache},
-        NOW()
-      )
-    `;
+      VALUES ($1, $2, $3, $4, NOW())
+    `, [query, resultCount, queryTime, fromCache]);
   } catch (error: any) {
     // Don't fail the query if analytics logging fails
     console.error('[RAG Analytics Error]', error.message);

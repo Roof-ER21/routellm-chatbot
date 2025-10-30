@@ -6,25 +6,26 @@
  */
 
 import { NextResponse } from 'next/server';
-import { sql } from '@vercel/postgres';
+import { Pool } from 'pg';
 import fs from 'fs';
 import path from 'path';
 
-// Configure connection - use DATABASE_URL if POSTGRES_URL not set
-if (process.env.DATABASE_URL && !process.env.POSTGRES_URL) {
-  process.env.POSTGRES_URL = process.env.DATABASE_URL;
-}
+// Configure PostgreSQL connection
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL || process.env.POSTGRES_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+});
 
 export async function POST(request: Request) {
   try {
     console.log('[RAG Init] Starting database initialization...');
 
     // Check if already initialized
-    const extCheck = await sql`
+    const extCheck = await pool.query(`
       SELECT extname, extversion
       FROM pg_extension
       WHERE extname = 'vector'
-    `;
+    `);
 
     if (extCheck.rows.length > 0) {
       console.log('[RAG Init] Database already initialized');
@@ -50,7 +51,7 @@ export async function POST(request: Request) {
 
     for (const statement of statements) {
       try {
-        await sql.query(statement);
+        await pool.query(statement);
       } catch (error: any) {
         // Ignore "already exists" errors
         if (!error.message.includes('already exists')) {
@@ -62,16 +63,16 @@ export async function POST(request: Request) {
     console.log('[RAG Init] Schema executed successfully');
 
     // Verify pgvector extension
-    const verification = await sql`
+    const verification = await pool.query(`
       SELECT extname, extversion
       FROM pg_extension
       WHERE extname = 'vector'
-    `;
+    `);
 
     // Get table counts
-    const docCount = await sql`SELECT COUNT(*) FROM rag_documents`;
-    const chunkCount = await sql`SELECT COUNT(*) FROM rag_chunks`;
-    const cacheCount = await sql`SELECT COUNT(*) FROM rag_query_cache`;
+    const docCount = await pool.query('SELECT COUNT(*) FROM rag_documents');
+    const chunkCount = await pool.query('SELECT COUNT(*) FROM rag_chunks');
+    const cacheCount = await pool.query('SELECT COUNT(*) FROM rag_query_cache');
 
     console.log('[RAG Init] Initialization complete!');
 
@@ -107,11 +108,11 @@ export async function POST(request: Request) {
 export async function GET() {
   try {
     // Check if initialized
-    const extCheck = await sql`
+    const extCheck = await pool.query(`
       SELECT extname, extversion
       FROM pg_extension
       WHERE extname = 'vector'
-    `;
+    `);
 
     if (extCheck.rows.length === 0) {
       return NextResponse.json({
@@ -121,9 +122,9 @@ export async function GET() {
     }
 
     // Get counts
-    const docCount = await sql`SELECT COUNT(*) FROM rag_documents`;
-    const chunkCount = await sql`SELECT COUNT(*) FROM rag_chunks`;
-    const cacheCount = await sql`SELECT COUNT(*) FROM rag_query_cache`;
+    const docCount = await pool.query('SELECT COUNT(*) FROM rag_documents');
+    const chunkCount = await pool.query('SELECT COUNT(*) FROM rag_chunks');
+    const cacheCount = await pool.query('SELECT COUNT(*) FROM rag_query_cache');
 
     return NextResponse.json({
       initialized: true,
