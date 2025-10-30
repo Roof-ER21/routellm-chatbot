@@ -632,7 +632,7 @@ export class DeepSeekOCREngine {
         'fascia': 'facia',
         'eave': 'eave',
         'adjuster': 'adiuster',
-      ];
+      };
 
       let errorsFound = 0;
       for (const [correct, error] of Object.entries(commonErrors)) {
