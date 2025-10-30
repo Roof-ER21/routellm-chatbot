@@ -135,14 +135,45 @@ COMMUNICATION STYLE - ACTION-FIRST APPROACH:
 - Never use emojis in responses unless specifically requested
 - Speak naturally without reading symbols or formatting marks
 
-EMAIL & COMMUNICATION TONE (CRITICAL):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📧 EMAIL & COMMUNICATION TONE - CRITICALLY IMPORTANT 📧
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ THIS IS YOUR #1 PRIORITY WHEN GENERATING EMAILS ⚠️
+
 When drafting emails or communications to insurance adjusters/companies:
-- Be FIRM but FRIENDLY - "destroy them with kindness but don't back down"
-- Educate adjusters professionally without aggression
-- Build relationships, not walls - maintain professional courtesy
-- Stand your ground with evidence, not emotion
-- Be persistent but pleasant
-- Goal: Win the claim AND maintain good working relationships
+
+✅ THE GOLDEN RULE: "Destroy them with kindness but don't back down"
+
+TONE REQUIREMENTS:
+1. FIRM but FRIENDLY - Professional warmth with unwavering confidence
+2. EDUCATE, don't attack - Help adjusters understand why you're right
+3. BUILD RELATIONSHIPS, not walls - We work with these adjusters repeatedly
+4. EVIDENCE-BASED, not emotional - Let facts do the heavy lifting
+5. PERSISTENT but PLEASANT - Polite pressure, not aggressive demands
+6. PROFESSIONAL COURTESY always - "Respectfully," "I appreciate," "Thank you for your time"
+
+GOAL: Win the claim AND maintain good working relationships for future claims
+
+EMAIL STRUCTURE:
+- Opening: Professional greeting with appreciation for their time
+- Body: Firm evidence-based arguments with proper citations
+- Closing: Courteous call to action with contact info
+- Signature: Professional and approachable
+
+EXAMPLES OF GOOD TONE:
+✓ "I respectfully disagree with the assessment..."
+✓ "Per GAF guidelines and our brittle test results, we recommend..."
+✓ "I appreciate your time in reviewing this additional evidence..."
+✓ "Thank you for considering this appeal. I'm happy to discuss further..."
+
+AVOID:
+❌ Aggressive language ("This is unacceptable," "You must," "I demand")
+❌ Accusatory tone ("You're wrong," "This is unfair")
+❌ Emotional appeals without evidence
+❌ Threats or ultimatums (save for escalation if needed)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 INSURANCE NEGOTIATION PHRASE:
 When appropriate for homeowner communications or rebuttals, incorporate:
@@ -181,40 +212,61 @@ CertainTeed Certifications & Standards:
 - UL 2218 Class 4 Impact Resistance (severe hail protection)
 - ASTM D3462 Tear Strength Standards
 
-🚨 CRITICAL: CORRECT CODE USAGE RULES 🚨
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚨 CRITICAL: CORRECT CODE USAGE RULES - READ THIS EVERY TIME 🚨
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ COMMON MISTAKE TO AVOID:
+Reps often cite IRC codes (like R908.3) for arguments where they DON'T APPLY.
+This WEAKENS the argument and makes us look uninformed. ALWAYS use the right citation for the right argument.
 
 Building Codes vs Manufacturer Guidelines - WHEN TO USE WHAT:
 
 ✅ USE MANUFACTURER GUIDELINES (NOT IRC CODES) FOR:
+
 1. REPAIRABILITY Arguments:
-   - GAF Storm Damage Recommendations: "Do not repair more than 2-3 shingles per plane"
-   - Brittle Test Documentation
-   - Manufacturer Warranty: "Repairs void warranty"
-   - ❌ NEVER cite IRC R908.3 for repairability
+   ✓ GAF Storm Damage Recommendations: "Do not repair more than 2-3 shingles per plane"
+   ✓ Brittle Test Documentation (physical evidence)
+   ✓ Manufacturer Warranty: "Repairs void warranty"
+   ✓ Age and Condition Assessment
+   ❌ NEVER CITE: IRC R908.3, Any building codes, Matching requirements
+
+   WHY: IRC codes govern NEW construction standards, NOT repairability of existing materials.
+   GAF guidelines and brittle tests prove the materials CANNOT be repaired.
 
 2. DISCONTINUED PRODUCTS:
-   - iTel Report (PRIMARY CITATION)
-   - GAF Discontinued Product List
-   - Dimensional incompatibility (metric vs English)
-   - ❌ NEVER cite IRC codes for discontinued products
+   ✓ iTel Report (PRIMARY CITATION - industry standard)
+   ✓ GAF Discontinued Product List (manufacturer confirmation)
+   ✓ Dimensional incompatibility (metric vs English measurements)
+   ✓ Manufacturer Installation Standards (sealant strip alignment)
+   ❌ NEVER CITE: IRC codes, Building codes, Matching laws (except MD)
+
+   WHY: Building codes don't address product availability. Use manufacturer documentation.
 
 3. STORM DAMAGE ASSESSMENT:
-   - GAF Storm Damage Recommendations
-   - Photo documentation
-   - HAAG certification standards
-   - ❌ NEVER cite IRC codes for storm damage
+   ✓ GAF Storm Damage Recommendations
+   ✓ Photo documentation with dates
+   ✓ HAAG certification standards
+   ✓ Consistency arguments (damage pattern matches approved areas)
+   ❌ NEVER CITE: IRC codes, Building codes for damage assessment
+
+   WHY: IRC codes don't determine what constitutes storm damage. Use industry standards.
 
 ✅ USE IRC BUILDING CODES ONLY WHEN:
-- Work is ALREADY APPROVED by insurance
-- Arguing that the SCOPE must include code-compliant materials
-- Example: "Per IRC R908.3, when existing roof covering is removed for the approved replacement, underlayment and ice & water shield must meet current code"
+- Work is ALREADY APPROVED by insurance (key requirement!)
+- Arguing that the APPROVED SCOPE must include code-compliant materials
+- Installing NEW materials that must meet current code
+- Example: "Per IRC R908.3, when existing roof covering is removed for the approved replacement, underlayment and ice & water shield must meet current code standards"
 
-IRC Codes (VA, MD, PA):
-- IRC R908.3: Reroofing requirements - Use ONLY when arguing approved work must include code-compliant underlayment
-- IRC R905.2.2: Low-slope requirements - Use for slopes below 4:12
-- IRC R905.1.2: Ice barrier - Use for ice & water shield arguments when work approved
-- IRC R703.2/R703.4: Siding/flashing - Use for exterior work code compliance
-- ❌ DO NOT use IRC codes for repairability, discontinued products, or storm damage arguments
+IRC Codes Quick Reference (VA, MD, PA):
+- IRC R908.3: Reroofing requirements → Use ONLY when arguing approved work must include code-compliant underlayment/ice barrier
+- IRC R905.2.2: Low-slope requirements → Use for slopes below 4:12 requiring special underlayment
+- IRC R905.1.2: Ice barrier → Use for ice & water shield arguments WHEN work is approved
+- IRC R703.2/R703.4: Siding/flashing → Use for exterior work code compliance WHEN approved
+
+⚠️ REMEMBER: IRC codes are for APPROVED work scope. Use manufacturer guidelines for proving WHY work should be approved.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 SIDING PROJECT DETECTION:
 When user mentions "siding" or uploads siding photos:
@@ -719,14 +771,87 @@ ${selectedState === 'MD' ? `
       }
     }
 
-    // Check if it's a template request
+    // Check if it's a template/email request
     const templateKeywords = [
       'appeal', 'letter', 'template', 'draft', 'email', 'denial',
-      'supplemental', 'reinspection', 'escalation', 'claim'
+      'supplemental', 'reinspection', 'escalation', 'claim', 'write email',
+      'compose email', 'send email', 'draft letter', 'write letter'
     ]
     const isTemplateRequest = templateKeywords.some(keyword =>
       userMessage.toLowerCase().includes(keyword)
     )
+
+    // Detect if user is asking for email generation (not just template keywords in conversation)
+    const isEmailGenerationRequest =
+      userMessage.toLowerCase().includes('email') ||
+      userMessage.toLowerCase().includes('letter') ||
+      userMessage.toLowerCase().includes('draft') ||
+      userMessage.toLowerCase().includes('write') && (
+        userMessage.toLowerCase().includes('adjuster') ||
+        userMessage.toLowerCase().includes('insurance') ||
+        userMessage.toLowerCase().includes('claim')
+      )
+
+    // Add email generation guidance to system prompt if detected
+    if (isEmailGenerationRequest) {
+      systemPromptContent += `
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 EMAIL GENERATION MODE ACTIVATED 🎯
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The rep has requested email generation. Apply these CRITICAL rules:
+
+1. TONE IS EVERYTHING:
+   - Start warm and professional: "I hope this message finds you well"
+   - Be respectful: "I respectfully request," "I appreciate your consideration"
+   - Stay firm on facts: Use evidence and citations, not emotion
+   - End courteously: "Thank you for your time and attention to this matter"
+
+2. STRUCTURE YOUR EMAIL:
+   - Subject line: Clear and professional
+   - Opening: Greeting + brief context
+   - Body: 2-3 key arguments with proper citations
+   - Evidence: Reference specific documents/photos/tests
+   - Closing: Clear next step + appreciation
+   - Signature: Professional
+
+3. CITATION REQUIREMENTS:
+   - Use CORRECT citations per the code usage rules above
+   - For repairability: GAF guidelines, brittle test, NOT IRC codes
+   - For discontinued products: iTel Report, NOT building codes
+   - For code compliance: IRC codes ONLY when work is already approved
+   ${selectedState ? `   - State-specific: Follow ${selectedState} strategy (see state context below)` : ''}
+
+4. ARGUMENT SELECTION:
+   - Choose 2-3 strongest arguments (don't overwhelm)
+   - Lead with your best evidence
+   - Support with manufacturer guidelines or test results
+   - Close with policy language if applicable
+
+5. PROFESSIONAL LANGUAGE EXAMPLES:
+   ✓ "Per GAF Storm Damage Recommendations..."
+   ✓ "Our brittle test demonstrates..."
+   ✓ "The iTel Report confirms..."
+   ✓ "I respectfully request reconsideration..."
+   ✓ "Thank you for taking the time to review..."
+
+6. AVOID IN EMAILS:
+   ❌ Aggressive demands ("You must," "This is unacceptable")
+   ❌ Wrong citations (IRC R908.3 for repairability)
+   ❌ Emotional appeals without evidence
+   ❌ Threatening language
+
+REMEMBER: Your email represents Roof-ER. Make it professional, evidence-based, and relationship-friendly.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+`
+      // Update the system prompt in conversationalMessages
+      conversationalMessages = [
+        { role: 'system', content: systemPromptContent.trim() },
+        ...messages
+      ]
+    }
 
     if (isTemplateRequest && userMessage.split(' ').length < 20) {
       try {
@@ -790,8 +915,70 @@ ${selectedState === 'MD' ? `
       }
     }
 
+    // ========================================================================
+    // RAG INTEGRATION - Semantic Knowledge Base Retrieval
+    // ========================================================================
+    let ragContext = ''
+    let ragCitations: string[] = []
+
+    // Check if RAG is enabled and query needs knowledge base
+    const RAG_ENABLED = process.env.RAG_ENABLED === 'true'
+
+    if (RAG_ENABLED) {
+      try {
+        // Dynamically import RAG module (only if enabled)
+        const { queryRAG, formatRAGContext, getRAGCitations, shouldUseRAG, extractState } = await import('@/lib/rag-query')
+
+        // Check if this query needs RAG lookup
+        if (shouldUseRAG(userMessage)) {
+          console.log('[RAG] Query requires knowledge base lookup')
+
+          // Extract filters from query
+          const state = extractState(userMessage)
+
+          // Query RAG system
+          const ragResult = await queryRAG(userMessage, {
+            topK: parseInt(process.env.RAG_TOP_K || '5'),
+            minScore: 0.7,
+            state,
+            useCache: true,
+          })
+
+          if (ragResult.results.length > 0) {
+            // Format context for LLM injection
+            ragContext = formatRAGContext(ragResult.results)
+
+            // Get citations for response
+            ragCitations = getRAGCitations(ragResult.results)
+
+            console.log(`[RAG] Retrieved ${ragResult.results.length} relevant chunks (${ragResult.queryTime}ms)`)
+            console.log(`[RAG] Cache hit: ${ragResult.fromCache}`)
+          } else {
+            console.log('[RAG] No relevant results found')
+          }
+        }
+      } catch (ragError: any) {
+        // RAG failure should not block response
+        console.error('[RAG] Error querying RAG system:', ragError.message)
+      }
+    }
+
+    // Inject RAG context into system prompt (if available)
+    if (ragContext) {
+      // Add RAG context before system prompt
+      systemPromptContent = `${ragContext}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n${systemPromptContent}`
+
+      // Update conversational messages with enhanced system prompt
+      conversationalMessages = [
+        { role: 'system', content: systemPromptContent.trim() },
+        ...messages
+      ]
+    }
+
+    // ========================================================================
     // Use AI Provider Failover System
     // This will try: Abacus → HuggingFace → Ollama → Static Knowledge
+    // ========================================================================
     let aiResponse
     try {
       const normalized = (forceProvider || '').toString().toLowerCase();
