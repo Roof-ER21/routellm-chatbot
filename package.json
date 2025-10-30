@@ -6,6 +6,7 @@
     "dev": "next dev -p 4000",
     "dev:local": "bash ./scripts/dev-local.sh",
     "db:init:local": "bash ./scripts/db-init-local.sh",
+    "db:init:rag": "node ./scripts/init-rag-database.js",
     "kb:build": "node ./scripts/kb-build.js",
     "kb:preload": "node ./scripts/preload-kb-documents.js",
     "rag:build": "node ./scripts/generate-embeddings.js",
@@ -18,7 +19,17 @@
     "test:rag:performance": "node test-rag-performance.js",
     "test:rag:comparison": "node test-rag-comparison.js",
     "test:rag:validation": "node test-rag-validation.js",
-    "test:deployment": "node test-deployment-readiness.js"
+    "test:deployment": "node test-deployment-readiness.js",
+    "deepseek:test": "npx ts-node scripts/test-deepseek-ocr.ts",
+    "deepseek:test:unit": "npx ts-node scripts/test-deepseek-ocr.ts unit",
+    "deepseek:test:integration": "npx ts-node scripts/test-deepseek-ocr.ts integration",
+    "deepseek:test:batch": "npx ts-node scripts/test-deepseek-ocr.ts batch",
+    "deepseek:test:performance": "npx ts-node scripts/test-deepseek-ocr.ts performance",
+    "deepseek:test:accuracy": "npx ts-node scripts/test-deepseek-ocr.ts accuracy",
+    "deepseek:example": "npx ts-node examples/deepseek-ocr-examples.ts",
+    "process:batch": "node scripts/simple-batch-processor.js",
+    "process:sample": "node scripts/process-sales-rep-resources.js",
+    "process:ocr": "npx tsx scripts/batch-process-documents.ts"
   },
   "keywords": [],
   "author": "",
@@ -54,6 +65,8 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
-    "sharp": "^0.34.4"
+    "@types/fs-extra": "^11.0.4",
+    "sharp": "^0.34.4",
+    "tsx": "^4.20.6"
   }
 }
