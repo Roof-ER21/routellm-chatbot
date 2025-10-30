@@ -151,13 +151,21 @@ async function processDocument(doc: any, index: number, total: number) {
 
     // Check checkpoints
     if (result.deepseekResult?.checkpoints) {
-      const cp = result.deepseekResult.checkpoints;
+      const checkpoints = result.deepseekResult.checkpoints;
       console.log(`  ✓ Checkpoints:`);
-      console.log(`    1. Image Quality: ${cp.imageQuality.passed ? '✅' : '❌'} (${cp.imageQuality.score}/100)`);
-      console.log(`    2. Text Extraction: ${cp.textExtraction.passed ? '✅' : '❌'} (${cp.textExtraction.score}/100)`);
-      console.log(`    3. Structure: ${cp.structurePreservation.passed ? '✅' : '❌'} (${cp.structurePreservation.score}/100)`);
-      console.log(`    4. Technical: ${cp.technicalAccuracy.passed ? '✅' : '❌'} (${cp.technicalAccuracy.score}/100)`);
-      console.log(`    5. Cross-Ref: ${cp.crossReference.passed ? '✅' : '❌'} (${cp.crossReference.score}/100)`);
+
+      // Find checkpoints by number (1-5)
+      const cp1 = checkpoints.find(c => c.checkpointNumber === 1);
+      const cp2 = checkpoints.find(c => c.checkpointNumber === 2);
+      const cp3 = checkpoints.find(c => c.checkpointNumber === 3);
+      const cp4 = checkpoints.find(c => c.checkpointNumber === 4);
+      const cp5 = checkpoints.find(c => c.checkpointNumber === 5);
+
+      if (cp1) console.log(`    1. Image Quality: ${cp1.passed ? '✅' : '❌'} (${cp1.score}/100)`);
+      if (cp2) console.log(`    2. Text Extraction: ${cp2.passed ? '✅' : '❌'} (${cp2.score}/100)`);
+      if (cp3) console.log(`    3. Structure: ${cp3.passed ? '✅' : '❌'} (${cp3.score}/100)`);
+      if (cp4) console.log(`    4. Technical: ${cp4.passed ? '✅' : '❌'} (${cp4.score}/100)`);
+      if (cp5) console.log(`    5. Cross-Ref: ${cp5.passed ? '✅' : '❌'} (${cp5.score}/100)`);
     }
 
     if (qualityScore < MIN_QUALITY_SCORE) {
@@ -278,22 +286,45 @@ function generateReport(progress: ProcessingProgress, allResults: any[]): Proces
   };
 
   successful.forEach(r => {
-    if (r.metadata?.checkpoints) {
-      const cp = r.metadata.checkpoints;
-      if (cp.imageQuality?.passed) checkpointResults.imageQuality.passed++;
-      else checkpointResults.imageQuality.failed++;
+    if (r.metadata?.checkpoints && Array.isArray(r.metadata.checkpoints)) {
+      const checkpoints = r.metadata.checkpoints;
 
-      if (cp.textExtraction?.passed) checkpointResults.textExtraction.passed++;
-      else checkpointResults.textExtraction.failed++;
+      // Find each checkpoint by number
+      const cp1 = checkpoints.find((c: any) => c.checkpointNumber === 1);
+      const cp2 = checkpoints.find((c: any) => c.checkpointNumber === 2);
+      const cp3 = checkpoints.find((c: any) => c.checkpointNumber === 3);
+      const cp4 = checkpoints.find((c: any) => c.checkpointNumber === 4);
+      const cp5 = checkpoints.find((c: any) => c.checkpointNumber === 5);
 
-      if (cp.structurePreservation?.passed) checkpointResults.structurePreservation.passed++;
-      else checkpointResults.structurePreservation.failed++;
+      // Checkpoint 1: Image Quality
+      if (cp1) {
+        if (cp1.passed) checkpointResults.imageQuality.passed++;
+        else checkpointResults.imageQuality.failed++;
+      }
 
-      if (cp.technicalAccuracy?.passed) checkpointResults.technicalAccuracy.passed++;
-      else checkpointResults.technicalAccuracy.failed++;
+      // Checkpoint 2: Text Extraction
+      if (cp2) {
+        if (cp2.passed) checkpointResults.textExtraction.passed++;
+        else checkpointResults.textExtraction.failed++;
+      }
 
-      if (cp.crossReference?.passed) checkpointResults.crossReference.passed++;
-      else checkpointResults.crossReference.failed++;
+      // Checkpoint 3: Structure Preservation
+      if (cp3) {
+        if (cp3.passed) checkpointResults.structurePreservation.passed++;
+        else checkpointResults.structurePreservation.failed++;
+      }
+
+      // Checkpoint 4: Technical Accuracy
+      if (cp4) {
+        if (cp4.passed) checkpointResults.technicalAccuracy.passed++;
+        else checkpointResults.technicalAccuracy.failed++;
+      }
+
+      // Checkpoint 5: Cross-Reference
+      if (cp5) {
+        if (cp5.passed) checkpointResults.crossReference.passed++;
+        else checkpointResults.crossReference.failed++;
+      }
     }
   });
 
