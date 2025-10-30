@@ -190,9 +190,9 @@ export default function TrainingPage() {
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-gradient-to-b from-gray-50 to-gray-100">
+    <div className="flex flex-col h-screen max-h-screen overflow-hidden bg-gradient-to-b from-gray-50 to-gray-100">
       {/* Header */}
-      <header className="flex-shrink-0 bg-gradient-to-r from-red-700 to-red-800 border-b-4 border-black shadow-xl">
+      <header className="flex-shrink-0 bg-gradient-to-r from-red-700 to-red-800 border-b-4 border-black shadow-xl z-10">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             {/* Left: Logo & Title */}
@@ -252,7 +252,7 @@ export default function TrainingPage() {
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
         {showWelcome ? (
           /* Welcome Screen */
           <div className="max-w-5xl mx-auto px-6 py-12">
@@ -451,7 +451,7 @@ export default function TrainingPage() {
             </div>
 
             {/* Messages */}
-            <div className="space-y-4 mb-6">
+            <div className="space-y-4 pb-24 md:pb-6">
               {messages.map((message, index) => {
                 if (message.role === 'system') {
                   return (
@@ -587,9 +587,9 @@ export default function TrainingPage() {
 
       {/* Input Form - Only show when session is active */}
       {sessionActive && (
-        <div className="flex-shrink-0 bg-white border-t-4 border-red-600 p-4 shadow-2xl">
+        <div className="flex-shrink-0 bg-white border-t-4 border-red-600 p-4 shadow-2xl sticky bottom-0 z-20 safe-bottom">
           <div className="max-w-5xl mx-auto">
-            <form onSubmit={sendMessage} className="flex gap-3 items-center">
+            <form onSubmit={sendMessage} className="flex gap-2 sm:gap-3 items-center">
               {/* Voice Input Button */}
               <SimpleVoiceButton
                 onTranscript={(text, isFinal) => {
@@ -609,16 +609,16 @@ export default function TrainingPage() {
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={
                   characterId === 'none'
-                    ? 'Ask Agnes a question or request coaching...'
-                    : 'Your response as a sales rep...'
+                    ? 'Ask Agnes a question...'
+                    : 'Your response...'
                 }
-                className="flex-1 bg-gray-50 border-2 border-gray-300 focus:border-red-500 rounded-xl px-5 py-4 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-red-100 transition-all"
+                className="flex-1 bg-gray-50 border-2 border-gray-300 focus:border-red-500 rounded-xl px-3 sm:px-5 py-3 sm:py-4 text-sm sm:text-base text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 sm:focus:ring-4 focus:ring-red-100 transition-all min-w-0"
                 disabled={isLoading}
               />
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className="bg-gradient-to-br from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed text-white font-semibold px-8 py-4 rounded-xl transition-all shadow-lg hover:shadow-xl"
+                className="bg-gradient-to-br from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed text-white font-semibold px-4 sm:px-8 py-3 sm:py-4 rounded-xl transition-all shadow-lg hover:shadow-xl whitespace-nowrap text-sm sm:text-base"
               >
                 {isLoading ? (
                   <span className="flex items-center gap-2">
