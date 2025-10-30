@@ -194,13 +194,13 @@ async function processDocument(doc: any, index: number, total: number) {
     fs.writeFileSync(outputPath, JSON.stringify(metadata, null, 2));
 
     console.log(`  ✅ Saved: ${outputFileName}`);
-    console.log(`  💰 Cost: $${result.cost?.toFixed(4) || '0.0000'} ${result.cached ? '(cached)' : ''}`);
+    console.log(`  💰 Cost: $${(result as any).cost?.toFixed(4) || '0.0000'} ${(result as any).cached ? '(cached)' : ''}`);
 
     return {
       success: true,
       document: doc.name,
       metadata,
-      cost: result.cost || 0
+      cost: (result as any).cost || 0
     };
 
   } catch (error: any) {
