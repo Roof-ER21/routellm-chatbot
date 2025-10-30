@@ -43,24 +43,18 @@ export async function POST(request: Request) {
 
     console.log('[RAG Init] Executing schema...');
 
-    // Execute schema (split by semicolons and execute each statement)
-    const statements = schema
-      .split(';')
-      .map(s => s.trim())
-      .filter(s => s.length > 0 && !s.startsWith('--'));
-
-    for (const statement of statements) {
-      try {
-        await pool.query(statement);
-      } catch (error: any) {
-        // Ignore "already exists" errors
-        if (!error.message.includes('already exists')) {
-          console.error(`[RAG Init] Error executing statement:`, error.message);
-        }
+    // Execute schema as a single query (contains dollar-quoted functions)
+    try {
+      await pool.query(schema);
+      console.log('[RAG Init] Schema executed successfully');
+    } catch (error: any) {
+      // Ignore "already exists" errors
+      if (!error.message.includes('already exists')) {
+        console.error(`[RAG Init] Error executing schema:`, error.message);
+        throw error;
       }
+      console.log('[RAG Init] Schema partially exists, continuing...');
     }
-
-    console.log('[RAG Init] Schema executed successfully');
 
     // Verify pgvector extension
     const verification = await pool.query(`
