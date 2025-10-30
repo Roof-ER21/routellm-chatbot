@@ -1,0 +1,17 @@
+{
+  "id": "doc_1761845101547_131",
+  "sourceFile": "Sales Tracker (Example).xlsx",
+  "sourcePath": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Sales Tracker (Example).xlsx",
+  "category": "reference",
+  "type": "xlsx",
+  "size": 13510,
+  "relativePath": "Sales Tracker (Example).xlsx",
+  "title": "Sales Tracker (Example)",
+  "status": "ready_for_ocr",
+  "createdAt": "2025-10-30T17:25:01.547Z",
+  "metadata": {
+    "needsOCR": false,
+    "needsTextExtraction": true,
+    "priority": "normal"
+  }
+}

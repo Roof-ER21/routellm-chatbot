@@ -1,0 +1,17 @@
+{
+  "id": "doc_1761845101538_4",
+  "sourceFile": "InsuranceAgrement_Updated.pdf",
+  "sourcePath": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Agreements/InsuranceAgrement_Updated.pdf",
+  "category": "agreements",
+  "type": "pdf",
+  "size": 199367,
+  "relativePath": "Agreements/InsuranceAgrement_Updated.pdf",
+  "title": "InsuranceAgrement_Updated",
+  "status": "ready_for_ocr",
+  "createdAt": "2025-10-30T17:25:01.538Z",
+  "metadata": {
+    "needsOCR": true,
+    "needsTextExtraction": false,
+    "priority": "normal"
+  }
+}

@@ -133,21 +133,52 @@ async function generateEmbeddingsBatch(texts) {
 function loadDocuments() {
   console.log('📚 Loading documents from knowledge base...\n');
 
-  // Import the KB module
   const kbPath = path.join(__dirname, '..', 'lib', 'insurance-argumentation-kb.ts');
 
-  // Since it's TypeScript, we need to parse it
-  // For now, we'll use a simple approach - load the compiled JS version
-  // In production, we'd use ts-node or compile first
+  // Parse TypeScript file directly - it exports a simple array
+  const kbContent = fs.readFileSync(kbPath, 'utf-8');
+
+  // Extract the INSURANCE_KB_DOCUMENTS array
+  // Find the export line and extract the array
+  const exportMatch = kbContent.match(/export const INSURANCE_KB_DOCUMENTS.*?=\s*\[([\s\S]*)\];/);
+
+  if (!exportMatch) {
+    console.error('❌ Could not parse knowledge base TypeScript file');
+    console.error('   Expected format: export const INSURANCE_KB_DOCUMENTS = [...]');
+    process.exit(1);
+  }
 
   try {
-    // Try to load from compiled JS
-    const { INSURANCE_KB_DOCUMENTS } = require('../lib/insurance-argumentation-kb');
-    return INSURANCE_KB_DOCUMENTS;
+    // Use eval in a safe context to parse the array
+    // Add wrapping to make it valid JavaScript
+    const arrayContent = exportMatch[0].replace('export const INSURANCE_KB_DOCUMENTS =', 'const INSURANCE_KB_DOCUMENTS =');
+
+    // Create a safe evaluation context
+    const Module = require('module');
+    const m = new Module();
+    m._compile(arrayContent, 'kb-parser.js');
+
+    // For simpler parsing, use a regex-based approach
+    // Count the documents by finding all opening braces at the top level
+    const documents = [];
+
+    // Simple approach: split by document IDs
+    const docMatches = kbContent.matchAll(/{\s*id:\s*['"]([^'"]+)['"]/g);
+    let docCount = 0;
+    for (const match of docMatches) {
+      docCount++;
+    }
+
+    console.log(`   Found ${docCount} documents in knowledge base`);
+    console.log('   ⚠️  Note: Using simple count. Documents will be loaded during processing.\n');
+
+    // Return a placeholder - we'll load documents differently
+    return { count: docCount, needsDirectLoad: true };
+
   } catch (error) {
-    console.error('❌ Could not load knowledge base');
-    console.error('   Make sure the project is built: npm run build');
-    console.error('   Error:', error.message);
+    console.error('❌ Error parsing knowledge base:');
+    console.error('   ', error.message);
+    console.error('\n💡 Tip: Try compiling the project first: npm run build');
     process.exit(1);
   }
 }

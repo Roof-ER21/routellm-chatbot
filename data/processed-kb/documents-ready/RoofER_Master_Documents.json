@@ -1,0 +1,17 @@
+{
+  "id": "doc_1761845101546_120",
+  "sourceFile": "RoofER_Master_Documents.pdf",
+  "sourcePath": "/Users/a21/Desktop/Sales Rep Resources 2 copy/RoofER_Master_Documents.pdf",
+  "category": "reference",
+  "type": "pdf",
+  "size": 138592,
+  "relativePath": "RoofER_Master_Documents.pdf",
+  "title": "RoofER_Master_Documents",
+  "status": "ready_for_ocr",
+  "createdAt": "2025-10-30T17:25:01.546Z",
+  "metadata": {
+    "needsOCR": true,
+    "needsTextExtraction": false,
+    "priority": "normal"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "doc_1761845101544_88",
+  "sourceFile": "Philadelphia Territory Map.jpg",
+  "sourcePath": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Philadelphia Territory Map.jpg",
+  "category": "reference",
+  "type": "jpg",
+  "size": 2288446,
+  "relativePath": "Philadelphia Territory Map.jpg",
+  "title": "Philadelphia Territory Map",
+  "status": "ready_for_ocr",
+  "createdAt": "2025-10-30T17:25:01.544Z",
+  "metadata": {
+    "needsOCR": true,
+    "needsTextExtraction": false,
+    "priority": "normal"
+  }
+}

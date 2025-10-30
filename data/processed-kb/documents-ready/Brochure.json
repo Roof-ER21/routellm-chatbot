@@ -1,0 +1,17 @@
+{
+  "id": "doc_1761845101538_9",
+  "sourceFile": "Brochure.pdf",
+  "sourcePath": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Brochure.pdf",
+  "category": "reference",
+  "type": "pdf",
+  "size": 20777092,
+  "relativePath": "Brochure.pdf",
+  "title": "Brochure",
+  "status": "ready_for_ocr",
+  "createdAt": "2025-10-30T17:25:01.538Z",
+  "metadata": {
+    "needsOCR": true,
+    "needsTextExtraction": false,
+    "priority": "normal"
+  }
+}

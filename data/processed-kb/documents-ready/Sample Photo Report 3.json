@@ -1,0 +1,17 @@
+{
+  "id": "doc_1761845101546_109",
+  "sourceFile": "Sample Photo Report 3.pdf",
+  "sourcePath": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Rep Reports & Photo Examples/Sample Photo Report 3.pdf",
+  "category": "photo_examples",
+  "type": "pdf",
+  "size": 4267199,
+  "relativePath": "Rep Reports & Photo Examples/Sample Photo Report 3.pdf",
+  "title": "Sample Photo Report 3",
+  "status": "ready_for_ocr",
+  "createdAt": "2025-10-30T17:25:01.546Z",
+  "metadata": {
+    "needsOCR": true,
+    "needsTextExtraction": false,
+    "priority": "normal"
+  }
+}

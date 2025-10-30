@@ -1,0 +1,17 @@
+{
+  "id": "doc_1761845101545_102",
+  "sourceFile": "Training.docx",
+  "sourcePath": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Questions/Training.docx",
+  "category": "training_materials",
+  "type": "docx",
+  "size": 19551,
+  "relativePath": "Questions/Training.docx",
+  "title": "Training",
+  "status": "ready_for_ocr",
+  "createdAt": "2025-10-30T17:25:01.545Z",
+  "metadata": {
+    "needsOCR": false,
+    "needsTextExtraction": true,
+    "priority": "high"
+  }
+}

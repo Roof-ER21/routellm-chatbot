@@ -1,0 +1,1428 @@
+{
+  "totalDocuments": 142,
+  "processedAt": "2025-10-30T17:03:52.680Z",
+  "sourceDirectory": "/Users/a21/Desktop/Sales Rep Resources 2 copy",
+  "outputDirectory": "/Users/a21/routellm-chatbot/data/processed-kb",
+  "documents": [
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Adjuster and Ladder Assist Information/Adjuster_Inspector Information.xlsx",
+      "name": "Adjuster_Inspector Information.xlsx",
+      "type": "xlsx",
+      "size": 34591,
+      "relativePath": "Adjuster and Ladder Assist Information/Adjuster_Inspector Information.xlsx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Adjuster_Inspector Information Sheet1.pdf",
+      "name": "Adjuster_Inspector Information Sheet1.pdf",
+      "type": "pdf",
+      "size": 76212,
+      "relativePath": "Adjuster_Inspector Information Sheet1.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Agreements/Claim Authorization Form.pdf",
+      "name": "Claim Authorization Form.pdf",
+      "type": "pdf",
+      "size": 176368,
+      "relativePath": "Agreements/Claim Authorization Form.pdf",
+      "category": "agreements",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Agreements/Emergency Tarp.pdf",
+      "name": "Emergency Tarp.pdf",
+      "type": "pdf",
+      "size": 206787,
+      "relativePath": "Agreements/Emergency Tarp.pdf",
+      "category": "agreements",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Agreements/InsuranceAgrement_Updated.pdf",
+      "name": "InsuranceAgrement_Updated.pdf",
+      "type": "pdf",
+      "size": 199367,
+      "relativePath": "Agreements/InsuranceAgrement_Updated.pdf",
+      "category": "agreements",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Agreements/Project Agreement - Repair - MD.pdf",
+      "name": "Project Agreement - Repair - MD.pdf",
+      "type": "pdf",
+      "size": 270069,
+      "relativePath": "Agreements/Project Agreement - Repair - MD.pdf",
+      "category": "agreements",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Agreements/Project Agreement - Repair - VA.pdf",
+      "name": "Project Agreement - Repair - VA.pdf",
+      "type": "pdf",
+      "size": 250311,
+      "relativePath": "Agreements/Project Agreement - Repair - VA.pdf",
+      "category": "agreements",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Agreements/Repair Attempt Agreement.pdf",
+      "name": "Repair Attempt Agreement.pdf",
+      "type": "pdf",
+      "size": 220051,
+      "relativePath": "Agreements/Repair Attempt Agreement.pdf",
+      "category": "agreements",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Agreements/iTel Agreement.pdf",
+      "name": "iTel Agreement.pdf",
+      "type": "pdf",
+      "size": 207932,
+      "relativePath": "Agreements/iTel Agreement.pdf",
+      "category": "agreements",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Brochure.pdf",
+      "name": "Brochure.pdf",
+      "type": "pdf",
+      "size": 20777092,
+      "relativePath": "Brochure.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Copy of Sales Tracker (Example).xlsx",
+      "name": "Copy of Sales Tracker (Example).xlsx",
+      "type": "xlsx",
+      "size": 13512,
+      "relativePath": "Copy of Sales Tracker (Example).xlsx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/CoverageArea.JPG",
+      "name": "CoverageArea.JPG",
+      "type": "jpg",
+      "size": 342003,
+      "relativePath": "CoverageArea.JPG",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Customer Resources(Products, Warranties, etc.)/GAF Standard Warranty.pdf",
+      "name": "GAF Standard Warranty.pdf",
+      "type": "pdf",
+      "size": 286533,
+      "relativePath": "Customer Resources(Products, Warranties, etc.)/GAF Standard Warranty.pdf",
+      "category": "warranties",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Customer Resources(Products, Warranties, etc.)/GAF Warranty Comparison.pdf",
+      "name": "GAF Warranty Comparison.pdf",
+      "type": "pdf",
+      "size": 877460,
+      "relativePath": "Customer Resources(Products, Warranties, etc.)/GAF Warranty Comparison.pdf",
+      "category": "warranties",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Customer Resources(Products, Warranties, etc.)/Golden_Pledge_Limited_RESWT161_Legal_Sample.pdf",
+      "name": "Golden_Pledge_Limited_RESWT161_Legal_Sample.pdf",
+      "type": "pdf",
+      "size": 2440688,
+      "relativePath": "Customer Resources(Products, Warranties, etc.)/Golden_Pledge_Limited_RESWT161_Legal_Sample.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Customer Resources(Products, Warranties, etc.)/Post Sign Up Timeline.docx",
+      "name": "Post Sign Up Timeline.docx",
+      "type": "docx",
+      "size": 235435,
+      "relativePath": "Customer Resources(Products, Warranties, etc.)/Post Sign Up Timeline.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Customer Resources(Products, Warranties, etc.)/Roof-ER.pdf",
+      "name": "Roof-ER.pdf",
+      "type": "pdf",
+      "size": 84438,
+      "relativePath": "Customer Resources(Products, Warranties, etc.)/Roof-ER.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Customer Resources(Products, Warranties, etc.)/RoofER Standard Materials.docx",
+      "name": "RoofER Standard Materials.docx",
+      "type": "docx",
+      "size": 7919,
+      "relativePath": "Customer Resources(Products, Warranties, etc.)/RoofER Standard Materials.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Customer Resources(Products, Warranties, etc.)/SP Exclusion Form.pdf",
+      "name": "SP Exclusion Form.pdf",
+      "type": "pdf",
+      "size": 124923,
+      "relativePath": "Customer Resources(Products, Warranties, etc.)/SP Exclusion Form.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Customer Resources(Products, Warranties, etc.)/Silver Pledge Legalese.pdf",
+      "name": "Silver Pledge Legalese.pdf",
+      "type": "pdf",
+      "size": 385210,
+      "relativePath": "Customer Resources(Products, Warranties, etc.)/Silver Pledge Legalese.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Customer Resources(Products, Warranties, etc.)/Silver Pledge Warranty Brochure.pdf",
+      "name": "Silver Pledge Warranty Brochure.pdf",
+      "type": "pdf",
+      "size": 12035491,
+      "relativePath": "Customer Resources(Products, Warranties, etc.)/Silver Pledge Warranty Brochure.pdf",
+      "category": "warranties",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Customer Resources(Products, Warranties, etc.)/What is a Deductible_.pdf",
+      "name": "What is a Deductible_.pdf",
+      "type": "pdf",
+      "size": 1977158,
+      "relativePath": "Customer Resources(Products, Warranties, etc.)/What is a Deductible_.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Customer Resources(Products, Warranties, etc.)/Workmanship Warranty.pdf",
+      "name": "Workmanship Warranty.pdf",
+      "type": "pdf",
+      "size": 5133434,
+      "relativePath": "Customer Resources(Products, Warranties, etc.)/Workmanship Warranty.pdf",
+      "category": "warranties",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/DMV Blank Contingency.pdf",
+      "name": "DMV Blank Contingency.pdf",
+      "type": "pdf",
+      "size": 199367,
+      "relativePath": "DMV Blank Contingency.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/DMV Territory Map.jpeg",
+      "name": "DMV Territory Map.jpeg",
+      "type": "jpeg",
+      "size": 635430,
+      "relativePath": "DMV Territory Map.jpeg",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Email Templates/Danny_s Repair Attempt Video Template.docx",
+      "name": "Danny_s Repair Attempt Video Template.docx",
+      "type": "docx",
+      "size": 8413,
+      "relativePath": "Email Templates/Danny_s Repair Attempt Video Template.docx",
+      "category": "email_templates",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Email Templates/Estimate Request Template.docx",
+      "name": "Estimate Request Template.docx",
+      "type": "docx",
+      "size": 8841,
+      "relativePath": "Email Templates/Estimate Request Template.docx",
+      "category": "email_templates",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Email Templates/GAF Guidelines Template.docx",
+      "name": "GAF Guidelines Template.docx",
+      "type": "docx",
+      "size": 9112,
+      "relativePath": "Email Templates/GAF Guidelines Template.docx",
+      "category": "email_templates",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Email Templates/Generic Partial Template.docx",
+      "name": "Generic Partial Template.docx",
+      "type": "docx",
+      "size": 9276,
+      "relativePath": "Email Templates/Generic Partial Template.docx",
+      "category": "email_templates",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Email Templates/Photo Report Template.docx",
+      "name": "Photo Report Template.docx",
+      "type": "docx",
+      "size": 197294,
+      "relativePath": "Email Templates/Photo Report Template.docx",
+      "category": "email_templates",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Email Templates/Post AM Email Template.docx",
+      "name": "Post AM Email Template.docx",
+      "type": "docx",
+      "size": 7575,
+      "relativePath": "Email Templates/Post AM Email Template.docx",
+      "category": "email_templates",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Email Templates/Repair Attempt Template.docx",
+      "name": "Repair Attempt Template.docx",
+      "type": "docx",
+      "size": 9116,
+      "relativePath": "Email Templates/Repair Attempt Template.docx",
+      "category": "email_templates",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Email Templates/Request For Appraisal.docx",
+      "name": "Request For Appraisal.docx",
+      "type": "docx",
+      "size": 8386,
+      "relativePath": "Email Templates/Request For Appraisal.docx",
+      "category": "email_templates",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Email Templates/RoofER_Email_Cheat_Sheet.png",
+      "name": "RoofER_Email_Cheat_Sheet.png",
+      "type": "png",
+      "size": 18210,
+      "relativePath": "Email Templates/RoofER_Email_Cheat_Sheet.png",
+      "category": "email_templates",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Email Templates/Siding Argument.docx",
+      "name": "Siding Argument.docx",
+      "type": "docx",
+      "size": 10285,
+      "relativePath": "Email Templates/Siding Argument.docx",
+      "category": "email_templates",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Email Templates/Template from Customer to Insurance.docx",
+      "name": "Template from Customer to Insurance.docx",
+      "type": "docx",
+      "size": 9416,
+      "relativePath": "Email Templates/Template from Customer to Insurance.docx",
+      "category": "email_templates",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Email Templates/iTel Shingle Template.docx",
+      "name": "iTel Shingle Template.docx",
+      "type": "docx",
+      "size": 10119,
+      "relativePath": "Email Templates/iTel Shingle Template.docx",
+      "category": "email_templates",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Hover ESX_XML_PDF Process.docx",
+      "name": "Hover ESX_XML_PDF Process.docx",
+      "type": "docx",
+      "size": 80167,
+      "relativePath": "Hover ESX_XML_PDF Process.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/How to do a Repair Attempt [EXAMPLE].docx",
+      "name": "How to do a Repair Attempt [EXAMPLE].docx",
+      "type": "docx",
+      "size": 12562292,
+      "relativePath": "How to do a Repair Attempt [EXAMPLE].docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Arbitration Information.docx",
+      "name": "Arbitration Information.docx",
+      "type": "docx",
+      "size": 11141,
+      "relativePath": "Insurance Argument Resources/Arbitration Information.docx",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Building Code - Definition of Roof Recover.png",
+      "name": "Building Code - Definition of Roof Recover.png",
+      "type": "png",
+      "size": 17243,
+      "relativePath": "Insurance Argument Resources/Building Code - Definition of Roof Recover.png",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Building Code - Proof double layer cannot be repaired.png",
+      "name": "Building Code - Proof double layer cannot be repaired.png",
+      "type": "png",
+      "size": 43828,
+      "relativePath": "Insurance Argument Resources/Building Code - Proof double layer cannot be repaired.png",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Building Code - Proof of double layer removal.png",
+      "name": "Building Code - Proof of double layer removal.png",
+      "type": "png",
+      "size": 55866,
+      "relativePath": "Insurance Argument Resources/Building Code - Proof of double layer removal.png",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Complaint Forms.docx",
+      "name": "Complaint Forms.docx",
+      "type": "docx",
+      "size": 9509,
+      "relativePath": "Insurance Argument Resources/Complaint Forms.docx",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Discontinued-Shingle-List.pdf",
+      "name": "Discontinued-Shingle-List.pdf",
+      "type": "pdf",
+      "size": 29497,
+      "relativePath": "Insurance Argument Resources/Discontinued-Shingle-List.pdf",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Double Layer Code PA.png",
+      "name": "Double Layer Code PA.png",
+      "type": "png",
+      "size": 12841,
+      "relativePath": "Insurance Argument Resources/Double Layer Code PA.png",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Double_Layer_VA.JPG",
+      "name": "Double_Layer_VA.JPG",
+      "type": "jpg",
+      "size": 198805,
+      "relativePath": "Insurance Argument Resources/Double_Layer_VA.JPG",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Engineers.docx",
+      "name": "Engineers.docx",
+      "type": "docx",
+      "size": 6606,
+      "relativePath": "Insurance Argument Resources/Engineers.docx",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Flashing Codes.docx",
+      "name": "Flashing Codes.docx",
+      "type": "docx",
+      "size": 174932,
+      "relativePath": "Insurance Argument Resources/Flashing Codes.docx",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/GAF Requirement - Slope Replacement.pdf",
+      "name": "GAF Requirement - Slope Replacement.pdf",
+      "type": "pdf",
+      "size": 119834,
+      "relativePath": "Insurance Argument Resources/GAF Requirement - Slope Replacement.pdf",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/GAF Storm Damage Guidelines .pdf",
+      "name": "GAF Storm Damage Guidelines .pdf",
+      "type": "pdf",
+      "size": 340645,
+      "relativePath": "Insurance Argument Resources/GAF Storm Damage Guidelines .pdf",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Low Roof_Flat Roof Code.docx",
+      "name": "Low Roof_Flat Roof Code.docx",
+      "type": "docx",
+      "size": 6849,
+      "relativePath": "Insurance Argument Resources/Low Roof_Flat Roof Code.docx",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Maryland Exterior Wrap Code R703.docx",
+      "name": "Maryland Exterior Wrap Code R703.docx",
+      "type": "docx",
+      "size": 9261,
+      "relativePath": "Insurance Argument Resources/Maryland Exterior Wrap Code R703.docx",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Maryland Insurance Administration Matching Requirement 1.pdf",
+      "name": "Maryland Insurance Administration Matching Requirement 1.pdf",
+      "type": "pdf",
+      "size": 90662,
+      "relativePath": "Insurance Argument Resources/Maryland Insurance Administration Matching Requirement 1.pdf",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Maryland Insurance Administration Matching Requirement 2.pdf",
+      "name": "Maryland Insurance Administration Matching Requirement 2.pdf",
+      "type": "pdf",
+      "size": 67183,
+      "relativePath": "Insurance Argument Resources/Maryland Insurance Administration Matching Requirement 2.pdf",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Maryland Insurance Administration Matching Requirement 3.pdf",
+      "name": "Maryland Insurance Administration Matching Requirement 3.pdf",
+      "type": "pdf",
+      "size": 84111,
+      "relativePath": "Insurance Argument Resources/Maryland Insurance Administration Matching Requirement 3.pdf",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/PHILLY PARTIALS.docx",
+      "name": "PHILLY PARTIALS.docx",
+      "type": "docx",
+      "size": 6492,
+      "relativePath": "Insurance Argument Resources/PHILLY PARTIALS.docx",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Virginia Residential Building Codes.docx",
+      "name": "Virginia Residential Building Codes.docx",
+      "type": "docx",
+      "size": 437137,
+      "relativePath": "Insurance Argument Resources/Virginia Residential Building Codes.docx",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Virginia building codes Re-roofing Chapters.docx",
+      "name": "Virginia building codes Re-roofing Chapters.docx",
+      "type": "docx",
+      "size": 6666,
+      "relativePath": "Insurance Argument Resources/Virginia building codes Re-roofing Chapters.docx",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/double-layer MD.JPG",
+      "name": "double-layer MD.JPG",
+      "type": "jpg",
+      "size": 188447,
+      "relativePath": "Insurance Argument Resources/double-layer MD.JPG",
+      "category": "pushback_strategies",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses & Certifications/CERTIFIED_CERTIFICATE.pdf",
+      "name": "CERTIFIED_CERTIFICATE.pdf",
+      "type": "pdf",
+      "size": 292596,
+      "relativePath": "Licenses & Certifications/CERTIFIED_CERTIFICATE.pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses & Certifications/MD License.pdf",
+      "name": "MD License.pdf",
+      "type": "pdf",
+      "size": 1683632,
+      "relativePath": "Licenses & Certifications/MD License.pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses & Certifications/Roof-ER CertainTeed ShingleMaster.pdf",
+      "name": "Roof-ER CertainTeed ShingleMaster.pdf",
+      "type": "pdf",
+      "size": 259045,
+      "relativePath": "Licenses & Certifications/Roof-ER CertainTeed ShingleMaster.pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses & Certifications/VA Class A License.pdf",
+      "name": "VA Class A License.pdf",
+      "type": "pdf",
+      "size": 373539,
+      "relativePath": "Licenses & Certifications/VA Class A License.pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/COI - General Liability.pdf",
+      "name": "COI - General Liability.pdf",
+      "type": "pdf",
+      "size": 18596,
+      "relativePath": "Licenses, Certifications, & General Liability Ins/COI - General Liability.pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/COI - workers comp 2026.pdf",
+      "name": "COI - workers comp 2026.pdf",
+      "type": "pdf",
+      "size": 232059,
+      "relativePath": "Licenses, Certifications, & General Liability Ins/COI - workers comp 2026.pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/Expired Docs/Copy of MD License (Valid through 7_2025).pdf",
+      "name": "Copy of MD License (Valid through 7_2025).pdf",
+      "type": "pdf",
+      "size": 1683632,
+      "relativePath": "Licenses, Certifications, & General Liability Ins/Expired Docs/Copy of MD License (Valid through 7_2025).pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/Expired Docs/GAF Master Elite 2024.PDF",
+      "name": "GAF Master Elite 2024.PDF",
+      "type": "pdf",
+      "size": 3066742,
+      "relativePath": "Licenses, Certifications, & General Liability Ins/Expired Docs/GAF Master Elite 2024.PDF",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/Expired Docs/MD License (Valid through 7_2025).pdf",
+      "name": "MD License (Valid through 7_2025).pdf",
+      "type": "pdf",
+      "size": 1683632,
+      "relativePath": "Licenses, Certifications, & General Liability Ins/Expired Docs/MD License (Valid through 7_2025).pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/Expired Docs/VA Class A License (Valid through 12_2024.pdf",
+      "name": "VA Class A License (Valid through 12_2024.pdf",
+      "type": "pdf",
+      "size": 369344,
+      "relativePath": "Licenses, Certifications, & General Liability Ins/Expired Docs/VA Class A License (Valid through 12_2024.pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/Form W-9 (Rev. March 2024) (1).pdf",
+      "name": "Form W-9 (Rev. March 2024) (1).pdf",
+      "type": "pdf",
+      "size": 86709,
+      "relativePath": "Licenses, Certifications, & General Liability Ins/Form W-9 (Rev. March 2024) (1).pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/GAF Certification.PDF",
+      "name": "GAF Certification.PDF",
+      "type": "pdf",
+      "size": 1046227,
+      "relativePath": "Licenses, Certifications, & General Liability Ins/GAF Certification.PDF",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/GAF Master Elite 2025.pdf",
+      "name": "GAF Master Elite 2025.pdf",
+      "type": "pdf",
+      "size": 1548956,
+      "relativePath": "Licenses, Certifications, & General Liability Ins/GAF Master Elite 2025.pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/Maryland License Valid through 2027.pdf",
+      "name": "Maryland License Valid through 2027.pdf",
+      "type": "pdf",
+      "size": 1501300,
+      "relativePath": "Licenses, Certifications, & General Liability Ins/Maryland License Valid through 2027.pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/Master Elite Reference Letter for Customers.pdf",
+      "name": "Master Elite Reference Letter for Customers.pdf",
+      "type": "pdf",
+      "size": 265660,
+      "relativePath": "Licenses, Certifications, & General Liability Ins/Master Elite Reference Letter for Customers.pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/PA license 2025 - 2027.pdf",
+      "name": "PA license 2025 - 2027.pdf",
+      "type": "pdf",
+      "size": 155627,
+      "relativePath": "Licenses, Certifications, & General Liability Ins/PA license 2025 - 2027.pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/Pennsylvania License Valid Through 2027.pdf",
+      "name": "Pennsylvania License Valid Through 2027.pdf",
+      "type": "pdf",
+      "size": 155627,
+      "relativePath": "Licenses, Certifications, & General Liability Ins/Pennsylvania License Valid Through 2027.pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/Roof-ER CertainTeed ShingleMaster.pdf",
+      "name": "Roof-ER CertainTeed ShingleMaster.pdf",
+      "type": "pdf",
+      "size": 259045,
+      "relativePath": "Licenses, Certifications, & General Liability Ins/Roof-ER CertainTeed ShingleMaster.pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/TAX ID Information.pdf",
+      "name": "TAX ID Information.pdf",
+      "type": "pdf",
+      "size": 221997,
+      "relativePath": "Licenses, Certifications, & General Liability Ins/TAX ID Information.pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/VA License 2025 - 2027.pdf",
+      "name": "VA License 2025 - 2027.pdf",
+      "type": "pdf",
+      "size": 2146048,
+      "relativePath": "Licenses, Certifications, & General Liability Ins/VA License 2025 - 2027.pdf",
+      "category": "certifications",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Merged_PDFs_1.pdf",
+      "name": "Merged_PDFs_1.pdf",
+      "type": "pdf",
+      "size": 33936,
+      "relativePath": "Merged_PDFs_1.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Merged_PDFs_2.pdf",
+      "name": "Merged_PDFs_2.pdf",
+      "type": "pdf",
+      "size": 8616,
+      "relativePath": "Merged_PDFs_2.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Merged_PDFs_3.pdf",
+      "name": "Merged_PDFs_3.pdf",
+      "type": "pdf",
+      "size": 6794,
+      "relativePath": "Merged_PDFs_3.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Merged_PDFs_4.pdf",
+      "name": "Merged_PDFs_4.pdf",
+      "type": "pdf",
+      "size": 21345,
+      "relativePath": "Merged_PDFs_4.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Merged_PDFs_5.pdf",
+      "name": "Merged_PDFs_5.pdf",
+      "type": "pdf",
+      "size": 7813,
+      "relativePath": "Merged_PDFs_5.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Merged_PDFs_6.pdf",
+      "name": "Merged_PDFs_6.pdf",
+      "type": "pdf",
+      "size": 61209,
+      "relativePath": "Merged_PDFs_6.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Mission, Values, & Commitment.docx",
+      "name": "Mission, Values, & Commitment.docx",
+      "type": "docx",
+      "size": 47918,
+      "relativePath": "Mission, Values, & Commitment.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/PA Blank Contingency.pdf",
+      "name": "PA Blank Contingency.pdf",
+      "type": "pdf",
+      "size": 230750,
+      "relativePath": "PA Blank Contingency.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Philadelphia Territory Map.jpg",
+      "name": "Philadelphia Territory Map.jpg",
+      "type": "jpg",
+      "size": 2288446,
+      "relativePath": "Philadelphia Territory Map.jpg",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Q&A Susan AI-21/Escal.docx",
+      "name": "Escal.docx",
+      "type": "docx",
+      "size": 26696,
+      "relativePath": "Q&A Susan AI-21/Escal.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Q&A Susan AI-21/GAF_Storm.docx",
+      "name": "GAF_Storm.docx",
+      "type": "docx",
+      "size": 27264,
+      "relativePath": "Q&A Susan AI-21/GAF_Storm.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Q&A Susan AI-21/Knowledge.docx",
+      "name": "Knowledge.docx",
+      "type": "docx",
+      "size": 28382,
+      "relativePath": "Q&A Susan AI-21/Knowledge.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Q&A Susan AI-21/Pushback.docx",
+      "name": "Pushback.docx",
+      "type": "docx",
+      "size": 30508,
+      "relativePath": "Q&A Susan AI-21/Pushback.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Q&A Susan AI-21/Stuck_do.docx",
+      "name": "Stuck_do.docx",
+      "type": "docx",
+      "size": 31125,
+      "relativePath": "Q&A Susan AI-21/Stuck_do.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Q&A Susan AI-21/Training.docx",
+      "name": "Training.docx",
+      "type": "docx",
+      "size": 19551,
+      "relativePath": "Q&A Susan AI-21/Training.docx",
+      "category": "training_materials",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Q&A Susan AI-21/docs_temps.docx",
+      "name": "docs_temps.docx",
+      "type": "docx",
+      "size": 29614,
+      "relativePath": "Q&A Susan AI-21/docs_temps.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Q&A Susan AI-21/susan_ai.docx",
+      "name": "susan_ai.docx",
+      "type": "docx",
+      "size": 25623,
+      "relativePath": "Q&A Susan AI-21/susan_ai.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Questions/Escal.docx",
+      "name": "Escal.docx",
+      "type": "docx",
+      "size": 26696,
+      "relativePath": "Questions/Escal.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Questions/GAF_Storm.docx",
+      "name": "GAF_Storm.docx",
+      "type": "docx",
+      "size": 27264,
+      "relativePath": "Questions/GAF_Storm.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Questions/Knowledge.docx",
+      "name": "Knowledge.docx",
+      "type": "docx",
+      "size": 28382,
+      "relativePath": "Questions/Knowledge.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Questions/Pushback.docx",
+      "name": "Pushback.docx",
+      "type": "docx",
+      "size": 30508,
+      "relativePath": "Questions/Pushback.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Questions/Stuck_do.docx",
+      "name": "Stuck_do.docx",
+      "type": "docx",
+      "size": 31125,
+      "relativePath": "Questions/Stuck_do.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Questions/Training.docx",
+      "name": "Training.docx",
+      "type": "docx",
+      "size": 19551,
+      "relativePath": "Questions/Training.docx",
+      "category": "training_materials",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Questions/docs_temps.docx",
+      "name": "docs_temps.docx",
+      "type": "docx",
+      "size": 29614,
+      "relativePath": "Questions/docs_temps.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Questions/susan_ai.docx",
+      "name": "susan_ai.docx",
+      "type": "docx",
+      "size": 25623,
+      "relativePath": "Questions/susan_ai.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/RESIDENTIAL_BRAND_GUIDELINES.pdf",
+      "name": "RESIDENTIAL_BRAND_GUIDELINES.pdf",
+      "type": "pdf",
+      "size": 682558,
+      "relativePath": "RESIDENTIAL_BRAND_GUIDELINES.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Rep Reports & Photo Examples/EXAMPLE PHOTOS.pdf",
+      "name": "EXAMPLE PHOTOS.pdf",
+      "type": "pdf",
+      "size": 14651467,
+      "relativePath": "Rep Reports & Photo Examples/EXAMPLE PHOTOS.pdf",
+      "category": "photo_examples",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Rep Reports & Photo Examples/Sample Photo Report 1.pdf",
+      "name": "Sample Photo Report 1.pdf",
+      "type": "pdf",
+      "size": 8759860,
+      "relativePath": "Rep Reports & Photo Examples/Sample Photo Report 1.pdf",
+      "category": "photo_examples",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Rep Reports & Photo Examples/Sample Photo Report 2.pdf",
+      "name": "Sample Photo Report 2.pdf",
+      "type": "pdf",
+      "size": 6142175,
+      "relativePath": "Rep Reports & Photo Examples/Sample Photo Report 2.pdf",
+      "category": "photo_examples",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Rep Reports & Photo Examples/Sample Photo Report 3.pdf",
+      "name": "Sample Photo Report 3.pdf",
+      "type": "pdf",
+      "size": 4267199,
+      "relativePath": "Rep Reports & Photo Examples/Sample Photo Report 3.pdf",
+      "category": "photo_examples",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Rep Reports & Photo Examples/Sample Photo Report 4.pdf",
+      "name": "Sample Photo Report 4.pdf",
+      "type": "pdf",
+      "size": 6040215,
+      "relativePath": "Rep Reports & Photo Examples/Sample Photo Report 4.pdf",
+      "category": "photo_examples",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Required Mortgage Endorsement Companies.docx",
+      "name": "Required Mortgage Endorsement Companies.docx",
+      "type": "docx",
+      "size": 6603,
+      "relativePath": "Required Mortgage Endorsement Companies.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Richmond Territory Map.jpg",
+      "name": "Richmond Territory Map.jpg",
+      "type": "jpg",
+      "size": 1780971,
+      "relativePath": "Richmond Territory Map.jpg",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Role+.docx",
+      "name": "Role+.docx",
+      "type": "docx",
+      "size": 1019907,
+      "relativePath": "Role+.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Roof-ER Quick Cheat Sheet.pdf",
+      "name": "Roof-ER Quick Cheat Sheet.pdf",
+      "type": "pdf",
+      "size": 2914,
+      "relativePath": "Roof-ER Quick Cheat Sheet.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Roof-ER Quick Strike Guide.docx",
+      "name": "Roof-ER Quick Strike Guide.docx",
+      "type": "docx",
+      "size": 37771,
+      "relativePath": "Roof-ER Quick Strike Guide.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Roof-ER Roof & Siding Claim Response Packet.docx",
+      "name": "Roof-ER Roof & Siding Claim Response Packet.docx",
+      "type": "docx",
+      "size": 38396,
+      "relativePath": "Roof-ER Roof & Siding Claim Response Packet.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Roof-ER Sales Training.pptx.pdf",
+      "name": "Roof-ER Sales Training.pptx.pdf",
+      "type": "pdf",
+      "size": 14560946,
+      "relativePath": "Roof-ER Sales Training.pptx.pdf",
+      "category": "training_materials",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Roof-ER Siding Claim Response Packet.docx",
+      "name": "Roof-ER Siding Claim Response Packet.docx",
+      "type": "docx",
+      "size": 37914,
+      "relativePath": "Roof-ER Siding Claim Response Packet.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/RoofER_Email_Cheat_Sheet.png",
+      "name": "RoofER_Email_Cheat_Sheet.png",
+      "type": "png",
+      "size": 18210,
+      "relativePath": "RoofER_Email_Cheat_Sheet.png",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/RoofER_Master_Documents.pdf",
+      "name": "RoofER_Master_Documents.pdf",
+      "type": "pdf",
+      "size": 138592,
+      "relativePath": "RoofER_Master_Documents.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/RoofER_Master_Documents_Updated.pdf",
+      "name": "RoofER_Master_Documents_Updated.pdf",
+      "type": "pdf",
+      "size": 203623,
+      "relativePath": "RoofER_Master_Documents_Updated.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/RoofER_Top10_CheatSheet_Fixed.pdf",
+      "name": "RoofER_Top10_CheatSheet_Fixed.pdf",
+      "type": "pdf",
+      "size": 3015,
+      "relativePath": "RoofER_Top10_CheatSheet_Fixed.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Sales Operations and Tasks.docx",
+      "name": "Sales Operations and Tasks.docx",
+      "type": "docx",
+      "size": 4875063,
+      "relativePath": "Sales Operations and Tasks.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Sales Scripts /Claim Filing Information Sheet.docx",
+      "name": "Claim Filing Information Sheet.docx",
+      "type": "docx",
+      "size": 237902,
+      "relativePath": "Sales Scripts /Claim Filing Information Sheet.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Sales Scripts /Contingency and Claim Authorization Script.docx",
+      "name": "Contingency and Claim Authorization Script.docx",
+      "type": "docx",
+      "size": 237832,
+      "relativePath": "Sales Scripts /Contingency and Claim Authorization Script.docx",
+      "category": "training_materials",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Sales Scripts /Full Approval Estimate Phone Call.docx",
+      "name": "Full Approval Estimate Phone Call.docx",
+      "type": "docx",
+      "size": 8337,
+      "relativePath": "Sales Scripts /Full Approval Estimate Phone Call.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Sales Scripts /Initial Pitch Script.docx",
+      "name": "Initial Pitch Script.docx",
+      "type": "docx",
+      "size": 16793,
+      "relativePath": "Sales Scripts /Initial Pitch Script.docx",
+      "category": "training_materials",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Sales Scripts /Inspection and Post Inspection Script.docx",
+      "name": "Inspection and Post Inspection Script.docx",
+      "type": "docx",
+      "size": 241389,
+      "relativePath": "Sales Scripts /Inspection and Post Inspection Script.docx",
+      "category": "training_materials",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Sales Scripts /Partial Estimate Phone Call.docx",
+      "name": "Partial Estimate Phone Call.docx",
+      "type": "docx",
+      "size": 8210,
+      "relativePath": "Sales Scripts /Partial Estimate Phone Call.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Sales Scripts /Post Adjuster Meeting Script.docx",
+      "name": "Post Adjuster Meeting Script.docx",
+      "type": "docx",
+      "size": 9082,
+      "relativePath": "Sales Scripts /Post Adjuster Meeting Script.docx",
+      "category": "training_materials",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Sales Tracker (Example).xlsx",
+      "name": "Sales Tracker (Example).xlsx",
+      "type": "xlsx",
+      "size": 13510,
+      "relativePath": "Sales Tracker (Example).xlsx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Training Manual.docx",
+      "name": "Training Manual.docx",
+      "type": "docx",
+      "size": 45591324,
+      "relativePath": "Training Manual.docx",
+      "category": "training_materials",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Untitled document copy.docx",
+      "name": "Untitled document copy.docx",
+      "type": "docx",
+      "size": 7219,
+      "relativePath": "Untitled document copy.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Untitled document.docx",
+      "name": "Untitled document.docx",
+      "type": "docx",
+      "size": 1009370,
+      "relativePath": "Untitled document.docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/iTel_Template.jpg",
+      "name": "iTel_Template.jpg",
+      "type": "jpg",
+      "size": 882729,
+      "relativePath": "iTel_Template.jpg",
+      "category": "templates",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/images samp/Damage/Wind.jpg",
+      "name": "Wind.jpg",
+      "type": "jpg",
+      "size": 46465,
+      "relativePath": "images samp/Damage/Wind.jpg",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/images samp/Damage/wind1.jpg",
+      "name": "wind1.jpg",
+      "type": "jpg",
+      "size": 75042,
+      "relativePath": "images samp/Damage/wind1.jpg",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/images samp/Damage/wind2.jpg",
+      "name": "wind2.jpg",
+      "type": "jpg",
+      "size": 75395,
+      "relativePath": "images samp/Damage/wind2.jpg",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/images samp/Pitches/Adjuster Meeting Outcome Script.pdf",
+      "name": "Adjuster Meeting Outcome Script.pdf",
+      "type": "pdf",
+      "size": 228803,
+      "relativePath": "images samp/Pitches/Adjuster Meeting Outcome Script.pdf",
+      "category": "training_materials",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/images samp/Process/AM Outcome Process.pdf",
+      "name": "AM Outcome Process.pdf",
+      "type": "pdf",
+      "size": 211916,
+      "relativePath": "images samp/Process/AM Outcome Process.pdf",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    },
+    {
+      "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/📧 Email Generator .docx",
+      "name": "📧 Email Generator .docx",
+      "type": "docx",
+      "size": 566666,
+      "relativePath": "📧 Email Generator .docx",
+      "category": "reference",
+      "status": "pending",
+      "processed": false
+    }
+  ]
+}

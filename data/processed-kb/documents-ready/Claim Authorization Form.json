@@ -1,0 +1,17 @@
+{
+  "id": "doc_1761845101537_2",
+  "sourceFile": "Claim Authorization Form.pdf",
+  "sourcePath": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Agreements/Claim Authorization Form.pdf",
+  "category": "agreements",
+  "type": "pdf",
+  "size": 176368,
+  "relativePath": "Agreements/Claim Authorization Form.pdf",
+  "title": "Claim Authorization Form",
+  "status": "ready_for_ocr",
+  "createdAt": "2025-10-30T17:25:01.537Z",
+  "metadata": {
+    "needsOCR": true,
+    "needsTextExtraction": false,
+    "priority": "normal"
+  }
+}

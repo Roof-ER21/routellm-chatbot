@@ -1,0 +1,17 @@
+{
+  "id": "doc_1761845101542_60",
+  "sourceFile": "CERTIFIED_CERTIFICATE.pdf",
+  "sourcePath": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses & Certifications/CERTIFIED_CERTIFICATE.pdf",
+  "category": "certifications",
+  "type": "pdf",
+  "size": 292596,
+  "relativePath": "Licenses & Certifications/CERTIFIED_CERTIFICATE.pdf",
+  "title": "CERTIFIED_CERTIFICATE",
+  "status": "ready_for_ocr",
+  "createdAt": "2025-10-30T17:25:01.542Z",
+  "metadata": {
+    "needsOCR": true,
+    "needsTextExtraction": false,
+    "priority": "normal"
+  }
+}

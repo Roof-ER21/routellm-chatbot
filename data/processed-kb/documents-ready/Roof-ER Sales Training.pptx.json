@@ -1,0 +1,17 @@
+{
+  "id": "doc_1761845101546_117",
+  "sourceFile": "Roof-ER Sales Training.pptx.pdf",
+  "sourcePath": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Roof-ER Sales Training.pptx.pdf",
+  "category": "training_materials",
+  "type": "pdf",
+  "size": 14560946,
+  "relativePath": "Roof-ER Sales Training.pptx.pdf",
+  "title": "Roof-ER Sales Training.pptx",
+  "status": "ready_for_ocr",
+  "createdAt": "2025-10-30T17:25:01.546Z",
+  "metadata": {
+    "needsOCR": true,
+    "needsTextExtraction": false,
+    "priority": "high"
+  }
+}

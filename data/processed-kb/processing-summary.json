@@ -1,0 +1,33 @@
+{
+  "totalDocuments": 142,
+  "processedDocuments": 142,
+  "readyForOCR": 142,
+  "processedAt": "2025-10-30T17:25:01.548Z",
+  "byCategory": {
+    "reference": 63,
+    "agreements": 7,
+    "warranties": 4,
+    "email_templates": 12,
+    "pushback_strategies": 21,
+    "certifications": 20,
+    "training_materials": 9,
+    "photo_examples": 5,
+    "templates": 1
+  },
+  "byType": {
+    "xlsx": 3,
+    "pdf": 65,
+    "jpg": 9,
+    "docx": 58,
+    "jpeg": 1,
+    "png": 6
+  },
+  "nextSteps": [
+    "1. Review document metadata in documents-ready/ folder",
+    "2. Set up DeepSeek OCR API access (requires Ollama Cloud)",
+    "3. Run OCR processing on PDFs and images",
+    "4. Extract text from DOCX and XLSX files",
+    "5. Generate embeddings for RAG system",
+    "6. Set up PostgreSQL + pgvector database"
+  ]
+}

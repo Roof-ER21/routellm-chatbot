@@ -1,0 +1,17 @@
+{
+  "id": "doc_1761845101539_24",
+  "sourceFile": "DMV Territory Map.jpeg",
+  "sourcePath": "/Users/a21/Desktop/Sales Rep Resources 2 copy/DMV Territory Map.jpeg",
+  "category": "reference",
+  "type": "jpeg",
+  "size": 635430,
+  "relativePath": "DMV Territory Map.jpeg",
+  "title": "DMV Territory Map",
+  "status": "ready_for_ocr",
+  "createdAt": "2025-10-30T17:25:01.539Z",
+  "metadata": {
+    "needsOCR": true,
+    "needsTextExtraction": false,
+    "priority": "normal"
+  }
+}

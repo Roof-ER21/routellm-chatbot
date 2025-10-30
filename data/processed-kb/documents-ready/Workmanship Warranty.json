@@ -1,0 +1,17 @@
+{
+  "id": "doc_1761845101539_22",
+  "sourceFile": "Workmanship Warranty.pdf",
+  "sourcePath": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Customer Resources(Products, Warranties, etc.)/Workmanship Warranty.pdf",
+  "category": "warranties",
+  "type": "pdf",
+  "size": 5133434,
+  "relativePath": "Customer Resources(Products, Warranties, etc.)/Workmanship Warranty.pdf",
+  "title": "Workmanship Warranty",
+  "status": "ready_for_ocr",
+  "createdAt": "2025-10-30T17:25:01.539Z",
+  "metadata": {
+    "needsOCR": true,
+    "needsTextExtraction": false,
+    "priority": "normal"
+  }
+}

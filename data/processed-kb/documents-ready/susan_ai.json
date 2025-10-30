@@ -1,0 +1,17 @@
+{
+  "id": "doc_1761845101545_104",
+  "sourceFile": "susan_ai.docx",
+  "sourcePath": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Questions/susan_ai.docx",
+  "category": "reference",
+  "type": "docx",
+  "size": 25623,
+  "relativePath": "Questions/susan_ai.docx",
+  "title": "susan_ai",
+  "status": "ready_for_ocr",
+  "createdAt": "2025-10-30T17:25:01.545Z",
+  "metadata": {
+    "needsOCR": false,
+    "needsTextExtraction": true,
+    "priority": "normal"
+  }
+}

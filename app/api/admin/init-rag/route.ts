@@ -10,6 +10,11 @@ import { sql } from '@vercel/postgres';
 import fs from 'fs';
 import path from 'path';
 
+// Configure connection - use DATABASE_URL if POSTGRES_URL not set
+if (process.env.DATABASE_URL && !process.env.POSTGRES_URL) {
+  process.env.POSTGRES_URL = process.env.DATABASE_URL;
+}
+
 export async function POST(request: Request) {
   try {
     console.log('[RAG Init] Starting database initialization...');

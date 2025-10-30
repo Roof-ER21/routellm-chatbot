@@ -1,0 +1,17 @@
+{
+  "id": "doc_1761845101537_3",
+  "sourceFile": "Emergency Tarp.pdf",
+  "sourcePath": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Agreements/Emergency Tarp.pdf",
+  "category": "agreements",
+  "type": "pdf",
+  "size": 206787,
+  "relativePath": "Agreements/Emergency Tarp.pdf",
+  "title": "Emergency Tarp",
+  "status": "ready_for_ocr",
+  "createdAt": "2025-10-30T17:25:01.537Z",
+  "metadata": {
+    "needsOCR": true,
+    "needsTextExtraction": false,
+    "priority": "normal"
+  }
+}

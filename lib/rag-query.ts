@@ -7,6 +7,11 @@
 
 import { sql } from '@vercel/postgres';
 
+// Configure connection
+if (process.env.DATABASE_URL && !process.env.POSTGRES_URL) {
+  process.env.POSTGRES_URL = process.env.DATABASE_URL;
+}
+
 // ============================================================================
 // TYPE DEFINITIONS
 // ============================================================================

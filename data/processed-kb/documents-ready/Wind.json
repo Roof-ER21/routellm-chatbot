@@ -1,0 +1,17 @@
+{
+  "id": "doc_1761845101547_136",
+  "sourceFile": "Wind.jpg",
+  "sourcePath": "/Users/a21/Desktop/Sales Rep Resources 2 copy/images samp/Damage/Wind.jpg",
+  "category": "reference",
+  "type": "jpg",
+  "size": 46465,
+  "relativePath": "images samp/Damage/Wind.jpg",
+  "title": "Wind",
+  "status": "ready_for_ocr",
+  "createdAt": "2025-10-30T17:25:01.547Z",
+  "metadata": {
+    "needsOCR": true,
+    "needsTextExtraction": false,
+    "priority": "normal"
+  }
+}
