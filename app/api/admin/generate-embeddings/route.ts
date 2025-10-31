@@ -129,6 +129,35 @@ export async function POST(request: Request) {
       );
     }
 
+    // Start generation in background (don't await)
+    generateEmbeddingsBackground().catch(err => {
+      console.error('[Embedding Generation Background] Fatal error:', err);
+    });
+
+    // Return immediately
+    return NextResponse.json({
+      success: true,
+      message: 'Embedding generation started in background',
+      estimatedTime: '2-5 minutes',
+      checkStatus: 'GET /api/admin/generate-embeddings',
+    });
+
+  } catch (error: any) {
+    console.error('[Embedding Generation] Error:', error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: error.message,
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
+      },
+      { status: 500 }
+    );
+  }
+}
+
+// Background generation function
+async function generateEmbeddingsBackground() {
+  try {
     // Connect to database
     const pool = new Pool({
       connectionString: DATABASE_URL,
@@ -252,38 +281,11 @@ export async function POST(request: Request) {
     const estimatedCost = ((totalTokens / 1_000_000) * 0.02).toFixed(4);
 
     console.log('[Embedding Generation] Complete!');
-
-    return NextResponse.json({
-      success: true,
-      message: 'Embedding generation complete',
-      stats: {
-        totalDocuments: INSURANCE_KB_DOCUMENTS.length,
-        processedDocuments: processedDocs,
-        skippedDocuments: skippedDocs,
-        totalChunks,
-        totalTokens,
-        estimatedCost: `$${estimatedCost}`,
-        database: {
-          documents: parseInt(docCount.rows[0].count),
-          chunks: parseInt(chunkCount.rows[0].count),
-        },
-      },
-      nextSteps: [
-        'Test RAG system with: POST /api/chat',
-        'Query will automatically use vector search',
-      ],
-    });
+    console.log(`[Embedding Generation] Stats: ${processedDocs} docs, ${totalChunks} chunks, $${estimatedCost}`);
+    console.log(`[Embedding Generation] Database: ${docCount.rows[0].count} docs, ${chunkCount.rows[0].count} chunks`);
 
   } catch (error: any) {
-    console.error('[Embedding Generation] Error:', error);
-    return NextResponse.json(
-      {
-        success: false,
-        error: error.message,
-        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
-      },
-      { status: 500 }
-    );
+    console.error('[Embedding Generation Background] Error:', error);
   }
 }
 
