@@ -1,0 +1,101 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/iTel_Template.jpg",
+  "name": "iTel_Template.jpg",
+  "type": "jpg",
+  "size": 882729,
+  "relativePath": "iTel_Template.jpg",
+  "category": "templates",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T04:01:38.933Z",
+  "extractedText": "```\nitel\n6676 Corporate Center Parkway\nSuite 107\nJacksonville, FL 32216\n800-890-ITEL (4835)\nitelinfo@itelinc.com\nwww.itelinc.com\n\nTest Request Form\n\nInsurance Carrier (All fields REQUIRED on insurance claims.)\n\nInsurance Carrier: Liberty Mutual\nClaim Office: P.O. Box 515097 Los Angeles, CA\nStaff Adjuster: Matthew John\nPhone: (302) 463-1374\nEmail: matthew.john01@safeco.com\nFax:\n\nIndependent Adjuster\n\nAdjusting Firm:\nAdjuster:\nPhone:\nEmail:\nFax:\n\nLoss Information (INDICATES A REQUIRED FIELD. If not an insurance claim, list the customer's information.)\n\nInsured Name: Sandra Strickler\nClaim Number: 0430535405-01\nCity, State, and Zip Code of Loss Location: Gaithersburg, MD 20882\n(Include Province and Postal Code for Canada)\n\nClaim Type: Cat [ ] Water [ ] Fire [X] Wind [ ] Hail [ ] Other\nComments (Brand, description of sample, etc.):\n\nCat Code: [X] EXPRESS\nSAME-DAY SERVICE\nAvailable on carpet, pad, vinyl, wood, laminate, siding, and asphalt roofing for tests for an additional charge. If not checked, your report will be sent the next business day after sample is received at ITEL.\n\nToday's Date: 8/11/2020\nLoss Date: 6/25/2020\n\nBill To\n[X] Insurance Co. [ ] Third Party [ ] Independent Adjuster\n(Reports will be sent to all listed parties)\n\nForm Completed By\n[X] Insurance Co. [ ] Third Party [ ] Independent Adjuster\n[ ] Other (List):\n\nThird Party (Vendor, store, contractor, etc.)\n\nCompany: Roof-ER\nContact: Michael Harvey\nPhone: 703-239-3738\nE-mail: admin@theroofdocs.com\nFax:\nVendor Job Number:\nSample Color:\nName of Damaged Area: Roof\nArea of Loss (Size): ~13 [ ] Sq. Ft. [X] Squares\nPolicy Type: [X] Residential / Personal [ ] Commercial\n\nFlooring\n\n[ ] Carpet [ ] Vinyl Sheet/Tile\n[X] Laminate [ ] Wood\n[ ] Add Match Report\nFor potential wood or laminate repairs; send with full sample that includes lock. Add'l charge.\n\n[ ] Ceramic/Stone Floor or Wall Tile\nColor variation among tiles:\n[ ] None [ ] Some [ ] Significant\nFull Tile Size: \" x \"\n\n[ ] Flooring Pad / Underlayment\nPad analysis included in the flooring test price.\n\nSiding and Roofing\n\n[ ] Siding\nIf known:\nYear Installed:\n[ ] Roofing\nYear Built:\nNumber of Shingles Damaged: 13 SQs\n*Required for Discontinued Shingle Location upgrade; contact Customer Service for details.\n\nOther Analysis\n\n[ ] Asbestos\nCheck to add asbestos analysis. Three samples taken from random areas of the material are required for vinyl tile.\n\n[ ] Other Material (specify type):\n\nDon't know what to turn up? ITEL can perform a custom analysis for you. Contact Customer Service for details.\n\nSample Requirements\n\n1. Send the cleanest, least damaged sample possible.\n2. Include one form for each flooring, roofing, or siding sample. Note pad on the same form as the corresponding flooring sample.\n3. Carpet: 10\" x 10\"; pad 6\" x 6\".\n4. Sheet / tile vinyl: 2\" x 2\" or larger.\n5. Laminate, wood, and vinyl plank: full width including lock and 10\" of length.\n6. Tile / stone: 6\" x 6\", or full tile if smaller.\n7. Siding: 1 foot section that includes the full height from nail hem to bottom butt edge. Also include a small sample of the underlayment and house wrap if possible.\n8. Roofing: Send full shingle or tile. Roll or fold shingle if it is too large to ship.\n9. Other Material: Contact ITEL for details.\n\nQUESTIONS? Please contact our Customer Service team at 800-890-ITEL (4835) or itelinfo@itelinc.com.\n```",
+  "textLength": 3359,
+  "qualityScore": 73.75,
+  "confidence": 100,
+  "checkpoints": [
+    {
+      "checkpointNumber": 1,
+      "checkpointName": "Extraction Completeness",
+      "passed": true,
+      "score": 100,
+      "details": "Extracted 3359 characters. Sufficient content extracted."
+    },
+    {
+      "checkpointNumber": 2,
+      "checkpointName": "Text Extraction Quality",
+      "passed": true,
+      "score": 100,
+      "details": "Text contains sufficient words. Proper sentence structure detected."
+    },
+    {
+      "checkpointNumber": 3,
+      "checkpointName": "Structure Preservation",
+      "passed": true,
+      "score": 70,
+      "details": "Structure: ✓, Tables: ✗, Lists: ✓"
+    },
+    {
+      "checkpointNumber": 4,
+      "checkpointName": "Technical Accuracy",
+      "passed": false,
+      "score": 56,
+      "details": "Found 7 technical terms. Limited technical terms detected."
+    },
+    {
+      "checkpointNumber": 5,
+      "checkpointName": "Cross-Reference Validation",
+      "passed": true,
+      "score": 66,
+      "details": "References: ✓, Numbers: ✓, Codes: ✗"
+    }
+  ],
+  "qualityMetrics": {
+    "overallScore": 73.75,
+    "textCompleteness": 100,
+    "structurePreservation": 40,
+    "technicalAccuracy": 70,
+    "readability": 85,
+    "confidenceLevel": "medium",
+    "recommendedAction": "Accept and use for RAG system"
+  },
+  "technicalTerms": [
+    {
+      "term": "Roof",
+      "category": "roofing",
+      "confidence": 85
+    },
+    {
+      "term": "Underlayment",
+      "category": "roofing",
+      "confidence": 85
+    },
+    {
+      "term": "Shingle",
+      "category": "roofing",
+      "confidence": 85
+    },
+    {
+      "term": "asphalt",
+      "category": "roofing",
+      "confidence": 85
+    },
+    {
+      "term": "Claim",
+      "category": "insurance",
+      "confidence": 85
+    },
+    {
+      "term": "Adjuster",
+      "category": "insurance",
+      "confidence": 85
+    },
+    {
+      "term": "Policy",
+      "category": "insurance",
+      "confidence": 85
+    }
+  ],
+  "processingMethod": "gpt4-vision",
+  "cached": false,
+  "cost": 0.036669999999999994
+}

@@ -1,0 +1,29 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Discontinued-Shingle-List.pdf",
+  "name": "Discontinued-Shingle-List.pdf",
+  "type": "pdf",
+  "size": 29497,
+  "relativePath": "Insurance Argument Resources/Discontinued-Shingle-List.pdf",
+  "category": "pushback_strategies",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:58:51.737Z",
+  "extractedText": "Discontinued Shingle List\n3-Tab Shingles\nDiscontinued ShingleDiscontinuation DateAlternative Product(s)\nSentinel®August 24, 2015Royal Sovereign, Marquis Weathermax\nTimberline Shingles\nDiscontinued ShingleDiscontinuation DateAlternative Product(s)\nTimberline Prestique Grande®October 14, 2009Timberline HDZ®\nElk Prestique®July 21, 2011Timberline HDZ®\nElk Prestique Plus High DefinitionApril 18, 2017Timberline® UHDZ™\nElk Prestique High DefinitionJuly 16, 2018Timberline® UHDZ™\nTimberline UHD® RSJanuary 15, 2020Timberline HDZ® RS\nTimberline® AH Saddlewood Ranch, Midnight Blush, & Amber WheatTimberline HDZ® Harvest Blend Colors\nTimberline HD®July 1, 2020Timberline HDZ®\nTimberline UHD®March 6, 2023Timberline® UHDZ™\nDesigner Shingles\nDiscontinued ShingleDiscontinuation DateAlternative Product(s)\nCapstone® January 6, 2012Grand Sequoia®, Camelot® II, Woodland®, or Slateline™\nGrand Slate™ and Grand Slate II™March 25, 2013Grand Canyon®, Grand Sequoia®, Camelot® II, Woodland®, or Slateline™\nCountry Mansion® Ultra-PremiumOctober 8, 2013Grand Canyon®, Grand Sequoia®, Camelot® II, Woodland®, or Slateline™\nCamelot® December 2, 2014Grand Canyon®, Camelot® II\nCountry Mansion® II August 1, 2014Grand Sequoia®, Camelot® II, Woodland®, or Slateline™\nElk Prestique® Grande® / Timberline Grande®March 24, 2016Grand Canyon®, Grand Sequoia®, Camelot® II, Woodland®, or Slateline™\nMonaco® April 20, 2017Grand Sequoia®, Camelot® II, Woodland®, or Slateline™\nCamelot® Ultra April 4, 2019Grand Canyon®, Camelot® II\nSienna®April 4, 2019Grand Sequoia®, Camelot® II, Woodland®, or Slateline™\nGrand Canyon Sedona SunsetJuly 25, 2019Grand Canyon® (Other colors)\nSlateline® Shingle ColorsSeptember 20, 2019Slateline™ (Other colors)\nGlenwood®April 13, 2021Grand Canyon®\nWoodland® Tuscan Sunset and Woodberry BrownApril 13, 2021Woodland® Cedarwood Abbey, Camelot II® Barkwood\nGrand Sequoia® Designer Shingles Out of Mount VernonApril 13, 2021Camelot® II, Woodland®, or Slateline™\nSpeciality Shingles\nDiscontinued ShingleDiscontinuation DateAlternative Product(s)\nTruSlate®March 15, 2021Slateline™\n*Alternative products are suggestions for similar aesthetics and function only, and are not to be used for repairs or mixed on the same roof as discontinued shingles",
+  "textLength": 2241,
+  "qualityScore": 0,
+  "confidence": 0,
+  "checkpoints": [],
+  "qualityMetrics": {
+    "overallScore": 0,
+    "textCompleteness": 0,
+    "structurePreservation": 0,
+    "technicalAccuracy": 0,
+    "readability": 0,
+    "confidenceLevel": "low",
+    "recommendedAction": "Processing failed - manual review required"
+  },
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": false,
+  "cost": 0
+}

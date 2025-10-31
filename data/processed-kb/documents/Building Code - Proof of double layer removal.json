@@ -1,0 +1,76 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Building Code - Proof of double layer removal.png",
+  "name": "Building Code - Proof of double layer removal.png",
+  "type": "png",
+  "size": 55866,
+  "relativePath": "Insurance Argument Resources/Building Code - Proof of double layer removal.png",
+  "category": "pushback_strategies",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:58:49.604Z",
+  "extractedText": "1511.3 Roof Replacement\n\n*Roof replacement* shall include the removal of all existing layers of roof coverings down to the roof deck.\n\n**Exception:** Where the existing roof assembly includes an ice barrier membrane that is adhered to the roof deck, the existing ice barrier membrane shall be permitted to remain in place and covered with an additional layer of ice barrier membrane in accordance with Section 1507.\n\nUpCodes Diagrams\n\nIce Barriers: Roofing",
+  "textLength": 456,
+  "qualityScore": 49.05,
+  "confidence": 100,
+  "checkpoints": [
+    {
+      "checkpointNumber": 1,
+      "checkpointName": "Extraction Completeness",
+      "passed": true,
+      "score": 91.2,
+      "details": "Extracted 456 characters. Sufficient content extracted."
+    },
+    {
+      "checkpointNumber": 2,
+      "checkpointName": "Text Extraction Quality",
+      "passed": true,
+      "score": 100,
+      "details": "Text contains sufficient words. Proper sentence structure detected."
+    },
+    {
+      "checkpointNumber": 3,
+      "checkpointName": "Structure Preservation",
+      "passed": false,
+      "score": 40,
+      "details": "Structure: ✓, Tables: ✗, Lists: ✗"
+    },
+    {
+      "checkpointNumber": 4,
+      "checkpointName": "Technical Accuracy",
+      "passed": false,
+      "score": 16,
+      "details": "Found 2 technical terms. Limited technical terms detected."
+    },
+    {
+      "checkpointNumber": 5,
+      "checkpointName": "Cross-Reference Validation",
+      "passed": true,
+      "score": 66,
+      "details": "References: ✓, Numbers: ✓, Codes: ✗"
+    }
+  ],
+  "qualityMetrics": {
+    "overallScore": 49.05,
+    "textCompleteness": 91.2,
+    "structurePreservation": 0,
+    "technicalAccuracy": 20,
+    "readability": 85,
+    "confidenceLevel": "low",
+    "recommendedAction": "Consider manual review or reprocessing"
+  },
+  "technicalTerms": [
+    {
+      "term": "Roof",
+      "category": "roofing",
+      "confidence": 85
+    },
+    {
+      "term": "deck",
+      "category": "roofing",
+      "confidence": 85
+    }
+  ],
+  "processingMethod": "gpt4-vision",
+  "cached": false,
+  "cost": 0.00924
+}

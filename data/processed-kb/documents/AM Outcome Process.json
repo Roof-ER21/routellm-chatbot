@@ -1,0 +1,29 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/images samp/Process/AM Outcome Process.pdf",
+  "name": "AM Outcome Process.pdf",
+  "type": "pdf",
+  "size": 211916,
+  "relativePath": "images samp/Process/AM Outcome Process.pdf",
+  "category": "reference",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T04:01:52.372Z",
+  "extractedText": "INTEGRITY\n \nQUALITY\n \nSIMPLICITY\n \n  \n \n  \nInspection/Adjuster Meeting Outcomes \nApproval process for a roof \n• Find good damage to metals and shingles \n• Find good damage to discontinued shingles \n• Find good soft metal damage and failed brittle test on all disconnected slopes ( shingle damage \nhelpful as well) \n• If passes brittle test, but enough damage to all slopes that adjuster disagreed with, clearly \ndocument all damages \nApproval process for siding \n• Find good damage on all elevations \n• Take photos of damage on unapproved sides \n• Get iTel report \no If it suggests a match, get sample and take side-by-side photo to show “match” \nOutcomes \n• Decision Pending: if you don’t know what’s going to happen or it needs to be reviewed by desk \nadjuster \n• Reinspection: if they approved very little, there is enough damage/good insurance, and \nhomeowner is on board \n• Partial supplement: well-documented damage w/ reasonable insurance company (may be better \noff with a reinspection now) \n• Public Adjuster: if not enough damage to all sides of siding or all roof slopes, difficult insurance \ncompany/adjuster, or rep is unable to get proper documentation \n• Retail: homeowner does not want reinspection, insurance denies a reinspection, or final approval \nresults in a partial  \n3100 Clarendon Blvd \nSuite 200 \nArlington, VA 22201 \n(703) 239-3738 \nwww.theroofdocs.com",
+  "textLength": 1379,
+  "qualityScore": 0,
+  "confidence": 0,
+  "checkpoints": [],
+  "qualityMetrics": {
+    "overallScore": 0,
+    "textCompleteness": 0,
+    "structurePreservation": 0,
+    "technicalAccuracy": 0,
+    "readability": 0,
+    "confidenceLevel": "low",
+    "recommendedAction": "Processing failed - manual review required"
+  },
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": false,
+  "cost": 0
+}

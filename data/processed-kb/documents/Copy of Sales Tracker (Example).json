@@ -1,0 +1,19 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Copy of Sales Tracker (Example).xlsx",
+  "name": "Copy of Sales Tracker (Example).xlsx",
+  "type": "xlsx",
+  "size": 13512,
+  "relativePath": "Copy of Sales Tracker (Example).xlsx",
+  "category": "reference",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:57:57.244Z",
+  "extractedText": "=== Sheet: Sheet1 ===\nSales Tracker (Example)\nJanuary Sign ups\tInsurance Total\t\tFebruary Sign ups\tInsurance Total\t\tMarch Sign ups\tInsurance Total\t\tApril Sign ups\tInsurance Total\t\tMay Sign ups\tInsurance Total\nDennis Smith\t21500\nJones Bob\t29315.2\nRobert Jon\t0\nJon Bobby\t30999.95\nBobby Johnson\t71550.55\nJohn Roberts\t49000\nBert John\t37657.42\nJon Bertman\t0\nJuan Roberto\t12677.41\n\nJanuary Total\t252700.53\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nJune Sign ups\tInsurance Total\t\tJuly Sign ups\tInsurance Total\t\tAugust Sign ups\tInsurance Total\t\tSeptember Sign ups\tInsurance Total\t\tOctober Sign ups\tInsurance Total\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNovember Sign ups\tInsurance Total\t\tDecember Sign ups\tInsurance Total",
+  "textLength": 676,
+  "qualityScore": 0,
+  "confidence": 0,
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": false,
+  "cost": 0
+}

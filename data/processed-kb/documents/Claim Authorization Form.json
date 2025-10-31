@@ -1,0 +1,29 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Agreements/Claim Authorization Form.pdf",
+  "name": "Claim Authorization Form.pdf",
+  "type": "pdf",
+  "size": 176368,
+  "relativePath": "Agreements/Claim Authorization Form.pdf",
+  "category": "agreements",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:57:39.196Z",
+  "extractedText": "INTEGRITY\n \nQUALITY\n \nSIMPLICITY\n \n  \n \n  \nClaim Authorization Form     Date: _________________ \nCustomer(s): _____________________________  Phone Number(s): _____________________ \n          _____________________________        _____________________ \nProject Address: __________________________       Email(s): __________________________                            \n__________________________                         __________________________ \n \n \n \nInsurance Company: ______________________________ \nClaim Number: ___________________________________ \n \n \nI, ___________________________________, authorize The Roof Docs LLC t/d/b/a ROOF-ER to communicate \ndirectly with my insurance company regarding my recent home insurance claim for the claim number referenced \nabove. I authorize ROOF-ER to contact my insurance company on my behalf in order to discuss/resolve/finalize \nthe scope of repairs, differences in estimating methods, and/or any additional inspections, as required. Please \ninclude ROOF-ER on all future claim-related correspondence, including estimates and all other documentation, \nby emailing info@theroofdocs.com\n and/or calling (703) 239-3738. \n \n \n \nCustomer(s) \n  \n_________________________________________ \n \n \n2106 Gallows Rd \nSuite D2 \nVienna, VA 22182 \n(703) 239-3738 \nwww.theroofdocs.com",
+  "textLength": 1314,
+  "qualityScore": 0,
+  "confidence": 0,
+  "checkpoints": [],
+  "qualityMetrics": {
+    "overallScore": 0,
+    "textCompleteness": 0,
+    "structurePreservation": 0,
+    "technicalAccuracy": 0,
+    "readability": 0,
+    "confidenceLevel": "low",
+    "recommendedAction": "Processing failed - manual review required"
+  },
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": false,
+  "cost": 0
+}

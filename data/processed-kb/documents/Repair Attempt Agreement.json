@@ -1,0 +1,29 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Agreements/Repair Attempt Agreement.pdf",
+  "name": "Repair Attempt Agreement.pdf",
+  "type": "pdf",
+  "size": 220051,
+  "relativePath": "Agreements/Repair Attempt Agreement.pdf",
+  "category": "agreements",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:57:45.926Z",
+  "extractedText": "INTEGRITY\n \nQUALITY\n \nSIMPLICITY\n \n  \n \n  \nRepair Attempt Agreement           Date: ___________________   \nCustomer(s): _____________________________       Phone Number(s): _____________________ \n          _____________________________             _____________________ \nProject Address: __________________________       Email(s):  ____________________________                              \n   __________________________             ____________________________ \n \nRoof-ER Repair Attempt Services \n \nRoof-ER will attempt to perform the shingle repair as instructed by Customer(s) Insurance Company to \ndetermine repairability of existing roof covering. Roof-ER will perform this service in accordance with \nthe following fee schedule: \n \nSample Access Charge Qty Price \nShingle 1-story  $550 \nShingle 2-stories  $750 \nShingle 3-stories or more  $1200 \nTotal: $ \n \nThe Total listed above will be billed to Customer’s Insurance Company. Customer will not be \nresponsible for these fees in the event Insurance Company does not agree to cover these expenses. \n \nNotes \n \n \nDisclaimer: Roof-ER is not to be held responsible for correcting consequential damage resulting from Repair Attempt \nin the event Insurance Company refuses   to offer additional/supplemental coverage for consequential damage. \nCustomer may elect to have Roof-ER perform additional work as-needed to correct any deficiencies in roof covering \nfor an additional cost.  \n \nI have read, received, and agreed to this one-page agreement. \n \nAgent of The Roof Docs LLC                                 Customer(s)                                                Customer(s) \n \n________________________                    _________________________                   ________________________ \n \nEmail confirmation from the email address listed above will suffice as acknowledgement and approval of \nthis Agreement\n \n2106 Gallows Rd \nSuite D2 \nVienna, VA 22182 \n(703) 239-3738 \nwww.theroofdocs.com",
+  "textLength": 1954,
+  "qualityScore": 0,
+  "confidence": 0,
+  "checkpoints": [],
+  "qualityMetrics": {
+    "overallScore": 0,
+    "textCompleteness": 0,
+    "structurePreservation": 0,
+    "technicalAccuracy": 0,
+    "readability": 0,
+    "confidenceLevel": "low",
+    "recommendedAction": "Processing failed - manual review required"
+  },
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": false,
+  "cost": 0
+}

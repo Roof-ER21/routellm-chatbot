@@ -1,0 +1,29 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/Roof-ER CertainTeed ShingleMaster.pdf",
+  "name": "Roof-ER CertainTeed ShingleMaster.pdf",
+  "type": "pdf",
+  "size": 259045,
+  "relativePath": "Licenses, Certifications, & General Liability Ins/Roof-ER CertainTeed ShingleMaster.pdf",
+  "category": "certifications",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:59:46.861Z",
+  "extractedText": "Roof-ER\n2020\nValid through\nJanuary 31, 2022",
+  "textLength": 43,
+  "qualityScore": 0,
+  "confidence": 0,
+  "checkpoints": [],
+  "qualityMetrics": {
+    "overallScore": 0,
+    "textCompleteness": 0,
+    "structurePreservation": 0,
+    "technicalAccuracy": 0,
+    "readability": 0,
+    "confidenceLevel": "low",
+    "recommendedAction": "Processing failed - manual review required"
+  },
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": true,
+  "cost": 0
+}

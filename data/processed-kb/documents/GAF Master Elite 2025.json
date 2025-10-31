@@ -1,0 +1,29 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/GAF Master Elite 2025.pdf",
+  "name": "GAF Master Elite 2025.pdf",
+  "type": "pdf",
+  "size": 1548956,
+  "relativePath": "Licenses, Certifications, & General Liability Ins/GAF Master Elite 2025.pdf",
+  "category": "certifications",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:59:40.999Z",
+  "extractedText": "GAF ID:\nis a           GAF Master Elite\n®\n Roofing Contractor \nAn exclusive group of roofing contractors in North America are invited by \nGAF to become GAF Master Elite\n®\n Contractors. These contractors are \nauthorized to offer the following enhanced warranties on qualifying GAF \nroofing systems:\nGAF Golden Pledge\n®\n Limited Warranty\nGAF Silver Pledge\n™\n Limited Warranty\nGAF System Plus Limited Warranty\nBobby Fischer\nVP, Partner Programs\nContractors enrolled in GAF certification programs are not employees or agents of GAF, and \nGAF does not control or otherwise supervise these independent businesses. Contractors \nmay receive benefits, such as loyalty rewards points and discounts on marketing tools from \nGAF for participating in the program and offering GAF enhanced warranties, which require \nthe use of a minimum amount of GAF products. Your dealings with a Contractor, and any \nservices they provide to you, are subject to the Contractor Terms of Use. Visit gaf.com/gaf-\ncontractor-terms-of-use for details.\nRoof-ER\n2025\n1121106",
+  "textLength": 1040,
+  "qualityScore": 0,
+  "confidence": 0,
+  "checkpoints": [],
+  "qualityMetrics": {
+    "overallScore": 0,
+    "textCompleteness": 0,
+    "structurePreservation": 0,
+    "technicalAccuracy": 0,
+    "readability": 0,
+    "confidenceLevel": "low",
+    "recommendedAction": "Processing failed - manual review required"
+  },
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": false,
+  "cost": 0
+}

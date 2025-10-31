@@ -1,0 +1,19 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Engineers.docx",
+  "name": "Engineers.docx",
+  "type": "docx",
+  "size": 6606,
+  "relativePath": "Insurance Argument Resources/Engineers.docx",
+  "category": "pushback_strategies",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:59:03.298Z",
+  "extractedText": "Engineers\n\n\n\nGood Engineering Companies/Engineers:\n\nPatrick Wellein - Integrity Engineering\n\n\n\n\n\n",
+  "textLength": 97,
+  "qualityScore": 0,
+  "confidence": 0,
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": false,
+  "cost": 0
+}

@@ -1,0 +1,76 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/images samp/Damage/wind1.jpg",
+  "name": "wind1.jpg",
+  "type": "jpg",
+  "size": 75042,
+  "relativePath": "images samp/Damage/wind1.jpg",
+  "category": "reference",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T04:01:47.554Z",
+  "extractedText": "Photograph 44 – An example of isolated shingle delamination along a seal strip. Although the remainder of the tab never sealed, because this area did, a claim of wind damage is validated even if the shingle wasn’t torn.\n\nPhotographs 45 & 46 – The spots of valid wind damage (delamination along the seal strip) are indicated.",
+  "textLength": 324,
+  "qualityScore": 42.45,
+  "confidence": 100,
+  "checkpoints": [
+    {
+      "checkpointNumber": 1,
+      "checkpointName": "Extraction Completeness",
+      "passed": true,
+      "score": 64.8,
+      "details": "Extracted 324 characters. Sufficient content extracted."
+    },
+    {
+      "checkpointNumber": 2,
+      "checkpointName": "Text Extraction Quality",
+      "passed": true,
+      "score": 100,
+      "details": "Text contains sufficient words. Proper sentence structure detected."
+    },
+    {
+      "checkpointNumber": 3,
+      "checkpointName": "Structure Preservation",
+      "passed": false,
+      "score": 40,
+      "details": "Structure: ✓, Tables: ✗, Lists: ✗"
+    },
+    {
+      "checkpointNumber": 4,
+      "checkpointName": "Technical Accuracy",
+      "passed": false,
+      "score": 16,
+      "details": "Found 2 technical terms. Limited technical terms detected."
+    },
+    {
+      "checkpointNumber": 5,
+      "checkpointName": "Cross-Reference Validation",
+      "passed": false,
+      "score": 33,
+      "details": "References: ✗, Numbers: ✓, Codes: ✗"
+    }
+  ],
+  "qualityMetrics": {
+    "overallScore": 42.45,
+    "textCompleteness": 64.8,
+    "structurePreservation": 0,
+    "technicalAccuracy": 20,
+    "readability": 85,
+    "confidenceLevel": "low",
+    "recommendedAction": "Consider manual review or reprocessing"
+  },
+  "technicalTerms": [
+    {
+      "term": "shingle",
+      "category": "roofing",
+      "confidence": 85
+    },
+    {
+      "term": "claim",
+      "category": "insurance",
+      "confidence": 85
+    }
+  ],
+  "processingMethod": "gpt4-vision",
+  "cached": false,
+  "cost": 0.012159999999999999
+}

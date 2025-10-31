@@ -1,0 +1,96 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/double-layer MD.JPG",
+  "name": "double-layer MD.JPG",
+  "type": "jpg",
+  "size": 188447,
+  "relativePath": "Insurance Argument Resources/double-layer MD.JPG",
+  "category": "pushback_strategies",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:59:21.846Z",
+  "extractedText": "```\nCODES\n\nMaryland Residential Code 2021\n\nAdopts With Amendments:\nInternational Residential Code 2021 (IRC 2021)\n\n[Change Code] [Code Compare]\n\n- Chapter 3 Building Planning\n- Chapter 4 Foundations\n- Chapter 5 Floors\n- Chapter 6 Wall Construction\n- Chapter 7 Wall Covering\n- Chapter 8 Roof-Ceiling Construction\n- Chapter 9 Roof Assemblies\n\nR908.2 Structural and Construction Loads\n\nThe structural roof components shall be capable of supporting the roof covering system and the material and equipment loads that will be encountered during installation of the roof covering system.\n\nR908.3 Roof Replacement\n\nRoof replacement shall include the removal of existing layers of roof coverings down to the roof deck.\n\nException: Where the existing roof assembly includes an ice barrier membrane that is adhered to the roof deck, the existing ice barrier membrane shall be permitted to remain in place and covered with an additional layer of ice barrier membrane in accordance with Section R905.\n```",
+  "textLength": 991,
+  "qualityScore": 78.75,
+  "confidence": 100,
+  "checkpoints": [
+    {
+      "checkpointNumber": 1,
+      "checkpointName": "Extraction Completeness",
+      "passed": true,
+      "score": 100,
+      "details": "Extracted 991 characters. Sufficient content extracted."
+    },
+    {
+      "checkpointNumber": 2,
+      "checkpointName": "Text Extraction Quality",
+      "passed": true,
+      "score": 100,
+      "details": "Text contains sufficient words. Proper sentence structure detected."
+    },
+    {
+      "checkpointNumber": 3,
+      "checkpointName": "Structure Preservation",
+      "passed": true,
+      "score": 70,
+      "details": "Structure: ✓, Tables: ✗, Lists: ✓"
+    },
+    {
+      "checkpointNumber": 4,
+      "checkpointName": "Technical Accuracy",
+      "passed": false,
+      "score": 48,
+      "details": "Found 6 technical terms. Limited technical terms detected."
+    },
+    {
+      "checkpointNumber": 5,
+      "checkpointName": "Cross-Reference Validation",
+      "passed": true,
+      "score": 100,
+      "details": "References: ✓, Numbers: ✓, Codes: ✓"
+    }
+  ],
+  "qualityMetrics": {
+    "overallScore": 78.75,
+    "textCompleteness": 100,
+    "structurePreservation": 70,
+    "technicalAccuracy": 60,
+    "readability": 85,
+    "confidenceLevel": "medium",
+    "recommendedAction": "Accept and use for RAG system"
+  },
+  "technicalTerms": [
+    {
+      "term": "Roof",
+      "category": "roofing",
+      "confidence": 85
+    },
+    {
+      "term": "deck",
+      "category": "roofing",
+      "confidence": 85
+    },
+    {
+      "term": "IRC",
+      "category": "building_code",
+      "confidence": 90
+    },
+    {
+      "term": "R908.2",
+      "category": "building_code",
+      "confidence": 90
+    },
+    {
+      "term": "R908.3",
+      "category": "building_code",
+      "confidence": 90
+    },
+    {
+      "term": "R905",
+      "category": "building_code",
+      "confidence": 90
+    }
+  ],
+  "processingMethod": "gpt4-vision",
+  "cached": false,
+  "cost": 0.022949999999999998
+}

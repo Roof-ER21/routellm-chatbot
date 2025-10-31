@@ -1,0 +1,71 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Building Code - Proof double layer cannot be repaired.png",
+  "name": "Building Code - Proof double layer cannot be repaired.png",
+  "type": "png",
+  "size": 43828,
+  "relativePath": "Insurance Argument Resources/Building Code - Proof double layer cannot be repaired.png",
+  "category": "pushback_strategies",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:58:44.711Z",
+  "extractedText": "1511.3.1.1 Exceptions\n\nA *roof recover* shall not be permitted where any of the following conditions occur:\n\n1. Where the existing roof or roof covering is water soaked or has deteriorated to the point that the existing roof or roof covering is not adequate as a base for additional roofing.\n\n2. Where the existing roof covering is slate, clay, cement or asbestos-cement tile.\n\n3. Where the existing roof has two or more applications of any type of roof covering.",
+  "textLength": 463,
+  "qualityScore": 56.900000000000006,
+  "confidence": 100,
+  "checkpoints": [
+    {
+      "checkpointNumber": 1,
+      "checkpointName": "Extraction Completeness",
+      "passed": true,
+      "score": 92.60000000000001,
+      "details": "Extracted 463 characters. Sufficient content extracted."
+    },
+    {
+      "checkpointNumber": 2,
+      "checkpointName": "Text Extraction Quality",
+      "passed": true,
+      "score": 100,
+      "details": "Text contains sufficient words. Proper sentence structure detected."
+    },
+    {
+      "checkpointNumber": 3,
+      "checkpointName": "Structure Preservation",
+      "passed": true,
+      "score": 70,
+      "details": "Structure: ✓, Tables: ✗, Lists: ✓"
+    },
+    {
+      "checkpointNumber": 4,
+      "checkpointName": "Technical Accuracy",
+      "passed": false,
+      "score": 8,
+      "details": "Found 1 technical terms. Limited technical terms detected."
+    },
+    {
+      "checkpointNumber": 5,
+      "checkpointName": "Cross-Reference Validation",
+      "passed": false,
+      "score": 33,
+      "details": "References: ✗, Numbers: ✓, Codes: ✗"
+    }
+  ],
+  "qualityMetrics": {
+    "overallScore": 56.900000000000006,
+    "textCompleteness": 92.60000000000001,
+    "structurePreservation": 40,
+    "technicalAccuracy": 10,
+    "readability": 85,
+    "confidenceLevel": "low",
+    "recommendedAction": "Review and possibly enhance"
+  },
+  "technicalTerms": [
+    {
+      "term": "roof",
+      "category": "roofing",
+      "confidence": 85
+    }
+  ],
+  "processingMethod": "gpt4-vision",
+  "cached": false,
+  "cost": 0.00957
+}

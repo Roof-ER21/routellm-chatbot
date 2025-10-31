@@ -1,0 +1,29 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/Master Elite Reference Letter for Customers.pdf",
+  "name": "Master Elite Reference Letter for Customers.pdf",
+  "type": "pdf",
+  "size": 265660,
+  "relativePath": "Licenses, Certifications, & General Liability Ins/Master Elite Reference Letter for Customers.pdf",
+  "category": "certifications",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:59:44.484Z",
+  "extractedText": "*ContractorsenrolledinGAFcertificationprogramsarenotemployeesoragentsofGAF,andGAFdoesnotcontrolor\notherwisesupervisetheseindependentbusinesses.Contractorsmayreceivebenefits,suchasloyaltyrewardspoints\nanddiscountsonmarketingtoolsfromGAFforparticipatingintheprogramandofferingGAFenhancedwarranties,\nwhichrequiretheuseofaminimumamountofGAFproducts.YourdealingswithaContractor,andanyservicesthey\nprovidetoyou,aresubjecttotheContractorTermsofUse.Visitwww.gaf.com/gaf-contractor-terms-of-usefor\ndetails.\n†Forwarrantyeligibilityrequirementsandcompletecoverageandrestrictionsvisitgaf.com/warranties.For\nqualifyingGAFproductsvisitgaf.com/LRS\nRoof-ER\n8100BooneBlvdSte400\nVienna,Virginia22182\n2/17/2025\nGAFID:1121106\nRe:ReferenceLetterforGAFMasterElite®RoofingContractorProgram\nGreetings,\nWeareexcitedtoconfirmthatRoof-ERisa2025GAFMasterElite®Contractor*.\nThisprestigiouscertificationallowsRoof-ERtooffersomeofGAF’sstrongest\nwarrantiesonqualifyingGAFroofingsystems,includingtheGAFGoldenPledge®\nLimitedWarranty,theGAFSilverPledge™LimitedWarranty,andtheGAFSystem\nPlusLimitedWarranty.\nToverifyacontractor’sGAFcertificationstatusatanytime,pleasecontactGAF\nContractorServicesat877-423-7663andselectoption2followedbyoption1.\nThankyouforchoosingaGAFMasterElite®Contractor.\nSincerely,\nBobbyFischer\nVP,PartnerPrograms",
+  "textLength": 1297,
+  "qualityScore": 0,
+  "confidence": 0,
+  "checkpoints": [],
+  "qualityMetrics": {
+    "overallScore": 0,
+    "textCompleteness": 0,
+    "structurePreservation": 0,
+    "technicalAccuracy": 0,
+    "readability": 0,
+    "confidenceLevel": "low",
+    "recommendedAction": "Processing failed - manual review required"
+  },
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": false,
+  "cost": 0
+}

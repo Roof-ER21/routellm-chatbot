@@ -1,0 +1,19 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Roof-ER Siding Claim Response Packet.docx",
+  "name": "Roof-ER Siding Claim Response Packet.docx",
+  "type": "docx",
+  "size": 37914,
+  "relativePath": "Roof-ER Siding Claim Response Packet.docx",
+  "category": "reference",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T04:00:54.537Z",
+  "extractedText": "Roof-ER Siding Claim Response Packet\n\nUse this packet to respond to a partial siding denial. Fill in customer/job details, attach photo report, iTel report, and any additional documentation. Delete bracketed instructions before sending.\n\n📧 Cover Email to Adjuster/Insurance\n\nSubject: Claim # [Insert Claim #] – Siding Scope Revision RequestTo Whom It May Concern,This is [REP NAME] with Roof-ER. I am assisting [CUSTOMER NAME].Attached are:• Our photo report documenting additional siding damage• An iTel report confirming the siding is discontinued• Code references requiring proper installation and weather barrier complianceBecause the siding is discontinued and repairs would cause consequential damage, patch repair is not a cost-effective or code-compliant solution. The only way to restore [CUSTOMER NAME]’s property is full siding replacement on all elevations.Please review these findings and provide a revised estimate accordingly. If additional inspection is required, I will gladly meet your adjuster on-site.Thank you for your time and cooperation in restoring [CUSTOMER NAME]’s home.[Signature & Contact Info]\n\n📑 Discontinued Siding Argument (Insert into Email if Applicable)\n\nPer the attached iTel report, the existing siding is discontinued. There are no similar matches available. Even if a special order was attempted, it would require painting/matching that would not be cost-effective or compliant. The only way to make the homeowner whole is full siding replacement on all elevations.\n\n📏 Code Requirement Argument\n\nPer Maryland IRC 2018 R703.2 & R703.4, exterior walls must have a continuous weather-resistant barrier and flashing that overlaps correctly. To achieve this, housewrap must overlap at corners, requiring removal of adjacent siding panels. This removal causes consequential damage, making patch repair impractical or impossible.Virginia ICC Building Code also requires that damaged siding not be reinstalled (ICC 2021).\n\n👤 Customer Escalation (if denial continues)\n\nHave the homeowner send the 'Customer to Insurance' template email. This makes the pushback stronger since it comes directly from the policyholder. If still denied, file a complaint with the state insurance administration (e.g., Maryland Bulletin 18-23 for siding mismatch).\n\n📎 Attachments Checklist\n\n☑ Photo Report☑ iTel Report☑ Discontinued Shingle/Siding List (if applicable)☑ Building Code Reference (R703 / ICC)☑ Claim Authorization (if needed)\n\n",
+  "textLength": 2456,
+  "qualityScore": 0,
+  "confidence": 0,
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": false,
+  "cost": 0
+}

@@ -1,0 +1,29 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses & Certifications/CERTIFIED_CERTIFICATE.pdf",
+  "name": "CERTIFIED_CERTIFICATE.pdf",
+  "type": "pdf",
+  "size": 292596,
+  "relativePath": "Licenses & Certifications/CERTIFIED_CERTIFICATE.pdf",
+  "category": "certifications",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:59:22.050Z",
+  "extractedText": "Warranties offered \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \nRoof-ER \n \n \nis a Certified™ Roofing Contractor for GAF \nCertified™ status is only offered to about 5% of roofing contractors in North America. Those who have earned this designation have exhibited an uncompromising \ncommitment to the highest standards in sales, service, and installation and are authorized to offer the GAF Weather Stopper® System Plus Ltd. Warranty. These \ncontractors have pledged to ensure that each customer receives the best choice in roofing. \n \n \nGAF ID: 1121106 \n \nValid Through: 10/2021 \n \nMember Since: 04/2019 \n \n \n \n \n \nJim Schnepper \nPresident and CEO, GAF \n  \n \n \n \nBobby Fischer \nVP, Contractor Programs, GAF",
+  "textLength": 691,
+  "qualityScore": 0,
+  "confidence": 0,
+  "checkpoints": [],
+  "qualityMetrics": {
+    "overallScore": 0,
+    "textCompleteness": 0,
+    "structurePreservation": 0,
+    "technicalAccuracy": 0,
+    "readability": 0,
+    "confidenceLevel": "low",
+    "recommendedAction": "Processing failed - manual review required"
+  },
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": false,
+  "cost": 0
+}

@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * Batch Document Processing with DeepSeek OCR
+ * Batch Document Processing with GPT-4 Vision OCR
  *
  * This script processes all 142 documents from Sales Rep Resources 2 copy
- * using the DeepSeek OCR system with 5-checkpoint verification.
+ * using the GPT-4 Vision OCR system with 5-checkpoint verification.
  *
  * Features:
  * - Batch processing with progress tracking
@@ -17,7 +17,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { deepseekOCRIntegration } from '../lib/deepseek-ocr-integration';
+import { gpt4VisionOCRIntegration } from '../lib/gpt4-vision-ocr-integration';
 
 // Configuration
 const MANIFEST_PATH = '/Users/a21/routellm-chatbot/data/processed-kb/manifest.json';
@@ -129,9 +129,9 @@ async function processDocument(doc: any, index: number, total: number) {
     // Read document file
     const buffer = fs.readFileSync(doc.path);
 
-    // Process with DeepSeek OCR
-    console.log(`  🔍 Running DeepSeek OCR...`);
-    const result = await deepseekOCRIntegration.processDocument(buffer, doc.name);
+    // Process with GPT-4 Vision OCR
+    console.log(`  🔍 Running GPT-4 Vision OCR...`);
+    const result = await gpt4VisionOCRIntegration.processDocument(buffer, doc.name);
 
     if (!result.success) {
       console.log(`  ❌ Processing failed: ${result.error}`);
@@ -143,15 +143,15 @@ async function processDocument(doc: any, index: number, total: number) {
     }
 
     // Check quality
-    const qualityScore = result.deepseekResult?.qualityMetrics?.overallScore || 0;
-    const confidence = result.deepseekResult?.confidence || 'UNKNOWN';
+    const qualityScore = result.gpt4VisionResult?.qualityMetrics?.overallScore || 0;
+    const confidence = result.gpt4VisionResult?.confidence || 0;
 
     console.log(`  📊 Quality Score: ${qualityScore}/100`);
-    console.log(`  🎯 Confidence: ${confidence}`);
+    console.log(`  🎯 Confidence: ${confidence}%`);
 
     // Check checkpoints
-    if (result.deepseekResult?.checkpoints) {
-      const checkpoints = result.deepseekResult.checkpoints;
+    if (result.gpt4VisionResult?.checkpoints) {
+      const checkpoints = result.gpt4VisionResult.checkpoints;
       console.log(`  ✓ Checkpoints:`);
 
       // Find checkpoints by number (1-5)
@@ -181,11 +181,12 @@ async function processDocument(doc: any, index: number, total: number) {
       textLength: result.extractedText.length,
       qualityScore,
       confidence,
-      checkpoints: result.deepseekResult?.checkpoints,
-      qualityMetrics: result.deepseekResult?.qualityMetrics,
-      technicalTerms: result.deepseekResult?.technicalTerms || [],
-      processingMethod: result.usedDeepSeek ? 'deepseek' : 'tesseract',
-      cached: result.cached || false
+      checkpoints: result.gpt4VisionResult?.checkpoints,
+      qualityMetrics: result.gpt4VisionResult?.qualityMetrics,
+      technicalTerms: result.gpt4VisionResult?.technicalTerms || [],
+      processingMethod: result.usedGPT4Vision ? 'gpt4-vision' : 'tesseract',
+      cached: result.cached || false,
+      cost: result.costEstimate?.estimatedCost || 0
     };
 
     // Save processed document
@@ -194,13 +195,13 @@ async function processDocument(doc: any, index: number, total: number) {
     fs.writeFileSync(outputPath, JSON.stringify(metadata, null, 2));
 
     console.log(`  ✅ Saved: ${outputFileName}`);
-    console.log(`  💰 Cost: $${(result as any).cost?.toFixed(4) || '0.0000'} ${(result as any).cached ? '(cached)' : ''}`);
+    console.log(`  💰 Cost: $${result.costEstimate?.estimatedCost.toFixed(4) || '0.0000'} ${result.cached ? '(cached)' : ''}`);
 
     return {
       success: true,
       document: doc.name,
       metadata,
-      cost: (result as any).cost || 0
+      cost: result.costEstimate?.estimatedCost || 0
     };
 
   } catch (error: any) {

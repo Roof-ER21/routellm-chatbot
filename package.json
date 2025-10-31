@@ -29,7 +29,9 @@
     "deepseek:example": "npx ts-node examples/deepseek-ocr-examples.ts",
     "process:batch": "node scripts/simple-batch-processor.js",
     "process:sample": "node scripts/process-sales-rep-resources.js",
-    "process:ocr": "npx tsx scripts/batch-process-documents.ts"
+    "process:ocr": "npx tsx scripts/batch-process-documents.ts",
+    "ocr:test": "npx tsx scripts/test-gpt4-vision-ocr.ts",
+    "ocr:batch": "npx tsx scripts/batch-process-documents.ts"
   },
   "keywords": [],
   "author": "",

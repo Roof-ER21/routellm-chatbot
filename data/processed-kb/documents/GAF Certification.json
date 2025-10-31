@@ -1,0 +1,29 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/GAF Certification.PDF",
+  "name": "GAF Certification.PDF",
+  "type": "pdf",
+  "size": 1046227,
+  "relativePath": "Licenses, Certifications, & General Liability Ins/GAF Certification.PDF",
+  "category": "certifications",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:59:38.653Z",
+  "extractedText": "Roof-ER\nis a Certified™ Roofing Contractor for GAF\nCertified™ Contractor status is only offered to less than 5% of roofing contractors in North America. Those who have earned this designation have\nexhibited an uncompromising commitment to the highest standards in sales, service, and installation, and are authorized to offer the GAF System\nPlus Ltd. Warranty. These contractors have pledged to ensure that each customer receives the best choice in roofing.\nAccount #: 1121106Certification #: CE45990Valid Through: 9/30/2024Member Since: 2019\nBobby Fischer\nVP, Contractor Programs, GAF\nWarantees Offered",
+  "textLength": 603,
+  "qualityScore": 0,
+  "confidence": 0,
+  "checkpoints": [],
+  "qualityMetrics": {
+    "overallScore": 0,
+    "textCompleteness": 0,
+    "structurePreservation": 0,
+    "technicalAccuracy": 0,
+    "readability": 0,
+    "confidenceLevel": "low",
+    "recommendedAction": "Processing failed - manual review required"
+  },
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": false,
+  "cost": 0
+}

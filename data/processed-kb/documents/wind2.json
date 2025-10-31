@@ -1,0 +1,65 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/images samp/Damage/wind2.jpg",
+  "name": "wind2.jpg",
+  "type": "jpg",
+  "size": 75395,
+  "relativePath": "images samp/Damage/wind2.jpg",
+  "category": "reference",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T04:01:50.825Z",
+  "extractedText": "I'm unable to extract text from images directly. However, I can help you with guidance on how to use OCR tools to extract text from images. Let me know if you need assistance with that!",
+  "textLength": 185,
+  "qualityScore": 30.5,
+  "confidence": 70,
+  "checkpoints": [
+    {
+      "checkpointNumber": 1,
+      "checkpointName": "Extraction Completeness",
+      "passed": false,
+      "score": 37,
+      "details": "Extracted 185 characters. Content may be incomplete."
+    },
+    {
+      "checkpointNumber": 2,
+      "checkpointName": "Text Extraction Quality",
+      "passed": true,
+      "score": 100,
+      "details": "Text contains sufficient words. Proper sentence structure detected."
+    },
+    {
+      "checkpointNumber": 3,
+      "checkpointName": "Structure Preservation",
+      "passed": false,
+      "score": 0,
+      "details": "Structure: ✗, Tables: ✗, Lists: ✗"
+    },
+    {
+      "checkpointNumber": 4,
+      "checkpointName": "Technical Accuracy",
+      "passed": false,
+      "score": 0,
+      "details": "Found 0 technical terms. Limited technical terms detected."
+    },
+    {
+      "checkpointNumber": 5,
+      "checkpointName": "Cross-Reference Validation",
+      "passed": false,
+      "score": 0,
+      "details": "References: ✗, Numbers: ✗, Codes: ✗"
+    }
+  ],
+  "qualityMetrics": {
+    "overallScore": 30.5,
+    "textCompleteness": 37,
+    "structurePreservation": 0,
+    "technicalAccuracy": 0,
+    "readability": 85,
+    "confidenceLevel": "low",
+    "recommendedAction": "Consider manual review or reprocessing"
+  },
+  "technicalTerms": [],
+  "processingMethod": "gpt4-vision",
+  "cached": false,
+  "cost": 0.01114
+}

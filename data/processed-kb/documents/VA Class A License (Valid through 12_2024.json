@@ -1,0 +1,29 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/Expired Docs/VA Class A License (Valid through 12_2024.pdf",
+  "name": "VA Class A License (Valid through 12_2024.pdf",
+  "type": "pdf",
+  "size": 369344,
+  "relativePath": "Licenses, Certifications, & General Liability Ins/Expired Docs/VA Class A License (Valid through 12_2024.pdf",
+  "category": "certifications",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:59:36.359Z",
+  "extractedText": "",
+  "textLength": 0,
+  "qualityScore": 0,
+  "confidence": 0,
+  "checkpoints": [],
+  "qualityMetrics": {
+    "overallScore": 0,
+    "textCompleteness": 0,
+    "structurePreservation": 0,
+    "technicalAccuracy": 0,
+    "readability": 0,
+    "confidenceLevel": "low",
+    "recommendedAction": "Processing failed - manual review required"
+  },
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": false,
+  "cost": 0
+}

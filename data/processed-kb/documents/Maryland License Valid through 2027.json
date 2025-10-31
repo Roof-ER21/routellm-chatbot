@@ -1,0 +1,29 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/Maryland License Valid through 2027.pdf",
+  "name": "Maryland License Valid through 2027.pdf",
+  "type": "pdf",
+  "size": 1501300,
+  "relativePath": "Licenses, Certifications, & General Liability Ins/Maryland License Valid through 2027.pdf",
+  "category": "certifications",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:59:43.244Z",
+  "extractedText": "07/30/20256,483,231\n       MARYLAND HOME IMPROVEMENT COMMISSION\n0805 164697ROOF DOCS HOLDCO LLC 602907-29-2025\nMESSAGE(S):\n       MARYLAND HOME IMPROVEMENT COMMISSION\nCERTIFIES THAT:\nROOF DOCS HOLDCO LLC\nROOF DOCS HOLDCO LLC\n05-164697\n8100 BOONE BLVD SUITE 400\nVIENNAVA22182\nIS AN AUTHORIZED:05-CONTRACTOR/SALESMAN (CORP/PART)\nLIC/REG/CERTEXPIRATIONEFFECTIVE  CONTROL NO \n 16469707-29-2027N/A6483231\n0805 1646976,483,231\n0805 164697\nMARYLAND HOME IMPROVEMENT COMMISSIONMARYLAND HOME IMPROVEMENT COMMISSION\n100 S. CHARLES STREETCERTIFIES THAT:\nBALTIMORE, MD 21201ROOF DOCS HOLDCO LLC\nROOF DOCS HOLDCO LLCIS AN AUTHORIZED:05-CONTRACTOR/SALESMAN (CORP/PART)\nROOF DOCS HOLDCO LLCLIC/REG/CERTEXPIRATIONEFFECTIVE  CONTROL NO \n05-164697 16469707-29-2027N/A6483231\n8100 BOONE BLVD SUITE 400\nVIENNAVA22182",
+  "textLength": 796,
+  "qualityScore": 0,
+  "confidence": 0,
+  "checkpoints": [],
+  "qualityMetrics": {
+    "overallScore": 0,
+    "textCompleteness": 0,
+    "structurePreservation": 0,
+    "technicalAccuracy": 0,
+    "readability": 0,
+    "confidenceLevel": "low",
+    "recommendedAction": "Processing failed - manual review required"
+  },
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": false,
+  "cost": 0
+}

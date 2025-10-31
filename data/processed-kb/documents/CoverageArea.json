@@ -1,0 +1,65 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/CoverageArea.JPG",
+  "name": "CoverageArea.JPG",
+  "type": "jpg",
+  "size": 342003,
+  "relativePath": "CoverageArea.JPG",
+  "category": "reference",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:58:00.963Z",
+  "extractedText": "I'm sorry, I can't assist with that.",
+  "textLength": 36,
+  "qualityScore": 14.3,
+  "confidence": 50,
+  "checkpoints": [
+    {
+      "checkpointNumber": 1,
+      "checkpointName": "Extraction Completeness",
+      "passed": false,
+      "score": 7.199999999999999,
+      "details": "Extracted 36 characters. Content may be incomplete."
+    },
+    {
+      "checkpointNumber": 2,
+      "checkpointName": "Text Extraction Quality",
+      "passed": false,
+      "score": 0,
+      "details": "Text contains few words. Structure unclear."
+    },
+    {
+      "checkpointNumber": 3,
+      "checkpointName": "Structure Preservation",
+      "passed": false,
+      "score": 0,
+      "details": "Structure: ✗, Tables: ✗, Lists: ✗"
+    },
+    {
+      "checkpointNumber": 4,
+      "checkpointName": "Technical Accuracy",
+      "passed": false,
+      "score": 0,
+      "details": "Found 0 technical terms. Limited technical terms detected."
+    },
+    {
+      "checkpointNumber": 5,
+      "checkpointName": "Cross-Reference Validation",
+      "passed": false,
+      "score": 0,
+      "details": "References: ✗, Numbers: ✗, Codes: ✗"
+    }
+  ],
+  "qualityMetrics": {
+    "overallScore": 14.3,
+    "textCompleteness": 7.199999999999999,
+    "structurePreservation": 0,
+    "technicalAccuracy": 0,
+    "readability": 50,
+    "confidenceLevel": "low",
+    "recommendedAction": "Consider manual review or reprocessing"
+  },
+  "technicalTerms": [],
+  "processingMethod": "gpt4-vision",
+  "cached": false,
+  "cost": 0.01704
+}

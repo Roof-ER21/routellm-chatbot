@@ -1,0 +1,90 @@
+{
+  "summary": {
+    "totalDocuments": 142,
+    "successful": 140,
+    "failed": 2,
+    "skipped": 0,
+    "averageQuality": 4.74,
+    "totalCost": 0.2222,
+    "processingTime": "0h 4m"
+  },
+  "byCategory": {
+    "reference": {
+      "count": 61,
+      "avgQuality": 3.737704918032787,
+      "avgConfidence": 85
+    },
+    "agreements": {
+      "count": 7,
+      "avgQuality": 0,
+      "avgConfidence": 85
+    },
+    "warranties": {
+      "count": 4,
+      "avgQuality": 0,
+      "avgConfidence": 85
+    },
+    "email_templates": {
+      "count": 12,
+      "avgQuality": 2.5166666666666666,
+      "avgConfidence": 85
+    },
+    "pushback_strategies": {
+      "count": 21,
+      "avgQuality": 15.795238095238098,
+      "avgConfidence": 85
+    },
+    "certifications": {
+      "count": 20,
+      "avgQuality": 0,
+      "avgConfidence": 85
+    },
+    "training_materials": {
+      "count": 9,
+      "avgQuality": 0,
+      "avgConfidence": 85
+    },
+    "photo_examples": {
+      "count": 5,
+      "avgQuality": 0,
+      "avgConfidence": 85
+    },
+    "templates": {
+      "count": 1,
+      "avgQuality": 73.75,
+      "avgConfidence": 85
+    }
+  },
+  "qualityDistribution": {
+    "high": 0,
+    "medium": 3,
+    "low": 137
+  },
+  "checkpointResults": {
+    "imageQuality": {
+      "passed": 6,
+      "failed": 10
+    },
+    "textExtraction": {
+      "passed": 12,
+      "failed": 4
+    },
+    "structurePreservation": {
+      "passed": 3,
+      "failed": 13
+    },
+    "technicalAccuracy": {
+      "passed": 1,
+      "failed": 15
+    },
+    "crossReference": {
+      "passed": 5,
+      "failed": 11
+    }
+  },
+  "costBreakdown": {
+    "ocrCost": 0.2222,
+    "cacheSavings": 0.0016,
+    "totalCost": 0.2206
+  }
+}

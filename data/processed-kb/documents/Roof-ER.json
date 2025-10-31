@@ -1,0 +1,29 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Customer Resources(Products, Warranties, etc.)/Roof-ER.pdf",
+  "name": "Roof-ER.pdf",
+  "type": "pdf",
+  "size": 84438,
+  "relativePath": "Customer Resources(Products, Warranties, etc.)/Roof-ER.pdf",
+  "category": "reference",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:58:06.965Z",
+  "extractedText": "September15,2023\nRoof-ER\n2106GallowsRdSteD\nVienna,VA22182\nAttention:OliverBrown\nRe:GAFSilverPledge™LimitedWarrantyPilot\nDearOliverBrown,\nWearepleasedtoinformyouthatyouhavebeenselectedtoparticipateinapilotprogram(“Pilot”)\nduringwhichyoumayofferyourcustomersaGAFSilverPledge™LimitedWarranty(“SilverPledge”)as\ndescribedinthisletter.YourparticipationinthisPilotisbasedonyourmembershipasaCertified\nContractorintheGAFCertifiedRoofingContractorProgrampursuanttotheProgramParticipation\nAgreement,datedSeptember15,2023,betweenGAFandyou(“Agreement”).\nSubjecttothetermsandconditionsofthisletterandtheAgreement,duringtheperiodfromthedateof\nthisletteruntilOctober31,2023(the“PilotPeriod”),GAFauthorizesyoutoofferyourcustomers,inonly\nyourDesignatedTerritory(asdefinedintheAgreement),aSilverPledgeinconnectionwithyoursale\nandinstallationofGAFroofingproducts.ForaSilverPledgetoqualifyforinclusioninthisPilot,theroofing\nproductswhicharethesubjectoftheSilverPledgemustbeinstalledbyOctober31,2023.Alloftheterms\nandconditionsoftheAgreementapplytoeachSilverPledgethatisthesubjectofthePilot.Assuch,\nbeforeparticipatinginthisPilotandofferinganySilverPledges,youshouldcloselyreviewthetermsand\nconditionsoftheAgreement,including,butnotlimitedto,thosesetforthinthe“Commitmentsof\nContractor”sectionoftheAgreement.Youunderstandandagreethatreferencesto“Enhanced\nWarranty”and“EnhancedWarranties”intheAgreementshallbedeemedtoincludereferencestoeach\nSilverPledgeyouofferduringthePilot.\nGAFreservestherighttoterminatethePilotoryourparticipationinthePilotand/orchangethetermsof\nthePilotatanytimeforanyornoreason.UpontheterminationofthePilotentirelyoryourparticipation\ninthePilotortheexpirationorterminationoftheAgreementforanyreason,allrightsgrantedtoyou\nunderthislettershallimmediatelyterminate,andyoumustceaseofferingyourcustomersaSilver\nPledge.\nWelookforwardtoyourparticipationinthisPilot.\nSincerely,\nBobbyFischer\nVP,PartnerPrograms",
+  "textLength": 1901,
+  "qualityScore": 0,
+  "confidence": 0,
+  "checkpoints": [],
+  "qualityMetrics": {
+    "overallScore": 0,
+    "textCompleteness": 0,
+    "structurePreservation": 0,
+    "technicalAccuracy": 0,
+    "readability": 0,
+    "confidenceLevel": "low",
+    "recommendedAction": "Processing failed - manual review required"
+  },
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": false,
+  "cost": 0
+}

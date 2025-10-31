@@ -1,0 +1,81 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Double Layer Code PA.png",
+  "name": "Double Layer Code PA.png",
+  "type": "png",
+  "size": 12841,
+  "relativePath": "Insurance Argument Resources/Double Layer Code PA.png",
+  "category": "pushback_strategies",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:58:52.970Z",
+  "extractedText": "R908.3 Roof Replacement\n\nRoof replacement shall include the removal of existing layers of roof coverings down to the roof deck.",
+  "textLength": 127,
+  "qualityScore": 35.1,
+  "confidence": 100,
+  "checkpoints": [
+    {
+      "checkpointNumber": 1,
+      "checkpointName": "Extraction Completeness",
+      "passed": false,
+      "score": 25.4,
+      "details": "Extracted 127 characters. Content may be incomplete."
+    },
+    {
+      "checkpointNumber": 2,
+      "checkpointName": "Text Extraction Quality",
+      "passed": false,
+      "score": 50,
+      "details": "Text contains few words. Proper sentence structure detected."
+    },
+    {
+      "checkpointNumber": 3,
+      "checkpointName": "Structure Preservation",
+      "passed": false,
+      "score": 40,
+      "details": "Structure: ✓, Tables: ✗, Lists: ✗"
+    },
+    {
+      "checkpointNumber": 4,
+      "checkpointName": "Technical Accuracy",
+      "passed": false,
+      "score": 24,
+      "details": "Found 3 technical terms. Limited technical terms detected."
+    },
+    {
+      "checkpointNumber": 5,
+      "checkpointName": "Cross-Reference Validation",
+      "passed": true,
+      "score": 67,
+      "details": "References: ✗, Numbers: ✓, Codes: ✓"
+    }
+  ],
+  "qualityMetrics": {
+    "overallScore": 35.1,
+    "textCompleteness": 25.4,
+    "structurePreservation": 0,
+    "technicalAccuracy": 30,
+    "readability": 85,
+    "confidenceLevel": "low",
+    "recommendedAction": "Consider manual review or reprocessing"
+  },
+  "technicalTerms": [
+    {
+      "term": "Roof",
+      "category": "roofing",
+      "confidence": 85
+    },
+    {
+      "term": "deck",
+      "category": "roofing",
+      "confidence": 85
+    },
+    {
+      "term": "R908.3",
+      "category": "building_code",
+      "confidence": 90
+    }
+  ],
+  "processingMethod": "gpt4-vision",
+  "cached": false,
+  "cost": 0.00732
+}

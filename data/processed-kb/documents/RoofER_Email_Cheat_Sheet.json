@@ -1,0 +1,65 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/RoofER_Email_Cheat_Sheet.png",
+  "name": "RoofER_Email_Cheat_Sheet.png",
+  "type": "png",
+  "size": 18210,
+  "relativePath": "RoofER_Email_Cheat_Sheet.png",
+  "category": "reference",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T04:00:55.540Z",
+  "extractedText": "I'm unable to extract text from the image directly. However, if you can provide the text content or a clearer image, I'd be happy to help format it according to your requirements.",
+  "textLength": 179,
+  "qualityScore": 30.2,
+  "confidence": 70,
+  "checkpoints": [
+    {
+      "checkpointNumber": 1,
+      "checkpointName": "Extraction Completeness",
+      "passed": false,
+      "score": 35.8,
+      "details": "Extracted 179 characters. Content may be incomplete."
+    },
+    {
+      "checkpointNumber": 2,
+      "checkpointName": "Text Extraction Quality",
+      "passed": true,
+      "score": 100,
+      "details": "Text contains sufficient words. Proper sentence structure detected."
+    },
+    {
+      "checkpointNumber": 3,
+      "checkpointName": "Structure Preservation",
+      "passed": false,
+      "score": 0,
+      "details": "Structure: ✗, Tables: ✗, Lists: ✗"
+    },
+    {
+      "checkpointNumber": 4,
+      "checkpointName": "Technical Accuracy",
+      "passed": false,
+      "score": 0,
+      "details": "Found 0 technical terms. Limited technical terms detected."
+    },
+    {
+      "checkpointNumber": 5,
+      "checkpointName": "Cross-Reference Validation",
+      "passed": false,
+      "score": 0,
+      "details": "References: ✗, Numbers: ✗, Codes: ✗"
+    }
+  ],
+  "qualityMetrics": {
+    "overallScore": 30.2,
+    "textCompleteness": 35.8,
+    "structurePreservation": 0,
+    "technicalAccuracy": 0,
+    "readability": 85,
+    "confidenceLevel": "low",
+    "recommendedAction": "Consider manual review or reprocessing"
+  },
+  "technicalTerms": [],
+  "processingMethod": "gpt4-vision",
+  "cached": true,
+  "cost": 0.0076500000000000005
+}

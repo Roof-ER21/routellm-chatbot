@@ -1,0 +1,29 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Licenses, Certifications, & General Liability Ins/Expired Docs/GAF Master Elite 2024.PDF",
+  "name": "GAF Master Elite 2024.PDF",
+  "type": "pdf",
+  "size": 3066742,
+  "relativePath": "Licenses, Certifications, & General Liability Ins/Expired Docs/GAF Master Elite 2024.PDF",
+  "category": "certifications",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:59:33.354Z",
+  "extractedText": "Roof-ER\nis a Master Elite® Roofing Contractor for GAF\nMaster Elite® Contractor status is only offered to less than 2% of roofing contractors in North America. Those who have earned this designation\nhave exhibited an uncompromising commitment to the highest standards in sales, service, and installation, and have pledged to ensure that each\ncustomer receives the best choice in roofing. Master Elite® Contractors are authorized to offer any GAF enhanced limited warranty.\nAccount #: 1121106Certification #: ME57578Valid Through: 12/31/2024Member Since: 2023\nBobby Fischer\nVP, Contractor Programs, GAF\nWarantees Offered",
+  "textLength": 618,
+  "qualityScore": 0,
+  "confidence": 0,
+  "checkpoints": [],
+  "qualityMetrics": {
+    "overallScore": 0,
+    "textCompleteness": 0,
+    "structurePreservation": 0,
+    "technicalAccuracy": 0,
+    "readability": 0,
+    "confidenceLevel": "low",
+    "recommendedAction": "Processing failed - manual review required"
+  },
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": false,
+  "cost": 0
+}

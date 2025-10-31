@@ -1,0 +1,71 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Building Code - Definition of Roof Recover.png",
+  "name": "Building Code - Definition of Roof Recover.png",
+  "type": "png",
+  "size": 17243,
+  "relativePath": "Insurance Argument Resources/Building Code - Definition of Roof Recover.png",
+  "category": "pushback_strategies",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:58:39.939Z",
+  "extractedText": "```\n1511.4 Roof Recovering\n\n[B5] ROOF RECOVER. The process of installing an additional roof covering over a prepared existing roof covering without removing the existing roof covering.\n```",
+  "textLength": 188,
+  "qualityScore": 33.15,
+  "confidence": 100,
+  "checkpoints": [
+    {
+      "checkpointNumber": 1,
+      "checkpointName": "Extraction Completeness",
+      "passed": false,
+      "score": 37.6,
+      "details": "Extracted 188 characters. Content may be incomplete."
+    },
+    {
+      "checkpointNumber": 2,
+      "checkpointName": "Text Extraction Quality",
+      "passed": true,
+      "score": 100,
+      "details": "Text contains sufficient words. Proper sentence structure detected."
+    },
+    {
+      "checkpointNumber": 3,
+      "checkpointName": "Structure Preservation",
+      "passed": false,
+      "score": 40,
+      "details": "Structure: ✓, Tables: ✗, Lists: ✗"
+    },
+    {
+      "checkpointNumber": 4,
+      "checkpointName": "Technical Accuracy",
+      "passed": false,
+      "score": 8,
+      "details": "Found 1 technical terms. Limited technical terms detected."
+    },
+    {
+      "checkpointNumber": 5,
+      "checkpointName": "Cross-Reference Validation",
+      "passed": false,
+      "score": 33,
+      "details": "References: ✗, Numbers: ✓, Codes: ✗"
+    }
+  ],
+  "qualityMetrics": {
+    "overallScore": 33.15,
+    "textCompleteness": 37.6,
+    "structurePreservation": 0,
+    "technicalAccuracy": 10,
+    "readability": 85,
+    "confidenceLevel": "low",
+    "recommendedAction": "Consider manual review or reprocessing"
+  },
+  "technicalTerms": [
+    {
+      "term": "Roof",
+      "category": "roofing",
+      "confidence": 85
+    }
+  ],
+  "processingMethod": "gpt4-vision",
+  "cached": false,
+  "cost": 0.00777
+}

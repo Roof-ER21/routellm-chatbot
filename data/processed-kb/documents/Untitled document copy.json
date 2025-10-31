@@ -1,0 +1,19 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Untitled document copy.docx",
+  "name": "Untitled document copy.docx",
+  "type": "docx",
+  "size": 7219,
+  "relativePath": "Untitled document copy.docx",
+  "category": "reference",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T04:01:07.414Z",
+  "extractedText": "Virginia and Pennsylvania Matching Requirements\n\n\n\n\n\n\n\nVirginia and Pennsylvania do not require insurance companies to take into account that the products must match.  That would only apply if the homeowner had a matching endorsement on their policy.  \n\n\n\nHowever, there are still plenty of arguments to use outside of matching requirements:\n\nRepairability (using Brittle Test or Repair Attempt)\n\nDiffering dimensions not allowing for a proper repair\n\nMissed storm damage to the areas not yet approved for replacement\n\nOther possibilities based on other information that has not yet been provided\n\n\n\n",
+  "textLength": 600,
+  "qualityScore": 0,
+  "confidence": 0,
+  "technicalTerms": [],
+  "processingMethod": "tesseract",
+  "cached": false,
+  "cost": 0
+}

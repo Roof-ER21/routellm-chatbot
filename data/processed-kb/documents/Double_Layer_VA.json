@@ -1,0 +1,126 @@
+{
+  "path": "/Users/a21/Desktop/Sales Rep Resources 2 copy/Insurance Argument Resources/Double_Layer_VA.JPG",
+  "name": "Double_Layer_VA.JPG",
+  "type": "jpg",
+  "size": 198805,
+  "relativePath": "Insurance Argument Resources/Double_Layer_VA.JPG",
+  "category": "pushback_strategies",
+  "status": "pending",
+  "processed": true,
+  "processedAt": "2025-10-31T03:59:02.287Z",
+  "extractedText": "```\nCODES\n\nVirginia Residential Code 2018\nAdopts With Amendments:\nInternational Residential Code 2018 (IRC 2018)\n\n[Code Compare]\n\nChapter 9 Roof Assemblies\n\n  R901 General\n  R902 Fire Classification\n  R903 Weather Protection\n  R904 Materials\n  R905 Requirements for Roof Coverings\n  R906 Roof Insulation\n  R907 Rooftop-Mounted Photovoltaic Panel Systems\n\nR908.2 Structural and Construction Loads\n\nThe structural roof components shall be capable of supporting the roof covering system and the material and equipment loads that will be encountered during installation of the roof covering system.\n\nR908.3 Roof Replacement\n\nRoof replacement shall include the removal of existing layers of roof coverings down to the roof deck.\n\nException: Where the existing roof assembly includes an ice barrier membrane that is adhered to the roof deck, the existing ice barrier membrane shall be permitted to remain in place and covered with an additional layer of ice barrier membrane in accordance with Section R905.\n```",
+  "textLength": 1005,
+  "qualityScore": 78.75,
+  "confidence": 100,
+  "checkpoints": [
+    {
+      "checkpointNumber": 1,
+      "checkpointName": "Extraction Completeness",
+      "passed": true,
+      "score": 100,
+      "details": "Extracted 1005 characters. Sufficient content extracted."
+    },
+    {
+      "checkpointNumber": 2,
+      "checkpointName": "Text Extraction Quality",
+      "passed": true,
+      "score": 100,
+      "details": "Text contains sufficient words. Proper sentence structure detected."
+    },
+    {
+      "checkpointNumber": 3,
+      "checkpointName": "Structure Preservation",
+      "passed": false,
+      "score": 40,
+      "details": "Structure: ✓, Tables: ✗, Lists: ✗"
+    },
+    {
+      "checkpointNumber": 4,
+      "checkpointName": "Technical Accuracy",
+      "passed": true,
+      "score": 96,
+      "details": "Found 12 technical terms. Good domain terminology coverage."
+    },
+    {
+      "checkpointNumber": 5,
+      "checkpointName": "Cross-Reference Validation",
+      "passed": true,
+      "score": 100,
+      "details": "References: ✓, Numbers: ✓, Codes: ✓"
+    }
+  ],
+  "qualityMetrics": {
+    "overallScore": 78.75,
+    "textCompleteness": 100,
+    "structurePreservation": 30,
+    "technicalAccuracy": 100,
+    "readability": 85,
+    "confidenceLevel": "medium",
+    "recommendedAction": "Accept and use for RAG system"
+  },
+  "technicalTerms": [
+    {
+      "term": "Roof",
+      "category": "roofing",
+      "confidence": 85
+    },
+    {
+      "term": "deck",
+      "category": "roofing",
+      "confidence": 85
+    },
+    {
+      "term": "IRC",
+      "category": "building_code",
+      "confidence": 90
+    },
+    {
+      "term": "R901",
+      "category": "building_code",
+      "confidence": 90
+    },
+    {
+      "term": "R902",
+      "category": "building_code",
+      "confidence": 90
+    },
+    {
+      "term": "R903",
+      "category": "building_code",
+      "confidence": 90
+    },
+    {
+      "term": "R904",
+      "category": "building_code",
+      "confidence": 90
+    },
+    {
+      "term": "R905",
+      "category": "building_code",
+      "confidence": 90
+    },
+    {
+      "term": "R906",
+      "category": "building_code",
+      "confidence": 90
+    },
+    {
+      "term": "R907",
+      "category": "building_code",
+      "confidence": 90
+    },
+    {
+      "term": "R908.2",
+      "category": "building_code",
+      "confidence": 90
+    },
+    {
+      "term": "R908.3",
+      "category": "building_code",
+      "confidence": 90
+    }
+  ],
+  "processingMethod": "gpt4-vision",
+  "cached": false,
+  "cost": 0.02301
+}
