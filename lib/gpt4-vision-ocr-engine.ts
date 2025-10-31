@@ -396,7 +396,7 @@ Start extracting now:`;
 
     // Checkpoint 2: Text Extraction Quality
     const hasWords = extractedText.split(/\s+/).length > 20;
-    const hasProperSentences = /[A-Z][a-z]+.*?\./s.test(extractedText);
+    const hasProperSentences = /[A-Z][a-z]+[\s\S]*?\./.test(extractedText);
     const cp2Score = (hasWords ? 50 : 0) + (hasProperSentences ? 50 : 0);
     checkpoints.push({
       checkpointNumber: 2,
