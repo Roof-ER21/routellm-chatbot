@@ -109,48 +109,187 @@ async function generateEmbeddingsBatch(texts) {
 }
 
 // ============================================================================
-// LOAD DOCUMENTS FROM KB
+// LOAD DOCUMENTS FROM DISK (processed JSON)
 // ============================================================================
 
-async function loadDocumentsFromKB() {
-  console.log('📚 Loading documents from knowledge base...\n');
+function slugifyId(s) {
+  return String(s || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '')
+    .slice(0, 64);
+}
 
-  // Try to build the project if not already built
-  const jsPath = path.join(__dirname, '..', 'lib', 'insurance-argumentation-kb.js');
+function pickTypeFromFilename(name = '') {
+  const ext = path.extname(name).toLowerCase();
+  if (ext === '.pdf') return 'pdf';
+  if (ext === '.docx' || ext === '.doc') return 'docx';
+  if (['.jpg', '.jpeg', '.png'].includes(ext)) return 'image';
+  return 'docx';
+}
 
-  if (!fs.existsSync(jsPath)) {
-    console.log('   TypeScript file needs compilation...');
-    console.log('   Running: npm run kb:build\n');
-
-    try {
-      const { stdout, stderr } = await execAsync('npm run kb:build');
-      if (stdout) console.log(stdout);
-      if (stderr && !stderr.includes('npm WARN')) console.error(stderr);
-      console.log('   ✓ Build complete\n');
-    } catch (error) {
-      console.error('   ⚠️  Build failed, trying direct import...\n');
-    }
-  }
-
-  // Try to load the compiled version
+function safeReadJSON(filePath) {
   try {
-    const KB = require('../lib/insurance-argumentation-kb');
-    const documents = KB.INSURANCE_KB_DOCUMENTS || KB.default?.INSURANCE_KB_DOCUMENTS;
-
-    if (!documents || !Array.isArray(documents)) {
-      throw new Error('INSURANCE_KB_DOCUMENTS not found or not an array');
-    }
-
-    console.log(`✓ Loaded ${documents.length} documents from knowledge base\n`);
-    return documents;
-
-  } catch (error) {
-    console.error('❌ Could not load knowledge base');
-    console.error('   Error:', error.message);
-    console.error('\n💡 Please ensure the knowledge base file exists and is properly formatted');
-    console.error('   File: lib/insurance-argumentation-kb.ts');
-    process.exit(1);
+    const raw = fs.readFileSync(filePath, 'utf-8');
+    return JSON.parse(raw);
+  } catch (e) {
+    console.warn(`   ⚠️  Skipping invalid JSON: ${filePath} (${e.message})`);
+    return null;
   }
+}
+
+function normalizeDoc(json, filePath) {
+  const baseName = path.basename(filePath);
+  const sourceFile = json?.sourceFile || json?.filename || baseName.replace(/\.json$/i, '');
+  const title = json?.title || json?.name || sourceFile?.replace(/\.[^/.]+$/, '') || baseName;
+
+  // Prefer rich content fields in order
+  const content = (
+    json?.content ||
+    json?.extractedText ||
+    json?.extracted_text ||
+    json?.text ||
+    json?.body ||
+    ''
+  ).toString();
+
+  const summary = (json?.summary || json?.description || '').toString();
+  const category = json?.category || 'reference';
+  const scenarios = json?.scenarios || json?.metadata?.scenarios || [];
+  const states = json?.states || json?.metadata?.states || [];
+  const tags = json?.tags || json?.metadata?.tags || [];
+
+  const id = json?.id || slugifyId(`${title}_${category}`) || slugifyId(baseName);
+
+  return {
+    id,
+    filename: sourceFile || baseName,
+    category,
+    title: title || baseName,
+    content,
+    summary,
+    scenarios,
+    applicableStates: states,
+    tags,
+    _raw: json,
+  };
+}
+
+async function loadDocumentsFromKB() {
+  console.log('📚 Loading documents from processed JSON...\n');
+
+  const kbDir = path.join(__dirname, '..', 'data', 'processed-kb');
+  const candidates = [];
+
+  const subdirs = [
+    path.join(kbDir, 'documents'),
+    path.join(kbDir, 'documents-ready'),
+    kbDir,
+  ];
+
+  // Collect JSON files from known locations
+  for (const dir of subdirs) {
+    if (!fs.existsSync(dir)) continue;
+    const items = fs.readdirSync(dir);
+    for (const name of items) {
+      const p = path.join(dir, name);
+      const st = (() => { try { return fs.statSync(p); } catch { return null; } })();
+      if (!st) continue;
+      if (st.isDirectory()) continue;
+      if (!name.toLowerCase().endsWith('.json')) continue;
+      // Skip obvious non-doc records
+      if (/manifest|processing-summary|progress|processing-report|sample-processed-doc/i.test(name)) continue;
+      candidates.push(p);
+    }
+  }
+
+  if (!candidates.length) {
+    console.log('   ⚠️  No processed JSON documents found under data/processed-kb');
+    console.log('   Falling back to lib/insurance-argumentation-kb.ts if available...');
+    try {
+      const KB = require('../lib/insurance-argumentation-kb');
+      const docs = KB.INSURANCE_KB_DOCUMENTS || KB.default?.INSURANCE_KB_DOCUMENTS;
+      if (!docs || !Array.isArray(docs)) throw new Error('INSURANCE_KB_DOCUMENTS missing');
+      console.log(`✓ Loaded ${docs.length} documents from TypeScript KB fallback\n`);
+      return docs;
+    } catch (e) {
+      console.error('❌ No JSON docs and could not load TypeScript KB.');
+      console.error('   Checked:', subdirs.join(', '));
+      console.error('   Error:', e.message);
+      process.exit(1);
+    }
+  }
+
+  console.log(`   Found ${candidates.length} JSON files`);
+
+  const docs = [];
+  for (const file of candidates) {
+    const json = safeReadJSON(file);
+    if (!json) continue;
+    const normalized = normalizeDoc(json, file);
+    // Require content to embed
+    if (!normalized.content || !normalized.content.trim()) {
+      console.log(`   ⏭️  ${path.basename(file)} has no content field — skipping`);
+      continue;
+    }
+    docs.push(normalized);
+  }
+
+  if (!docs.length) {
+    console.log('   ⚠️  Found JSON files but none contained content to embed.');
+    console.log('   Falling back to parsing TypeScript KB (lib/insurance-argumentation-kb.ts)...');
+    try {
+      const fallbackDocs = parseTypeScriptKB();
+      console.log(`✓ Loaded ${fallbackDocs.length} documents from TypeScript KB fallback\n`);
+      return fallbackDocs;
+    } catch (e) {
+      console.error('❌ No embeddable JSON docs and TypeScript KB fallback failed.');
+      console.error('   Error:', e.message);
+      process.exit(1);
+    }
+  }
+
+  console.log(`✓ Loaded ${docs.length} processed documents from data/processed-kb\n`);
+  return docs;
+}
+
+// ----------------------------------------------------------------------------
+// Fallback: Parse the TypeScript KB file directly without a build step
+// ----------------------------------------------------------------------------
+function parseTypeScriptKB() {
+  const tsPath = path.join(__dirname, '..', 'lib', 'insurance-argumentation-kb.ts');
+  if (!fs.existsSync(tsPath)) {
+    throw new Error('lib/insurance-argumentation-kb.ts not found');
+  }
+
+  const tsCode = fs.readFileSync(tsPath, 'utf-8');
+
+  // Extract only the exported KB array and evaluate it as JS
+  const match = tsCode.match(/export\s+const\s+INSURANCE_KB_DOCUMENTS[\s\S]*?=\s*\[([\s\S]*?)\];/);
+  if (!match) {
+    throw new Error('Could not find INSURANCE_KB_DOCUMENTS array in TS file');
+  }
+
+  const arrayBlock = match[0]
+    // Drop the type annotation and export keyword
+    .replace(/export\s+const\s+INSURANCE_KB_DOCUMENTS\s*:[^=]+=/, 'const INSURANCE_KB_DOCUMENTS =')
+    .trim();
+
+  const Module = require('module');
+  const m = new Module();
+  // Append an export so we can read the value
+  const toEval = `${arrayBlock}\nmodule.exports = INSURANCE_KB_DOCUMENTS;`;
+  try {
+    m._compile(toEval, 'kb-inline-eval.js');
+  } catch (e) {
+    throw new Error(`Failed to evaluate KB array: ${e.message}`);
+  }
+
+  const docs = m.exports;
+  if (!Array.isArray(docs)) {
+    throw new Error('Parsed KB did not yield an array');
+  }
+  return docs;
 }
 
 // ============================================================================
@@ -220,6 +359,8 @@ async function generateEmbeddings() {
       }
 
       // Insert/update document
+      const docType = pickTypeFromFilename(doc.filename || doc.id || '');
+
       await client.query(`
         INSERT INTO rag_documents (id, filename, filepath, type, content, summary, metadata, hash)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
@@ -234,7 +375,7 @@ async function generateEmbeddings() {
         doc.id,
         doc.filename || doc.id,
         doc.filename || doc.id,
-        'docx',
+        docType,
         fullContent,
         doc.summary || '',
         JSON.stringify({
