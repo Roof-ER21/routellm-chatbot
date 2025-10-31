@@ -20,8 +20,8 @@ const EMBEDDING_MODEL = 'text-embedding-3-small';
 const EMBEDDING_DIMENSIONS = 1536;
 const CHUNK_SIZE = 500; // tokens
 const CHUNK_OVERLAP = 50;
-const BATCH_SIZE = 100;
-const RATE_LIMIT_DELAY = 1000;
+const BATCH_SIZE = 10; // Reduced to save memory
+const RATE_LIMIT_DELAY = 100; // Reduced delay since smaller batches
 
 // Chunking function
 function chunkText(text: string, chunkSize = 500, overlap = 50) {
@@ -157,11 +157,14 @@ export async function POST(request: Request) {
 
 // Background generation function
 async function generateEmbeddingsBackground() {
+  let pool: Pool | null = null;
+
   try {
     // Connect to database
-    const pool = new Pool({
+    pool = new Pool({
       connectionString: DATABASE_URL,
       ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+      max: 1, // Limit connections to reduce memory
     });
 
     console.log('[Embedding Generation] Connected to database');
@@ -172,6 +175,7 @@ async function generateEmbeddingsBackground() {
     let processedDocs = 0;
     let skippedDocs = 0;
 
+    // Process one document at a time to reduce memory usage
     for (let i = 0; i < INSURANCE_KB_DOCUMENTS.length; i++) {
       const doc = INSURANCE_KB_DOCUMENTS[i];
 
@@ -262,6 +266,15 @@ async function generateEmbeddingsBackground() {
       }
 
       processedDocs++;
+
+      // Force garbage collection hint after each document (if available)
+      if (global.gc) {
+        try {
+          global.gc();
+        } catch (e) {
+          // GC not exposed
+        }
+      }
     }
 
     // Create HNSW index
