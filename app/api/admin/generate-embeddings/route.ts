@@ -9,9 +9,8 @@
 import { NextResponse } from 'next/server';
 import { Pool } from 'pg';
 import crypto from 'crypto';
-
-// Load the knowledge base
-import { INSURANCE_KB_DOCUMENTS } from '@/lib/insurance-argumentation-kb';
+import fs from 'fs';
+import path from 'path';
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const DATABASE_URL = process.env.DATABASE_URL || process.env.POSTGRES_URL;
@@ -110,6 +109,38 @@ async function generateEmbeddingsBatch(texts: string[]): Promise<number[][]> {
   return embeddings;
 }
 
+// Load processed documents from JSON files
+function loadProcessedDocuments() {
+  const docsDir = path.join(process.cwd(), 'data/processed-kb/documents');
+
+  if (!fs.existsSync(docsDir)) {
+    console.error('[Embedding Generation] Processed documents directory not found:', docsDir);
+    return [];
+  }
+
+  const files = fs.readdirSync(docsDir).filter(file => file.endsWith('.json'));
+  console.log(`[Embedding Generation] Found ${files.length} JSON files`);
+
+  return files.map((file, index) => {
+    const filePath = path.join(docsDir, file);
+    const content = fs.readFileSync(filePath, 'utf8');
+    const doc = JSON.parse(content);
+
+    return {
+      id: `processed_${file.replace('.json', '')}`,
+      filename: doc.filename || file,
+      filepath: filePath,
+      extractedText: doc.extractedText || doc.content || '',
+      qualityScore: doc.qualityScore || 0,
+      metadata: {
+        textLength: doc.textLength || 0,
+        technicalTerms: doc.technicalTerms || [],
+        ...doc.metadata,
+      },
+    };
+  });
+}
+
 export async function POST(request: Request) {
   try {
     console.log('[Embedding Generation] Starting...');
@@ -168,7 +199,10 @@ async function generateEmbeddingsBackground() {
     });
 
     console.log('[Embedding Generation] Connected to database');
-    console.log(`[Embedding Generation] Processing ${INSURANCE_KB_DOCUMENTS.length} documents`);
+
+    // Load processed documents from JSON files
+    const documents = loadProcessedDocuments();
+    console.log(`[Embedding Generation] Processing ${documents.length} processed documents`);
 
     let totalChunks = 0;
     let totalTokens = 0;
@@ -176,11 +210,17 @@ async function generateEmbeddingsBackground() {
     let skippedDocs = 0;
 
     // Process one document at a time to reduce memory usage
-    for (let i = 0; i < INSURANCE_KB_DOCUMENTS.length; i++) {
-      const doc = INSURANCE_KB_DOCUMENTS[i];
+    for (let i = 0; i < documents.length; i++) {
+      const doc = documents[i];
 
-      // Combine document content
-      const fullContent = `${doc.title}\n\n${doc.summary || ''}\n\n${doc.content || ''}`;
+      // Use extracted text as full content
+      const fullContent = doc.extractedText || '';
+
+      if (!fullContent || fullContent.length < 10) {
+        console.log(`[${i + 1}/${documents.length}] ${doc.filename} - skipped (no content)`);
+        skippedDocs++;
+        continue;
+      }
 
       // Calculate hash
       const hash = crypto.createHash('sha256').update(fullContent).digest('hex');
@@ -192,12 +232,12 @@ async function generateEmbeddingsBackground() {
       );
 
       if (existingDoc.rows.length > 0 && existingDoc.rows[0].hash === hash) {
-        console.log(`[${i + 1}/${INSURANCE_KB_DOCUMENTS.length}] ${doc.id} - skipped (already processed)`);
+        console.log(`[${i + 1}/${documents.length}] ${doc.filename} - skipped (already processed)`);
         skippedDocs++;
         continue;
       }
 
-      console.log(`[${i + 1}/${INSURANCE_KB_DOCUMENTS.length}] ${doc.id} - processing`);
+      console.log(`[${i + 1}/${documents.length}] ${doc.filename} - processing`);
 
       // Insert/update document
       await pool.query(`
@@ -205,24 +245,18 @@ async function generateEmbeddingsBackground() {
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         ON CONFLICT (id) DO UPDATE SET
           content = EXCLUDED.content,
-          summary = EXCLUDED.summary,
           metadata = EXCLUDED.metadata,
           hash = EXCLUDED.hash,
           version = rag_documents.version + 1,
           updated_at = NOW()
       `, [
         doc.id,
-        doc.filename || doc.id,
-        doc.filename || doc.id,
-        'docx', // Default type
+        doc.filename,
+        doc.filepath,
+        'processed', // type
         fullContent,
-        doc.summary || '',
-        JSON.stringify({
-          category: doc.category,
-          scenarios: doc.metadata.scenarios || [],
-          states: doc.metadata.states || [],
-          keywords: doc.keywords || [],
-        }),
+        '', // summary
+        JSON.stringify(doc.metadata),
         hash,
       ]);
 
