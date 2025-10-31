@@ -10,6 +10,7 @@
     "kb:build": "node ./scripts/kb-build.js",
     "kb:preload": "node ./scripts/preload-kb-documents.js",
     "rag:build": "node ./scripts/generate-embeddings-v2.js",
+    "rag:build:processed": "node ./scripts/generate-embeddings-from-processed.js",
     "build": "npm run kb:build && npm run kb:preload && next build",
     "start": "./start.sh",
     "lint": "next lint",

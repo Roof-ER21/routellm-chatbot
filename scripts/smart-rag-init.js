@@ -81,8 +81,8 @@ async function main() {
   console.log('🚀 Embeddings not found or incomplete. Starting generation...\n');
 
   try {
-    // Run the embedding generation script
-    execSync('node scripts/generate-embeddings-v2.js', {
+    // Run the NEW embedding generation script that loads from processed JSON files
+    execSync('node scripts/generate-embeddings-from-processed.js', {
       stdio: 'inherit',
       env: process.env,
     });
