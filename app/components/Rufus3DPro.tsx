@@ -1,12 +1,14 @@
 'use client'
 
 import { useRef, useEffect, useState, Suspense } from 'react'
-import { Canvas, useFrame, useLoader } from '@react-three/fiber'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { OrbitControls, PerspectiveCamera, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 import { useAdvancedLipSync, useMicrophoneStream } from './AdvancedLipSync'
 import { getPresetConfig } from './AdvancedLipSync.presets'
+
+// Preload the model for faster loading
+useGLTF.preload('/models/rufus-optimized.glb')
 
 interface Rufus3DModelProps {
   isSpeaking: boolean
@@ -24,8 +26,8 @@ function RufusModel({ isSpeaking, isListening, message, enableLipSync = true }: 
   const [shouldBlink, setShouldBlink] = useState(false)
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null)
 
-  // Load the optimized GLB model (4.1MB)
-  const gltf = useLoader(GLTFLoader, '/models/rufus-optimized.glb')
+  // Load the optimized GLB model (4.1MB) using useGLTF (production-ready)
+  const gltf = useGLTF('/models/rufus-optimized.glb') as any
 
   // Initialize lip sync with microphone
   const { stream, initialize, stop, isInitialized } = useMicrophoneStream()
@@ -58,7 +60,7 @@ function RufusModel({ isSpeaking, isListening, message, enableLipSync = true }: 
       }
 
       // Find mesh with morph targets for lip sync
-      gltf.scene.traverse((child) => {
+      gltf.scene.traverse((child: THREE.Object3D) => {
         if ((child as THREE.Mesh).isMesh) {
           const mesh = child as THREE.Mesh
           if (mesh.morphTargetInfluences && mesh.morphTargetInfluences.length > 0) {
@@ -296,7 +298,14 @@ export default function Rufus3DPro({
         />
 
         {/* Load the professional 3D Rufus model */}
-        <Suspense fallback={null}>
+        <Suspense
+          fallback={
+            <mesh>
+              <boxGeometry args={[1, 1, 1]} />
+              <meshStandardMaterial color="#667eea" wireframe />
+            </mesh>
+          }
+        >
           <RufusModel
             isSpeaking={isSpeaking}
             isListening={isListening}
