@@ -1,28 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import dynamic from 'next/dynamic'
-
-// Dynamically import Rufus3DPro to avoid SSR issues with Three.js
-const Rufus3DPro = dynamic(() => import('../components/Rufus3DPro'), {
-  ssr: false,
-  loading: () => (
-    <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-purple-600 to-blue-600 rounded-3xl shadow-2xl">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-white mx-auto mb-4"></div>
-        <p className="text-white text-xl font-semibold">Loading Professional 3D Rufus...</p>
-      </div>
-    </div>
-  )
-})
+import RufusCharacter from '../components/RufusCharacter'
 
 export default function RufusProPage() {
   const [isSpeaking, setIsSpeaking] = useState(false)
   const [isListening, setIsListening] = useState(false)
   const [message, setMessage] = useState('')
-  const [size, setSize] = useState<'small' | 'medium' | 'large'>('medium')
-  const [enableLipSync, setEnableLipSync] = useState(true)
-  const [inputText, setInputText] = useState('Hello! I am Rufus, your professional 3D AI assistant with advanced lip-sync technology. I can help you with insurance claims, document analysis, and much more!')
+  const [size, setSize] = useState<'small' | 'medium' | 'large'>('large')
+  const [inputText, setInputText] = useState('Hello! I am Rufus, your animated AI assistant with smooth talking animations! I can help you with insurance claims, document analysis, and much more!')
 
   const handleSpeak = () => {
     setIsSpeaking(true)
@@ -68,21 +54,20 @@ export default function RufusProPage() {
             Meet Rufus Pro
           </h1>
           <p className="text-gray-300 text-xl">
-            Your fully animated 3D AI assistant with professional-grade lip-sync technology
+            Your smooth, animated AI assistant with realistic talking and lip-sync
           </p>
         </div>
 
         {/* Main demo area */}
         <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 mb-8 border border-white/20">
           <div className="flex flex-col lg:flex-row gap-10">
-            {/* 3D Model Display */}
+            {/* Rufus Character Display */}
             <div className="flex-1 flex flex-col items-center justify-center">
-              <Rufus3DPro
+              <RufusCharacter
                 isSpeaking={isSpeaking}
                 isListening={isListening}
                 size={size}
                 message={message}
-                enableLipSync={enableLipSync}
               />
 
               {/* Size and feature controls */}
@@ -124,20 +109,6 @@ export default function RufusProPage() {
                       Large
                     </button>
                   </div>
-                </div>
-
-                {/* Lip sync toggle */}
-                <div className="flex items-center justify-center gap-3 p-4 bg-white/10 rounded-lg border border-white/20">
-                  <input
-                    type="checkbox"
-                    id="lipSyncToggle"
-                    checked={enableLipSync}
-                    onChange={(e) => setEnableLipSync(e.target.checked)}
-                    className="w-5 h-5 rounded text-blue-500 focus:ring-2 focus:ring-blue-500"
-                  />
-                  <label htmlFor="lipSyncToggle" className="text-white font-medium cursor-pointer">
-                    Enable Advanced Lip-Sync
-                  </label>
                 </div>
               </div>
             </div>
@@ -214,30 +185,30 @@ export default function RufusProPage() {
           <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/20 hover:border-blue-400/50 transition-all">
             <div className="text-5xl mb-4">🎬</div>
             <h3 className="font-bold text-lg text-white mb-2">
-              Professional 3D
+              Smooth Animation
             </h3>
             <p className="text-gray-300 text-sm">
-              Optimized 4.1MB GLB model with 37-bone skeleton and professional rigging
+              Vector-based SVG character with fluid animations and natural movements
             </p>
           </div>
 
           <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/20 hover:border-blue-400/50 transition-all">
             <div className="text-5xl mb-4">🎤</div>
             <h3 className="font-bold text-lg text-white mb-2">
-              Advanced Lip-Sync
+              Real-Time Lip-Sync
             </h3>
             <p className="text-gray-300 text-sm">
-              14 visemes with Web Audio API analysis for ultra-realistic mouth movements
+              Dynamic mouth animation synced perfectly with Web Speech API for realistic talking
             </p>
           </div>
 
           <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/20 hover:border-blue-400/50 transition-all">
             <div className="text-5xl mb-4">✨</div>
             <h3 className="font-bold text-lg text-white mb-2">
-              Lifelike Animation
+              Lifelike Expressions
             </h3>
             <p className="text-gray-300 text-sm">
-              Automatic blinking, breathing, and natural idle animations with ARKit blend shapes
+              Automatic blinking, tail wagging, head tilting, and breathing for natural appearance
             </p>
           </div>
 
@@ -262,41 +233,41 @@ export default function RufusProPage() {
             <ul className="space-y-3 text-sm text-gray-300">
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>3D Engine:</strong> Three.js with React Three Fiber</span>
+                <span><strong>Graphics:</strong> SVG vector graphics with CSS animations</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Model:</strong> Optimized 4.1MB GLB (GLTF 2.0)</span>
+                <span><strong>Character:</strong> Custom-designed animated dog character</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Rigging:</strong> 37-bone quadruped skeleton</span>
+                <span><strong>Animation:</strong> Smooth procedural animations with React hooks</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Lip-Sync:</strong> 14 visemes with morph targets</span>
+                <span><strong>Lip-Sync:</strong> Real-time mouth animation with Web Speech API</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Audio Analysis:</strong> Real-time FFT with Web Audio API</span>
+                <span><strong>Audio:</strong> Browser-native TTS for zero cost</span>
               </li>
             </ul>
             <ul className="space-y-3 text-sm text-gray-300">
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>TTS:</strong> Web Speech API with voice selection</span>
+                <span><strong>Expressions:</strong> Blinking, tail wagging, head tilting</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Animations:</strong> Embedded GLB animations + procedural</span>
+                <span><strong>Interactivity:</strong> Visual feedback for speaking/listening</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Lighting:</strong> Multi-source professional setup</span>
+                <span><strong>Styling:</strong> Gradient backgrounds and smooth transitions</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Performance:</strong> 60fps desktop, 30fps mobile</span>
+                <span><strong>Performance:</strong> Lightweight SVG, 60fps on all devices</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
