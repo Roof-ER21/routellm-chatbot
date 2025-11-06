@@ -2,6 +2,8 @@
  * Type definitions for Advanced Lip Sync System
  */
 
+import * as THREE from 'three'
+
 /**
  * Phoneme-to-Viseme mapping type
  */

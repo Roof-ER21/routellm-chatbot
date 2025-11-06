@@ -72,10 +72,6 @@ export {
   logSystemInfo,
 } from './AdvancedLipSync.utils'
 
-// Example components (optional - remove if you don't want to export them)
-export { default as AdvancedLipSyncExample } from './AdvancedLipSyncExample'
-export { default as AdvancedLipSyncDemo } from './AdvancedLipSyncDemo'
-
 /**
  * Usage Examples:
  *

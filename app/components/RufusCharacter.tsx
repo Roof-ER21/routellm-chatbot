@@ -20,7 +20,7 @@ export default function RufusCharacter({
   const [tailWag, setTailWag] = useState(0)
   const [headTilt, setHeadTilt] = useState(0)
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null)
-  const animationFrameRef = useRef<number>()
+  const animationFrameRef = useRef<number | undefined>(undefined)
   const lastSpeakTimeRef = useRef<number>(0)
 
   // Size configurations
