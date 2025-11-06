@@ -31,6 +31,7 @@ import { useRotatingPlaceholder } from '@/hooks/useRotatingPlaceholder'
 import { cleanTextForSpeech } from '@/lib/text-cleanup'
 import { getCurrentUser, getUserDisplayName, logout as authLogout, isRemembered, saveConversation, getCurrentConversation, cleanupOldConversations } from '@/lib/simple-auth'
 import { analyzeAndFlagConversation } from '@/lib/client-threat-detection'
+import RufusCharacter from './components/RufusCharacter'
 
 interface Citation {
   number: string
@@ -78,6 +79,9 @@ export default function ChatPage() {
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [currentConversationId, setCurrentConversationId] = useState<string>('')
   const [selectedState, setSelectedState] = useState<string | null>(null)
+  const [rufusEnabled, setRufusEnabled] = useState(true) // Rufus animation enabled by default
+  const [rufusSpeaking, setRufusSpeaking] = useState(false)
+  const [rufusMessage, setRufusMessage] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const latestAssistantMessageRef = useRef<string>('')
 
@@ -328,16 +332,32 @@ export default function ChatPage() {
         setLastProvider(data.provider)
       }
 
-      // Auto-speak response if voice is enabled
-      console.log('[Page] voiceEnabled:', voiceEnabled, 'isTtsSupported:', isTtsSupported)
+      // Auto-speak response if voice is enabled OR Rufus is enabled
+      console.log('[Page] voiceEnabled:', voiceEnabled, 'rufusEnabled:', rufusEnabled, 'isTtsSupported:', isTtsSupported)
+
+      // Make Rufus speak if enabled
+      if (rufusEnabled) {
+        const cleanedMessage = cleanTextForSpeech(data.message)
+        console.log('[Page] Rufus speaking response:', cleanedMessage)
+        setRufusSpeaking(true)
+        setRufusMessage(cleanedMessage)
+        // Stop Rufus speaking after estimated duration
+        const estimatedDuration = cleanedMessage.split(' ').length * 400 + 1000
+        setTimeout(() => {
+          setRufusSpeaking(false)
+          setRufusMessage('')
+        }, estimatedDuration)
+      }
+
+      // Also use regular TTS if voice is enabled
       if (voiceEnabled && isTtsSupported) {
-        console.log('[Page] Speaking response:', cleanTextForSpeech(data.message))
+        console.log('[Page] Speaking response with TTS:', cleanTextForSpeech(data.message))
         // Small delay to let the UI update
         setTimeout(() => {
           speak(cleanTextForSpeech(data.message))
         }, 300)
       } else {
-        console.log('[Page] NOT speaking - voiceEnabled:', voiceEnabled, 'isTtsSupported:', isTtsSupported)
+        console.log('[Page] NOT speaking with TTS - voiceEnabled:', voiceEnabled, 'isTtsSupported:', isTtsSupported)
       }
     } catch (error) {
       console.error('[Chat Error]:', error)
@@ -1076,6 +1096,33 @@ export default function ChatPage() {
         onClose={() => setShowKnowledgeBase(false)}
         isDarkMode={isDarkMode}
       />
+
+      {/* Rufus Character - Floating Assistant */}
+      {rufusEnabled && isAuthenticated && (
+        <div
+          className="fixed bottom-24 right-6 z-40 cursor-pointer"
+          onClick={() => setRufusEnabled(!rufusEnabled)}
+          title={rufusEnabled ? "Click to hide Rufus" : "Click to show Rufus"}
+        >
+          <RufusCharacter
+            isSpeaking={rufusSpeaking}
+            isListening={isLoading}
+            size="small"
+            message={rufusMessage}
+          />
+        </div>
+      )}
+
+      {/* Rufus Toggle Button (when hidden) */}
+      {!rufusEnabled && isAuthenticated && (
+        <button
+          onClick={() => setRufusEnabled(true)}
+          className="fixed bottom-24 right-6 z-40 w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full shadow-2xl flex items-center justify-center text-2xl hover:scale-110 transition-transform"
+          title="Show Rufus"
+        >
+          🐕
+        </button>
+      )}
 
     </div>
   )
