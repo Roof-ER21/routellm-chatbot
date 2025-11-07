@@ -15,10 +15,10 @@ export default function TalkingAvatar({
   message = '',
   size = 'medium'
 }: TalkingAvatarProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const [avatarReady, setAvatarReady] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const headRef = useRef<any>(null)
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null)
 
   // Size configurations
   const sizes = {
@@ -28,104 +28,46 @@ export default function TalkingAvatar({
   }
   const config = sizes[size]
 
+  // Initialize video avatar
   useEffect(() => {
-    if (typeof window === 'undefined' || !containerRef.current) return
-
-    const initAvatar = async () => {
-      try {
-        // Add import map for ES modules
-        if (!document.querySelector('script[type="importmap"]')) {
-          const importMap = document.createElement('script')
-          importMap.type = 'importmap'
-          importMap.textContent = JSON.stringify({
-            imports: {
-              three: 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js/+esm',
-              'three/addons/': 'https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/',
-              talkinghead: 'https://cdn.jsdelivr.net/gh/met4citizen/TalkingHead@1.6/modules/talkinghead.mjs'
-            }
-          })
-          document.head.appendChild(importMap)
-        }
-
-        // Dynamically import TalkingHead as ES module
-        const { TalkingHead } = await import(/* @vite-ignore */ 'talkinghead' as any)
-
-        // Initialize TalkingHead
-        const head = new TalkingHead(containerRef.current, {
-          ttsEndpoint: '',
-          cameraView: 'upper',
-          cameraDistance: 1,
-          cameraY: 0.2,
-          lightAmbientColor: '#666666',
-          lightDirectColor: '#ffffff'
-        })
-
-        headRef.current = head
-
-        // Show Ready Player Me avatar
-        await head.showAvatar({
-          url: 'https://models.readyplayer.me/64bfa15f0e72c63d7c3934a6.glb',
-          body: 'M',
-          ttsLang: 'en-US',
-          ttsVoice: 'en-US-Neural2-J',
-          lipsyncLang: 'en'
-        })
-
-        setAvatarReady(true)
-        console.log('TalkingHead avatar loaded successfully')
-
-      } catch (err) {
-        console.error('Failed to load TalkingHead:', err)
-        setError('Failed to load avatar. Please refresh the page.')
-      }
-    }
-
-    initAvatar()
-
-    return () => {
-      if (headRef.current) {
-        headRef.current.detach()
-      }
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {
+        // Autoplay might be blocked
+      })
+      setAvatarReady(true)
     }
   }, [])
 
-  // Handle speaking
+  // Handle speaking with TTS
   useEffect(() => {
-    if (avatarReady && headRef.current && isSpeaking && message) {
-      try {
-        headRef.current.speakText(message)
-      } catch (err) {
-        console.error('Failed to speak:', err)
-      }
-    }
-  }, [avatarReady, isSpeaking, message])
+    if (isSpeaking && message) {
+      // Cancel any existing speech
+      window.speechSynthesis.cancel()
 
-  // Handle stop speaking
-  useEffect(() => {
-    if (avatarReady && headRef.current && !isSpeaking) {
-      try {
-        headRef.current.stopSpeaking()
-      } catch (err) {
-        console.error('Failed to stop speaking:', err)
-      }
-    }
-  }, [avatarReady, isSpeaking])
+      const utterance = new SpeechSynthesisUtterance(message)
+      utteranceRef.current = utterance
 
-  // Handle listening mode (visual feedback)
-  useEffect(() => {
-    if (avatarReady && headRef.current) {
-      try {
-        if (isListening) {
-          // Add listening animation/emotion
-          headRef.current.setMood('curious')
-        } else {
-          headRef.current.setMood('neutral')
-        }
-      } catch (err) {
-        console.error('Failed to set mood:', err)
-      }
+      // Configure voice
+      const voices = window.speechSynthesis.getVoices()
+      const preferredVoice = voices.find(v =>
+        v.name.includes('Google') ||
+        v.name.includes('Natural') ||
+        v.name.includes('Enhanced')
+      )
+      if (preferredVoice) utterance.voice = preferredVoice
+
+      utterance.rate = 1.0
+      utterance.pitch = 1.1
+      utterance.volume = 1.0
+
+      // Start speaking
+      window.speechSynthesis.speak(utterance)
     }
-  }, [avatarReady, isListening])
+
+    return () => {
+      window.speechSynthesis.cancel()
+    }
+  }, [isSpeaking, message])
 
   return (
     <div
@@ -144,15 +86,20 @@ export default function TalkingAvatar({
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
       }}
     >
-      {/* Avatar Container */}
-      <div
-        ref={containerRef}
+      {/* Video Avatar */}
+      <video
+        ref={videoRef}
+        loop
+        muted
+        playsInline
         style={{
           width: '100%',
           height: '100%',
-          position: 'relative'
+          objectFit: 'cover'
         }}
-      />
+      >
+        <source src="https://cdn.pixabay.com/video/2023/09/25/181425-867934838_large.mp4" type="video/mp4" />
+      </video>
 
       {/* Loading Overlay */}
       {!avatarReady && !error && (
