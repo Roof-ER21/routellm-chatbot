@@ -33,29 +33,22 @@ export default function TalkingAvatar({
 
     const initAvatar = async () => {
       try {
-        // Load Three.js first as it's required by TalkingHead
-        if (!(window as any).THREE) {
-          const script = document.createElement('script')
-          script.src = 'https://cdn.jsdelivr.net/npm/three@0.152.0/build/three.min.js'
-          script.async = true
-          await new Promise((resolve, reject) => {
-            script.onload = resolve
-            script.onerror = reject
-            document.head.appendChild(script)
+        // Add import map for ES modules
+        if (!document.querySelector('script[type="importmap"]')) {
+          const importMap = document.createElement('script')
+          importMap.type = 'importmap'
+          importMap.textContent = JSON.stringify({
+            imports: {
+              three: 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js/+esm',
+              'three/addons/': 'https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/',
+              talkinghead: 'https://cdn.jsdelivr.net/gh/met4citizen/TalkingHead@1.6/modules/talkinghead.mjs'
+            }
           })
+          document.head.appendChild(importMap)
         }
 
-        // Now load TalkingHead.js library via script tag (not ES module import)
-        const script = document.createElement('script')
-        script.src = 'https://cdn.jsdelivr.net/gh/met4citizen/TalkingHead@1.2/dist/talkinghead.min.js'
-        script.async = true
-        await new Promise((resolve, reject) => {
-          script.onload = resolve
-          script.onerror = reject
-          document.head.appendChild(script)
-        })
-
-        const TalkingHead = (window as any).TalkingHead
+        // Dynamically import TalkingHead as ES module
+        const { TalkingHead } = await import(/* @vite-ignore */ 'talkinghead' as any)
 
         // Initialize TalkingHead
         const head = new TalkingHead(containerRef.current, {
