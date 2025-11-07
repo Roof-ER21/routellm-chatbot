@@ -33,15 +33,29 @@ export default function TalkingAvatar({
 
     const initAvatar = async () => {
       try {
-        // Dynamically import TalkingHead module from CDN
-        // TypeScript doesn't support dynamic CDN imports at build time, but they work at runtime
-        const TalkingHeadModule = await import(
-          /* webpackIgnore: true */
-          // @ts-expect-error - Runtime CDN import
-          'https://cdn.jsdelivr.net/gh/met4citizen/TalkingHead@1.2/modules/talkinghead.mjs'
-        )
+        // Load Three.js first as it's required by TalkingHead
+        if (!(window as any).THREE) {
+          const script = document.createElement('script')
+          script.src = 'https://cdn.jsdelivr.net/npm/three@0.152.0/build/three.min.js'
+          script.async = true
+          await new Promise((resolve, reject) => {
+            script.onload = resolve
+            script.onerror = reject
+            document.head.appendChild(script)
+          })
+        }
 
-        const TalkingHead = TalkingHeadModule.default || TalkingHeadModule
+        // Now load TalkingHead.js library via script tag (not ES module import)
+        const script = document.createElement('script')
+        script.src = 'https://cdn.jsdelivr.net/gh/met4citizen/TalkingHead@1.2/dist/talkinghead.min.js'
+        script.async = true
+        await new Promise((resolve, reject) => {
+          script.onload = resolve
+          script.onerror = reject
+          document.head.appendChild(script)
+        })
+
+        const TalkingHead = (window as any).TalkingHead
 
         // Initialize TalkingHead
         const head = new TalkingHead(containerRef.current, {
