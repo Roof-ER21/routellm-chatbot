@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import RufusCharacter from '../components/RufusCharacter'
+import TalkingAvatar from '../components/TalkingAvatar'
 
 export default function RufusProPage() {
   const [isSpeaking, setIsSpeaking] = useState(false)
@@ -54,7 +54,7 @@ export default function RufusProPage() {
             Meet Rufus Pro
           </h1>
           <p className="text-gray-300 text-xl">
-            Your smooth, animated AI assistant with realistic talking and lip-sync
+            Your professional AI avatar with real-time lip-sync and natural expressions
           </p>
         </div>
 
@@ -63,7 +63,7 @@ export default function RufusProPage() {
           <div className="flex flex-col lg:flex-row gap-10">
             {/* Rufus Character Display */}
             <div className="flex-1 flex flex-col items-center justify-center">
-              <RufusCharacter
+              <TalkingAvatar
                 isSpeaking={isSpeaking}
                 isListening={isListening}
                 size={size}
@@ -185,10 +185,10 @@ export default function RufusProPage() {
           <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/20 hover:border-blue-400/50 transition-all">
             <div className="text-5xl mb-4">🎬</div>
             <h3 className="font-bold text-lg text-white mb-2">
-              Smooth Animation
+              Professional 3D Avatar
             </h3>
             <p className="text-gray-300 text-sm">
-              Vector-based SVG character with fluid animations and natural movements
+              Powered by TalkingHead.js with Ready Player Me avatars for realistic 3D rendering
             </p>
           </div>
 
@@ -198,17 +198,17 @@ export default function RufusProPage() {
               Real-Time Lip-Sync
             </h3>
             <p className="text-gray-300 text-sm">
-              Dynamic mouth animation synced perfectly with Web Speech API for realistic talking
+              Advanced lip-sync technology synced with Web Speech API for natural conversations
             </p>
           </div>
 
           <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-white/20 hover:border-blue-400/50 transition-all">
             <div className="text-5xl mb-4">✨</div>
             <h3 className="font-bold text-lg text-white mb-2">
-              Lifelike Expressions
+              Natural Expressions
             </h3>
             <p className="text-gray-300 text-sm">
-              Automatic blinking, tail wagging, head tilting, and breathing for natural appearance
+              Mood system with automatic facial expressions - curious when listening, neutral when idle
             </p>
           </div>
 
@@ -218,7 +218,7 @@ export default function RufusProPage() {
               Zero API Costs
             </h3>
             <p className="text-gray-300 text-sm">
-              Browser-native Web Speech API and Web Audio API - completely free!
+              Browser-based 3D rendering with Web Speech API - completely free, runs 100% client-side
             </p>
           </div>
         </div>
@@ -233,45 +233,45 @@ export default function RufusProPage() {
             <ul className="space-y-3 text-sm text-gray-300">
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Graphics:</strong> SVG vector graphics with CSS animations</span>
+                <span><strong>Library:</strong> TalkingHead.js v1.2 from CDN</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Character:</strong> Custom-designed animated dog character</span>
+                <span><strong>Avatar:</strong> Ready Player Me professional 3D avatars</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Animation:</strong> Smooth procedural animations with React hooks</span>
+                <span><strong>Rendering:</strong> WebGL-based 3D graphics with Three.js</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Lip-Sync:</strong> Real-time mouth animation with Web Speech API</span>
+                <span><strong>Lip-Sync:</strong> Advanced phoneme-based lip synchronization</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Audio:</strong> Browser-native TTS for zero cost</span>
+                <span><strong>Audio:</strong> Web Speech API for text-to-speech</span>
               </li>
             </ul>
             <ul className="space-y-3 text-sm text-gray-300">
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Expressions:</strong> Blinking, tail wagging, head tilting</span>
+                <span><strong>Expressions:</strong> Dynamic mood system (neutral, curious, happy)</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Interactivity:</strong> Visual feedback for speaking/listening</span>
+                <span><strong>Interactivity:</strong> Real-time response to speaking/listening states</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Styling:</strong> Gradient backgrounds and smooth transitions</span>
+                <span><strong>Integration:</strong> Seamless Next.js dynamic import support</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Performance:</strong> Lightweight SVG, 60fps on all devices</span>
+                <span><strong>Performance:</strong> Client-side rendering, 60fps smooth animations</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-400 mt-0.5">✓</span>
-                <span><strong>Compatibility:</strong> All modern browsers</span>
+                <span><strong>Compatibility:</strong> All modern browsers with WebGL support</span>
               </li>
             </ul>
           </div>
@@ -295,9 +295,9 @@ export default function RufusProPage() {
               <p className="text-sm text-gray-300">Enterprise-grade but requires subscription</p>
             </div>
             <div className="border-2 border-green-500/50 rounded-lg p-4 bg-green-500/10">
-              <h4 className="font-semibold text-green-300 mb-2">Rufus Pro</h4>
+              <h4 className="font-semibold text-green-300 mb-2">Rufus Pro (TalkingHead.js)</h4>
               <p className="text-sm text-green-400 mb-2 font-bold">$0.00 forever</p>
-              <p className="text-sm text-white">Professional quality, zero cost, full control</p>
+              <p className="text-sm text-white">Professional 3D avatars, browser-based, zero cost, full control</p>
             </div>
           </div>
         </div>
